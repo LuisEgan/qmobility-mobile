@@ -1,11 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Onboarding, TCs } from "../screens/Auth";
+import { IScreen } from "./Router";
 
-interface IScreen {
-  name: string;
-  component: React.FunctionComponent<Screen>;
-}
 interface IAuthScreens extends Array<IScreen> {}
 
 export const AUTH_STACK_SCREENS: IAuthScreens = [
