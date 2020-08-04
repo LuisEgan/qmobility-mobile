@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Onboarding } from "../screens/Auth";
+import { Onboarding, TCs } from "../screens/Auth";
 
 interface IScreen {
   name: string;
@@ -12,6 +12,10 @@ export const AUTH_STACK_SCREENS: IAuthScreens = [
   {
     name: "Onboarding",
     component: Onboarding,
+  },
+  {
+    name: "Terms and conditions",
+    component: TCs,
   },
 ];
 
