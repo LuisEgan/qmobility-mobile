@@ -6,6 +6,7 @@ const palette = {
   blueLight: "#00D6FD",
   blueLighter: "#C5EAF1",
 
+  gray: "#cfcfcf",
   grayLight: "#E9ECF4",
   grayDark: "#282F39",
 
@@ -19,6 +20,7 @@ const theme: BaseTheme = {
     primaryLight: palette.blueLight,
 
     title: palette.grayDark,
+    subTitle: palette.gray,
     background: palette.grayLight,
 
     white: palette.white,
@@ -38,11 +40,12 @@ const theme: BaseTheme = {
     title: {
       fontSize: 28,
       color: "title",
+      fontWeight: "bold",
     },
     subtitle: {
       fontSize: 24,
       lineHeight: 30,
-      color: "title",
+      color: "subTitle",
     },
     regular: {
       fontSize: 16,

@@ -30,6 +30,12 @@ export default Input;
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: "10%",
+    marginBottom: 10,
+    borderTopColor: "transparent",
+    borderRightColor: "transparent",
+    borderLeftColor: "transparent",
+    borderBottomColor: "#d4d4d5",
+    borderWidth: 1,
   },
   viewStyle: {
     width: "85%",
