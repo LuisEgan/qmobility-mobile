@@ -4,8 +4,8 @@ import { Slider } from "../../../components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Text } from "../../../config/Theme";
 import { useNavigation } from "@react-navigation/native";
-import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/AuthNavigator";
 import slides from "./slides";
+import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/constants";
 
 const { height, width } = Dimensions.get("window");
 
@@ -22,7 +22,7 @@ const Onboarding = (props: IOnboarding) => {
 
   return (
     <View style={[styles.container]}>
-      <Slider {...{ slides, width: width * 0.9, height: height * 0.85 }} />
+      <Slider {...{ slides, width, height: height * 0.85 }} />
 
       <TouchableOpacity onPress={skip}>
         <Text variant="regular" color="primary" fontWeight="bold">
