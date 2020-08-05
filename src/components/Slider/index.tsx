@@ -41,6 +41,7 @@ const Slider = (props: ISlider) => {
                 backgroundColor,
                 titleColor,
                 textColor,
+                width,
                 currentIndex: divide(x, width),
               }}
             />

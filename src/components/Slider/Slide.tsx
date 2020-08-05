@@ -1,20 +1,13 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Image,
-  ImageSourcePropType,
-  Dimensions,
-} from "react-native";
+import { View, StyleSheet, Image, ImageSourcePropType } from "react-native";
 import Animated, { interpolate, Extrapolate } from "react-native-reanimated";
 import theme, { Text } from "../../config/Theme";
-
-const { width } = Dimensions.get("window");
 
 export interface ISlide {
   title: string;
   text: string;
   icon: ImageSourcePropType;
+  width?: number;
   backgroundColor?: string;
   titleColor?: string;
   textColor?: string;
@@ -29,6 +22,7 @@ const Slide = (props: ISLideProps) => {
     title,
     text,
     icon,
+    width,
     index,
     currentIndex,
     titleColor,
@@ -49,7 +43,7 @@ const Slide = (props: ISLideProps) => {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width }]}>
       <Animated.View
         style={[
           styles.content,
@@ -89,7 +83,6 @@ export default Slide;
 
 const styles = StyleSheet.create({
   container: {
-    width: width * 0.9,
     padding: 30,
   },
 
@@ -107,5 +100,7 @@ const styles = StyleSheet.create({
 
   text: {
     textAlign: "center",
+    paddingLeft: 15,
+    paddingRight: 15,
   },
 });
