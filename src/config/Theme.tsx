@@ -17,6 +17,7 @@ const theme: BaseTheme = {
     primary: palette.blue,
     primaryDark: palette.blueDark,
     primaryLight: palette.blueLight,
+    primaryLighter: palette.blueLighter,
 
     title: palette.grayDark,
     background: palette.grayLight,
@@ -31,8 +32,9 @@ const theme: BaseTheme = {
   },
   textVariants: {
     title: {
-      fontSize: 28,
+      fontSize: 30,
       color: "title",
+      fontWeight: "bold",
     },
     subtitle: {
       fontSize: 24,

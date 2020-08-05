@@ -3,15 +3,20 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Onboarding, TCs } from "../screens/Auth";
 import { IScreen } from "./Router";
 
-interface IAuthScreens extends Array<IScreen> {}
+export const AUTH_STACK_SCREENS_NAME = {
+  Onboarding: "Onboarding",
+  TCs: "Terms and conditions",
+};
 
+interface IAuthScreens extends Array<IScreen> {}
 export const AUTH_STACK_SCREENS: IAuthScreens = [
   {
-    name: "Onboarding",
+    name: AUTH_STACK_SCREENS_NAME.Onboarding,
     component: Onboarding,
+    headerHide: true,
   },
   {
-    name: "Terms and conditions",
+    name: AUTH_STACK_SCREENS_NAME.TCs,
     component: TCs,
   },
 ];
@@ -19,9 +24,15 @@ export const AUTH_STACK_SCREENS: IAuthScreens = [
 const { Navigator, Screen } = createStackNavigator();
 
 const AuthNavigator = () => (
-  <Navigator headerMode="none">
-    {AUTH_STACK_SCREENS.map(({ name, component }) => (
-      <Screen key={name} {...{ name, component }}></Screen>
+  <Navigator>
+    {AUTH_STACK_SCREENS.map(({ name, component, headerHide }) => (
+      <Screen
+        key={name}
+        {...{ name, component }}
+        options={{
+          headerShown: !headerHide,
+        }}
+      ></Screen>
     ))}
   </Navigator>
 );
