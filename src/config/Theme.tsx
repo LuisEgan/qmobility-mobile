@@ -22,6 +22,11 @@ const theme: BaseTheme = {
     background: palette.grayLight,
 
     white: palette.white,
+
+    // * Button color
+    defaultButton: palette.grayLight,
+    primaryButton: palette.blue,
+    secondaryButton: palette.blueDark,
   },
   spacing: {
     s: 8,
@@ -44,7 +49,15 @@ const theme: BaseTheme = {
       lineHeight: 24,
       color: "title",
     },
+
+    button: {
+      textAlign: "center",
+      fontSize: 17,
+      color: "white",
+      fontWeight: "bold",
+    },
   },
+
   breakpoints: {},
 };
 

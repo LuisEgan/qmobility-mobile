@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Onboarding, TCs } from "../screens/Auth";
+import { Onboarding, TCs, LoginSingUp } from "../screens/Auth";
 
 interface IScreen {
   name: string;
@@ -9,6 +9,10 @@ interface IScreen {
 interface IAuthScreens extends Array<IScreen> {}
 
 export const AUTH_STACK_SCREENS: IAuthScreens = [
+  {
+    name: "LoginSingUp",
+    component: LoginSingUp,
+  },
   {
     name: "Onboarding",
     component: Onboarding,
