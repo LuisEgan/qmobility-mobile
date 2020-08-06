@@ -2,70 +2,85 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Button, Input } from "../../../components/";
 
-import { Formik } from "formik";
+import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { Text } from "../../../config/Theme";
 import { TLoginSignUpNavProps } from "../../../navigation/NavPropsTypes";
+import { ERRORS } from "../../../lib/constants";
 
 interface ILoginSignUp extends TLoginSignUpNavProps {}
 
-interface FormValues {
-  emailAddess: string;
+interface IFormValues {
+  emailAddress: string;
   password: string;
 }
+
+const SignupSchema = yup.object().shape({
+  emailAddress: yup.string().email(),
+  password: yup.string().required("Required"),
+});
 
 const LoginSignUp = (props: ILoginSignUp) => {
   const { route } = props;
 
-  const [state, setState] = useState<number>(route.params.state || 1);
+  const [state, setState] = useState<number>(route.params.state);
 
   //const theme = useTheme<Theme>();
 
-  const login = (values: FormValues): void => {
+  const login = (values: IFormValues): void => {
     console.log("LoginSignUp -> values", values);
   };
 
-  const SignupSchema = yup.object().shape({
-    emailAddess: yup.string().email(),
-    password: yup.string().required("Required"),
-  });
+  const Form = (params: FormikProps<IFormValues>) => {
+    const { handleChange, handleSubmit, handleBlur, errors, touched } = params;
+
+    return (
+      <View>
+        <View style={styles.contentViewIput}>
+          <Input
+            placeholder="Email Address"
+            onChange={handleChange("emailAddress")}
+            onBlur={handleBlur("emailAddress")}
+            error={errors.emailAddress && ERRORS.INVALID_EMAIL}
+            touched={touched.emailAddress}
+          />
+          <Input
+            placeholder="Password"
+            isPassword={true}
+            onChange={handleChange("password")}
+            onBlur={handleBlur("password")}
+            error={errors.password && ERRORS.WRONG_PASSWORD}
+            touched={touched.password}
+          />
+        </View>
+        <Button
+          variant={state ? "secondary" : "primary"}
+          onPress={handleSubmit}
+          label={state ? "LOG IN" : "SIGN UP"}
+        />
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.viewContent}>
+      <View style={styles.content}>
         <Text variant="title">{`Welcome ${state ? "Back" : "onboard"}!`}</Text>
         <Text variant="subtitle">{`Please ${
           state ? "login to your account" : "register to procced"
         }.`}</Text>
       </View>
-      <View style={styles.viewOrStyle}>
-        <Text variant="title">OR</Text>
-      </View>
+
+      <Text variant="title" style={styles.or}>
+        OR
+      </Text>
+
       <Formik
-        initialValues={{ emailAddess: "", password: "" }}
+        initialValues={{ emailAddress: "", password: "" }}
         onSubmit={login}
         validationSchema={SignupSchema}
       >
-        {({ handleChange, handleSubmit }) => (
-          <View>
-            <View style={styles.contentViewIput}>
-              <Input
-                placeholder="Email Address"
-                onChange={handleChange("emailAddess")}
-              />
-              <Input
-                placeholder="Password"
-                isPassword={true}
-                onChange={handleChange("password")}
-              />
-            </View>
-            <Button
-              variant={state ? "secondary" : "primary"}
-              onPress={handleSubmit}
-              label={state ? "LOG IN" : "SING UP"}
-            />
-          </View>
-        )}
+        {Form}
       </Formik>
     </View>
   );
@@ -78,15 +93,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  contentViewIput: {
-    marginBottom: "10%",
-  },
-  viewOrStyle: {
-    justifyContent: "center",
-    alignSelf: "center",
-  },
-  viewContent: {
+  content: {
     marginHorizontal: "10%",
     marginVertical: "5%",
+  },
+  or: { textAlign: "center" },
+
+  contentViewIput: {
+    marginBottom: "10%",
   },
 });

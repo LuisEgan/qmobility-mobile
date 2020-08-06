@@ -29,16 +29,14 @@ const Button = (props: IButton) => {
   };
 
   return (
-    <View style={styles.container}>
-      <RectButton
-        onPress={() => onPress()}
-        style={[styles.btnStyle, { backgroundColor: setRectButtonStyle() }]}
-      >
-        <View accessible>
-          <Text variant="button">{label}</Text>
-        </View>
-      </RectButton>
-    </View>
+    <RectButton
+      onPress={() => onPress()}
+      style={[styles.btnStyle, { backgroundColor: setRectButtonStyle() }]}
+    >
+      <View accessible>
+        <Text variant="button">{label}</Text>
+      </View>
+    </RectButton>
   );
 };
 

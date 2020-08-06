@@ -28,7 +28,7 @@ export const AUTH_STACK_SCREENS: IAuthScreens = [
 const { Navigator, Screen } = createStackNavigator();
 
 const AuthNavigator = () => (
-  <Navigator>
+  <Navigator initialRouteName={AUTH_STACK_SCREENS_NAME.Access}>
     {AUTH_STACK_SCREENS.map(({ name, component, headerHide }) => (
       <Screen
         key={name}

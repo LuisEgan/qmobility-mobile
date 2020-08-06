@@ -1,26 +1,49 @@
 import React from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  NativeSyntheticEvent,
+  TextInputFocusEventData,
+} from "react-native";
+import { Text } from "../../config/Theme";
 
 interface IInput {
+  onChange: (str: string) => void;
+  onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   placeholder?: string;
   defaultValue?: string;
   isPassword?: boolean;
-  onChange: (str: string) => void;
+  error?: string;
+  touched?: boolean;
 }
 
 const Input = (props: IInput) => {
-  const { placeholder, defaultValue, isPassword, onChange } = props;
+  const {
+    onChange,
+    onBlur,
+    placeholder,
+    defaultValue,
+    isPassword,
+    error,
+    touched,
+  } = props;
 
   return (
     <View style={styles.container}>
       <TextInput
-        defaultValue={defaultValue}
-        placeholder={placeholder}
         style={styles.inputStyle}
-        secureTextEntry={isPassword}
         onChangeText={(str: string) => onChange(str)}
         placeholderTextColor={"#d4d4d5"}
+        secureTextEntry={isPassword}
+        {...{ defaultValue, placeholder, onBlur }}
       />
+
+      {error && touched && (
+        <View style={styles.error}>
+          <Text variant="error">{error}</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -31,11 +54,6 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: "10%",
     marginBottom: 10,
-    borderTopColor: "transparent",
-    borderRightColor: "transparent",
-    borderLeftColor: "transparent",
-    borderBottomColor: "#d4d4d5",
-    borderWidth: 1,
   },
   viewStyle: {
     width: "85%",
@@ -43,8 +61,18 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   inputStyle: {
+    borderTopColor: "transparent",
+    borderRightColor: "transparent",
+    borderLeftColor: "transparent",
+    borderBottomColor: "#d4d4d5",
+    borderWidth: 1,
     width: "90%",
     fontSize: 20,
-    height: 30,
+    height: 50,
+  },
+  error: {
+    position: "absolute",
+    left: 0,
+    bottom: -20,
   },
 });

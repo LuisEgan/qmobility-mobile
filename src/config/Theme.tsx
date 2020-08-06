@@ -11,6 +11,7 @@ const palette = {
   grayDark: "#282F39",
 
   white: "white",
+  red: "red",
 };
 
 const theme: BaseTheme = {
@@ -25,6 +26,7 @@ const theme: BaseTheme = {
     background: palette.grayLight,
 
     white: palette.white,
+    red: palette.red,
 
     // * Button color
     defaultButton: palette.grayLight,
@@ -53,12 +55,15 @@ const theme: BaseTheme = {
       lineHeight: 24,
       color: "title",
     },
-
     button: {
       textAlign: "center",
       fontSize: 17,
       color: "white",
       fontWeight: "bold",
+    },
+    error: {
+      fontSize: 14,
+      color: "red",
     },
   },
 
