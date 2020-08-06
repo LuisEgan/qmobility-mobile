@@ -11,72 +11,20 @@ import { Button, Icons } from "../../../components";
 import { Text } from "../../../config/Theme";
 import { useNavigation } from "@react-navigation/native";
 import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/constants";
+import { Title, textBlack, StepText, textLight } from "./Texts";
 
-interface ITCs {}
+const isCloseToBottom = ({
+  layoutMeasurement,
+  contentOffset,
+  contentSize,
+}: NativeScrollEvent) => {
+  return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+};
 
-const TCs = (props: ITCs) => {
-  const {} = props;
-
+const TCs = () => {
   const navigation = useNavigation();
 
   const [endScroll, setEndScroll] = useState<boolean>(false);
-
-  const Title = (str: string): JSX.Element => {
-    return (
-      <Text
-        variant="title"
-        style={[styles.textScrollStyle, { fontSize: 16 }]}
-        color="primary"
-      >
-        {str}
-      </Text>
-    );
-  };
-
-  const textBlack = (str: string): JSX.Element => {
-    return (
-      <Text variant="title" style={[styles.textScrollStyle, { fontSize: 14 }]}>
-        {str}
-      </Text>
-    );
-  };
-
-  const textLight = (str: string): JSX.Element => {
-    return (
-      <Text
-        variant="subtitle"
-        style={[styles.textScrollStyle, { fontSize: 14 }]}
-      >
-        {str}
-      </Text>
-    );
-  };
-
-  const StepText = (num: number, str: string): JSX.Element => {
-    return (
-      <View style={styles.stepStyle}>
-        <Text
-          variant="subtitle"
-          style={[styles.textScrollStyle, { fontSize: 14 }]}
-        >
-          <Text variant="title" style={{ fontSize: 14 }}>
-            {`· Step ${num}:  `}
-          </Text>
-          {str}
-        </Text>
-      </View>
-    );
-  };
-
-  const isCloseToBottom = ({
-    layoutMeasurement,
-    contentOffset,
-    contentSize,
-  }: NativeScrollEvent) => {
-    return (
-      layoutMeasurement.height + contentOffset.y >= contentSize.height - 20
-    );
-  };
 
   const confirmTermsConditions = (): void => {
     navigation.navigate(AUTH_STACK_SCREENS_NAME.Access);
@@ -143,12 +91,6 @@ export default TCs;
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-  },
-  stepStyle: {
-    marginLeft: 25,
-  },
-  textScrollStyle: {
-    marginBottom: 20,
   },
   scroll: {
     flex: 1,
