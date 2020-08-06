@@ -9,7 +9,6 @@ export const AUTH_STACK_SCREENS: IAuthScreens = [
   {
     name: AUTH_STACK_SCREENS_NAME.Access,
     component: Access,
-    headerHide: true,
   },
   {
     name: AUTH_STACK_SCREENS_NAME.LoginSignUp,
@@ -18,27 +17,23 @@ export const AUTH_STACK_SCREENS: IAuthScreens = [
   {
     name: AUTH_STACK_SCREENS_NAME.Onboarding,
     component: Onboarding,
-    headerHide: true,
   },
   {
     name: AUTH_STACK_SCREENS_NAME.TCs,
     component: TCs,
+    headerShown: true,
   },
 ];
 
 const { Navigator, Screen } = createStackNavigator();
 
 const AuthNavigator = () => (
-  <Navigator initialRouteName={AUTH_STACK_SCREENS_NAME.Access}>
-    {AUTH_STACK_SCREENS.map(({ name, component, headerHide }) => (
-      <Screen
-        key={name}
-        {...{ name, component }}
-        options={{
-          headerShown: !headerHide,
-        }}
-      ></Screen>
-    ))}
+  <Navigator>
+    {AUTH_STACK_SCREENS.map(({ name, component, headerShown }) => {
+      const options = { headerShown: headerShown || false };
+
+      return <Screen key={name} {...{ name, component, options }}></Screen>;
+    })}
   </Navigator>
 );
 

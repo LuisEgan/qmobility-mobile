@@ -5,7 +5,7 @@ import { TAllNavProps } from "./NavPropsTypes";
 export interface IScreen {
   name: string;
   component: React.FunctionComponent<Screen & TAllNavProps>;
-  headerHide?: boolean;
+  headerShown?: boolean;
 }
 
 const SwitchNavigator = createSwitchNavigator({
