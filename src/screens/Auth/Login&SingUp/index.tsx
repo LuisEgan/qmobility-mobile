@@ -5,14 +5,9 @@ import { Button, Input } from "../../../components/";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Text } from "../../../config/Theme";
+import { TLoginSignUpNavProps } from "../../../navigation/NavPropsTypes";
 
-interface ILoginSignUp {
-  route: {
-    params: {
-      state: number;
-    };
-  };
-}
+interface ILoginSignUp extends TLoginSignUpNavProps {}
 
 interface FormValues {
   emailAddess: string;
@@ -22,7 +17,7 @@ interface FormValues {
 const LoginSignUp = (props: ILoginSignUp) => {
   const { route } = props;
 
-  const [state, setState] = useState<number>(route.params.state);
+  const [state, setState] = useState<number>(route.params.state || 1);
 
   //const theme = useTheme<Theme>();
 
@@ -74,14 +69,6 @@ const LoginSignUp = (props: ILoginSignUp) => {
       </Formik>
     </View>
   );
-};
-
-LoginSignUp.defaultProps = {
-  route: {
-    params: {
-      state: 1,
-    },
-  },
 };
 
 export default LoginSignUp;

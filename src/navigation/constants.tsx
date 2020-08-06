@@ -4,3 +4,9 @@ export const AUTH_STACK_SCREENS_NAME = {
   Access: "Access",
   LoginSignUp: "LoginSignUp",
 };
+
+export type TAuthStackSceenNames =
+  | "Onboarding"
+  | "Terms and conditions"
+  | "Access"
+  | "LoginSignUp";
