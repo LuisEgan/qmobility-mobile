@@ -6,7 +6,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { Text } from "../../../config/Theme";
 
-interface IloginSingUp {
+interface ILoginSignUp {
   route: {
     params: {
       state: number;
@@ -19,7 +19,7 @@ interface FormValues {
   password: string;
 }
 
-const LoginSingUp = (props: IloginSingUp) => {
+const LoginSignUp = (props: ILoginSignUp) => {
   const { route } = props;
 
   const [state, setState] = useState<number>(route.params.state);
@@ -27,7 +27,7 @@ const LoginSingUp = (props: IloginSingUp) => {
   //const theme = useTheme<Theme>();
 
   const login = (values: FormValues): void => {
-    console.log("LoginSingUp -> values", values);
+    console.log("LoginSignUp -> values", values);
   };
 
   const SignupSchema = yup.object().shape({
@@ -76,7 +76,7 @@ const LoginSingUp = (props: IloginSingUp) => {
   );
 };
 
-LoginSingUp.defaultProps = {
+LoginSignUp.defaultProps = {
   route: {
     params: {
       state: 1,
@@ -84,7 +84,7 @@ LoginSingUp.defaultProps = {
   },
 };
 
-export default LoginSingUp;
+export default LoginSignUp;
 
 const styles = StyleSheet.create({
   container: {

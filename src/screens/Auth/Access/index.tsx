@@ -11,14 +11,14 @@ const Access = (props: IAccess) => {
   const navigation = useNavigation();
 
   const goView = (type: number): void => {
-    navigation.navigate("LoginSingUp", {
+    navigation.navigate("LoginSignUp", {
       state: type,
     });
   };
 
   return (
     <View style={styles.container}>
-      <Button variant="primary" onPress={() => goView(0)} label="SING UP" />
+      <Button variant="primary" onPress={() => goView(0)} label="SIGN UP" />
       <Button variant="secondary" onPress={() => goView(1)} label="LOGIN" />
     </View>
   );
