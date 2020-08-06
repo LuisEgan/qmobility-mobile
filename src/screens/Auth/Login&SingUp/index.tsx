@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { Text } from "../../../config/Theme";
 import { TLoginSignUpNavProps } from "../../../navigation/NavPropsTypes";
 import { ERRORS } from "../../../lib/constants";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface ILoginSignUp extends TLoginSignUpNavProps {}
 

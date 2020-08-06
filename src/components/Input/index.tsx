@@ -6,7 +6,8 @@ import {
   NativeSyntheticEvent,
   TextInputFocusEventData,
 } from "react-native";
-import { Text } from "../../config/Theme";
+import { Text, Theme } from "../../config/Theme";
+import { useTheme } from "@shopify/restyle";
 
 interface IInput {
   onChange: (str: string) => void;
@@ -29,12 +30,20 @@ const Input = (props: IInput) => {
     touched,
   } = props;
 
+  const theme = useTheme<Theme>();
+  console.log("Input -> theme", theme);
+
   return (
     <View style={styles.container}>
       <TextInput
-        style={styles.inputStyle}
+        style={[
+          styles.inputStyle,
+          {
+            borderBottomColor: theme.colors.defautlInput,
+          },
+        ]}
         onChangeText={(str: string) => onChange(str)}
-        placeholderTextColor={"#d4d4d5"}
+        placeholderTextColor={theme.colors.defautlInput}
         secureTextEntry={isPassword}
         {...{ defaultValue, placeholder, onBlur }}
       />
@@ -56,7 +65,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   viewStyle: {
-    width: "85%",
+    width: "100%",
     alignSelf: "center",
     marginVertical: 15,
   },
@@ -64,9 +73,9 @@ const styles = StyleSheet.create({
     borderTopColor: "transparent",
     borderRightColor: "transparent",
     borderLeftColor: "transparent",
-    borderBottomColor: "#d4d4d5",
+
     borderWidth: 1,
-    width: "90%",
+    width: "100%",
     fontSize: 20,
     height: 50,
   },

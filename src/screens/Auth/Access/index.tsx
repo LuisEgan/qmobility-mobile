@@ -22,21 +22,23 @@ const Access = (props: IAccess) => {
     <ImageBackground source={image} style={styles.image}>
       <View style={styles.container}>
         <View style={styles.content}>
-          <View style={styles.ButtonLoginStyle}>
-            <Button
-              margin={"20%"}
-              variant="primary"
-              onPress={() => goView(0)}
-              label="SIGN UP"
-            />
-          </View>
-          <View style={styles.ButtonSignStyle}>
-            <Button
-              margin={"20%"}
-              variant="secondary"
-              onPress={() => goView(1)}
-              label="LOGIN"
-            />
+          <View style={styles.contentButton}>
+            <View style={styles.ButtonStyle}>
+              <Button
+                margin={"20%"}
+                variant="primary"
+                onPress={() => goView(0)}
+                label="SIGN UP"
+              />
+            </View>
+            <View style={styles.ButtonStyle}>
+              <Button
+                margin={"20%"}
+                variant="secondary"
+                onPress={() => goView(1)}
+                label="LOGIN"
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -60,16 +62,13 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  ButtonLoginStyle: {
-    position: "absolute",
-    bottom: "22%",
-    left: 0,
-    right: 0,
-  },
-  ButtonSignStyle: {
+  contentButton: {
     position: "absolute",
     bottom: "15%",
     left: 0,
     right: 0,
+  },
+  ButtonStyle: {
+    marginVertical: "2%",
   },
 });
