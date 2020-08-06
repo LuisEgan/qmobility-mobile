@@ -7,7 +7,7 @@ const palette = {
   blueLighter: "#C5EAF1",
 
   gray: "#cfcfcf",
-  grayLight: "#E9ECF4",
+  grayLight: "#d4d4d5",
   grayDark: "#282F39",
 
   white: "white",
@@ -27,6 +27,9 @@ const theme: BaseTheme = {
 
     white: palette.white,
     red: palette.red,
+
+    // * Input color
+    defautlInput: palette.grayLight,
 
     // * Button color
     defaultButton: palette.grayLight,
