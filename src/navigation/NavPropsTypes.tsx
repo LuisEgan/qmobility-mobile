@@ -2,6 +2,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 // * Screens Props Types
 type StackParamsList = {
+  "Terms and conditions": {};
   LoginSignUp: {
     state: number;
   };
@@ -13,5 +14,11 @@ export type TLoginSignUpNavProps = StackScreenProps<
   "LoginSignUp"
 >;
 
+// * LoginSignUpProp
+export type TTCsNavProps = StackScreenProps<
+  StackParamsList,
+  "Terms and conditions"
+>;
+
 // * Export all types as one type
-export type TAllNavProps = TLoginSignUpNavProps;
+export type TAllNavProps = TLoginSignUpNavProps & TTCsNavProps;

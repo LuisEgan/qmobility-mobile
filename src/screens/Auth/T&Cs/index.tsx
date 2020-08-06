@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, Text, ScrollView } from "react-native";
+import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
 
-interface ITCs {}
+interface ITCs extends TTCsNavProps {}
 
 const TCs = (props: ITCs) => {
-  const {} = props;
+  const { navigation } = props;
+
+  useLayoutEffect(() => {
+    navigation.setOptions({});
+  }, [navigation]);
 
   const text = () => {
     let t = "";
@@ -26,7 +31,6 @@ const TCs = (props: ITCs) => {
     </View>
   );
 };
-
 export default TCs;
 
 const styles = StyleSheet.create({
