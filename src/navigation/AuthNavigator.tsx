@@ -7,14 +7,6 @@ import { AUTH_STACK_SCREENS_NAME } from "./constants";
 interface IAuthScreens extends Array<IScreen> {}
 export const AUTH_STACK_SCREENS: IAuthScreens = [
   {
-    name: AUTH_STACK_SCREENS_NAME.Access,
-    component: Access,
-  },
-  {
-    name: AUTH_STACK_SCREENS_NAME.LoginSignUp,
-    component: LoginSignUp,
-  },
-  {
     name: AUTH_STACK_SCREENS_NAME.Onboarding,
     component: Onboarding,
   },
@@ -22,6 +14,14 @@ export const AUTH_STACK_SCREENS: IAuthScreens = [
     name: AUTH_STACK_SCREENS_NAME.TCs,
     component: TCs,
     headerShown: true,
+  },
+  {
+    name: AUTH_STACK_SCREENS_NAME.Access,
+    component: Access,
+  },
+  {
+    name: AUTH_STACK_SCREENS_NAME.LoginSignUp,
+    component: LoginSignUp,
   },
 ];
 
