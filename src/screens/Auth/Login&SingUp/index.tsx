@@ -54,6 +54,7 @@ const LoginSignUp = (props: ILoginSignUp) => {
           />
         </View>
         <Button
+          margin={"10%"}
           variant={state ? "secondary" : "primary"}
           onPress={handleSubmit}
           label={state ? "LOG IN" : "SIGN UP"}

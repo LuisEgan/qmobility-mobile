@@ -10,10 +10,11 @@ interface IButton {
   label: string;
   onPress: () => void;
   variant?: TVariant;
+  margin?: number | string;
 }
 
 const Button = (props: IButton) => {
-  const { label, onPress, variant } = props;
+  const { onPress, label, variant, margin } = props;
 
   const theme = useTheme<Theme>();
 
@@ -29,14 +30,25 @@ const Button = (props: IButton) => {
   };
 
   return (
-    <RectButton
-      onPress={() => onPress()}
-      style={[styles.btnStyle, { backgroundColor: setRectButtonStyle() }]}
+    <View
+      style={{
+        marginHorizontal: margin,
+      }}
     >
-      <View accessible>
-        <Text variant="button">{label}</Text>
-      </View>
-    </RectButton>
+      <RectButton
+        onPress={() => onPress()}
+        style={[
+          styles.btnStyle,
+          {
+            backgroundColor: setRectButtonStyle(),
+          },
+        ]}
+      >
+        <View accessible>
+          <Text variant="button">{label}</Text>
+        </View>
+      </RectButton>
+    </View>
   );
 };
 
