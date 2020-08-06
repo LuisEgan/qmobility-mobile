@@ -6,10 +6,12 @@ const palette = {
   blueLight: "#00D6FD",
   blueLighter: "#C5EAF1",
 
-  grayLight: "#E9ECF4",
+  gray: "#cfcfcf",
+  grayLight: "#d4d4d5",
   grayDark: "#282F39",
 
   white: "white",
+  red: "red",
 };
 
 const theme: BaseTheme = {
@@ -20,9 +22,19 @@ const theme: BaseTheme = {
     primaryLighter: palette.blueLighter,
 
     title: palette.grayDark,
+    subTitle: palette.gray,
     background: palette.grayLight,
 
     white: palette.white,
+    red: palette.red,
+
+    // * Input color
+    defautlInput: palette.grayLight,
+
+    // * Button color
+    defaultButton: palette.grayLight,
+    primaryButton: palette.blue,
+    secondaryButton: palette.blueDark,
   },
   spacing: {
     s: 8,
@@ -39,14 +51,25 @@ const theme: BaseTheme = {
     subtitle: {
       fontSize: 24,
       lineHeight: 30,
-      color: "title",
+      color: "subTitle",
     },
     regular: {
       fontSize: 16,
       lineHeight: 24,
       color: "title",
     },
+    button: {
+      textAlign: "center",
+      fontSize: 17,
+      color: "white",
+      fontWeight: "bold",
+    },
+    error: {
+      fontSize: 14,
+      color: "red",
+    },
   },
+
   breakpoints: {},
 };
 
