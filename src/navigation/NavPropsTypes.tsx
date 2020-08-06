@@ -8,13 +8,13 @@ type StackParamsList = {
   };
 };
 
-// * LoginSignUpProp
+// * LoginSignUp props
 export type TLoginSignUpNavProps = StackScreenProps<
   StackParamsList,
   "LoginSignUp"
 >;
 
-// * LoginSignUpProp
+// * Terms and conditions props
 export type TTCsNavProps = StackScreenProps<
   StackParamsList,
   "Terms and conditions"
