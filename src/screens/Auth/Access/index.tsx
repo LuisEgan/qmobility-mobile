@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Button } from "../../../components/";
 import { useNavigation } from "@react-navigation/native";
+import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/constants";
 
 interface IAccess {}
 
@@ -13,7 +14,7 @@ const Access = (props: IAccess) => {
   const navigation = useNavigation();
 
   const goView = (type: number): void => {
-    navigation.navigate("LoginSignUp", {
+    navigation.navigate(AUTH_STACK_SCREENS_NAME.LoginSignUp, {
       state: type,
     });
   };

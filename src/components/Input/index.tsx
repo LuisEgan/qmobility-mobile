@@ -31,7 +31,6 @@ const Input = (props: IInput) => {
   } = props;
 
   const theme = useTheme<Theme>();
-  console.log("Input -> theme", theme);
 
   return (
     <View style={styles.container}>
