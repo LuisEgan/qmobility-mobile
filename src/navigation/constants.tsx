@@ -3,10 +3,12 @@ export const AUTH_STACK_SCREENS_NAME = {
   TCs: "Terms and conditions",
   Access: "Access",
   LoginSignUp: "LoginSignUp",
+  CreateProfile: "CreateProfile",
 };
 
 export type TAuthStackSceenNames =
   | "Onboarding"
   | "Terms and conditions"
   | "Access"
-  | "LoginSignUp";
+  | "LoginSignUp"
+  | "CreateProfile";

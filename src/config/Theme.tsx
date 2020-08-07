@@ -7,6 +7,7 @@ const palette = {
   blueLighter: "#C5EAF1",
 
   gray: "#cfcfcf",
+  grayPrimary: "#ACACAC",
   grayLight: "#d4d4d5",
   grayDark: "#282F39",
 
@@ -27,6 +28,13 @@ const theme: BaseTheme = {
 
     white: palette.white,
     red: palette.red,
+
+    // * Text
+    titleProfile: palette.grayPrimary,
+
+    // * Header color
+    titleHeader: palette.grayDark,
+    subTitleHeader: palette.grayDark,
 
     // * Input color
     defautlInput: palette.grayLight,
@@ -52,6 +60,21 @@ const theme: BaseTheme = {
       fontSize: 24,
       lineHeight: 30,
       color: "subTitle",
+    },
+    titleProfile: {
+      fontSize: 14,
+      color: "titleProfile",
+      fontWeight: "bold",
+    },
+    titleHeader: {
+      fontSize: 30,
+      color: "titleHeader",
+      fontWeight: "bold",
+    },
+    subTitleHeader: {
+      fontSize: 24,
+      lineHeight: 30,
+      color: "subTitleHeader",
     },
     regular: {
       fontSize: 16,

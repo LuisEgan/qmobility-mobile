@@ -1,6 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Onboarding, TCs, LoginSignUp, Access } from "../screens/Auth";
+import {
+  Onboarding,
+  TCs,
+  LoginSignUp,
+  Access,
+  CreateProfile,
+} from "../screens/Auth";
 import { IScreen } from "./Router";
 import { AUTH_STACK_SCREENS_NAME } from "./constants";
 
@@ -23,12 +29,17 @@ export const AUTH_STACK_SCREENS: IAuthScreens = [
     name: AUTH_STACK_SCREENS_NAME.LoginSignUp,
     component: LoginSignUp,
   },
+  {
+    name: AUTH_STACK_SCREENS_NAME.CreateProfile,
+    component: CreateProfile,
+    headerShown: true,
+  },
 ];
 
 const { Navigator, Screen } = createStackNavigator();
 
 const AuthNavigator = () => (
-  <Navigator initialRouteName={AUTH_STACK_SCREENS_NAME.Onboarding}>
+  <Navigator initialRouteName={AUTH_STACK_SCREENS_NAME.CreateProfile}>
     {AUTH_STACK_SCREENS.map(({ name, component, headerShown }) => {
       const options = { headerShown: headerShown || false };
 

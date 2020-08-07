@@ -46,12 +46,12 @@ const Header = (props: IHeader) => {
       <View style={styles.contentStyle}>
         <View style={styles.viewStyle}>
           {title && (
-            <Text style={styles.titleStyle} variant="title">
+            <Text style={styles.titleStyle} variant="titleHeader">
               {title}
             </Text>
           )}
           {subTitle && (
-            <Text style={styles.subTitleStyle} variant="subtitle">
+            <Text style={styles.subTitleStyle} variant="subTitleHeader">
               {subTitle}
             </Text>
           )}

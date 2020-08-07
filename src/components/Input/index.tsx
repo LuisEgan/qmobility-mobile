@@ -60,7 +60,7 @@ export default Input;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: "10%",
+    marginHorizontal: "5%",
     marginBottom: 10,
   },
   viewStyle: {
