@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/constants";
 import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
 import { Title, textBlack, StepText, textLight } from "./Texts";
+import Header from "../../../components/Header";
 
 const isCloseToBottom = ({
   layoutMeasurement,
@@ -26,10 +27,18 @@ interface ITCs extends TTCsNavProps {}
 
 const TCs = (props: ITCs) => {
   const { navigation } = props;
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
 
   useLayoutEffect(() => {
-    navigation.setOptions({});
+    navigation.setOptions({
+      header: () => (
+        <Header
+          title="Terms & Conditions"
+          icon="ArrowBack"
+          onPress={() => goBack()}
+        />
+      ),
+    });
   }, [navigation]);
 
   const [endScroll, setEndScroll] = useState<boolean>(false);
