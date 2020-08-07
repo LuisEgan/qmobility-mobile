@@ -1,35 +1,38 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import { Button, Input } from "../../../components/";
+import { Button, Input } from "../../../components";
 
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { Text } from "../../../config/Theme";
-import { TLoginSignUpNavProps } from "../../../navigation/NavPropsTypes";
 import { ERRORS } from "../../../lib/constants";
-import { TouchableOpacity } from "react-native-gesture-handler";
-
-interface ILoginSignUp extends TLoginSignUpNavProps {}
+// import { useNavigation } from "@react-navigation/native";
+import { TLoginNavProps } from "../../../navigation/NavPropsTypes";
 
 interface IFormValues {
   emailAddress: string;
   password: string;
 }
 
+interface ILogin extends TLoginNavProps {}
+
 const SignupSchema = yup.object().shape({
   emailAddress: yup.string().email(),
   password: yup.string().required("Required"),
 });
 
-const LoginSignUp = (props: ILoginSignUp) => {
-  const { route } = props;
+const Login = (props: ILogin) => {
+  const { navigation } = props;
+  //   const { navigate } = useNavigation();
 
-  const [state, setState] = useState<number>(route.params.state);
-
-  //const theme = useTheme<Theme>();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+    });
+  }, [navigation]);
 
   const login = (values: IFormValues): void => {
-    console.log("LoginSignUp -> values", values);
+    console.log("Login -> values", values);
   };
 
   const Form = (params: FormikProps<IFormValues>) => {
@@ -55,10 +58,10 @@ const LoginSignUp = (props: ILoginSignUp) => {
           />
         </View>
         <Button
-          margin={"10%"}
-          variant={state ? "secondary" : "primary"}
+          containerStyle={{ marginHorizontal: "10%" }}
+          variant={"secondary"}
           onPress={handleSubmit}
-          label={state ? "LOG IN" : "SIGN UP"}
+          label={"LOG IN"}
         />
       </View>
     );
@@ -67,10 +70,8 @@ const LoginSignUp = (props: ILoginSignUp) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text variant="title">{`Welcome ${state ? "Back" : "onboard"}!`}</Text>
-        <Text variant="subtitle">{`Please ${
-          state ? "login to your account" : "register to procced"
-        }.`}</Text>
+        <Text variant="title">Welcome Back!</Text>
+        <Text variant="subtitle">Please login to your account</Text>
       </View>
 
       <Text variant="title" style={styles.or}>
@@ -88,12 +89,11 @@ const LoginSignUp = (props: ILoginSignUp) => {
   );
 };
 
-export default LoginSignUp;
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
   },
   content: {
     marginHorizontal: "10%",

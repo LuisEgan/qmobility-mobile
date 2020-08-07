@@ -2,7 +2,6 @@ import React from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Button } from "../../../components/";
 import { useNavigation } from "@react-navigation/native";
-import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/constants";
 
 interface IAccess {}
 
@@ -11,13 +10,7 @@ const image = { uri: "https://reactjs.org/logo-og.png" };
 const Access = (props: IAccess) => {
   const {} = props;
 
-  const navigation = useNavigation();
-
-  const goView = (type: number): void => {
-    navigation.navigate(AUTH_STACK_SCREENS_NAME.LoginSignUp, {
-      state: type,
-    });
-  };
+  const { navigate } = useNavigation();
 
   return (
     <ImageBackground source={image} style={styles.image}>
@@ -28,7 +21,7 @@ const Access = (props: IAccess) => {
               <Button
                 margin={"20%"}
                 variant="primary"
-                onPress={() => goView(0)}
+                onPress={() => navigate("Auth")}
                 label="SIGN UP"
               />
             </View>
@@ -36,7 +29,7 @@ const Access = (props: IAccess) => {
               <Button
                 margin={"20%"}
                 variant="secondary"
-                onPress={() => goView(1)}
+                onPress={() => navigate("Auth")}
                 label="LOGIN"
               />
             </View>

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { Text, Theme } from "../../config/Theme";
 import { useTheme } from "@shopify/restyle";
@@ -11,10 +11,11 @@ interface IButton {
   onPress: () => void;
   variant?: TVariant;
   margin?: number | string;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 const Button = (props: IButton) => {
-  const { onPress, label, variant, margin } = props;
+  const { onPress, label, variant, containerStyle } = props;
 
   const theme = useTheme<Theme>();
 
@@ -30,11 +31,7 @@ const Button = (props: IButton) => {
   };
 
   return (
-    <View
-      style={{
-        marginHorizontal: margin,
-      }}
-    >
+    <View style={containerStyle}>
       <RectButton
         onPress={() => onPress()}
         style={[
@@ -59,9 +56,6 @@ Button.defaultProps = {
 export default Button;
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: "10%",
-  },
   btnStyle: {
     width: "100%",
     justifyContent: "center",

@@ -3,16 +3,8 @@ import { StackScreenProps } from "@react-navigation/stack";
 // * Screens Props Types
 type StackParamsList = {
   "Terms and conditions": {};
-  LoginSignUp: {
-    state: number;
-  };
+  LoginSignUp: {};
 };
-
-// * LoginSignUp props
-export type TLoginSignUpNavProps = StackScreenProps<
-  StackParamsList,
-  "LoginSignUp"
->;
 
 // * Terms and conditions props
 export type TTCsNavProps = StackScreenProps<
@@ -20,5 +12,11 @@ export type TTCsNavProps = StackScreenProps<
   "Terms and conditions"
 >;
 
+// * Login and SignUp props
+export type TLoginSignUpNavProps = StackScreenProps<
+  StackParamsList,
+  "LoginSignUp"
+>;
+
 // * Export all types as one type
-export type TAllNavProps = TLoginSignUpNavProps & TTCsNavProps;
+export type TAllNavProps = TTCsNavProps & TLoginSignUpNavProps;
