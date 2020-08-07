@@ -1,8 +1,20 @@
-import { createSwitchNavigator, createAppContainer } from "react-navigation";
+import React from "react";
 import AuthNavigator from "./AuthNavigator";
+import { TAllNavProps } from "./NavPropsTypes";
+import { NavigationContainer } from "@react-navigation/native";
 
-const SwitchNavigator = createSwitchNavigator({
-  Auth: AuthNavigator,
-});
+export interface IScreen {
+  name: string;
+  component: React.FunctionComponent<Screen & TAllNavProps>;
+  headerShown?: boolean;
+}
 
-export default createAppContainer(SwitchNavigator);
+const Router = () => {
+  return (
+    <NavigationContainer>
+      <AuthNavigator />
+    </NavigationContainer>
+  );
+};
+
+export default Router;
