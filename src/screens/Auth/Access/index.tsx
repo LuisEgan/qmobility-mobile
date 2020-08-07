@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Button } from "../../../components/";
 import { useNavigation } from "@react-navigation/native";
+import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/constants";
 
 interface IAccess {}
 
@@ -21,16 +22,26 @@ const Access = (props: IAccess) => {
               <Button
                 margin={"20%"}
                 variant="primary"
-                onPress={() => navigate("Auth")}
+                onPress={() =>
+                  navigate(AUTH_STACK_SCREENS_NAME.LoginSignUp, {
+                    screen: AUTH_STACK_SCREENS_NAME.SignUp,
+                  })
+                }
                 label="SIGN UP"
+                containerStyle={{ marginHorizontal: "10%" }}
               />
             </View>
             <View style={styles.ButtonStyle}>
               <Button
                 margin={"20%"}
                 variant="secondary"
-                onPress={() => navigate("Auth")}
+                onPress={() =>
+                  navigate(AUTH_STACK_SCREENS_NAME.LoginSignUp, {
+                    screen: AUTH_STACK_SCREENS_NAME.Login,
+                  })
+                }
                 label="LOGIN"
+                containerStyle={{ marginHorizontal: "10%" }}
               />
             </View>
           </View>

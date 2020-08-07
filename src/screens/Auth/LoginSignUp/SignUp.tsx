@@ -45,7 +45,7 @@ const SignUp = () => {
           />
         </View>
         <Button
-          margin={"10%"}
+          containerStyle={{ marginHorizontal: "10%" }}
           variant="primary"
           onPress={handleSubmit}
           label="SIGN UP"
@@ -81,7 +81,6 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
   },
   content: {
     marginHorizontal: "10%",

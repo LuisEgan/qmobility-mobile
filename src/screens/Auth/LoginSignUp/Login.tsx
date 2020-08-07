@@ -7,14 +7,14 @@ import * as yup from "yup";
 import { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
 // import { useNavigation } from "@react-navigation/native";
-import { TLoginNavProps } from "../../../navigation/NavPropsTypes";
+import { TLoginSignUpScreenProps } from "../../../navigation/NavPropsTypes";
 
 interface IFormValues {
   emailAddress: string;
   password: string;
 }
 
-interface ILogin extends TLoginNavProps {}
+interface ILogin extends TLoginSignUpScreenProps {}
 
 const SignupSchema = yup.object().shape({
   emailAddress: yup.string().email(),
@@ -26,9 +26,7 @@ const Login = (props: ILogin) => {
   //   const { navigate } = useNavigation();
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-    });
+    navigation.setOptions({});
   }, [navigation]);
 
   const login = (values: IFormValues): void => {
@@ -59,9 +57,9 @@ const Login = (props: ILogin) => {
         </View>
         <Button
           containerStyle={{ marginHorizontal: "10%" }}
-          variant={"secondary"}
+          variant="secondary"
           onPress={handleSubmit}
-          label={"LOG IN"}
+          label="LOG IN"
         />
       </View>
     );
