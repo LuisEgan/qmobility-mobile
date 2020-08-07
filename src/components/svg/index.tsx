@@ -1,9 +1,9 @@
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
 
-import { ArrowDown, Error } from "./icons";
+import { ArrowDown, Error, ArrowBack } from "./icons";
 
-type TIcon = "ArrowDown" | "Error";
+import { TIcon } from "./icons/TypeIcons";
 
 interface Iicons {
   icon: TIcon;
@@ -15,6 +15,7 @@ interface Iicons {
 
 const icons = {
   ArrowDown: (props: Iicons) => <ArrowDown {...props} />,
+  ArrowBack: (props: Iicons) => <ArrowBack {...props} />,
   Error: (props: Iicons) => <Error {...props} />,
 };
 
