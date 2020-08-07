@@ -1,11 +1,11 @@
 /** @format */
 
 import React from "react";
-import Svg, { Path } from "react-native-svg";
+import Svg, { Path, rgbaArray } from "react-native-svg";
 
 interface IError {
-  fill: string | number;
-  stroke: string | number;
+  fill: string | number | rgbaArray;
+  stroke: string | number | rgbaArray;
 }
 
 const Error = (props: IError) => {
