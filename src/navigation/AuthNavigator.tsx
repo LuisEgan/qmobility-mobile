@@ -30,7 +30,7 @@ const ONBOARDING_STACK_SCREENS: IAuthScreens = [
 const { Navigator, Screen } = createStackNavigator();
 
 const AuthNavigator = () => (
-  <Navigator initialRouteName={AUTH_STACK_SCREENS_NAME.Access}>
+  <Navigator initialRouteName={AUTH_STACK_SCREENS_NAME.Onboarding}>
     {ONBOARDING_STACK_SCREENS.map(({ name, component, headerShown }) => {
       const options = { headerShown: headerShown || false };
       return <Screen key={name} {...{ name, component, options }}></Screen>;

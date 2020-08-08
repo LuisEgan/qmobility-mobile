@@ -25,15 +25,13 @@ const LOGIN_SIGNUP_STACK_SCREENS: IAuthScreens = [
 ];
 
 const LoginSignUp = (props: ILoginSignUp) => {
+  const { navigation, route } = props;
+
   // * activeScreen
   // * 0 - Login
   // * 1 - SignUp
-  const {
-    navigation,
-    route: {
-      state: { index: activeScreen },
-    },
-  } = props;
+  const { from } = route.params;
+  const activeScreen = route?.state?.index || from;
 
   const { colors } = useTheme<Theme>();
 

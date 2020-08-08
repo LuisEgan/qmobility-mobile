@@ -2,10 +2,14 @@ import { StackScreenProps, StackNavigationProp } from "@react-navigation/stack";
 import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 import { RouteProp } from "@react-navigation/native";
 
+type LoginSignUpFrom = 0 | 1;
+
 // * Screens Props Types
 type StackParamsList = {
   "Terms and conditions": {};
-  LoginSignUp: {};
+  LoginSignUp: {
+    from: LoginSignUpFrom;
+  };
   Login: {};
 };
 
@@ -24,12 +28,10 @@ type TLoginSignUpNavigation = StackNavigationProp<
   StackParamsList,
   "LoginSignUp"
 >;
-type TLoginSignUpRoute = MaterialTopTabScreenProps<
-  StackParamsList,
-  "LoginSignUp"
-> & {
-  state: MaterialTopTabScreenState;
-};
+type TLoginSignUpRoute = RouteProp<StackParamsList, "LoginSignUp"> &
+  MaterialTopTabScreenProps<StackParamsList, "LoginSignUp"> & {
+    state: MaterialTopTabScreenState;
+  };
 export type TLoginSignUpNavProps = {
   navigation: TLoginSignUpNavigation;
   route: TLoginSignUpRoute;

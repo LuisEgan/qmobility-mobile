@@ -25,6 +25,7 @@ const Access = (props: IAccess) => {
                 onPress={() =>
                   navigate(AUTH_STACK_SCREENS_NAME.LoginSignUp, {
                     screen: AUTH_STACK_SCREENS_NAME.SignUp,
+                    from: 1,
                   })
                 }
                 label="SIGN UP"
@@ -38,6 +39,7 @@ const Access = (props: IAccess) => {
                 onPress={() =>
                   navigate(AUTH_STACK_SCREENS_NAME.LoginSignUp, {
                     screen: AUTH_STACK_SCREENS_NAME.Login,
+                    from: 0,
                   })
                 }
                 label="LOGIN"
