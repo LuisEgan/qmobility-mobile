@@ -60,7 +60,7 @@ const Select = (props: ISelect) => {
               {list.map((x: string | number, i: number) => {
                 return (
                   <TouchableOpacity
-                    style={{ height: 50 }}
+                    style={styles.touchSelectStyle}
                     key={i}
                     onPress={() => {
                       onPress(x);
@@ -146,7 +146,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  content: { marginHorizontal: "5%", marginVertical: "3%" },
+  content: {
+    marginHorizontal: "5%",
+    marginVertical: "3%",
+  },
   veiwStyleConten: {
     maxHeight: 370,
     width: "100%",
@@ -155,10 +158,15 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignSelf: "center",
   },
+  touchSelectStyle: {
+    height: 50,
+    justifyContent: "center",
+    borderColor: "#ACACAC",
+    borderBottomWidth: 1,
+  },
   titleViewStyle: {
     width: "100%",
     flexDirection: "row",
-
     alignContent: "center",
   },
   titleStyle: {
@@ -173,7 +181,6 @@ const styles = StyleSheet.create({
   ScrollViewStyle: {
     width: "100%",
     maxWidth: 370,
-    marginTop: 20,
     paddingHorizontal: 10,
   },
   textScrollViewStyle: {

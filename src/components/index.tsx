@@ -3,3 +3,4 @@ export { default as Input } from "./Input";
 export { default as Select } from "./Select";
 export { default as Slider } from "./Slider";
 export { default as Icons } from "./svg";
+export { default as ImageProfile } from "./ImageProfile";

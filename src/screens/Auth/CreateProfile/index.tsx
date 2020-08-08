@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
-import { Input, Button, Select } from "../../../components";
+import { Input, Button, Select, ImageProfile } from "../../../components";
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { ERRORS } from "../../../lib/constants";
@@ -57,11 +57,11 @@ const CreateProfile = (props: ICreateProfile) => {
 
     return (
       <View>
-        <ScrollView
-          style={{
-            height: height * 0.69,
-          }}
-        >
+        <ScrollView style={styles.scrollStyle}>
+          <ImageProfile label="JD" color="#002060" />
+          <View style={styles.contentEmailStyle}>
+            <Text variant="emailProfile">jondoe@gmail.com</Text>
+          </View>
           <View style={styles.contentViewIput}>
             <Input
               placeholder="First name"
@@ -84,14 +84,7 @@ const CreateProfile = (props: ICreateProfile) => {
               error={errors.dateBirth && ERRORS.REQUIRED}
               touched={touched.dateBirth}
             />
-            <Text
-              style={{
-                marginLeft: "5%",
-                marginTop: 30,
-                marginBottom: 10,
-              }}
-              variant="titleProfile"
-            >
+            <Text style={styles.textSelectStyle} variant="titleProfile">
               Select Your Car
             </Text>
             <Select
@@ -156,5 +149,16 @@ const styles = StyleSheet.create({
   },
   contentViewIput: {
     marginBottom: "10%",
+  },
+  scrollStyle: {
+    height: height * 0.69,
+  },
+  contentEmailStyle: {
+    marginHorizontal: "5%",
+  },
+  textSelectStyle: {
+    marginLeft: "5%",
+    marginTop: 30,
+    marginBottom: 10,
   },
 });

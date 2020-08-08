@@ -69,13 +69,9 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   inputStyle: {
-    borderTopColor: "transparent",
-    borderRightColor: "transparent",
-    borderLeftColor: "transparent",
-
-    borderWidth: 1,
+    borderBottomWidth: 1,
     width: "100%",
-    fontSize: 20,
+    fontSize: 16,
     height: 50,
   },
   error: {

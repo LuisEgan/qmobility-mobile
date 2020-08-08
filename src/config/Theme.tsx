@@ -11,6 +11,7 @@ const palette = {
   grayLight: "#d4d4d5",
   grayDark: "#282F39",
 
+  black: "black",
   white: "white",
   red: "red",
 };
@@ -28,6 +29,7 @@ const theme: BaseTheme = {
 
     white: palette.white,
     red: palette.red,
+    black: palette.black,
 
     // * Text
     titleProfile: palette.grayPrimary,
@@ -60,6 +62,11 @@ const theme: BaseTheme = {
       fontSize: 24,
       lineHeight: 30,
       color: "subTitle",
+    },
+    emailProfile: {
+      fontSize: 16,
+      color: "black",
+      fontWeight: "bold",
     },
     titleProfile: {
       fontSize: 14,
