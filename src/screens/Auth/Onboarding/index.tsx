@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Text } from "../../../config/Theme";
 import { useNavigation } from "@react-navigation/native";
 import slides from "./slides";
-import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/constants";
+import { AUTH_STACK_SCREENS_NAMES } from "../../../navigation/constants";
 
 const { height, width } = Dimensions.get("window");
 
@@ -17,7 +17,7 @@ const Onboarding = (props: IOnboarding) => {
   const { navigate } = useNavigation();
 
   const skip = () => {
-    navigate(AUTH_STACK_SCREENS_NAME.TCs);
+    navigate(AUTH_STACK_SCREENS_NAMES.TCs);
   };
 
   return (
