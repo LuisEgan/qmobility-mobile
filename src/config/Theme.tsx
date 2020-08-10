@@ -10,6 +10,7 @@ const palette = {
   grayPrimary: "#ACACAC",
   grayLight: "#d4d4d5",
   grayDark: "#282F39",
+  grayLighter: "#F4F4F6",
 
   black: "black",
   white: "white",
@@ -37,6 +38,8 @@ const theme: BaseTheme = {
     // * Header color
     titleHeader: palette.grayDark,
     subTitleHeader: palette.grayDark,
+
+    borderColor: palette.grayLighter,
 
     // * Input color
     defautlInput: palette.grayLight,

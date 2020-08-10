@@ -96,6 +96,7 @@ const TCs = (props: ITCs) => {
             variant="primary"
             onPress={() => confirmTermsConditions()}
             label="AGREE & CONTINUE"
+            containerStyle={{ marginHorizontal: "10%" }}
           />
         </View>
       )}
