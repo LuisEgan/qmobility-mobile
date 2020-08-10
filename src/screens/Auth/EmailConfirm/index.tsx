@@ -34,7 +34,6 @@ const EmailConfirm = (props: IEmailConfirm) => {
           label="Go to inbox"
           iconRight="ArrowForward"
           variant="primary"
-          margin={"5%"}
           onPress={() => console.log()}
         />
       </View>

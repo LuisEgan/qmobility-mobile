@@ -115,12 +115,7 @@ const CreateProfile = (props: ICreateProfile) => {
             />
           </View>
         </ScrollView>
-        <Button
-          label="DONE"
-          variant="primary"
-          margin={"5%"}
-          onPress={handleSubmit}
-        />
+        <Button label="DONE" variant="primary" onPress={handleSubmit} />
       </View>
     );
   };
