@@ -1,7 +1,14 @@
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
 
-import { ArrowDown, Error, ArrowBack } from "./icons";
+import {
+  ArrowDown,
+  Error,
+  ArrowBack,
+  ArrowUpLight,
+  ArrowDownLight,
+  Info,
+} from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
 
@@ -16,6 +23,9 @@ interface Iicons {
 const icons = {
   ArrowDown: (props: Iicons) => <ArrowDown {...props} />,
   ArrowBack: (props: Iicons) => <ArrowBack {...props} />,
+  ArrowUpLight: (props: Iicons) => <ArrowUpLight {...props} />,
+  ArrowDownLight: (props: Iicons) => <ArrowDownLight {...props} />,
+  Info: (props: Iicons) => <Info {...props} />,
   Error: (props: Iicons) => <Error {...props} />,
 };
 

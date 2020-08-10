@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/constants";
+import { AUTH_STACK_SCREENS_NAMES } from "../../../navigation/constants";
 import { IAuthScreens } from "../../../navigation/AuthNavigator";
 import Login from "./Login";
 import SignUp from "./SignUp";
@@ -15,11 +15,11 @@ const Tab = createMaterialTopTabNavigator();
 
 const LOGIN_SIGNUP_STACK_SCREENS: IAuthScreens = [
   {
-    name: AUTH_STACK_SCREENS_NAME.Login,
+    name: AUTH_STACK_SCREENS_NAMES.Login,
     component: Login,
   },
   {
-    name: AUTH_STACK_SCREENS_NAME.SignUp,
+    name: AUTH_STACK_SCREENS_NAMES.SignUp,
     component: SignUp,
   },
 ];
@@ -31,7 +31,8 @@ const LoginSignUp = (props: ILoginSignUp) => {
   // * 0 - Login
   // * 1 - SignUp
   const { from } = route.params;
-  const activeScreen = route?.state?.index || from;
+  const activeScreen =
+    typeof route?.state?.index !== undefined ? route.state.index : from;
 
   const { colors } = useTheme<Theme>();
 
@@ -44,7 +45,7 @@ const LoginSignUp = (props: ILoginSignUp) => {
   return (
     <Tab.Navigator
       lazy={true}
-      initialRouteName={AUTH_STACK_SCREENS_NAME.Login}
+      initialRouteName={AUTH_STACK_SCREENS_NAMES.Login}
       tabBarOptions={{
         indicatorStyle: {
           backgroundColor:
