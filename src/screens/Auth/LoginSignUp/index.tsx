@@ -31,7 +31,8 @@ const LoginSignUp = (props: ILoginSignUp) => {
   // * 0 - Login
   // * 1 - SignUp
   const { from } = route.params;
-  const activeScreen = route?.state?.index || from;
+  const activeScreen =
+    typeof route?.state?.index !== undefined ? route.state.index : from;
 
   const { colors } = useTheme<Theme>();
 
