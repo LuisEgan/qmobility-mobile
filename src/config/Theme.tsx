@@ -7,8 +7,9 @@ const palette = {
   blueLighter: "#C5EAF1",
 
   gray: "#cfcfcf",
-  grayLight: "#d4d4d5",
   grayDark: "#282F39",
+  grayLight: "#d4d4d5",
+  grayLighter: "#F4F4F6",
 
   white: "white",
   red: "red",
@@ -27,6 +28,8 @@ const theme: BaseTheme = {
 
     white: palette.white,
     red: palette.red,
+
+    borderColor: palette.grayLighter,
 
     // * Input color
     defautlInput: palette.grayLight,
