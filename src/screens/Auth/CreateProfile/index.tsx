@@ -1,12 +1,18 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
-import { Input, Button, Select, ImageProfile } from "../../../components";
+import {
+  Input,
+  Button,
+  Select,
+  ImageProfile,
+  Header,
+} from "../../../components";
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { ERRORS } from "../../../lib/constants";
 import { useNavigation } from "@react-navigation/native";
 import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
-import Header from "../../../components/Header";
+
 import { Text } from "../../../config/Theme";
 
 const { height } = Dimensions.get("window");
@@ -31,7 +37,7 @@ const SignupSchema = yup.object().shape({
 
 const CreateProfile = (props: ICreateProfile) => {
   const { navigation } = props;
-  const { navigate, goBack } = useNavigation();
+  const { navigate } = useNavigation();
 
   useLayoutEffect(() => {
     navigation.setOptions({

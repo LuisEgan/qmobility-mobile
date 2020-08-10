@@ -4,6 +4,7 @@ export const AUTH_STACK_SCREENS_NAME = {
   Access: "Access",
   LoginSignUp: "LoginSignUp",
   CreateProfile: "CreateProfile",
+  EmailConfirm: "EmailConfirm",
 };
 
 export type TAuthStackSceenNames =
@@ -11,4 +12,5 @@ export type TAuthStackSceenNames =
   | "Terms and conditions"
   | "Access"
   | "LoginSignUp"
-  | "CreateProfile";
+  | "CreateProfile"
+  | "EmailConfirm";

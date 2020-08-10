@@ -6,6 +6,7 @@ import {
   LoginSignUp,
   Access,
   CreateProfile,
+  EmailConfirm,
 } from "../screens/Auth";
 import { IScreen } from "./Router";
 import { AUTH_STACK_SCREENS_NAME } from "./constants";
@@ -34,12 +35,17 @@ export const AUTH_STACK_SCREENS: IAuthScreens = [
     component: CreateProfile,
     headerShown: true,
   },
+  {
+    name: AUTH_STACK_SCREENS_NAME.EmailConfirm,
+    component: EmailConfirm,
+    headerShown: true,
+  },
 ];
 
 const { Navigator, Screen } = createStackNavigator();
 
 const AuthNavigator = () => (
-  <Navigator initialRouteName={AUTH_STACK_SCREENS_NAME.CreateProfile}>
+  <Navigator initialRouteName={AUTH_STACK_SCREENS_NAME.EmailConfirm}>
     {AUTH_STACK_SCREENS.map(({ name, component, headerShown }) => {
       const options = { headerShown: headerShown || false };
 

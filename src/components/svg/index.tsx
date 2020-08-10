@@ -5,9 +5,11 @@ import {
   ArrowDown,
   Error,
   ArrowBack,
+  ArrowForward,
   ArrowUpLight,
   ArrowDownLight,
   Info,
+  Email,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -23,9 +25,11 @@ interface Iicons {
 const icons = {
   ArrowDown: (props: Iicons) => <ArrowDown {...props} />,
   ArrowBack: (props: Iicons) => <ArrowBack {...props} />,
+  ArrowForward: (props: Iicons) => <ArrowForward {...props} />,
   ArrowUpLight: (props: Iicons) => <ArrowUpLight {...props} />,
   ArrowDownLight: (props: Iicons) => <ArrowDownLight {...props} />,
   Info: (props: Iicons) => <Info {...props} />,
+  Email: (props: Iicons) => <Email {...props} />,
   Error: (props: Iicons) => <Error {...props} />,
 };
 

@@ -38,6 +38,10 @@ const theme: BaseTheme = {
     titleHeader: palette.grayDark,
     subTitleHeader: palette.grayDark,
 
+    // * Footer Color
+    titleFooter: palette.grayPrimary,
+    subTitleFooter: palette.blue,
+
     // * Input color
     defautlInput: palette.grayLight,
 
@@ -82,6 +86,15 @@ const theme: BaseTheme = {
       fontSize: 24,
       lineHeight: 30,
       color: "subTitleHeader",
+    },
+    titleFooter: {
+      fontSize: 14,
+      color: "titleFooter",
+    },
+    subTitleFooter: {
+      fontSize: 16,
+      lineHeight: 30,
+      color: "subTitleFooter",
     },
     regular: {
       fontSize: 16,
