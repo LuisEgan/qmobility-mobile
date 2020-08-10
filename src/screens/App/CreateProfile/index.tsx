@@ -7,6 +7,7 @@ import {
   ImageProfile,
   Header,
 } from "../../../components";
+// import { useNavigation } from "@react-navigation/native";
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { ERRORS } from "../../../lib/constants";
@@ -36,6 +37,7 @@ const SignupSchema = yup.object().shape({
 
 const CreateProfile = (props: ICreateProfile) => {
   const { navigation } = props;
+  // const { navigate, goBack } = useNavigation();
 
   useLayoutEffect(() => {
     navigation.setOptions({

@@ -10,7 +10,7 @@ import {
 import { Button, Icons } from "../../../components";
 import { Text } from "../../../config/Theme";
 import { useNavigation } from "@react-navigation/native";
-import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/constants";
+import { AUTH_STACK_SCREENS_NAMES } from "../../../navigation/constants";
 import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
 import { Title, textBlack, StepText, textLight } from "./Texts";
 import Header from "../../../components/Header";
@@ -44,7 +44,7 @@ const TCs = (props: ITCs) => {
   const [endScroll, setEndScroll] = useState<boolean>(false);
 
   const confirmTermsConditions = (): void => {
-    navigate(AUTH_STACK_SCREENS_NAME.Access);
+    navigate(AUTH_STACK_SCREENS_NAMES.Access);
   };
 
   return (
@@ -96,6 +96,7 @@ const TCs = (props: ITCs) => {
             variant="primary"
             onPress={() => confirmTermsConditions()}
             label="AGREE & CONTINUE"
+            containerStyle={{ marginHorizontal: "10%" }}
           />
         </View>
       )}

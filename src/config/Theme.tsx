@@ -10,6 +10,7 @@ const palette = {
   grayPrimary: "#ACACAC",
   grayLight: "#d4d4d5",
   grayDark: "#282F39",
+  grayLighter: "#F4F4F6",
 
   black: "black",
   white: "white",
@@ -26,6 +27,8 @@ const theme: BaseTheme = {
     title: palette.grayDark,
     subTitle: palette.gray,
     background: palette.grayLight,
+
+    borderColor: palette.grayLighter,
 
     white: palette.white,
     red: palette.red,

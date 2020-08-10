@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Button } from "../../../components/";
 import { useNavigation } from "@react-navigation/native";
-import { AUTH_STACK_SCREENS_NAME } from "../../../navigation/constants";
+import { AUTH_STACK_SCREENS_NAMES } from "../../../navigation/constants";
 
 interface IAccess {}
 
@@ -11,13 +11,7 @@ const image = { uri: "https://reactjs.org/logo-og.png" };
 const Access = (props: IAccess) => {
   const {} = props;
 
-  const navigation = useNavigation();
-
-  const goView = (type: number): void => {
-    navigation.navigate(AUTH_STACK_SCREENS_NAME.LoginSignUp, {
-      state: type,
-    });
-  };
+  const { navigate } = useNavigation();
 
   return (
     <ImageBackground source={image} style={styles.image}>
@@ -28,16 +22,28 @@ const Access = (props: IAccess) => {
               <Button
                 margin={"20%"}
                 variant="primary"
-                onPress={() => goView(0)}
+                onPress={() =>
+                  navigate(AUTH_STACK_SCREENS_NAMES.LoginSignUp, {
+                    screen: AUTH_STACK_SCREENS_NAMES.SignUp,
+                    from: 1,
+                  })
+                }
                 label="SIGN UP"
+                containerStyle={{ marginHorizontal: "10%" }}
               />
             </View>
             <View style={styles.ButtonStyle}>
               <Button
                 margin={"20%"}
                 variant="secondary"
-                onPress={() => goView(1)}
+                onPress={() =>
+                  navigate(AUTH_STACK_SCREENS_NAMES.LoginSignUp, {
+                    screen: AUTH_STACK_SCREENS_NAMES.Login,
+                    from: 0,
+                  })
+                }
                 label="LOGIN"
+                containerStyle={{ marginHorizontal: "10%" }}
               />
             </View>
           </View>
