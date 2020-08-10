@@ -1,6 +1,5 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { Header, Footer, Icons, Button } from "../../../components";
 import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
 import { Text } from "../../../config/Theme";
@@ -17,8 +16,6 @@ const EmailConfirm = (props: IEmailConfirm) => {
       header: () => <Header />,
     });
   }, [navigation]);
-
-  const { navigate } = useNavigation();
 
   return (
     <View style={styles.container}>

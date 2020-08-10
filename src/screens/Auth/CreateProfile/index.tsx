@@ -10,7 +10,6 @@ import {
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { ERRORS } from "../../../lib/constants";
-import { useNavigation } from "@react-navigation/native";
 import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
 
 import { Text } from "../../../config/Theme";
@@ -37,7 +36,6 @@ const SignupSchema = yup.object().shape({
 
 const CreateProfile = (props: ICreateProfile) => {
   const { navigation } = props;
-  const { navigate } = useNavigation();
 
   useLayoutEffect(() => {
     navigation.setOptions({
