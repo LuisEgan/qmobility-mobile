@@ -20,7 +20,6 @@ const Access = (props: IAccess) => {
           <View style={styles.contentButton}>
             <View style={styles.ButtonStyle}>
               <Button
-                margin={"20%"}
                 variant="primary"
                 onPress={() =>
                   navigate(AUTH_STACK_SCREENS_NAMES.LoginSignUp, {
@@ -34,7 +33,6 @@ const Access = (props: IAccess) => {
             </View>
             <View style={styles.ButtonStyle}>
               <Button
-                margin={"20%"}
                 variant="secondary"
                 onPress={() =>
                   navigate(AUTH_STACK_SCREENS_NAMES.LoginSignUp, {

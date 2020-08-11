@@ -1,12 +1,18 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
+import {
+  Input,
+  Button,
+  Select,
+  ImageProfile,
+  Header,
+} from "../../../components";
 // import { useNavigation } from "@react-navigation/native";
 import { Formik, FormikProps } from "formik";
-import { Input, Button, Select, ImageProfile } from "../../../components";
 import * as yup from "yup";
 import { ERRORS } from "../../../lib/constants";
 import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
-import Header from "../../../components/Header";
+
 import { Text } from "../../../config/Theme";
 
 const { height } = Dimensions.get("window");
@@ -109,12 +115,7 @@ const CreateProfile = (props: ICreateProfile) => {
             />
           </View>
         </ScrollView>
-        <Button
-          label="DONE"
-          variant="primary"
-          margin={"5%"}
-          onPress={handleSubmit}
-        />
+        <Button label="DONE" variant="primary" onPress={handleSubmit} />
       </View>
     );
   };

@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../navigation/constants";
-import { IAuthScreens } from "../../../navigation/AuthNavigator";
+import { IAuthScreens } from "../../../navigation/AuthStack";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import { TLoginSignUpNavProps } from "../../../navigation/NavPropsTypes";
@@ -31,8 +31,7 @@ const LoginSignUp = (props: ILoginSignUp) => {
   // * 0 - Login
   // * 1 - SignUp
   const { from } = route.params;
-  const activeScreen =
-    typeof route?.state?.index !== undefined ? route.state.index : from;
+  const activeScreen = route.state ? route.state.index : from;
 
   const { colors } = useTheme<Theme>();
 

@@ -10,6 +10,7 @@ export const AUTH_STACK_SCREENS_NAMES = {
   Login: "Login",
   SignUp: "SignUp",
   LoginSignUp: "LoginSignUp",
+  EmailConfirm: "EmailConfirm",
 };
 
 export type TAppStackScreenNamesEnum = "CreateProfile";
@@ -20,6 +21,7 @@ export type TAuthStackSceenNames =
   | "Onboarding"
   | "Terms and conditions"
   | "Access"
+  | "EmailConfirm"
   | "Login"
   | "SignUp"
   | "LoginSignUp";

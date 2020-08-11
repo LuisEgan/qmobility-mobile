@@ -92,7 +92,6 @@ const TCs = (props: ITCs) => {
       ) : (
         <View style={{ marginBottom: 30 }}>
           <Button
-            margin={"10%"}
             variant="primary"
             onPress={() => confirmTermsConditions()}
             label="AGREE & CONTINUE"
