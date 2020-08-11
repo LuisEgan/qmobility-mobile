@@ -62,10 +62,10 @@ const Slide = (props: ISLideProps) => {
       >
         <Image source={icon}></Image>
 
-        <Text variant="title" color={titleColor} style={styles.title}>
+        <Text variant="heading1" color={titleColor} style={styles.title}>
           {title}
         </Text>
-        <Text variant="regular" color={textColor} style={styles.text}>
+        <Text variant="body" color={textColor} style={styles.text}>
           {text}
         </Text>
       </Animated.View>

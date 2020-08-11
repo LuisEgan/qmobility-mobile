@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Header, Footer, Icons, Button } from "../../../components";
-import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
+import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Text } from "../../../config/Theme";
 
 const { height } = Dimensions.get("window");
@@ -21,8 +21,8 @@ const EmailConfirm = (props: IEmailConfirm) => {
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.body}>
-          <Text variant="title">Check your mailbox</Text>
-          <Text variant="subtitle">We’ve sent you a message.</Text>
+          <Text variant="heading1">Check your mailbox</Text>
+          <Text variant="subheadingLight">We’ve sent you a message.</Text>
           <View style={styles.viewStyle}>
             <Icons icon="Email" fill="#00B0F0" />
           </View>

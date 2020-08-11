@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { IScreen } from "./Router";
-import { APP_STACK_SCREENS_NAMES } from "./constants";
 import { CreateProfile } from "../screens/App";
+import { APP_STACK_SCREENS_NAMES } from "../lib/constants";
 
 interface IScreens extends Array<IScreen> {}
 export const APP_STACK_SCREENS: IScreens = [

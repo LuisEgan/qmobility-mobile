@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import AuthNavigator from "./AuthStack";
 import AppNavigator from "./AppStack";
-import { TAllNavProps } from "./NavPropsTypes";
+import { TAllNavProps } from "./Types/NavPropsTypes";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { AUTH_STACK_SCREENS_NAMES } from "./constants";
+import {
+  ASYNC_STORAGE_ITEMS,
+  AUTH_STACK_SCREENS_NAMES,
+} from "../lib/constants";
+import { AsyncStorage } from "react-native";
+import { AppLoading } from "expo";
+import AuthContext, { authMethods } from "./AuthContext";
+import { TUserToken } from "./Types/AuthTypes";
+
+const { Navigator } = createStackNavigator();
 
 export interface IScreen {
   name: string;
@@ -12,17 +21,40 @@ export interface IScreen {
   headerShown?: boolean;
 }
 
-const { Navigator } = createStackNavigator();
-
 const Router = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userToken, setUserToken] = useState<TUserToken>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  return (
-    <NavigationContainer>
-      <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.EmailConfirm}>
-        {isLoggedIn ? AppNavigator() : AuthNavigator()}
-      </Navigator>
-    </NavigationContainer>
+  // * Set user token from cached data
+  useEffect(() => {
+    const setInitialUserToken = async () => {
+      let userToken: TUserToken = null;
+      try {
+        userToken = await AsyncStorage.getItem(ASYNC_STORAGE_ITEMS.USER_TOKEN);
+      } catch (error) {
+        console.error("error: ", error);
+      } finally {
+        setUserToken(userToken);
+        setIsLoading(false);
+      }
+    };
+
+    setInitialUserToken();
+  }, []);
+
+  // * Auth context methods
+  const authContext = useMemo(authMethods({ setUserToken }), []);
+
+  return isLoading ? (
+    <AppLoading />
+  ) : (
+    <AuthContext.Provider value={authContext}>
+      <NavigationContainer>
+        <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.Access}>
+          {userToken ? AppNavigator() : AuthNavigator()}
+        </Navigator>
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 };
 

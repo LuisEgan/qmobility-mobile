@@ -29,13 +29,13 @@ const Footer = (props: IFooter) => {
       <View style={styles.contentStyle}>
         <View style={styles.viewStyle}>
           {title && (
-            <Text variant="titleFooter" style={styles.textStyle}>
+            <Text variant="label" style={styles.textStyle}>
               {title}
             </Text>
           )}
           {subTitle && (
             <TouchableOpacity onPress={() => canGoBack()}>
-              <Text variant="subTitleFooter" style={styles.textStyle}>
+              <Text variant="bodyHighlight" style={styles.textStyle}>
                 {subTitle}
               </Text>
             </TouchableOpacity>

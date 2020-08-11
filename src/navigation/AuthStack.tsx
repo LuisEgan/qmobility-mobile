@@ -8,7 +8,7 @@ import {
   EmailConfirm,
 } from "../screens/Auth";
 import { IScreen } from "./Router";
-import { AUTH_STACK_SCREENS_NAMES } from "./constants";
+import { AUTH_STACK_SCREENS_NAMES } from "../lib/constants";
 
 interface IScreens extends Array<IScreen> {}
 export interface IAuthScreens extends Array<IScreen> {}

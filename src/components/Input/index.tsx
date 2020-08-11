@@ -8,8 +8,9 @@ import {
 } from "react-native";
 import { Text, Theme } from "../../config/Theme";
 import { useTheme } from "@shopify/restyle";
+import { IComponentsDefaults } from "../../lib/Types";
 
-interface IInput {
+interface IInput extends IComponentsDefaults {
   onChange: (str: string) => void;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   placeholder?: string;
@@ -28,12 +29,13 @@ const Input = (props: IInput) => {
     isPassword,
     error,
     touched,
+    containerStyle,
   } = props;
 
   const theme = useTheme<Theme>();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <TextInput
         style={[
           styles.inputStyle,
