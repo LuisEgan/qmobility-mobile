@@ -4,7 +4,7 @@ import { Header, Footer, Icons, Button } from "../../../components";
 import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
 import { Text } from "../../../config/Theme";
 
-const { height, width } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 
 interface IEmailConfirm extends TTCsNavProps {}
 
@@ -35,6 +35,7 @@ const EmailConfirm = (props: IEmailConfirm) => {
           iconRight="ArrowForward"
           variant="primary"
           onPress={() => console.log()}
+          containerStyle={{ marginHorizontal: "10%" }}
         />
       </View>
       <Footer title="Something went wrong?" subTitle="Restart registration" />

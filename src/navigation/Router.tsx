@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import AuthNavigator from "./AuthNavigator";
-import AppNavigator from "./AppNavigator";
+import AuthNavigator from "./AuthStack";
+import AppNavigator from "./AppStack";
 import { TAllNavProps } from "./NavPropsTypes";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { AUTH_STACK_SCREENS_NAMES } from "./constants";
 
 export interface IScreen {
   name: string;
@@ -18,7 +19,9 @@ const Router = () => {
 
   return (
     <NavigationContainer>
-      <Navigator>{isLoggedIn ? AppNavigator() : AuthNavigator()}</Navigator>
+      <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.EmailConfirm}>
+        {isLoggedIn ? AppNavigator() : AuthNavigator()}
+      </Navigator>
     </NavigationContainer>
   );
 };

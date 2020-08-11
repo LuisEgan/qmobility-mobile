@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../navigation/constants";
-import { IAuthScreens } from "../../../navigation/AuthNavigator";
+import { IAuthScreens } from "../../../navigation/AuthStack";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import { TLoginSignUpNavProps } from "../../../navigation/NavPropsTypes";
