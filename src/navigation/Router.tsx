@@ -4,7 +4,7 @@ import AppNavigator from "./AppStack";
 import { TAllNavProps } from "./NavPropsTypes";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { AUTH_STACK_SCREENS_NAMES } from "./constants";
+import { AUTH_STACK_SCREENS_NAMES, APP_STACK_SCREENS_NAMES } from "./constants";
 
 export interface IScreen {
   name: string;
@@ -15,11 +15,11 @@ export interface IScreen {
 const { Navigator } = createStackNavigator();
 
 const Router = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <NavigationContainer>
-      <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.EmailConfirm}>
+      <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.MyCars}>
         {isLoggedIn ? AppNavigator() : AuthNavigator()}
       </Navigator>
     </NavigationContainer>

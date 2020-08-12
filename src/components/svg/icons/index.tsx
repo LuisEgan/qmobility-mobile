@@ -5,4 +5,6 @@ export { default as ArrowUpLight } from "./ArrowUpLight";
 export { default as ArrowDownLight } from "./ArrowDownLight";
 export { default as Info } from "./Info";
 export { default as Email } from "./Email";
+export { default as Menu } from "./Menu";
+export { default as Edit } from "./Edit";
 export { default as Error } from "./Error";

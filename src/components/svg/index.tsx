@@ -10,6 +10,8 @@ import {
   ArrowDownLight,
   Info,
   Email,
+  Menu,
+  Edit,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -30,6 +32,8 @@ const icons = {
   ArrowDownLight: (props: Iicons) => <ArrowDownLight {...props} />,
   Info: (props: Iicons) => <Info {...props} />,
   Email: (props: Iicons) => <Email {...props} />,
+  Menu: (props: Iicons) => <Menu {...props} />,
+  Edit: (props: Iicons) => <Edit {...props} />,
   Error: (props: Iicons) => <Error {...props} />,
 };
 

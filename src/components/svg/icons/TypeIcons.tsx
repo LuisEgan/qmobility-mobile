@@ -6,4 +6,6 @@ export type TIcon =
   | "ArrowDownLight"
   | "Info"
   | "Email"
+  | "Menu"
+  | "Edit"
   | "Error";

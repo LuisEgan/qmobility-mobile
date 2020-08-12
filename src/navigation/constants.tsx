@@ -16,6 +16,7 @@ export const AUTH_STACK_SCREENS_NAMES = {
 export type TAppStackScreenNamesEnum = "CreateProfile";
 export const APP_STACK_SCREENS_NAMES = {
   CreateProfile: "CreateProfile",
+  MyCars: "MyCars",
 };
 export type TAuthStackSceenNames =
   | "Onboarding"
