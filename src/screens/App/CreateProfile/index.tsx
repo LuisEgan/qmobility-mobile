@@ -66,7 +66,7 @@ const CreateProfile = (props: ICreateProfile) => {
         <ScrollView style={styles.scrollStyle}>
           <ImageProfile label="JD" color="#002060" />
           <View style={styles.contentEmailStyle}>
-            <Text variant="emailProfile">jondoe@gmail.com</Text>
+            <Text variant="body">jondoe@gmail.com</Text>
           </View>
           <View style={styles.contentViewIput}>
             <Input

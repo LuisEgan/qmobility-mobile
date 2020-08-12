@@ -8,6 +8,8 @@ export type TIcon =
   | "ArrowDownLight"
   | "Info"
   | "Email"
+  | "Menu"
+  | "Edit"
   | "Google"
   | "Facebook"
   | "LinkedIn"
