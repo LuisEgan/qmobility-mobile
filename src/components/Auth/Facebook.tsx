@@ -1,5 +1,4 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import React, { useEffect } from "react";
 import * as FacebookExpo from "expo-facebook";
 import Icons from "../svg";
 import { useMutation } from "@apollo/client/react/hooks/useMutation";
@@ -7,20 +6,28 @@ import {
   ILongWithFacebook,
   ILongWithFacebookVars,
 } from "../../gql/User/mutations";
-import { User } from "../../gql";
 import { ERRORS } from "../../lib/constants";
+import { gql } from "@apollo/client";
+
+const loginWithFacebook = gql`
+  mutation LoginWithFacebook($accessToken: String!) {
+    loginWithFacebook(socialNetworkLogInInput: { accessToken: $accessToken }) {
+      accessToken
+    }
+  }
+`;
 
 const Facebook = () => {
-  const [
-    fbLogin,
-    { data: fbData, loading: fbLoading, error: fbError },
-  ] = useMutation<{ fbLogin: ILongWithFacebook }, ILongWithFacebookVars>(
-    User.mutations.loginWithFacebook
-  );
+  const [fbLogin, { data: fbData }] = useMutation<
+    { fbLogin: ILongWithFacebook },
+    ILongWithFacebookVars
+  >(loginWithFacebook);
 
-  console.log("fbError: ", fbError);
-  console.log("fbLoading: ", fbLoading);
-  console.log("fbData: ", fbData);
+  useEffect(() => {
+    if (fbData) {
+      console.log("fbData: ", fbData);
+    }
+  }, [fbData]);
 
   const login = async () => {
     try {
@@ -48,7 +55,3 @@ const Facebook = () => {
 };
 
 export default Facebook;
-
-const styles = StyleSheet.create({
-  container: {},
-});
