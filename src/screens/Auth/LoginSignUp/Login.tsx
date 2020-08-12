@@ -1,13 +1,16 @@
-import React, { useLayoutEffect } from "react";
-import { View, StyleSheet } from "react-native";
-import { Button, Input } from "../../../components";
+import React, { useLayoutEffect, useContext } from "react";
+import { View, StyleSheet, Dimensions } from "react-native";
+import { Button, Input, Icons } from "../../../components";
 
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
-// import { useNavigation } from "@react-navigation/native";
-import { TLoginSignUpScreenProps } from "../../../navigation/NavPropsTypes";
+import { TLoginSignUpScreenProps } from "../../../navigation/Types/NavPropsTypes";
+import AuthContext from "../../../navigation/AuthContext";
+import { ScrollView } from "react-native-gesture-handler";
+
+const { width, height } = Dimensions.get("window");
 
 interface IFormValues {
   emailAddress: string;
@@ -17,20 +20,22 @@ interface IFormValues {
 interface ILogin extends TLoginSignUpScreenProps {}
 
 const SignupSchema = yup.object().shape({
-  emailAddress: yup.string().email(),
-  password: yup.string().required("Required"),
+  // emailAddress: yup.string().email(),
+  // password: yup.string().required("Required"),
 });
 
 const Login = (props: ILogin) => {
   const { navigation } = props;
-  //   const { navigate } = useNavigation();
+
+  const { emailSignIn, googleSignIn } = useContext(AuthContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({});
   }, [navigation]);
 
   const login = (values: IFormValues): void => {
-    console.log("Login -> values", values);
+    console.log("values: ", values);
+    emailSignIn("Asdw");
   };
 
   const Form = (params: FormikProps<IFormValues>) => {
@@ -40,6 +45,7 @@ const Login = (props: ILogin) => {
       <View>
         <View style={styles.contentViewIput}>
           <Input
+            containerStyle={{ marginHorizontal: 0 }}
             placeholder="Email Address"
             onChange={handleChange("emailAddress")}
             onBlur={handleBlur("emailAddress")}
@@ -47,6 +53,7 @@ const Login = (props: ILogin) => {
             touched={touched.emailAddress}
           />
           <Input
+            containerStyle={{ marginHorizontal: 0 }}
             placeholder="Password"
             isPassword={true}
             onChange={handleChange("password")}
@@ -55,24 +62,26 @@ const Login = (props: ILogin) => {
             touched={touched.password}
           />
         </View>
-        <Button
-          containerStyle={{ marginHorizontal: "10%" }}
-          variant="secondary"
-          onPress={handleSubmit}
-          label="LOG IN"
-        />
+        <Button variant="secondary" onPress={handleSubmit} label="LOG IN" />
       </View>
     );
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text variant="title">Welcome Back!</Text>
-        <Text variant="subtitle">Please login to your account</Text>
+        <Text variant="heading1">Welcome Back!</Text>
+        <Text variant="subheadingLight">Please login to your account</Text>
       </View>
 
-      <Text variant="title" style={styles.or}>
+      <View style={styles.social}>
+        <Icons icon="Email" onPress={() => googleSignIn()} />
+        <Icons icon="Email" />
+        <Icons icon="Email" />
+        <Icons icon="Email" />
+      </View>
+
+      <Text variant="body" style={styles.or}>
         OR
       </Text>
 
@@ -83,7 +92,7 @@ const Login = (props: ILogin) => {
       >
         {Form}
       </Formik>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -92,12 +101,23 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: width * 0.1,
   },
+
   content: {
-    marginHorizontal: "10%",
+    marginVertical: height * 0.05,
+  },
+
+  or: {
+    textAlign: "center",
+    marginVertical: height * 0.02,
+  },
+
+  social: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
     marginVertical: "5%",
   },
-  or: { textAlign: "center" },
 
   contentViewIput: {
     marginBottom: "10%",

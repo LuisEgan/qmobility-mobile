@@ -1,13 +1,16 @@
 import React, { useLayoutEffect } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { AUTH_STACK_SCREENS_NAMES } from "../../../navigation/constants";
 import { IAuthScreens } from "../../../navigation/AuthStack";
 import Login from "./Login";
 import SignUp from "./SignUp";
-import { TLoginSignUpNavProps } from "../../../navigation/NavPropsTypes";
+import { TLoginSignUpNavProps } from "../../../navigation/Types/NavPropsTypes";
 import Header from "../../../components/Header";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "../../../config/Theme";
+import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { Dimensions } from "react-native";
+
+const { height } = Dimensions.get("window");
 
 interface ILoginSignUp extends TLoginSignUpNavProps {}
 
@@ -37,7 +40,7 @@ const LoginSignUp = (props: ILoginSignUp) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      header: () => <Header />,
+      header: () => <Header height={height * 0.17} />,
     });
   }, [navigation]);
 
@@ -48,7 +51,7 @@ const LoginSignUp = (props: ILoginSignUp) => {
       tabBarOptions={{
         indicatorStyle: {
           backgroundColor:
-            activeScreen === 0 ? colors.primaryDark : colors.primary,
+            activeScreen === 0 ? colors.secondaryDark : colors.primary,
           height: 7,
         },
         labelStyle: { fontWeight: "bold" },

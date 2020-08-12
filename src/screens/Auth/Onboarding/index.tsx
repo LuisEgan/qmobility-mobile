@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Text } from "../../../config/Theme";
 import { useNavigation } from "@react-navigation/native";
 import slides from "./slides";
-import { AUTH_STACK_SCREENS_NAMES } from "../../../navigation/constants";
+import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const { height, width } = Dimensions.get("window");
 
@@ -25,7 +25,7 @@ const Onboarding = (props: IOnboarding) => {
       <Slider {...{ slides, width, height: height * 0.85 }} />
 
       <TouchableOpacity onPress={skip}>
-        <Text variant="regular" color="primary" fontWeight="bold">
+        <Text variant="bodyHighlight" color="primary" fontWeight="bold">
           Skip
         </Text>
       </TouchableOpacity>

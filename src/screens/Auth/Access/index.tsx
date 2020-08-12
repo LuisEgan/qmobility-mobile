@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Button } from "../../../components/";
 import { useNavigation } from "@react-navigation/native";
-import { AUTH_STACK_SCREENS_NAMES } from "../../../navigation/constants";
+import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 interface IAccess {}
 

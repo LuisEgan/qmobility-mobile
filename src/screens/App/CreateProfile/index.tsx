@@ -11,7 +11,7 @@ import {
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { ERRORS } from "../../../lib/constants";
-import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
+import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 import { Text } from "../../../config/Theme";
 
@@ -90,7 +90,7 @@ const CreateProfile = (props: ICreateProfile) => {
               error={errors.dateBirth && ERRORS.REQUIRED}
               touched={touched.dateBirth}
             />
-            <Text style={styles.textSelectStyle} variant="titleProfile">
+            <Text style={styles.textSelectStyle} variant="label">
               Select Your Car
             </Text>
             <Select
@@ -115,7 +115,12 @@ const CreateProfile = (props: ICreateProfile) => {
             />
           </View>
         </ScrollView>
-        <Button label="DONE" variant="primary" onPress={handleSubmit} />
+        <Button
+          label="DONE"
+          variant="primary"
+          onPress={handleSubmit}
+          containerStyle={{ marginHorizontal: "10%" }}
+        />
       </View>
     );
   };

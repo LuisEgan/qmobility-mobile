@@ -57,11 +57,11 @@ const SignUp = () => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text variant="title">Welcome onboard!</Text>
-        <Text variant="subtitle">Please register to procced</Text>
+        <Text variant="heading1">Welcome onboard!</Text>
+        <Text variant="subheadingLight">Please register to procced</Text>
       </View>
 
-      <Text variant="title" style={styles.or}>
+      <Text variant="body" style={styles.or}>
         OR
       </Text>
 

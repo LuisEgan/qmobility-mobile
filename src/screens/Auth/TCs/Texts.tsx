@@ -5,7 +5,7 @@ import { Text } from "../../../config/Theme";
 export const Title = (str: string): JSX.Element => {
   return (
     <Text
-      variant="title"
+      variant="heading1"
       style={[styles.textScrollStyle, { fontSize: 16 }]}
       color="primary"
     >
@@ -16,7 +16,7 @@ export const Title = (str: string): JSX.Element => {
 
 export const textBlack = (str: string): JSX.Element => {
   return (
-    <Text variant="title" style={[styles.textScrollStyle, { fontSize: 14 }]}>
+    <Text variant="heading1" style={[styles.textScrollStyle, { fontSize: 14 }]}>
       {str}
     </Text>
   );
@@ -24,7 +24,10 @@ export const textBlack = (str: string): JSX.Element => {
 
 export const textLight = (str: string): JSX.Element => {
   return (
-    <Text variant="subtitle" style={[styles.textScrollStyle, { fontSize: 14 }]}>
+    <Text
+      variant="subheadingLight"
+      style={[styles.textScrollStyle, { fontSize: 14 }]}
+    >
       {str}
     </Text>
   );
@@ -34,10 +37,10 @@ export const StepText = (num: number, str: string): JSX.Element => {
   return (
     <View style={styles.stepStyle}>
       <Text
-        variant="subtitle"
+        variant="subheadingLight"
         style={[styles.textScrollStyle, { fontSize: 14 }]}
       >
-        <Text variant="title" style={{ fontSize: 14 }}>
+        <Text variant="heading1" style={{ fontSize: 14 }}>
           {`· Step ${num}:  `}
         </Text>
         {str}

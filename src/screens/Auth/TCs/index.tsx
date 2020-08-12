@@ -10,10 +10,10 @@ import {
 import { Button, Icons } from "../../../components";
 import { Text } from "../../../config/Theme";
 import { useNavigation } from "@react-navigation/native";
-import { AUTH_STACK_SCREENS_NAMES } from "../../../navigation/constants";
-import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
+import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Title, textBlack, StepText, textLight } from "./Texts";
 import Header from "../../../components/Header";
+import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const isCloseToBottom = ({
   layoutMeasurement,

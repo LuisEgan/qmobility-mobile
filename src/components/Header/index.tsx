@@ -12,18 +12,22 @@ interface IHeader {
   subTitle?: string;
   icon?: TIcon;
   color?: string;
+  height?: number;
 }
 
 const { width, height } = Dimensions.get("window");
 
 const Header = (props: IHeader) => {
-  const { onPress, title, subTitle, icon, color } = props;
+  const { height: heightProp, onPress, title, subTitle, icon, color } = props;
+
+  const containerHeight = heightProp ? { height: heightProp } : {};
 
   return (
     <View
       style={[
         styles.container,
         {
+          ...containerHeight,
           backgroundColor: color,
         },
       ]}
@@ -45,16 +49,8 @@ const Header = (props: IHeader) => {
         ))}
       <View style={styles.contentStyle}>
         <View style={styles.viewStyle}>
-          {title && (
-            <Text style={styles.titleStyle} variant="titleHeader">
-              {title}
-            </Text>
-          )}
-          {subTitle && (
-            <Text style={styles.subTitleStyle} variant="subTitleHeader">
-              {subTitle}
-            </Text>
-          )}
+          {title && <Text variant="heading1">{title}</Text>}
+          {subTitle && <Text variant="subheadingLight">{subTitle}</Text>}
         </View>
       </View>
     </View>
@@ -93,12 +89,6 @@ const styles = StyleSheet.create({
   viewStyle: {
     marginTop: width * 0.1,
     marginHorizontal: width * 0.12,
-  },
-  titleStyle: {
-    fontSize: 30,
-  },
-  subTitleStyle: {
-    fontSize: 20,
   },
   btnStyle: {
     width: "100%",

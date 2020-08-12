@@ -1,16 +1,20 @@
 import { createText, BaseTheme, createBox } from "@shopify/restyle";
 
 const palette = {
-  blue: "#00B0F0",
-  blueDark: "#002060",
-  blueLight: "#00D6FD",
-  blueLighter: "#C5EAF1",
+  bluePrimary: "#00B0F0",
+  bluePrimaryDark: "#0197CE",
+  bluePrimaryLight: "#00D6FD",
+  bluePrimaryLighter: "#A7F1FF",
 
-  gray: "#cfcfcf",
-  grayPrimary: "#ACACAC",
-  grayLight: "#d4d4d5",
+  blueSecondary: "#3B64B7",
+  blueSecondaryDark: "#002060",
+  blueSecondaryLight: "#CAD4E8",
+  blueSecondaryLighter: "#E9ECF4",
+
+  gray: "#707070",
   grayDark: "#282F39",
-  grayLighter: "#F4F4F6",
+  grayLight: "#ACACAC",
+  grayLighter: "#F2F2F2",
 
   black: "black",
   white: "white",
@@ -19,10 +23,15 @@ const palette = {
 
 const theme: BaseTheme = {
   colors: {
-    primary: palette.blue,
-    primaryDark: palette.blueDark,
-    primaryLight: palette.blueLight,
-    primaryLighter: palette.blueLighter,
+    primary: palette.bluePrimary,
+    primaryDark: palette.bluePrimaryDark,
+    primaryLight: palette.bluePrimaryLight,
+    primaryLighter: palette.bluePrimaryLighter,
+
+    secondary: palette.blueSecondary,
+    secondaryDark: palette.blueSecondaryDark,
+    secondaryLight: palette.blueSecondaryLight,
+    secondaryLighter: palette.blueSecondaryLighter,
 
     title: palette.grayDark,
     subTitle: palette.gray,
@@ -34,24 +43,22 @@ const theme: BaseTheme = {
     red: palette.red,
     black: palette.black,
 
-    // * Text
-    titleProfile: palette.grayPrimary,
-
-    // * Header color
-    titleHeader: palette.grayDark,
-    subTitleHeader: palette.grayDark,
-
-    // * Footer Color
-    titleFooter: palette.grayPrimary,
-    subTitleFooter: palette.blue,
+    // * Texts
+    heading1: palette.grayDark,
+    heading2: palette.blueSecondaryDark,
+    subheadingLight: palette.gray,
+    body: palette.grayDark,
+    label: palette.gray,
+    bodyHighlight: palette.bluePrimary,
+    bodySmall: palette.grayLight,
 
     // * Input color
     defautlInput: palette.grayLight,
 
     // * Button color
     defaultButton: palette.grayLight,
-    primaryButton: palette.blue,
-    secondaryButton: palette.blueDark,
+    primaryButton: palette.bluePrimary,
+    secondaryButton: palette.blueSecondaryDark,
   },
   spacing: {
     s: 8,
@@ -60,53 +67,40 @@ const theme: BaseTheme = {
     xl: 40,
   },
   textVariants: {
-    title: {
+    heading1: {
       fontSize: 30,
-      color: "title",
+      color: "heading1",
       fontWeight: "bold",
     },
-    subtitle: {
-      fontSize: 24,
-      lineHeight: 30,
-      color: "subTitle",
+    heading2: {
+      fontSize: 22,
+      color: "heading2",
+      fontWeight: "bold",
     },
-    emailProfile: {
+    subheadingLight: {
+      fontSize: 20,
+      color: "subheadingLight",
+    },
+    body: {
       fontSize: 16,
-      color: "black",
-      fontWeight: "bold",
+      color: "body",
     },
-    titleProfile: {
+    label: {
       fontSize: 14,
-      color: "titleProfile",
-      fontWeight: "bold",
+      color: "label",
     },
-    titleHeader: {
-      fontSize: 30,
-      color: "titleHeader",
-      fontWeight: "bold",
-    },
-    subTitleHeader: {
-      fontSize: 24,
-      lineHeight: 30,
-      color: "subTitleHeader",
-    },
-    titleFooter: {
-      fontSize: 14,
-      color: "titleFooter",
-    },
-    subTitleFooter: {
+    bodyHighlight: {
       fontSize: 16,
-      lineHeight: 30,
-      color: "subTitleFooter",
+      color: "bodyHighlight",
     },
-    regular: {
-      fontSize: 16,
-      lineHeight: 24,
-      color: "title",
+    bodySmall: {
+      fontSize: 12,
+      color: "bodySmall",
     },
+
     button: {
       textAlign: "center",
-      fontSize: 17,
+      fontSize: 16,
       color: "white",
       fontWeight: "bold",
     },
@@ -124,7 +118,7 @@ export type Theme = typeof theme;
 export const darkTheme: Theme = {
   ...theme,
   colors: {
-    background: palette.blueDark,
+    background: palette.blueSecondaryDark,
   },
 };
 
