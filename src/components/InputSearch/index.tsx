@@ -9,8 +9,8 @@ import {
 import { Theme } from "../../config/Theme";
 import { useTheme } from "@shopify/restyle";
 import { IComponentsDefaults } from "../../lib/Types";
-import { Icons } from "..";
 import { useNavigation } from "@react-navigation/native";
+import Icons from "../svg";
 
 const { width } = Dimensions.get("window");
 interface IInputSearch extends IComponentsDefaults {

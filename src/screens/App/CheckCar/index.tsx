@@ -24,9 +24,58 @@ const listMyCars: IListCarArray = [
     subTitle: "Default eve",
     type: 1,
   },
+  {
+    img: "https://reactnative.dev/img/tiny_logo.png",
+    name: "Nissan Leaf Acenta 40",
+    title: "Default eve",
+    subTitle: "Default eve",
+    type: 1,
+  },
+  {
+    img: "https://reactnative.dev/img/tiny_logo.png",
+    name: "Nissan Leaf Acenta 40",
+    title: "Default eve",
+    subTitle: "Default eve",
+    type: 1,
+  },
+  {
+    img: "https://reactnative.dev/img/tiny_logo.png",
+    name: "Nissan Leaf Acenta 40",
+    title: "Default eve",
+    subTitle: "Default eve",
+    type: 1,
+  },
+  {
+    img: "https://reactnative.dev/img/tiny_logo.png",
+    name: "Nissan Leaf Acenta 40",
+    title: "Default eve",
+    subTitle: "Default eve",
+    type: 1,
+  },
 ];
 
 const ListAlternative: IListCarArray = [
+  {
+    img: "https://reactnative.dev/img/tiny_logo.png",
+    name: "Nissan Leaf Acenta 40",
+    title: "Default eve",
+    subTitle: "Default eve",
+    type: 0,
+  },
+  {
+    img: "https://reactnative.dev/img/tiny_logo.png",
+    name: "Nissan Leaf Acenta 40",
+    title: "Default eve",
+    subTitle: "Default eve",
+    type: 0,
+  },
+  {
+    img: "https://reactnative.dev/img/tiny_logo.png",
+    name: "Nissan Leaf Acenta 40",
+    title: "Default eve",
+    subTitle: "Default eve",
+    type: 0,
+  },
   {
     img: "https://reactnative.dev/img/tiny_logo.png",
     name: "Nissan Leaf Acenta 40",
@@ -105,8 +154,8 @@ const MyCars = (props: IMyCars) => {
         </View>
 
         {listMyCars &&
-          listMyCars.map((car) => {
-            return <ListCar {...car} />;
+          listMyCars.map((car, i) => {
+            return <ListCar key={`${car.name}_${i}`} {...car} />;
           })}
 
         {ListAlternative && (
@@ -116,8 +165,8 @@ const MyCars = (props: IMyCars) => {
             </View>
 
             {ListAlternative &&
-              ListAlternative.map((car) => {
-                return <ListCar {...car} />;
+              ListAlternative.map((car, i) => {
+                return <ListCar key={`${car.name}_${i}`} {...car} />;
               })}
           </>
         )}
@@ -174,6 +223,6 @@ const styles = StyleSheet.create({
 
   buttonStyle: {
     marginHorizontal: "10%",
-    marginBottom: "6%",
+    marginVertical: "6%",
   },
 });
