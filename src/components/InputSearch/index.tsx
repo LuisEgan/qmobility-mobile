@@ -15,6 +15,7 @@ import Icons from "../svg";
 const { width, height } = Dimensions.get("window");
 interface IInputSearch extends IComponentsDefaults {
   onChange: (str: string) => void;
+  onVoiceCommand?: () => void;
   placeholder?: string;
   defaultValue?: string;
 }
