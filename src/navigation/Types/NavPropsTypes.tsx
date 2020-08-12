@@ -11,6 +11,7 @@ type StackParamsList = {
     from: LoginSignUpFrom;
   };
   Login: {};
+  MyCars: {};
 };
 
 // * Terms and conditions props
@@ -43,7 +44,11 @@ export type TLoginSignUpScreenProps = MaterialTopTabScreenProps<
   "Login"
 >;
 
+// * My Cars screen props
+export type TMyCarsNavProps = StackScreenProps<StackParamsList, "MyCars">;
+
 // * Export all types as one type
 export type TAllNavProps = TTCsNavProps &
   TLoginSignUpNavProps &
+  TMyCarsNavProps &
   TLoginSignUpScreenProps;

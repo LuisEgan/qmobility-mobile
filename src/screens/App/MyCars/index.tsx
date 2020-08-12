@@ -2,11 +2,33 @@ import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
 import { Header, Icons, Footer } from "../../../components";
 import { Text } from "../../../config/Theme";
-import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
+import { TMyCarsNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 const { height } = Dimensions.get("window");
 
-interface IMyCars extends TTCsNavProps {}
+interface IMyCars extends TMyCarsNavProps {}
+
+interface IListCar {
+  img: string;
+  name: string;
+  title: string;
+  subTitle: string;
+}
+interface IListCarArray extends Array<IListCar> {}
+const listMyCars: IListCarArray = [
+  {
+    img: "https://reactnative.dev/img/tiny_logo.png",
+    name: "Nissan Leaf Acenta 40",
+    title: "Default eve",
+    subTitle: "Default eve",
+  },
+  {
+    img: "https://reactnative.dev/img/tiny_logo.png",
+    name: "Nissan Leaf Acenta 40",
+    title: "Default eve",
+    subTitle: "Default eve",
+  },
+];
 
 const MyCars = (props: IMyCars) => {
   const { navigation } = props;
@@ -24,27 +46,7 @@ const MyCars = (props: IMyCars) => {
     });
   }, [navigation]);
 
-  const listMyCars = [
-    {
-      img: "https://reactnative.dev/img/tiny_logo.png",
-      name: "Nissan Leaf Acenta 40",
-      title: "Default eve",
-      subTitle: "Default eve",
-    },
-    {
-      img: "https://reactnative.dev/img/tiny_logo.png",
-      name: "Nissan Leaf Acenta 40",
-      title: "Default eve",
-      subTitle: "Default eve",
-    },
-  ];
-
-  const listCar = (
-    img: string,
-    name: string,
-    title: string,
-    subTitle: string
-  ): JSX.Element => {
+  const ListCar = ({ img, name, title, subTitle }: IListCar) => {
     return (
       <View style={styles.cardCar}>
         <View style={styles.costentCar}>
@@ -97,8 +99,8 @@ const MyCars = (props: IMyCars) => {
           <Text variant="label">Virtual vehicles</Text>
         </View>
 
-        {listMyCars.map((x): void => {
-          return listCar(x.img, x.name, x.title, x.subTitle);
+        {listMyCars.map((car) => {
+          return <ListCar {...car} />;
         })}
       </ScrollView>
       <Footer
