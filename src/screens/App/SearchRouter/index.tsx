@@ -169,19 +169,19 @@ const SearchRouter = () => {
         style={{ height: 80 }}
       >
         {listFavorite &&
-          listFavorite.map((place) => {
-            return <Favorite {...place} />;
+          listFavorite.map((place, i) => {
+            return <Favorite key={`${place.title}_${i}`} {...place} />;
           })}
       </ScrollView>
       <View style={styles.contentTextStyle}>
         <Text style={styles.textStyle} variant="label">
-          recent
+          RECENT
         </Text>
       </View>
       <ScrollView style={styles.scrollContainer}>
         {listHistory &&
-          listHistory.map((place) => {
-            return <History {...place} />;
+          listHistory.map((place, i) => {
+            return <History key={`${place.title}_${i}`} {...place} />;
           })}
         <View style={{ height: 80 }} />
       </ScrollView>
@@ -191,7 +191,9 @@ const SearchRouter = () => {
 export default SearchRouter;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    paddingHorizontal: "5%",
+  },
   contentFavorite: {
     height: 80,
     width: width * 0.45,
@@ -210,7 +212,6 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   textStyle: {
-    marginLeft: "5%",
     marginVertical: "1%",
   },
   contentTextStyle: {
@@ -219,14 +220,13 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     backgroundColor: "#fff",
-    marginHorizontal: "5%",
-    paddingHorizontal: "5%",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     height: height * 0.7,
   },
   scrollContent: {
     flexDirection: "row",
+    marginHorizontal: "5%",
     marginVertical: 10,
     borderBottomColor: "#F2F2F2",
     borderBottomWidth: 1,

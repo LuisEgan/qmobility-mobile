@@ -12,7 +12,7 @@ import { IComponentsDefaults } from "../../lib/Types";
 import { useNavigation } from "@react-navigation/native";
 import Icons from "../svg";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 interface IInputSearch extends IComponentsDefaults {
   onChange: (str: string) => void;
   placeholder?: string;
@@ -53,9 +53,8 @@ export default InputSearch;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: "5%",
-    marginTop: "10%",
-    marginBottom: "5%",
+    marginTop: height * 0.08,
+    marginBottom: height * 0.03,
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "#fff",
