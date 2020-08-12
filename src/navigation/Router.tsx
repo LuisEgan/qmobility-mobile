@@ -7,7 +7,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import {
   ASYNC_STORAGE_ITEMS,
   AUTH_STACK_SCREENS_NAMES,
-  APP_STACK_SCREENS_NAMES,
 } from "../lib/constants";
 import { AsyncStorage } from "react-native";
 import { AppLoading } from "expo";
@@ -53,9 +52,8 @@ const Router = () => {
   ) : (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.MyCars}>
-          {/* {userToken ? AppNavigator() : AuthNavigator()} */}
-          {AppNavigator()}
+        <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.Access}>
+          {userToken ? AppNavigator() : AuthNavigator()}
         </Navigator>
       </NavigationContainer>
     </AuthContext.Provider>
