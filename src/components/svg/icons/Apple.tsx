@@ -9,7 +9,7 @@ const Apple = (props: ISVG) => {
     <Svg
       height="100%"
       width="100%"
-      viewBox="0 0 24 24"
+      viewBox="0 0 456.008 560.035"
       fill={fill}
       stroke-width="2"
       stroke-linecap="round"

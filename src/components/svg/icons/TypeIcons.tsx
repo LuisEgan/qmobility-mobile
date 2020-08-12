@@ -8,6 +8,10 @@ export type TIcon =
   | "ArrowDownLight"
   | "Info"
   | "Email"
+  | "Google"
+  | "Facebook"
+  | "LinkedIn"
+  | "Apple"
   | "Error";
 
 export interface ISVG {

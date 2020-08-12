@@ -9,14 +9,14 @@ const LinkedIn = (props: ISVG) => {
     <Svg
       height="100%"
       width="100%"
-      viewBox="0 0 24 24"
+      viewBox="0 0 2500 2389"
       fill={fill}
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
     >
       <Path
-        fill={fill || "#0076B3"}
+        fill={"#0076B3"}
         stroke={stroke}
         d="M0,277.5c0-80.4,28.2-146.8,84.5-199.1C140.8,26.1,214,0,304.1,0c88.5,0,160.1,25.7,214.8,77.2
 	c56.3,53.1,84.5,122.3,84.5,207.5c0,77.2-27.3,141.6-82,193.1c-56.3,53.1-130.3,79.6-222,79.6h-2.4c-88.5,0-160.1-26.5-214.8-79.6
