@@ -8,6 +8,7 @@ import {
   ArrowForward,
   ArrowUpLight,
   ArrowDownLight,
+  ArrowBackLight,
   Info,
   Email,
   Menu,
@@ -16,6 +17,9 @@ import {
   LinkedIn,
   Google,
   Apple,
+  Done,
+  Mic,
+  MoreVert,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -34,6 +38,7 @@ const icons = {
   ArrowForward: (props: Iicons) => <ArrowForward {...props} />,
   ArrowUpLight: (props: Iicons) => <ArrowUpLight {...props} />,
   ArrowDownLight: (props: Iicons) => <ArrowDownLight {...props} />,
+  ArrowBackLight: (props: Iicons) => <ArrowBackLight {...props} />,
   Info: (props: Iicons) => <Info {...props} />,
   Email: (props: Iicons) => <Email {...props} />,
   Menu: (props: Iicons) => <Menu {...props} />,
@@ -43,6 +48,9 @@ const icons = {
   LinkedIn: (props: Iicons) => <LinkedIn {...props} />,
   Google: (props: Iicons) => <Google {...props} />,
   Apple: (props: Iicons) => <Apple {...props} />,
+  Done: (props: Iicons) => <Done {...props} />,
+  Mic: (props: Iicons) => <Mic {...props} />,
+  MoreVert: (props: Iicons) => <MoreVert {...props} />,
 };
 
 const Icons = (props: Iicons) => {

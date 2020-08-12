@@ -6,6 +6,7 @@ export type TIcon =
   | "ArrowForward"
   | "ArrowUpLight"
   | "ArrowDownLight"
+  | "ArrowBackLight"
   | "Info"
   | "Email"
   | "Menu"
@@ -14,6 +15,9 @@ export type TIcon =
   | "Facebook"
   | "LinkedIn"
   | "Apple"
+  | "Done"
+  | "Mic"
+  | "MoreVert"
   | "Error";
 
 export interface ISVG {
