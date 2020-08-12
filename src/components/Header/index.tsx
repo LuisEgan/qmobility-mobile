@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     elevation: 99,
     zIndex: 99,
-    top: "21%",
+    top: "29%",
     left: "1%",
   },
   contentStyle: {

@@ -27,13 +27,15 @@ const Router = () => {
   // * Set user token from cached data
   useEffect(() => {
     const setInitialUserToken = async () => {
-      let userToken: TUserToken = null;
+      let newUserToken: TUserToken = null;
       try {
-        userToken = await AsyncStorage.getItem(ASYNC_STORAGE_ITEMS.USER_TOKEN);
+        newUserToken = await AsyncStorage.getItem(
+          ASYNC_STORAGE_ITEMS.USER_TOKEN
+        );
       } catch (error) {
         console.error("error: ", error);
       } finally {
-        setUserToken(userToken);
+        setUserToken(newUserToken);
         setIsLoading(false);
       }
     };
