@@ -6,3 +6,7 @@ export { default as ArrowDownLight } from "./ArrowDownLight";
 export { default as Info } from "./Info";
 export { default as Email } from "./Email";
 export { default as Error } from "./Error";
+export { default as Apple } from "./Apple";
+export { default as Facebook } from "./Facebook";
+export { default as LinkedIn } from "./LinkedIn";
+export { default as Google } from "./Google";

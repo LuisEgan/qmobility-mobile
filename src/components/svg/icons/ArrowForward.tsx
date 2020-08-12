@@ -1,14 +1,8 @@
-/** @format */
-
 import React from "react";
 import Svg, { Path } from "react-native-svg";
+import { ISVG } from "./TypeIcons";
 
-interface IArrowForward {
-  fill: string | number;
-  stroke: string | number;
-}
-
-const ArrowForward = (props: IArrowForward) => {
+const ArrowForward = (props: ISVG) => {
   const { fill, stroke } = props;
 
   return (
@@ -31,7 +25,7 @@ const ArrowForward = (props: IArrowForward) => {
 };
 
 ArrowForward.defaultProps = {
-  fill: "white", // contenido
+  fill: "white",
   stroke: "white",
 };
 

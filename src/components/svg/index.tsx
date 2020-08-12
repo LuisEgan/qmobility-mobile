@@ -10,6 +10,10 @@ import {
   ArrowDownLight,
   Info,
   Email,
+  Facebook,
+  LinkedIn,
+  Google,
+  Apple,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -31,6 +35,10 @@ const icons = {
   Info: (props: Iicons) => <Info {...props} />,
   Email: (props: Iicons) => <Email {...props} />,
   Error: (props: Iicons) => <Error {...props} />,
+  Facebook: (props: Iicons) => <Facebook {...props} />,
+  LinkedIn: (props: Iicons) => <LinkedIn {...props} />,
+  Google: (props: Iicons) => <Google {...props} />,
+  Apple: (props: Iicons) => <Apple {...props} />,
 };
 
 const Icons = (props: Iicons) => {

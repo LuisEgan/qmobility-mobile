@@ -1,14 +1,8 @@
-/** @format */
-
 import React from "react";
 import Svg, { Path } from "react-native-svg";
+import { ISVG } from "./TypeIcons";
 
-interface IArrowUpLight {
-  fill: string | number;
-  stroke: string | number;
-}
-
-const ArrowUpLight = (props: IArrowUpLight) => {
+const ArrowUpLight = (props: ISVG) => {
   const { fill, stroke } = props;
 
   return (
@@ -31,7 +25,7 @@ const ArrowUpLight = (props: IArrowUpLight) => {
 };
 
 ArrowUpLight.defaultProps = {
-  fill: "white", // contenido
+  fill: "white",
   stroke: "white",
 };
 

@@ -1,14 +1,8 @@
-/** @format */
-
 import React from "react";
 import Svg, { Path } from "react-native-svg";
+import { ISVG } from "./TypeIcons";
 
-interface IArrowBack {
-  fill: string | number;
-  stroke: string | number;
-}
-
-const ArrowBack = (props: IArrowBack) => {
+const ArrowBack = (props: ISVG) => {
   const { fill, stroke } = props;
 
   return (
@@ -31,7 +25,7 @@ const ArrowBack = (props: IArrowBack) => {
 };
 
 ArrowBack.defaultProps = {
-  fill: "white", // contenido
+  fill: "white",
   stroke: "white",
 };
 
