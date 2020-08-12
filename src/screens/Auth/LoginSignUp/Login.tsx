@@ -64,10 +64,10 @@ const Login = () => {
       </View>
 
       <View style={styles.social}>
-        <Icons icon="Google" />
+        <Auth.Google />
         <Auth.Facebook />
-        <Icons icon="LinkedIn" />
-        <Icons icon="Apple" />
+        <Auth.LinkedIn />
+        <Auth.Apple />
       </View>
 
       <Text variant="body" style={styles.or}>

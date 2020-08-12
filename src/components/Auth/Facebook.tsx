@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import { useMutation } from "@apollo/client/react/hooks/useMutation";
 import * as FacebookExpo from "expo-facebook";
 import Icons from "../svg";
-import {
-  ILongWithFacebook,
-  ILongWithFacebookVars,
-} from "../../gql/User/mutations";
 import { ERRORS } from "../../lib/constants";
 import { User } from "../../gql";
+import {
+  ISocialNetworkLogin,
+  ISocialNetworkLoginVars,
+} from "../../gql/User/mutations";
 
 const Facebook = () => {
   const [fbLogin, { data: fbData }] = useMutation<
-    { fbLogin: ILongWithFacebook },
-    ILongWithFacebookVars
+    { fbLogin: ISocialNetworkLogin },
+    ISocialNetworkLoginVars
   >(User.mutations.loginWithFacebook);
 
   useEffect(() => {

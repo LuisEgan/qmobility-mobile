@@ -1,12 +1,13 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { Button, Input, Icons } from "../../../components";
+import { Button, Input } from "../../../components";
 
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
 import { ScrollView } from "react-native-gesture-handler";
+import Auth from "../../../components/Auth";
 
 const { width, height } = Dimensions.get("window");
 
@@ -62,10 +63,10 @@ const SignUp = () => {
       </View>
 
       <View style={styles.social}>
-        <Icons icon="Google" onPress={() => googleSignIn()} />
-        <Icons icon="Facebook" />
-        <Icons icon="LinkedIn" />
-        <Icons icon="Apple" />
+        <Auth.Google />
+        <Auth.Facebook />
+        <Auth.LinkedIn />
+        <Auth.Apple />
       </View>
 
       <Text variant="body" style={styles.or}>
