@@ -1,27 +1,19 @@
 import React, { useEffect } from "react";
+import { useMutation } from "@apollo/client/react/hooks/useMutation";
 import * as FacebookExpo from "expo-facebook";
 import Icons from "../svg";
-import { useMutation } from "@apollo/client/react/hooks/useMutation";
 import {
   ILongWithFacebook,
   ILongWithFacebookVars,
 } from "../../gql/User/mutations";
 import { ERRORS } from "../../lib/constants";
-import { gql } from "@apollo/client";
-
-const loginWithFacebook = gql`
-  mutation LoginWithFacebook($accessToken: String!) {
-    loginWithFacebook(socialNetworkLogInInput: { accessToken: $accessToken }) {
-      accessToken
-    }
-  }
-`;
+import { User } from "../../gql";
 
 const Facebook = () => {
   const [fbLogin, { data: fbData }] = useMutation<
     { fbLogin: ILongWithFacebook },
     ILongWithFacebookVars
-  >(loginWithFacebook);
+  >(User.mutations.loginWithFacebook);
 
   useEffect(() => {
     if (fbData) {
@@ -47,7 +39,7 @@ const Facebook = () => {
         throw new Error(ERRORS.LOGIN_FAILED);
       }
     } catch ({ message }) {
-      console.error("message: ", message);
+      alert(message);
     }
   };
 
