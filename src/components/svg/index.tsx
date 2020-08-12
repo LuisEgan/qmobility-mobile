@@ -20,6 +20,7 @@ import {
   Done,
   Mic,
   MoreVert,
+  CompassWithCircles,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -51,6 +52,7 @@ const icons = {
   Done: (props: Iicons) => <Done {...props} />,
   Mic: (props: Iicons) => <Mic {...props} />,
   MoreVert: (props: Iicons) => <MoreVert {...props} />,
+  CompassWithCircles: (props: Iicons) => <CompassWithCircles {...props} />,
 };
 
 const Icons = (props: Iicons) => {
