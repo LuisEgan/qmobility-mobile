@@ -1,23 +1,13 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
-import { InputSearch, Icons } from "../../../components";
+import { View, StyleSheet } from "react-native";
+import { InputSearch } from "../../../components";
 import { Text } from "../../../config/Theme";
 
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
+import Card from "./Card";
+import List from "./List";
 
 interface IListFavorite {
-  title: string;
-  subTitle: string;
-}
-
-interface IListHistory {
-  icon: TIcon;
   title: string;
   subTitle: string;
 }
@@ -34,6 +24,12 @@ const listFavorite: IListFavoriteArray = [
     subTitle: "Kennington Oval, London",
   },
 ];
+
+interface IListHistory {
+  icon: TIcon;
+  title: string;
+  subTitle: string;
+}
 
 interface IHistoryArray extends Array<IListHistory> {}
 
@@ -115,76 +111,24 @@ const listHistory: IHistoryArray = [
   },
 ];
 
-const { width, height } = Dimensions.get("window");
-
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
-
-  const Favorite = ({ title, subTitle }: IListFavorite) => {
-    return (
-      <TouchableOpacity style={styles.contentFavorite}>
-        <View style={styles.favoriteContainer}>
-          <View style={styles.favoriteContent}>
-            <Icons icon="Menu" fill="#00B0F0" size={25} />
-          </View>
-          <Text variant="heading2" style={styles.favoriteTextStyle}>
-            {title}
-          </Text>
-        </View>
-        <Text variant="label" style={styles.favoriteTextStyle}>
-          {subTitle}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-
-  const History = ({ icon, title, subTitle }: IListHistory) => {
-    return (
-      <TouchableOpacity style={styles.scrollContent}>
-        <View style={styles.scrollViewLeft}>
-          <Icons icon={icon} fill="#00B0F0" size={20} />
-        </View>
-        <View style={styles.scrollContentText}>
-          <Text variant="body">{title}</Text>
-          <Text variant="label">{subTitle}</Text>
-        </View>
-        <TouchableOpacity style={styles.scrollViewRight}>
-          <Icons icon="MoreVert" fill="#ACACAC" size={20} />
-        </TouchableOpacity>
-      </TouchableOpacity>
-    );
-  };
 
   return (
     <View style={styles.container}>
       <InputSearch
         placeholder="Where are you going?"
-        onChange={() => {
-          console.log("a");
+        onChange={(str) => {
+          setSearch(str);
         }}
       />
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        horizontal={true}
-        style={{ height: 80 }}
-      >
-        {listFavorite &&
-          listFavorite.map((place, i) => {
-            return <Favorite key={`${place.title}_${i}`} {...place} />;
-          })}
-      </ScrollView>
-      <View style={styles.contentTextStyle}>
-        <Text style={styles.textStyle} variant="label">
+      <Card ArrayList={listFavorite} />
+      <View style={styles.content}>
+        <Text style={styles.text} variant="label">
           RECENT
         </Text>
       </View>
-      <ScrollView style={styles.scrollContainer}>
-        {listHistory &&
-          listHistory.map((place, i) => {
-            return <History key={`${place.title}_${i}`} {...place} />;
-          })}
-        <View style={{ height: 80 }} />
-      </ScrollView>
+      <List ArrayList={listHistory} filter={search} />
     </View>
   );
 };
@@ -194,61 +138,11 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: "5%",
   },
-  contentFavorite: {
-    height: 80,
-    width: width * 0.45,
-    marginHorizontal: width * 0.03,
-    borderRadius: 10,
-    padding: 10,
-    backgroundColor: "#002060",
-  },
-  favoriteContainer: {
-    flexDirection: "row",
-  },
-  favoriteContent: {
-    marginHorizontal: 5,
-  },
-  favoriteTextStyle: {
-    color: "#fff",
-  },
-  textStyle: {
-    marginVertical: "1%",
-  },
-  contentTextStyle: {
+  content: {
     height: 50,
     justifyContent: "center",
   },
-  scrollContainer: {
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    height: height * 0.7,
-  },
-  scrollContent: {
-    flexDirection: "row",
-    marginHorizontal: "5%",
-    marginVertical: 10,
-    borderBottomColor: "#F2F2F2",
-    borderBottomWidth: 1,
-    justifyContent: "space-between",
-  },
-  scrollViewLeft: {
-    marginRight: "3%",
-    justifyContent: "center",
-    paddingVertical: 20,
-    alignItems: "center",
-    width: width * 0.07,
-  },
-  scrollContentText: {
-    alignItems: "flex-start",
-    justifyContent: "center",
-    width: width * 0.6,
-  },
-  scrollViewRight: {
-    marginLeft: "3%",
-    justifyContent: "center",
-    paddingVertical: 20,
-    alignItems: "center",
-    width: width * 0.07,
+  text: {
+    marginVertical: "1%",
   },
 });
