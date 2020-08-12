@@ -11,7 +11,7 @@ export interface ISocialNetworkLoginVars {
 // * Facebook Login
 const loginWithFacebook = gql`
   mutation LoginWithFacebook($accessToken: String!) {
-    loginWithFacebook(socialNetworkLogInInput: { accessToken: $accessToken }) {
+    loginWithFacebook(facebookLogInInput: { accessToken: $accessToken }) {
       accessToken
     }
   }
@@ -20,7 +20,7 @@ const loginWithFacebook = gql`
 // * Google Login
 const loginWithGoogle = gql`
   mutation LoginWithGoogle($accessToken: String!) {
-    loginWithGoogle(socialNetworkLogInInput: { accessToken: $accessToken }) {
+    loginWithGoogle(googleLogInInput: { accessToken: $accessToken }) {
       accessToken
     }
   }
@@ -29,7 +29,7 @@ const loginWithGoogle = gql`
 // * LinkedIn Login
 const loginWithLinkedIn = gql`
   mutation LoginWithLinkedIn($accessToken: String!) {
-    loginWithLinkedIn(socialNetworkLogInInput: { accessToken: $accessToken }) {
+    loginWithLinkedIn(linkedInLogInInput: { accessToken: $accessToken }) {
       accessToken
     }
   }
@@ -38,7 +38,7 @@ const loginWithLinkedIn = gql`
 // * Apple Login
 const loginWithApple = gql`
   mutation LoginWithApple($accessToken: String!) {
-    loginWithApple(socialNetworkLogInInput: { accessToken: $accessToken }) {
+    loginWithApple(appleLogInInput: { accessToken: $accessToken }) {
       accessToken
     }
   }
