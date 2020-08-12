@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from "react";
-import { View, StyleSheet, Dimensions, Image } from "react-native";
+import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
 import { Header, Icons, Footer } from "../../../components";
 import { Text } from "../../../config/Theme";
 import { TTCsNavProps } from "../../../navigation/NavPropsTypes";
@@ -24,44 +24,62 @@ const MyCars = (props: IMyCars) => {
     });
   }, [navigation]);
 
+  const listMyCars = [
+    {
+      img: "https://reactnative.dev/img/tiny_logo.png",
+      name: "Nissan Leaf Acenta 40",
+      title: "Default eve",
+      subTitle: "Default eve",
+    },
+    {
+      img: "https://reactnative.dev/img/tiny_logo.png",
+      name: "Nissan Leaf Acenta 40",
+      title: "Default eve",
+      subTitle: "Default eve",
+    },
+  ];
+
+  const listCar = (
+    img: string,
+    name: string,
+    title: string,
+    subTitle: string
+  ): JSX.Element => {
+    return (
+      <View style={styles.cardCar}>
+        <View style={styles.costentCar}>
+          <View style={styles.contentImage}>
+            <Image
+              style={styles.tinyLogo}
+              source={{
+                uri: img,
+              }}
+            />
+          </View>
+          <View>
+            <Text style={styles.textStyleCars} variant="heading2">
+              {name}
+            </Text>
+            <Text style={styles.textStyleCars} variant="body">
+              {title}
+            </Text>
+            <Text variant="bodyHighlight">{subTitle}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: "5%",
-          }}
-        >
-          <Text variant="titleProfile">Your Comparison vehicles</Text>
+      <ScrollView style={styles.content}>
+        <View style={styles.containerTtitleEdition}>
+          <Text variant="label">Your Comparison vehicles</Text>
           <Icons icon="Edit" fill="#ACACAC" size={15} />
         </View>
-        <View
-          style={{
-            width: "100%",
-            height: 80,
-            borderWidth: 1,
-            borderRadius: 10,
-            borderColor: "#ACACAC",
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              flex: 1,
-              justifyContent: "space-evenly",
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 50,
-                backgroundColor: "#00D6FD",
-              }}
-            >
+        <View style={styles.cardMyCar}>
+          <View style={styles.costentCar}>
+            <View style={styles.contentImage}>
               <Image
                 style={styles.tinyLogo}
                 source={{
@@ -70,21 +88,19 @@ const MyCars = (props: IMyCars) => {
               />
             </View>
             <View>
-              <Text variant="title">Jon´s Mercedes</Text>
-              <Text variant="subTitleFooter">Model s</Text>
+              <Text variant="heading2">Jon´s Mercedes</Text>
+              <Text variant="bodyHighlight">Model s</Text>
             </View>
           </View>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: "5%",
-          }}
-        >
-          <Text variant="titleProfile">Virtual vehicles</Text>
+        <View style={styles.containerTtitleEdition}>
+          <Text variant="label">Virtual vehicles</Text>
         </View>
-      </View>
+
+        {listMyCars.map((x): void => {
+          return listCar(x.img, x.name, x.title, x.subTitle);
+        })}
+      </ScrollView>
       <Footer
         title="Feeling a bit adventurous today?"
         subTitle="Check our catalogue"
@@ -103,14 +119,43 @@ const styles = StyleSheet.create({
     marginHorizontal: "5%",
     height: height * 0.69,
   },
-
-  viewStyle: {
+  containerTtitleEdition: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginVertical: "5%",
   },
-  textSelectStyle: {},
+  cardMyCar: {
+    width: "100%",
+    height: 80,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#ACACAC",
+  },
+  costentCar: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+  },
+  contentImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    marginHorizontal: "5%",
+    backgroundColor: "#00D6FD",
+  },
   tinyLogo: {
     width: 50,
     height: 50,
     borderRadius: 50,
+  },
+  cardCar: {
+    width: "100%",
+    marginVertical: "1%",
+    height: 120,
+    borderRadius: 10,
+    backgroundColor: "#002060",
+  },
+  textStyleCars: {
+    color: "#fff",
   },
 });

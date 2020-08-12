@@ -1,14 +1,8 @@
-/** @format */
-
 import React from "react";
 import Svg, { Path } from "react-native-svg";
+import { ISVG } from "./TypeIcons";
 
-interface IEmail {
-  fill: string | number;
-  stroke: string | number;
-}
-
-const Email = (props: IEmail) => {
+const Email = (props: ISVG) => {
   const { fill, stroke } = props;
 
   return (
@@ -31,7 +25,7 @@ const Email = (props: IEmail) => {
 };
 
 Email.defaultProps = {
-  fill: "white", // contenido
+  fill: "white",
   stroke: "white",
 };
 

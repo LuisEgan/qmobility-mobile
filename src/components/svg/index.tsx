@@ -12,6 +12,10 @@ import {
   Email,
   Menu,
   Edit,
+  Facebook,
+  LinkedIn,
+  Google,
+  Apple,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -35,6 +39,10 @@ const icons = {
   Menu: (props: Iicons) => <Menu {...props} />,
   Edit: (props: Iicons) => <Edit {...props} />,
   Error: (props: Iicons) => <Error {...props} />,
+  Facebook: (props: Iicons) => <Facebook {...props} />,
+  LinkedIn: (props: Iicons) => <LinkedIn {...props} />,
+  Google: (props: Iicons) => <Google {...props} />,
+  Apple: (props: Iicons) => <Apple {...props} />,
 };
 
 const Icons = (props: Iicons) => {

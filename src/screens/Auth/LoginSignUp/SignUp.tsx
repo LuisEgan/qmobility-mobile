@@ -1,25 +1,32 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Button, Input } from "../../../components";
+import React, { useContext } from "react";
+import { View, StyleSheet, Dimensions } from "react-native";
+import { Button, Input, Icons } from "../../../components";
 
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
+import AuthContext from "../../../navigation/AuthContext";
+import { ScrollView } from "react-native-gesture-handler";
+
+const { width, height } = Dimensions.get("window");
 
 interface IFormValues {
   emailAddress: string;
   password: string;
 }
 
-const SignupSchema = yup.object().shape({
+const SignUpSchema = yup.object().shape({
   emailAddress: yup.string().email(),
   password: yup.string().required("Required"),
 });
 
 const SignUp = () => {
-  const signUp = (values: IFormValues): void => {
-    console.log("SignUp -> values", values);
+  const { emailSignIn, googleSignIn } = useContext(AuthContext);
+
+  const login = (values: IFormValues): void => {
+    console.log("values: ", values);
+    emailSignIn("Asdw");
   };
 
   const Form = (params: FormikProps<IFormValues>) => {
@@ -29,6 +36,7 @@ const SignUp = () => {
       <View>
         <View style={styles.contentViewIput}>
           <Input
+            containerStyle={{ marginHorizontal: 0 }}
             placeholder="Email Address"
             onChange={handleChange("emailAddress")}
             onBlur={handleBlur("emailAddress")}
@@ -36,6 +44,7 @@ const SignUp = () => {
             touched={touched.emailAddress}
           />
           <Input
+            containerStyle={{ marginHorizontal: 0 }}
             placeholder="Password"
             isPassword={true}
             onChange={handleChange("password")}
@@ -44,21 +53,23 @@ const SignUp = () => {
             touched={touched.password}
           />
         </View>
-        <Button
-          containerStyle={{ marginHorizontal: "10%" }}
-          variant="primary"
-          onPress={handleSubmit}
-          label="SIGN UP"
-        />
+        <Button variant="primary" onPress={handleSubmit} label="SIGN UP" />
       </View>
     );
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text variant="heading1">Welcome onboard!</Text>
-        <Text variant="subheadingLight">Please register to procced</Text>
+        <Text variant="heading1">Welcome Onboard!</Text>
+        <Text variant="subheadingLight">Please register to proceed</Text>
+      </View>
+
+      <View style={styles.social}>
+        <Icons icon="Google" onPress={() => googleSignIn()} />
+        <Icons icon="Facebook" />
+        <Icons icon="LinkedIn" />
+        <Icons icon="Apple" />
       </View>
 
       <Text variant="body" style={styles.or}>
@@ -67,12 +78,12 @@ const SignUp = () => {
 
       <Formik
         initialValues={{ emailAddress: "", password: "" }}
-        onSubmit={signUp}
-        validationSchema={SignupSchema}
+        onSubmit={login}
+        validationSchema={SignUpSchema}
       >
         {Form}
       </Formik>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -81,12 +92,23 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: width * 0.1,
   },
+
   content: {
-    marginHorizontal: "10%",
+    marginVertical: height * 0.05,
+  },
+
+  or: {
+    textAlign: "center",
+    marginVertical: height * 0.02,
+  },
+
+  social: {
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginVertical: "5%",
   },
-  or: { textAlign: "center" },
 
   contentViewIput: {
     marginBottom: "10%",

@@ -1,3 +1,5 @@
+import { rgbaArray } from "react-native-svg";
+
 export type TIcon =
   | "ArrowDown"
   | "ArrowBack"
@@ -8,4 +10,13 @@ export type TIcon =
   | "Email"
   | "Menu"
   | "Edit"
+  | "Google"
+  | "Facebook"
+  | "LinkedIn"
+  | "Apple"
   | "Error";
+
+export interface ISVG {
+  fill: string | number | rgbaArray;
+  stroke: string | number | rgbaArray;
+}

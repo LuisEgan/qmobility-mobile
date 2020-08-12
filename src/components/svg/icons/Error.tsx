@@ -1,14 +1,8 @@
-/** @format */
-
 import React from "react";
-import Svg, { Path, rgbaArray } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
+import { ISVG } from "./TypeIcons";
 
-interface IError {
-  fill: string | number | rgbaArray;
-  stroke: string | number | rgbaArray;
-}
-
-const Error = (props: IError) => {
+const Error = (props: ISVG) => {
   const { fill, stroke } = props;
 
   return (
@@ -31,7 +25,7 @@ const Error = (props: IError) => {
 };
 
 Error.defaultProps = {
-  fill: "red", // contenido
+  fill: "red",
   stroke: "red",
 };
 

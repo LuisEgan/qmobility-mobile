@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Button, Input, Icons } from "../../../components";
 
@@ -6,7 +6,6 @@ import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
-import { TLoginSignUpScreenProps } from "../../../navigation/Types/NavPropsTypes";
 import AuthContext from "../../../navigation/AuthContext";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -17,21 +16,13 @@ interface IFormValues {
   password: string;
 }
 
-interface ILogin extends TLoginSignUpScreenProps {}
-
-const SignupSchema = yup.object().shape({
-  // emailAddress: yup.string().email(),
-  // password: yup.string().required("Required"),
+const LoginSchema = yup.object().shape({
+  emailAddress: yup.string().email(),
+  password: yup.string().required("Required"),
 });
 
-const Login = (props: ILogin) => {
-  const { navigation } = props;
-
+const Login = () => {
   const { emailSignIn, googleSignIn } = useContext(AuthContext);
-
-  useLayoutEffect(() => {
-    navigation.setOptions({});
-  }, [navigation]);
 
   const login = (values: IFormValues): void => {
     console.log("values: ", values);
@@ -75,10 +66,10 @@ const Login = (props: ILogin) => {
       </View>
 
       <View style={styles.social}>
-        <Icons icon="Email" onPress={() => googleSignIn()} />
-        <Icons icon="Email" />
-        <Icons icon="Email" />
-        <Icons icon="Email" />
+        <Icons icon="Google" onPress={() => googleSignIn()} />
+        <Icons icon="Facebook" />
+        <Icons icon="LinkedIn" />
+        <Icons icon="Apple" />
       </View>
 
       <Text variant="body" style={styles.or}>
@@ -88,7 +79,7 @@ const Login = (props: ILogin) => {
       <Formik
         initialValues={{ emailAddress: "", password: "" }}
         onSubmit={login}
-        validationSchema={SignupSchema}
+        validationSchema={LoginSchema}
       >
         {Form}
       </Formik>
@@ -115,7 +106,7 @@ const styles = StyleSheet.create({
 
   social: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
     marginVertical: "5%",
   },
 
