@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { Button, Input, Icons } from "../../../components";
-
 import { Formik, FormikProps } from "formik";
+import { ScrollView } from "react-native-gesture-handler";
 import * as yup from "yup";
+
+import { Button, Input, Icons } from "../../../components";
 import { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
-import AuthContext from "../../../navigation/AuthContext";
-import { ScrollView } from "react-native-gesture-handler";
+import Auth from "../../../components/Auth";
 
 const { width, height } = Dimensions.get("window");
 
@@ -22,11 +22,9 @@ const LoginSchema = yup.object().shape({
 });
 
 const Login = () => {
-  const { emailSignIn, googleSignIn } = useContext(AuthContext);
-
-  const login = (values: IFormValues): void => {
+  // * Form Login
+  const formLogin = (values: IFormValues): void => {
     console.log("values: ", values);
-    emailSignIn("Asdw");
   };
 
   const Form = (params: FormikProps<IFormValues>) => {
@@ -66,8 +64,8 @@ const Login = () => {
       </View>
 
       <View style={styles.social}>
-        <Icons icon="Google" onPress={() => googleSignIn()} />
-        <Icons icon="Facebook" />
+        <Icons icon="Google" />
+        <Auth.Facebook />
         <Icons icon="LinkedIn" />
         <Icons icon="Apple" />
       </View>
@@ -78,7 +76,7 @@ const Login = () => {
 
       <Formik
         initialValues={{ emailAddress: "", password: "" }}
-        onSubmit={login}
+        onSubmit={formLogin}
         validationSchema={LoginSchema}
       >
         {Form}

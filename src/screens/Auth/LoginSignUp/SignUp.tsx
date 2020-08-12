@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Button, Input, Icons } from "../../../components";
 
@@ -6,7 +6,6 @@ import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
-import AuthContext from "../../../navigation/AuthContext";
 import { ScrollView } from "react-native-gesture-handler";
 
 const { width, height } = Dimensions.get("window");
@@ -22,11 +21,8 @@ const SignUpSchema = yup.object().shape({
 });
 
 const SignUp = () => {
-  const { emailSignIn, googleSignIn } = useContext(AuthContext);
-
   const login = (values: IFormValues): void => {
     console.log("values: ", values);
-    emailSignIn("Asdw");
   };
 
   const Form = (params: FormikProps<IFormValues>) => {

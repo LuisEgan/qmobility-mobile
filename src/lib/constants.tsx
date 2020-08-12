@@ -3,6 +3,7 @@ export const ERRORS = {
   WRONG_PASSWORD: "Wrong password",
   USER_NOT_FOUND: "User not found",
   REQUIRED: "Mandatory field",
+  LOGIN_FAILED: "Login failed",
 };
 
 export const AUTH_REDUCER_TYPES = {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import AuthNavigator from "./AuthStack";
 import AppNavigator from "./AppStack";
 import { TAllNavProps } from "./Types/NavPropsTypes";
@@ -10,7 +10,6 @@ import {
 } from "../lib/constants";
 import { AsyncStorage } from "react-native";
 import { AppLoading } from "expo";
-import AuthContext, { authMethods } from "./AuthContext";
 import { TUserToken } from "./Types/AuthTypes";
 
 const { Navigator } = createStackNavigator();
@@ -42,19 +41,14 @@ const Router = () => {
     setInitialUserToken();
   }, []);
 
-  // * Auth context methods
-  const authContext = useMemo(authMethods({ setUserToken }), []);
-
   return isLoading ? (
     <AppLoading />
   ) : (
-    <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
-        <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.Access}>
-          {userToken ? AppNavigator() : AuthNavigator()}
-        </Navigator>
-      </NavigationContainer>
-    </AuthContext.Provider>
+    <NavigationContainer>
+      <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.Access}>
+        {userToken ? AppNavigator() : AuthNavigator()}
+      </Navigator>
+    </NavigationContainer>
   );
 };
 
