@@ -54,7 +54,8 @@ export default InputSearch;
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: "5%",
-    marginVertical: "10%",
+    marginTop: "10%",
+    marginBottom: "5%",
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "#fff",

@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   container: {},
   contentFavorite: {
     height: 80,
-    width: width * 0.5,
+    width: width * 0.45,
     marginHorizontal: width * 0.03,
     borderRadius: 10,
     padding: 10,
