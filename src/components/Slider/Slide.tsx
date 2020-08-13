@@ -6,7 +6,8 @@ import theme, { Text } from "../../config/Theme";
 export interface ISlide {
   title: string;
   text: string;
-  icon: ImageSourcePropType;
+  imgSource?: ImageSourcePropType;
+  svgIcon?: JSX.Element;
   width?: number;
   backgroundColor?: string;
   titleColor?: string;
@@ -21,7 +22,8 @@ const Slide = (props: ISLideProps) => {
   const {
     title,
     text,
-    icon,
+    imgSource,
+    svgIcon,
     width,
     index,
     currentIndex,
@@ -60,7 +62,7 @@ const Slide = (props: ISLideProps) => {
           },
         ]}
       >
-        <Image source={icon}></Image>
+        {imgSource ? <Image source={imgSource} /> : svgIcon}
 
         <Text variant="heading1" color={titleColor} style={styles.title}>
           {title}
