@@ -8,17 +8,35 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface IHeader {
   onPress?: () => void;
+  onPressRight?: () => void;
   title?: string;
   subTitle?: string;
   icon?: TIcon;
+  iconRight?: TIcon;
   color?: string;
   height?: number;
+  text?: string;
+  textRight?: string;
 }
 
 const { width, height } = Dimensions.get("window");
 
 const Header = (props: IHeader) => {
-  const { height: heightProp, onPress, title, subTitle, icon, color } = props;
+  const {
+    height: heightProp,
+    title,
+    subTitle,
+
+    onPress,
+    icon,
+    text,
+
+    onPressRight,
+    iconRight,
+    textRight,
+
+    color,
+  } = props;
 
   const containerHeight = heightProp ? { height: heightProp } : {};
 
@@ -32,19 +50,29 @@ const Header = (props: IHeader) => {
         },
       ]}
     >
-      {icon &&
+      {(icon || text) &&
         (onPress ? (
           <View style={styles.iconStyle}>
             <TouchableOpacity
               onPress={() => onPress()}
               style={styles.touchableOpacityStyle}
             >
-              <Icons size={30} icon={icon} />
+              {icon && <Icons size={30} icon={icon} />}
+              {text && (
+                <Text variant="body" style={styles.text}>
+                  {text}
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         ) : (
           <View style={styles.iconStyle}>
-            <Icons size={30} icon={icon} />
+            {text && (
+              <Text variant="body" style={styles.text}>
+                {text}
+              </Text>
+            )}
+            {icon && <Icons size={30} icon={icon} />}
           </View>
         ))}
       <View style={styles.contentStyle}>
@@ -53,6 +81,32 @@ const Header = (props: IHeader) => {
           {subTitle && <Text variant="subheadingLight">{subTitle}</Text>}
         </View>
       </View>
+
+      {(iconRight || textRight) &&
+        (onPressRight ? (
+          <View style={styles.iconRightStyle}>
+            <TouchableOpacity
+              onPress={() => onPressRight()}
+              style={styles.touchableOpacityStyle}
+            >
+              {iconRight && <Icons size={30} icon={iconRight} />}
+              {textRight && (
+                <Text variant="body" style={styles.text}>
+                  {textRight}
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.iconRightStyle}>
+            {iconRight && <Icons size={30} icon={iconRight} />}
+            {textRight && (
+              <Text variant="body" style={styles.text}>
+                {textRight}
+              </Text>
+            )}
+          </View>
+        ))}
     </View>
   );
 };
@@ -68,20 +122,32 @@ const heightPor = Platform.OS === "ios" ? 0.21 : 0.23;
 const styles = StyleSheet.create({
   container: {
     height: height * heightPor,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#ACACAC",
   },
   touchableOpacityStyle: {
-    width: 45,
+    width: 70,
     justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
     height: 45,
     borderRadius: 30,
   },
   iconStyle: {
+    flexDirection: "row",
     position: "absolute",
     elevation: 99,
     zIndex: 99,
     top: height * 0.05,
-    left: width * 0.05,
+    left: width * 0.02,
+  },
+  iconRightStyle: {
+    flexDirection: "row",
+    position: "absolute",
+    elevation: 99,
+    zIndex: 99,
+    top: height * 0.05,
+    right: width * 0.02,
   },
   contentStyle: {
     width: width,
@@ -97,5 +163,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 50,
     borderRadius: 25,
+  },
+  text: {
+    paddingHorizontal: 5,
+    alignSelf: "center",
   },
 });

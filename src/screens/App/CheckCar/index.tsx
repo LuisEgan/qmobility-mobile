@@ -92,11 +92,7 @@ const MyCars = (props: IMyCars) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () => (
-        <Header
-          title="Profile Created"
-          subTitle="Well done"
-          color="#00000029"
-        />
+        <Header title="Profile Created" subTitle="Well done" color="#E9ECF4" />
       ),
     });
   }, [navigation]);
@@ -107,7 +103,7 @@ const MyCars = (props: IMyCars) => {
         style={[
           styles.cardCar,
           {
-            backgroundColor: type ? "#002060" : "#00000029",
+            backgroundColor: type ? "#002060" : "#E9ECF4",
           },
         ]}
       >

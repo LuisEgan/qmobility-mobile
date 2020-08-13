@@ -132,7 +132,6 @@ export default ImageProfile;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: "5%",
     marginVertical: "5%",
   },
   content: {

@@ -18,7 +18,7 @@ const ProfileScroll = (props: IProfileScroll) => {
         <Header
           title="Create my Profile"
           subTitle="Add your personal traits"
-          color="#00000029"
+          color="#E9ECF4"
         />
       ),
     });

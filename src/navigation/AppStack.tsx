@@ -7,6 +7,8 @@ import {
   ProfileScroll,
   CheckCar,
   SearchRouter,
+  EditProfile,
+  Profile,
 } from "../screens/App";
 import { APP_STACK_SCREENS_NAMES } from "../lib/constants";
 
@@ -38,6 +40,16 @@ export const APP_STACK_SCREENS: IScreens = [
   {
     name: APP_STACK_SCREENS_NAMES.SearchRouter,
     component: SearchRouter,
+  },
+  {
+    name: APP_STACK_SCREENS_NAMES.EditProfile,
+    component: EditProfile,
+    headerShown: true,
+  },
+  {
+    name: APP_STACK_SCREENS_NAMES.Profile,
+    component: Profile,
+    headerShown: true,
   },
 ];
 

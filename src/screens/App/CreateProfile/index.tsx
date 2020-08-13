@@ -45,7 +45,7 @@ const CreateProfile = (props: ICreateProfile) => {
         <Header
           title="Create my Profile"
           subTitle="To store all your info in one place"
-          color="#00000029"
+          color="#E9ECF4"
         />
       ),
     });

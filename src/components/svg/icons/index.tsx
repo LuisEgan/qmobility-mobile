@@ -17,3 +17,4 @@ export { default as Done } from "./Done";
 export { default as Mic } from "./Mic";
 export { default as MoreVert } from "./MoreVert";
 export { default as CompassWithCircles } from "./CompassWithCircles";
+export { default as Delete } from "./Delete";
