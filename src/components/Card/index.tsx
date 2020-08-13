@@ -1,21 +1,14 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  StyleProp,
-  ViewStyle,
-} from "react-native";
+import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import Icons from "../svg";
 import { Text } from "../../config/Theme";
 import { TIcon } from "../svg/icons/TypeIcons";
+import { IComponentsDefaults } from "../../lib/Types";
 
-interface ICard {
+interface ICard extends IComponentsDefaults {
   title: string;
   subTitle?: string;
   icon?: TIcon;
-  containerStyle?: StyleProp<ViewStyle>;
 }
 
 const { width } = Dimensions.get("window");
@@ -56,6 +49,7 @@ const styles = StyleSheet.create({
     width: width * 0.43,
     borderRadius: 10,
     padding: 10,
+    // ! Fix - colors should only come from Theme
     backgroundColor: "#002060",
   },
   favoriteContainer: {
@@ -65,6 +59,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   text: {
+    // ! Fix - colors should only come from Theme
     color: "#fff",
   },
 });

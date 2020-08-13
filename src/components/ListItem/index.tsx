@@ -2,14 +2,13 @@ import React from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import Icons from "../svg";
 import { Text } from "../../config/Theme";
-import { StyleProp, ViewStyle } from "react-native";
 import { TIcon } from "../svg/icons/TypeIcons";
+import { IComponentsDefaults } from "../../lib/Types";
 
-interface IListItem {
+interface IListItem extends IComponentsDefaults {
   icon?: TIcon;
   title: string;
   subTitle?: string;
-  containerStyle?: StyleProp<ViewStyle>;
 }
 const { width } = Dimensions.get("window");
 
@@ -20,6 +19,7 @@ const ListItem = (props: IListItem) => {
     <TouchableOpacity style={[styles.container, containerStyle]}>
       {icon && (
         <View style={styles.viewLeft}>
+          // ! Fix - colors should only come from Theme
           <Icons icon={icon} fill="#00B0F0" size={20} />
         </View>
       )}
@@ -28,6 +28,7 @@ const ListItem = (props: IListItem) => {
         {subTitle && <Text variant="label">{subTitle}</Text>}
       </View>
       <TouchableOpacity style={styles.viewRight}>
+        // ! Fix - colors should only come from Theme
         <Icons icon="MoreVert" fill="#ACACAC" size={20} />
       </TouchableOpacity>
     </TouchableOpacity>
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: "5%",
     marginVertical: 10,
+    // ! Fix - colors should only come from Theme
     borderBottomColor: "#F2F2F2",
     borderBottomWidth: 1,
     justifyContent: "space-between",

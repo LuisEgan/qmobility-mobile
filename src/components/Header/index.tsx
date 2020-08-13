@@ -58,6 +58,7 @@ const Header = (props: IHeader) => {
 };
 
 Header.defaultProps = {
+  // ! Fix - colors should only come from Theme
   color: "#fff",
 };
 
@@ -78,8 +79,8 @@ const styles = StyleSheet.create({
   },
   iconStyle: {
     position: "absolute",
-    elevation: 99,
-    zIndex: 99,
+    elevation: 1,
+    zIndex: 1,
     top: height * 0.05,
     left: width * 0.05,
   },

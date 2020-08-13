@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: "5%",
   },
   containerScroll: {
+    // ! Fix - colors should only come from Theme
     backgroundColor: "#fff",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
