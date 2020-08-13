@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert, Modal } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { Text } from "../../config/Theme";
 
 import * as Permissions from "expo-permissions";
@@ -19,7 +19,8 @@ const ImageProfile = (props: IImageProfile) => {
     getPermissionAsync();
   });
 
-  const modalSelect = () => {
+  // ! Fix - This component could be abstracted to another file
+  const ModalSelect = () => {
     return (
       <Modal
         transparent
@@ -36,13 +37,13 @@ const ImageProfile = (props: IImageProfile) => {
           <View style={styles.modalContent}>
             <View style={styles.modalViewStyle}>
               <TouchableOpacity
-                onPress={() => searchAlbum()}
+                onPress={searchAlbum}
                 style={styles.modalTouchStyle}
               >
                 <Text style={styles.modalText}>Select album</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => tokePhoto()}
+                onPress={takePhoto}
                 style={styles.modalTouchStyle}
               >
                 <Text style={styles.modalText}>Take a photo</Text>
@@ -72,17 +73,16 @@ const ImageProfile = (props: IImageProfile) => {
     setStateModal(true);
   };
 
-  const tokePhoto = async () => {
+  const takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [3, 3],
-      //base64: true,
       quality: 0.2,
     });
     if (!result.cancelled) {
       setStateModal(false);
-      console.log("tokePhoto -> result", result);
+      console.log("takePhoto -> result", result);
     }
   };
 
@@ -91,7 +91,6 @@ const ImageProfile = (props: IImageProfile) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [3, 3],
-      //base64: true,
       quality: 1,
     });
     if (!result.cancelled) {
@@ -102,7 +101,7 @@ const ImageProfile = (props: IImageProfile) => {
 
   return (
     <>
-      {modalSelect()}
+      <ModalSelect />
       <View style={styles.container}>
         <View
           style={[
@@ -115,11 +114,7 @@ const ImageProfile = (props: IImageProfile) => {
           <Text style={styles.textStyle}>{label}</Text>
         </View>
         <View style={styles.viewContentStyle}>
-          <TouchableOpacity
-            onPress={() => {
-              loadingPhoto();
-            }}
-          >
+          <TouchableOpacity onPress={loadingPhoto}>
             <Text style={styles.textContentStyle}>Change Photo</Text>
           </TouchableOpacity>
         </View>
@@ -143,6 +138,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 30,
+    // ! Fix - Colors should only come from Theme
     color: "#788BB2",
     fontWeight: "bold",
   },
@@ -154,6 +150,7 @@ const styles = StyleSheet.create({
     color: "#00B0F0",
   },
   contentStyle: {
+    // ! Fix - Colors should only come from Theme
     backgroundColor: "rgba(0,0,0,0.4)",
     width: "100%",
     height: "100%",
@@ -162,6 +159,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalViewStyle: {
+    // ! Fix - Colors should only come from Theme
     backgroundColor: "#fff",
     width: "90%",
     height: 180,
@@ -175,6 +173,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 16,
+    // ! Fix - Colors should only come from Theme
     color: "#1D2226",
     fontWeight: "bold",
   },

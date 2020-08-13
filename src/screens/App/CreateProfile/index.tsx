@@ -45,6 +45,7 @@ const CreateProfile = (props: ICreateProfile) => {
         <Header
           title="Create my Profile"
           subTitle="To store all your info in one place"
+          // ! Fix - Colors should only come from Theme
           color="#E9ECF4"
         />
       ),
@@ -64,6 +65,7 @@ const CreateProfile = (props: ICreateProfile) => {
     return (
       <View>
         <ScrollView style={styles.scrollStyle}>
+          // ! Fix - Colors should only come from Theme
           <ImageProfile label="JD" color="#002060" />
           <View style={styles.contentEmailStyle}>
             <Text variant="body">jondoe@gmail.com</Text>

@@ -10,7 +10,6 @@ interface IProfileScroll extends TProfileScrollNavProps {}
 
 const ProfileScroll = (props: IProfileScroll) => {
   const { navigation } = props;
-  // const { navigate, goBack } = useNavigation();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -18,6 +17,7 @@ const ProfileScroll = (props: IProfileScroll) => {
         <Header
           title="Create my Profile"
           subTitle="Add your personal traits"
+          // ! Fix - Colors should only come from Theme
           color="#E9ECF4"
         />
       ),

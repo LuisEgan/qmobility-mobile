@@ -35,6 +35,7 @@ const CreateProfile = (props: ICreateProfile) => {
 
   return (
     <View style={styles.container}>
+      // ! Fix - Colors should only come from Theme
       <ImageProfile label="JD" color="#002060" />
       <Text variant="heading1">Jon Doe</Text>
       <Text variant="bodyHighlight">JoDo</Text>
@@ -54,6 +55,7 @@ const CreateProfile = (props: ICreateProfile) => {
         <TouchableOpacity
           onPress={() => navigate(APP_STACK_SCREENS_NAMES.MyCars)}
         >
+          // ! Fix - Colors should only come from Theme
           <Icons icon="Edit" fill="#ACACAC" size={15} />
         </TouchableOpacity>
       </View>
@@ -74,6 +76,7 @@ export default CreateProfile;
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
+    // ! Fix - Colors should only come from Theme
     backgroundColor: "#fff",
     paddingHorizontal: "5%",
   },
@@ -83,6 +86,7 @@ const styles = StyleSheet.create({
     marginVertical: "5%",
   },
   Card: {
+    // ! Fix - Colors should only come from Theme
     backgroundColor: "#fff",
     borderColor: "#ACACAC",
     borderWidth: 1,

@@ -9,7 +9,6 @@ import {
 import { Text, Theme } from "../../config/Theme";
 import { useTheme } from "@shopify/restyle";
 import { IComponentsDefaults } from "../../lib/Types";
-import Icons from "../svg";
 
 interface IInput extends IComponentsDefaults {
   onChange: (str: string) => void;

@@ -1,10 +1,8 @@
 import React, { useLayoutEffect } from "react";
-import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
+import { View, StyleSheet, Image, ScrollView } from "react-native";
 import { Header, Icons, Button } from "../../../components";
 import { Text } from "../../../config/Theme";
 import { TMyCarsNavProps } from "../../../navigation/Types/NavPropsTypes";
-
-const { height } = Dimensions.get("window");
 
 interface IMyCars extends TMyCarsNavProps {}
 
@@ -92,6 +90,7 @@ const MyCars = (props: IMyCars) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () => (
+        // ! Fix - Colors should only come from Theme
         <Header title="Profile Created" subTitle="Well done" color="#E9ECF4" />
       ),
     });
@@ -103,6 +102,7 @@ const MyCars = (props: IMyCars) => {
         style={[
           styles.cardCar,
           {
+            // ! Fix - Colors should only come from Theme
             backgroundColor: type ? "#002060" : "#E9ECF4",
           },
         ]}
@@ -119,6 +119,7 @@ const MyCars = (props: IMyCars) => {
           <View>
             <Text
               style={{
+                // ! Fix - Colors should only come from Theme
                 color: type ? "#fff" : "#000",
               }}
               variant="heading2"
@@ -127,6 +128,7 @@ const MyCars = (props: IMyCars) => {
             </Text>
             <Text
               style={{
+                // ! Fix - Colors should only come from Theme
                 color: type ? "#fff" : "#000",
               }}
               variant="body"
@@ -144,6 +146,7 @@ const MyCars = (props: IMyCars) => {
     <View style={styles.container}>
       <ScrollView style={styles.content}>
         <View style={styles.containerTtitleEdition}>
+          // ! Fix - Colors should only come from Theme
           <Icons icon="Done" fill="#00B0F0" />
           <Text variant="subheadingLight">Congratulations! You’re done!</Text>
           <Text variant="subheadingLight">This is your perfect match:</Text>
@@ -203,6 +206,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 50,
     marginHorizontal: "5%",
+    // ! Fix - Colors should only come from Theme
     backgroundColor: "#00D6FD",
   },
   tinyLogo: {
