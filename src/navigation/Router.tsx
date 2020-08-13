@@ -53,7 +53,7 @@ const Router = () => {
   ) : (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.SearchRouter}>
+        <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.MyCars}>
           {!userToken ? AppNavigator() : AuthNavigator()}
         </Navigator>
       </NavigationContainer>
