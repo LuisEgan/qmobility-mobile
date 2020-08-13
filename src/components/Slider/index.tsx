@@ -28,7 +28,15 @@ const Slider = (props: ISlider) => {
       >
         {slides.map(
           (
-            { title, text, icon, backgroundColor, titleColor, textColor },
+            {
+              title,
+              text,
+              imgSource,
+              svgIcon,
+              backgroundColor,
+              titleColor,
+              textColor,
+            },
             index
           ) => (
             <Slide
@@ -36,7 +44,8 @@ const Slider = (props: ISlider) => {
               {...{
                 title,
                 text,
-                icon,
+                imgSource,
+                svgIcon,
                 index,
                 backgroundColor,
                 titleColor,

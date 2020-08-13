@@ -29,4 +29,7 @@ export const AUTH_STACK_SCREENS_NAMES = {
 export const APP_STACK_SCREENS_NAMES = {
   CreateProfile: "CreateProfile",
   MyCars: "MyCars",
+  ProfileScroll: "ProfileScroll",
+  CheckCar: "CheckCar",
+  SearchRouter: "SearchRouter",
 };

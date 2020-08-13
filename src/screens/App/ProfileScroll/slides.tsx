@@ -1,17 +1,11 @@
 import React from "react";
 import { ISlide } from "../../../components/Slider/Slide";
 import theme from "../../../config/Theme";
-import { Icons } from "../../../components";
+import Icons from "../../../components/svg";
 
 interface ISlides extends Array<ISlide> {}
 
 const slides: ISlides = [
-  {
-    title: "Hello, I'm eVe",
-    text:
-      "If you're offered a seat on a rocket ship, don't ask what seat! Just get on.",
-    svgIcon: <Icons icon="CompassWithCircles" size={250} />,
-  },
   {
     title: "Who is eVe?",
     text:

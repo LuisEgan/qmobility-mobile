@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
-import { Header, Icons, Footer } from "../../../components";
+import { Header, Icons, Footer, CardImage } from "../../../components";
 import { Text } from "../../../config/Theme";
 import { TMyCarsNavProps } from "../../../navigation/Types/NavPropsTypes";
 
@@ -9,7 +9,7 @@ const { height } = Dimensions.get("window");
 interface IMyCars extends TMyCarsNavProps {}
 
 interface IListCar {
-  img: string;
+  imgUri: string;
   name: string;
   title: string;
   subTitle: string;
@@ -17,13 +17,13 @@ interface IListCar {
 interface IListCarArray extends Array<IListCar> {}
 const listMyCars: IListCarArray = [
   {
-    img: "https://reactnative.dev/img/tiny_logo.png",
+    imgUri: "https://reactnative.dev/img/tiny_logo.png",
     name: "Nissan Leaf Acenta 40",
     title: "Default eve",
     subTitle: "Default eve",
   },
   {
-    img: "https://reactnative.dev/img/tiny_logo.png",
+    imgUri: "https://reactnative.dev/img/tiny_logo.png",
     name: "Nissan Leaf Acenta 40",
     title: "Default eve",
     subTitle: "Default eve",
@@ -32,7 +32,6 @@ const listMyCars: IListCarArray = [
 
 const MyCars = (props: IMyCars) => {
   const { navigation } = props;
-  // const { navigate, goBack } = useNavigation();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,32 +44,6 @@ const MyCars = (props: IMyCars) => {
       ),
     });
   }, [navigation]);
-
-  const ListCar = ({ img, name, title, subTitle }: IListCar) => {
-    return (
-      <View style={styles.cardCar}>
-        <View style={styles.costentCar}>
-          <View style={styles.contentImage}>
-            <Image
-              style={styles.tinyLogo}
-              source={{
-                uri: img,
-              }}
-            />
-          </View>
-          <View>
-            <Text style={styles.textStyleCars} variant="heading2">
-              {name}
-            </Text>
-            <Text style={styles.textStyleCars} variant="body">
-              {title}
-            </Text>
-            <Text variant="bodyHighlight">{subTitle}</Text>
-          </View>
-        </View>
-      </View>
-    );
-  };
 
   return (
     <View style={styles.container}>
@@ -99,8 +72,8 @@ const MyCars = (props: IMyCars) => {
           <Text variant="label">Virtual vehicles</Text>
         </View>
 
-        {listMyCars.map((car) => {
-          return <ListCar {...car} />;
+        {listMyCars.map((car, i) => {
+          return <CardImage key={`${car.title}_${i}`} {...car} />;
         })}
       </ScrollView>
       <Footer
@@ -149,15 +122,5 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 50,
-  },
-  cardCar: {
-    width: "100%",
-    marginVertical: "1%",
-    height: 120,
-    borderRadius: 10,
-    backgroundColor: "#002060",
-  },
-  textStyleCars: {
-    color: "#fff",
   },
 });
