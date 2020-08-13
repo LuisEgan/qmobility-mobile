@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, StyleProp, ViewStyle } from "react-native";
 
 import {
   ArrowDown,
@@ -24,8 +24,9 @@ import {
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
+import { IComponentsDefaults } from "../../lib/Types";
 
-interface Iicons {
+interface Iicons extends IComponentsDefaults {
   icon: TIcon;
   size?: number;
   fill?: string;
@@ -56,21 +57,27 @@ const icons = {
 };
 
 const Icons = (props: Iicons) => {
-  const { size, icon, onPress } = props;
+  const { size, icon, onPress, containerStyle } = props;
 
-  const renderSVG = () => (
-    <View
-      style={{
+  const renderSVG = () => {
+    const style: StyleProp<ViewStyle> = [
+      {
         width: size,
         height: size,
-      }}
-    >
-      {icons[icon](props)}
-    </View>
-  );
+      },
+    ];
+
+    if (!onPress) {
+      style.push(containerStyle);
+    }
+
+    return <View {...{ style }}>{icons[icon](props)}</View>;
+  };
 
   return onPress ? (
-    <TouchableOpacity onPress={onPress}>{renderSVG()}</TouchableOpacity>
+    <TouchableOpacity onPress={onPress} style={containerStyle}>
+      {renderSVG()}
+    </TouchableOpacity>
   ) : (
     renderSVG()
   );

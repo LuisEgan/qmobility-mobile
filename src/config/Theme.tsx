@@ -59,6 +59,9 @@ const theme: BaseTheme = {
     defaultButton: palette.grayLight,
     primaryButton: palette.bluePrimary,
     secondaryButton: palette.blueSecondaryDark,
+
+    // * Drawer Menu
+    drawerBackground: palette.grayDark,
   },
   spacing: {
     s: 8,

@@ -7,6 +7,7 @@ import {
   ProfileScroll,
   CheckCar,
   SearchRouter,
+  Main,
 } from "../screens/App";
 import { APP_STACK_SCREENS_NAMES } from "../lib/constants";
 
@@ -22,22 +23,23 @@ export const APP_STACK_SCREENS: IScreens = [
     component: MyCars,
     headerShown: true,
   },
-
   {
     name: APP_STACK_SCREENS_NAMES.ProfileScroll,
     component: ProfileScroll,
     headerShown: true,
   },
-
   {
     name: APP_STACK_SCREENS_NAMES.CheckCar,
     component: CheckCar,
     headerShown: true,
   },
-
   {
     name: APP_STACK_SCREENS_NAMES.SearchRouter,
     component: SearchRouter,
+  },
+  {
+    name: APP_STACK_SCREENS_NAMES.Main,
+    component: Main,
   },
 ];
 

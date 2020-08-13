@@ -31,5 +31,6 @@ export const APP_STACK_SCREENS_NAMES = {
   MyCars: "MyCars",
   ProfileScroll: "ProfileScroll",
   CheckCar: "CheckCar",
+  Main: "Main",
   SearchRouter: "SearchRouter",
 };
