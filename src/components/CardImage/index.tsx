@@ -1,9 +1,18 @@
 import React from "react";
-import { View, StyleSheet, Image, StyleProp, ViewStyle } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  StyleProp,
+  ViewStyle,
+  ImageSourcePropType,
+} from "react-native";
 import { Text } from "../../config/Theme";
 
 interface ICardImage {
-  img: string;
+  imgUri?: string;
+  imgSource?: ImageSourcePropType;
+  svgIcon?: JSX.Element;
   name: string;
   title: string;
   subTitle: string;
@@ -12,17 +21,32 @@ interface ICardImage {
 }
 
 const CardImage = (props: ICardImage) => {
-  const { img, name, title, subTitle, containerStyle, textStyle } = props;
+  const {
+    imgUri,
+    imgSource,
+    svgIcon,
+    name,
+    title,
+    subTitle,
+    containerStyle,
+    textStyle,
+  } = props;
   return (
     <View style={[styles.container, containerStyle]}>
       <View style={styles.costent}>
         <View style={styles.contentImage}>
-          <Image
-            style={styles.logo}
-            source={{
-              uri: img,
-            }}
-          />
+          {imgUri || imgSource ? (
+            <Image
+              style={styles.logo}
+              source={
+                imgSource || {
+                  uri: imgUri,
+                }
+              }
+            />
+          ) : (
+            svgIcon
+          )}
         </View>
         <View>
           <Text style={textStyle} variant="heading2">
@@ -58,7 +82,8 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 50,
     marginHorizontal: "5%",
-    backgroundColor: "#00D6FD",
+    justifyContent: "center",
+    alignItems: "center",
   },
   logo: {
     width: 50,

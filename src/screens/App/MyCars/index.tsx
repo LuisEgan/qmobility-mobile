@@ -9,7 +9,7 @@ const { height } = Dimensions.get("window");
 interface IMyCars extends TMyCarsNavProps {}
 
 interface IListCar {
-  img: string;
+  imgUri: string;
   name: string;
   title: string;
   subTitle: string;
@@ -17,13 +17,13 @@ interface IListCar {
 interface IListCarArray extends Array<IListCar> {}
 const listMyCars: IListCarArray = [
   {
-    img: "https://reactnative.dev/img/tiny_logo.png",
+    imgUri: "https://reactnative.dev/img/tiny_logo.png",
     name: "Nissan Leaf Acenta 40",
     title: "Default eve",
     subTitle: "Default eve",
   },
   {
-    img: "https://reactnative.dev/img/tiny_logo.png",
+    imgUri: "https://reactnative.dev/img/tiny_logo.png",
     name: "Nissan Leaf Acenta 40",
     title: "Default eve",
     subTitle: "Default eve",
