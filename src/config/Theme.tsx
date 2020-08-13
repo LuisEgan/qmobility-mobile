@@ -42,6 +42,8 @@ const theme: BaseTheme = {
     white: palette.white,
     red: palette.red,
     black: palette.black,
+    grayLight: palette.grayLight,
+    grayLighter: palette.grayLighter,
 
     // * Texts
     heading1: palette.grayDark,

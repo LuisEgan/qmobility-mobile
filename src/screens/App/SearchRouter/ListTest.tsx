@@ -1,7 +1,5 @@
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
 
-// ! Fix - File names should only be PascalCase for components. This is not a component
-
 interface IList {
   icon?: TIcon;
   title: string;

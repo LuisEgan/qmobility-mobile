@@ -1,25 +1,41 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, Platform } from "react-native";
-import { Text } from "../../config/Theme";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
+import { Text, Theme } from "../../config/Theme";
 import Icons from "../svg";
 
 import { TIcon } from "../svg/icons/TypeIcons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useTheme } from "@shopify/restyle";
 
 interface IHeader {
   onPress?: () => void;
   title?: string;
   subTitle?: string;
   icon?: TIcon;
-  color?: string;
   height?: number;
+  containerStyle: StyleProp<ViewStyle>;
 }
 
 const { width, height } = Dimensions.get("window");
 
 const Header = (props: IHeader) => {
-  const { height: heightProp, onPress, title, subTitle, icon, color } = props;
+  const {
+    height: heightProp,
+    onPress,
+    title,
+    subTitle,
+    icon,
+    containerStyle,
+  } = props;
 
+  const theme = useTheme<Theme>();
   const containerHeight = heightProp ? { height: heightProp } : {};
 
   return (
@@ -28,8 +44,9 @@ const Header = (props: IHeader) => {
         styles.container,
         {
           ...containerHeight,
-          backgroundColor: color,
+          backgroundColor: theme.colors.white,
         },
+        containerStyle,
       ]}
     >
       {icon &&
@@ -55,11 +72,6 @@ const Header = (props: IHeader) => {
       </View>
     </View>
   );
-};
-
-Header.defaultProps = {
-  // ! Fix - colors should only come from Theme
-  color: "#fff",
 };
 
 export default Header;

@@ -1,9 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import Icons from "../svg";
-import { Text } from "../../config/Theme";
+import { Text, Theme } from "../../config/Theme";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
+import { useTheme } from "@shopify/restyle";
 
 interface IListItem extends IComponentsDefaults {
   icon?: TIcon;
@@ -14,13 +15,19 @@ const { width } = Dimensions.get("window");
 
 const ListItem = (props: IListItem) => {
   const { title, subTitle, icon, containerStyle } = props;
+  const theme = useTheme<Theme>();
 
   return (
-    <TouchableOpacity style={[styles.container, containerStyle]}>
+    <TouchableOpacity
+      style={[
+        styles.container,
+        containerStyle,
+        { borderBottomColor: theme.colors.grayLighter },
+      ]}
+    >
       {icon && (
         <View style={styles.viewLeft}>
-          // ! Fix - colors should only come from Theme
-          <Icons icon={icon} fill="#00B0F0" size={20} />
+          <Icons icon={icon} fill={theme.colors.primary} size={20} />
         </View>
       )}
       <View style={styles.text}>
@@ -28,8 +35,7 @@ const ListItem = (props: IListItem) => {
         {subTitle && <Text variant="label">{subTitle}</Text>}
       </View>
       <TouchableOpacity style={styles.viewRight}>
-        // ! Fix - colors should only come from Theme
-        <Icons icon="MoreVert" fill="#ACACAC" size={20} />
+        <Icons icon="MoreVert" fill={theme.colors.grayLight} size={20} />
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -41,8 +47,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: "5%",
     marginVertical: 10,
-    // ! Fix - colors should only come from Theme
-    borderBottomColor: "#F2F2F2",
+
     borderBottomWidth: 1,
     justifyContent: "space-between",
   },
