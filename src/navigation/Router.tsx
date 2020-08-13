@@ -7,7 +7,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import {
   ASYNC_STORAGE_ITEMS,
   AUTH_STACK_SCREENS_NAMES,
-  APP_STACK_SCREENS_NAMES,
 } from "../lib/constants";
 import { AsyncStorage } from "react-native";
 import { AppLoading } from "expo";

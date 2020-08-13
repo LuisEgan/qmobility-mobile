@@ -1,115 +1,25 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { InputSearch } from "../../../components";
+import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
+import { InputSearch, Card, ListItem } from "../../../components";
 import { Text } from "../../../config/Theme";
 
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
-import Card from "./Card";
-import List from "./List";
 
-interface IListFavorite {
+import list from "./List";
+
+const { height } = Dimensions.get("window");
+
+interface IList {
+  icon?: TIcon;
   title: string;
-  subTitle: string;
+  subTitle?: string;
 }
 
-interface IListFavoriteArray extends Array<IListFavorite> {}
-
-const listFavorite: IListFavoriteArray = [
-  {
-    title: "Home",
-    subTitle: "211 Stockwell Rd, Brixton, London",
-  },
-  {
-    title: "Work",
-    subTitle: "Kennington Oval, London",
-  },
-];
-
-interface IListHistory {
-  icon: TIcon;
-  title: string;
-  subTitle: string;
-}
-
-interface IHistoryArray extends Array<IListHistory> {}
-
-const listHistory: IHistoryArray = [
-  {
-    icon: "Info",
-    title: "Mother’s House",
-    subTitle: "Westminster, London SW1A 1AA, UK",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 1AA",
-    subTitle: "London, United Kingdom",
-  },
-  {
-    icon: "Info",
-    title: "Westminster, London SW1A 2A",
-    subTitle: "London, United Kingdom",
-  },
-];
+const searchFor = (search: string) => {
+  return ({ title }: IList): boolean => {
+    return title.toLowerCase().includes(search.toLowerCase()) || !search;
+  };
+};
 
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
@@ -122,13 +32,24 @@ const SearchRouter = () => {
           setSearch(str);
         }}
       />
-      <Card ArrayList={listFavorite} />
+      <View style={styles.contentCard}>
+        {list.listFavorite &&
+          list.listFavorite.map((place, i) => {
+            return <Card key={`${place.title}_${i}`} {...place} />;
+          })}
+      </View>
       <View style={styles.content}>
         <Text style={styles.text} variant="label">
           RECENT
         </Text>
       </View>
-      <List ArrayList={listHistory} filter={search} />
+      <ScrollView style={styles.containerScroll}>
+        {list.listHistory &&
+          list.listHistory.filter(searchFor(search)).map((place, i) => {
+            return <ListItem key={`${place.title}_${i}`} {...place} />;
+          })}
+        <View style={{ height: 80 }} />
+      </ScrollView>
     </View>
   );
 };
@@ -137,6 +58,16 @@ export default SearchRouter;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: "5%",
+  },
+  containerScroll: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    height: height * 0.7,
+  },
+  contentCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   content: {
     height: 50,

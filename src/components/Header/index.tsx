@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, Platform } from "react-native";
 import { Text } from "../../config/Theme";
 import Icons from "../svg";
 
@@ -63,9 +63,11 @@ Header.defaultProps = {
 
 export default Header;
 
+const heightPor = Platform.OS === "ios" ? 0.21 : 0.23;
+
 const styles = StyleSheet.create({
   container: {
-    height: height * 0.21,
+    height: height * heightPor,
   },
   touchableOpacityStyle: {
     width: 45,
@@ -78,8 +80,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     elevation: 99,
     zIndex: 99,
-    top: "29%",
-    left: "1%",
+    top: height * 0.05,
+    left: width * 0.05,
   },
   contentStyle: {
     width: width,
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
   },
   viewStyle: {
     marginTop: width * 0.1,
-    marginHorizontal: width * 0.12,
+    marginHorizontal: width * 0.05,
   },
   btnStyle: {
     width: "100%",
