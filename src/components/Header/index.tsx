@@ -1,10 +1,18 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, Platform } from "react-native";
-import { Text } from "../../config/Theme";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
+import { Text, Theme } from "../../config/Theme";
 import Icons from "../svg";
 
 import { TIcon } from "../svg/icons/TypeIcons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useTheme } from "@shopify/restyle";
 
 interface IHeader {
   onPress?: () => void;
@@ -13,17 +21,15 @@ interface IHeader {
   subTitle?: string;
   icon?: TIcon;
   iconRight?: TIcon;
-  color?: string;
-  height?: number;
   text?: string;
   textRight?: string;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 const { width, height } = Dimensions.get("window");
 
 const Header = (props: IHeader) => {
   const {
-    height: heightProp,
     title,
     subTitle,
 
@@ -35,19 +41,20 @@ const Header = (props: IHeader) => {
     iconRight,
     textRight,
 
-    color,
+    containerStyle,
   } = props;
 
-  const containerHeight = heightProp ? { height: heightProp } : {};
+  const theme = useTheme<Theme>();
 
   return (
     <View
       style={[
         styles.container,
         {
-          ...containerHeight,
-          backgroundColor: color,
+          backgroundColor: theme.colors.white,
+          borderBottomColor: theme.colors.grayLight,
         },
+        containerStyle,
       ]}
     >
       {(icon || text) &&
@@ -111,10 +118,6 @@ const Header = (props: IHeader) => {
   );
 };
 
-Header.defaultProps = {
-  color: "#fff",
-};
-
 export default Header;
 
 const heightPor = Platform.OS === "ios" ? 0.21 : 0.23;
@@ -123,7 +126,6 @@ const styles = StyleSheet.create({
   container: {
     height: height * heightPor,
     borderBottomWidth: 0.5,
-    borderBottomColor: "#ACACAC",
   },
   touchableOpacityStyle: {
     width: 70,
@@ -136,8 +138,8 @@ const styles = StyleSheet.create({
   iconStyle: {
     flexDirection: "row",
     position: "absolute",
-    elevation: 99,
-    zIndex: 99,
+    elevation: 1,
+    zIndex: 1,
     top: height * 0.05,
     left: width * 0.02,
   },

@@ -17,8 +17,9 @@ import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { ERRORS, APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
-import { Text } from "../../../config/Theme";
+import theme, { Text, Theme } from "../../../config/Theme";
 import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "@shopify/restyle";
 
 const { height } = Dimensions.get("window");
 
@@ -46,18 +47,21 @@ const Edit = (props: IEdit) => {
   const Form = (params: FormikProps<IFormValues>) => {
     const { handleChange, handleSubmit, handleBlur, errors, touched } = params;
 
+    const theme = useTheme<Theme>();
+
     // ! Fix - This should be part of the Edit component, not the Form component
     useLayoutEffect(() => {
       navigation.setOptions({
         header: () => (
           <Header
             title="Edit my Profile"
-            // ! Fix - Colors should only come from Theme
-            color="#E9ECF4"
             text="Cancel"
             onPress={goBack}
             textRight="Done"
             onPressRight={handleSubmit}
+            containerStyle={{
+              backgroundColor: theme.colors.secondaryLighter,
+            }}
           />
         ),
       });
@@ -67,8 +71,7 @@ const Edit = (props: IEdit) => {
       <>
         <ScrollView style={styles.scrollStyle}>
           <View style={{}}>
-            // ! Fix - Colors should only come from Theme
-            <ImageProfile label="JD" color="#002060" />
+            <ImageProfile label="JD" color={theme.colors.primary} />
             <View style={styles.contentViewIput}>
               <Input
                 placeholder="First name"
@@ -105,8 +108,7 @@ const Edit = (props: IEdit) => {
               <TouchableOpacity
                 onPress={() => navigate(APP_STACK_SCREENS_NAMES.MyCars)}
               >
-                // ! Fix - Colors should only come from Theme
-                <Icons icon="Edit" fill="#ACACAC" size={15} />
+                <Icons icon="Edit" fill={theme.colors.grayLighter} size={15} />
               </TouchableOpacity>
             </View>
             <View>
@@ -115,17 +117,28 @@ const Edit = (props: IEdit) => {
                 name="Nissan Leaf Acenta 40"
                 title="Defaul eVe"
                 subTitle="Defaul eVe"
-                containerStyle={styles.Card}
+                containerStyle={[
+                  styles.Card,
+                  {
+                    backgroundColor: theme.colors.white,
+                    borderColor: theme.colors.grayLight,
+                  },
+                ]}
               />
             </View>
             <View>
-              <TouchableOpacity style={styles.deleteContainer}>
+              <TouchableOpacity
+                style={[
+                  styles.deleteContainer,
+                  {
+                    borderTopColor: theme.colors.grayLighter,
+                  },
+                ]}
+              >
                 <View style={styles.deleteContent}>
-                  // ! Fix - Colors should only come from Theme
-                  <Icons icon="Delete" fill="#f11" size={20} />
+                  <Icons icon="Delete" fill={theme.colors.red} size={20} />
                 </View>
-                // ! Fix - Colors should only come from Theme
-                <Text variant="label" style={{ color: "red" }}>
+                <Text variant="label" color={theme.colors.red}>
                   Delete Account
                 </Text>
               </TouchableOpacity>
@@ -141,7 +154,14 @@ const Edit = (props: IEdit) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.colors.white,
+        },
+      ]}
+    >
       <Formik
         initialValues={{
           firstName: "",
@@ -161,8 +181,6 @@ export default Edit;
 
 const styles = StyleSheet.create({
   container: {
-    // ! Fix - Colors should only come from Theme
-    backgroundColor: "#fff",
     width: "100%",
     height: "100%",
   },
@@ -187,15 +205,11 @@ const styles = StyleSheet.create({
     marginVertical: "5%",
   },
   Card: {
-    // ! Fix - Colors should only come from Theme
-    backgroundColor: "#fff",
-    borderColor: "#ACACAC",
     borderWidth: 1,
   },
   deleteContainer: {
     borderTopWidth: 1,
-    // ! Fix - Colors should only come from Theme
-    borderTopColor: "#f2f2f2",
+
     flexDirection: "row",
     paddingVertical: 20,
     marginVertical: "5%",

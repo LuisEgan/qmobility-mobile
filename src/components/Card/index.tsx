@@ -8,36 +8,50 @@ import {
   ViewStyle,
 } from "react-native";
 import Icons from "../svg";
-import { Text } from "../../config/Theme";
+import { Text, Theme } from "../../config/Theme";
 import { TIcon } from "../svg/icons/TypeIcons";
+import { IComponentsDefaults } from "../../lib/Types";
+import { useTheme } from "@shopify/restyle";
 
-interface ICard {
+interface ICard extends IComponentsDefaults {
   title: string;
   subTitle?: string;
   icon?: TIcon;
-  containerStyle?: StyleProp<ViewStyle>;
+  containerStyle: StyleProp<ViewStyle>;
 }
 
 const { width } = Dimensions.get("window");
 
 const Card = (props: ICard) => {
   const { title, subTitle, icon, containerStyle } = props;
+  const theme = useTheme<Theme>();
 
   return (
     <View style={[styles.container, containerStyle]}>
-      <TouchableOpacity style={styles.content}>
+      <TouchableOpacity
+        style={[
+          styles.content,
+          { backgroundColor: theme.colors.secondaryDark },
+        ]}
+      >
         <View style={styles.favoriteContainer}>
           {icon && (
             <View style={styles.favoriteContent}>
-              <Icons icon={icon} fill="#00B0F0" size={25} />
+              <Icons icon={icon} fill={theme.colors.primary} size={25} />
             </View>
           )}
-          <Text variant="heading2" style={styles.text}>
+          <Text
+            variant="heading2"
+            style={[styles.text, { color: theme.colors.white }]}
+          >
             {title}
           </Text>
         </View>
         {subTitle && (
-          <Text variant="label" style={styles.text}>
+          <Text
+            variant="label"
+            style={[styles.text, { color: theme.colors.white }]}
+          >
             {subTitle}
           </Text>
         )}
@@ -56,7 +70,6 @@ const styles = StyleSheet.create({
     width: width * 0.43,
     borderRadius: 10,
     padding: 10,
-    backgroundColor: "#002060",
   },
   favoriteContainer: {
     flexDirection: "row",
@@ -64,7 +77,5 @@ const styles = StyleSheet.create({
   favoriteContent: {
     marginHorizontal: 5,
   },
-  text: {
-    color: "#fff",
-  },
+  text: {},
 });

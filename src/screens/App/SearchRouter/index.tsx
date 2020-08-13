@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { InputSearch, Card, ListItem } from "../../../components";
-import { Text } from "../../../config/Theme";
+import { Text, Theme } from "../../../config/Theme";
 
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
 
-import list from "./List";
+import ListTest from "./ListTest";
+import { useTheme } from "@shopify/restyle";
 
 const { height } = Dimensions.get("window");
 
@@ -24,6 +25,8 @@ const searchFor = (search: string) => {
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
 
+  const theme = useTheme<Theme>();
+
   return (
     <View style={styles.container}>
       <InputSearch
@@ -33,8 +36,8 @@ const SearchRouter = () => {
         }}
       />
       <View style={styles.contentCard}>
-        {list.listFavorite &&
-          list.listFavorite.map((place, i) => {
+        {ListTest.listFavorite &&
+          ListTest.listFavorite.map((place, i) => {
             return <Card key={`${place.title}_${i}`} {...place} />;
           })}
       </View>
@@ -43,9 +46,14 @@ const SearchRouter = () => {
           RECENT
         </Text>
       </View>
-      <ScrollView style={styles.containerScroll}>
-        {list.listHistory &&
-          list.listHistory.filter(searchFor(search)).map((place, i) => {
+      <ScrollView
+        style={[
+          styles.containerScroll,
+          { backgroundColor: theme.colors.white },
+        ]}
+      >
+        {ListTest.listHistory &&
+          ListTest.listHistory.filter(searchFor(search)).map((place, i) => {
             return <ListItem key={`${place.title}_${i}`} {...place} />;
           })}
         <View style={{ height: 80 }} />
@@ -60,7 +68,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: "5%",
   },
   containerScroll: {
-    backgroundColor: "#fff",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     height: height * 0.7,

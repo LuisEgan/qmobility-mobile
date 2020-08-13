@@ -17,6 +17,8 @@ const palette = {
   grayLighter: "#F2F2F2",
 
   black: "black",
+  blackTransparent: "rgba(0,0,0,0.4)",
+
   white: "white",
   red: "red",
 };
@@ -42,6 +44,9 @@ const theme: BaseTheme = {
     white: palette.white,
     red: palette.red,
     black: palette.black,
+    blackTransparent: palette.blackTransparent,
+    grayLight: palette.grayLight,
+    grayLighter: palette.grayLighter,
 
     // * Texts
     heading1: palette.grayDark,
