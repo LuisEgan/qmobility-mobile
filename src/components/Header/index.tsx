@@ -1,50 +1,85 @@
 import React from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
-import { Text } from "../../config/Theme";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
+import { Text, Theme } from "../../config/Theme";
 import Icons from "../svg";
 
 import { TIcon } from "../svg/icons/TypeIcons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useTheme } from "@shopify/restyle";
 
 interface IHeader {
   onPress?: () => void;
+  onPressRight?: () => void;
   title?: string;
   subTitle?: string;
   icon?: TIcon;
-  color?: string;
-  height?: number;
+  iconRight?: TIcon;
+  text?: string;
+  textRight?: string;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 const { width, height } = Dimensions.get("window");
 
 const Header = (props: IHeader) => {
-  const { height: heightProp, onPress, title, subTitle, icon, color } = props;
+  const {
+    title,
+    subTitle,
 
-  const containerHeight = heightProp ? { height: heightProp } : {};
+    onPress,
+    icon,
+    text,
+
+    onPressRight,
+    iconRight,
+    textRight,
+
+    containerStyle,
+  } = props;
+
+  const theme = useTheme<Theme>();
 
   return (
     <View
       style={[
         styles.container,
         {
-          ...containerHeight,
-          backgroundColor: color,
+          backgroundColor: theme.colors.white,
+          borderBottomColor: theme.colors.grayLight,
         },
+        containerStyle,
       ]}
     >
-      {icon &&
+      {(icon || text) &&
         (onPress ? (
           <View style={styles.iconStyle}>
             <TouchableOpacity
               onPress={() => onPress()}
               style={styles.touchableOpacityStyle}
             >
-              <Icons size={30} icon={icon} />
+              {icon && <Icons size={30} icon={icon} />}
+              {text && (
+                <Text variant="body" style={styles.text}>
+                  {text}
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         ) : (
           <View style={styles.iconStyle}>
-            <Icons size={30} icon={icon} />
+            {text && (
+              <Text variant="body" style={styles.text}>
+                {text}
+              </Text>
+            )}
+            {icon && <Icons size={30} icon={icon} />}
           </View>
         ))}
       <View style={styles.contentStyle}>
@@ -53,33 +88,68 @@ const Header = (props: IHeader) => {
           {subTitle && <Text variant="subheadingLight">{subTitle}</Text>}
         </View>
       </View>
+
+      {(iconRight || textRight) &&
+        (onPressRight ? (
+          <View style={styles.iconRightStyle}>
+            <TouchableOpacity
+              onPress={() => onPressRight()}
+              style={styles.touchableOpacityStyle}
+            >
+              {iconRight && <Icons size={30} icon={iconRight} />}
+              {textRight && (
+                <Text variant="body" style={styles.text}>
+                  {textRight}
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.iconRightStyle}>
+            {iconRight && <Icons size={30} icon={iconRight} />}
+            {textRight && (
+              <Text variant="body" style={styles.text}>
+                {textRight}
+              </Text>
+            )}
+          </View>
+        ))}
     </View>
   );
 };
 
-Header.defaultProps = {
-  color: "#fff",
-};
-
 export default Header;
+
+const heightPor = Platform.OS === "ios" ? 0.21 : 0.23;
 
 const styles = StyleSheet.create({
   container: {
-    height: height * 0.21,
+    height: height * heightPor,
+    borderBottomWidth: 0.5,
   },
   touchableOpacityStyle: {
-    width: 45,
+    width: 70,
     justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
     height: 45,
     borderRadius: 30,
   },
   iconStyle: {
+    flexDirection: "row",
+    position: "absolute",
+    elevation: 1,
+    zIndex: 1,
+    top: height * 0.05,
+    left: width * 0.02,
+  },
+  iconRightStyle: {
+    flexDirection: "row",
     position: "absolute",
     elevation: 99,
     zIndex: 99,
-    top: "29%",
-    left: "1%",
+    top: height * 0.05,
+    right: width * 0.02,
   },
   contentStyle: {
     width: width,
@@ -88,12 +158,16 @@ const styles = StyleSheet.create({
   },
   viewStyle: {
     marginTop: width * 0.1,
-    marginHorizontal: width * 0.12,
+    marginHorizontal: width * 0.05,
   },
   btnStyle: {
     width: "100%",
     justifyContent: "center",
     height: 50,
     borderRadius: 25,
+  },
+  text: {
+    paddingHorizontal: 5,
+    alignSelf: "center",
   },
 });

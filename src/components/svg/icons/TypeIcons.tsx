@@ -19,6 +19,7 @@ export type TIcon =
   | "Mic"
   | "MoreVert"
   | "CompassWithCircles"
+  | "Delete"
   | "Error";
 
 export interface ISVG {

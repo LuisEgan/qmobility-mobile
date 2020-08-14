@@ -18,6 +18,7 @@ interface IInput extends IComponentsDefaults {
   isPassword?: boolean;
   error?: string;
   touched?: boolean;
+  disabled?: boolean;
 }
 
 const Input = (props: IInput) => {
@@ -30,6 +31,7 @@ const Input = (props: IInput) => {
     error,
     touched,
     containerStyle,
+    disabled,
   } = props;
 
   const theme = useTheme<Theme>();
@@ -43,6 +45,7 @@ const Input = (props: IInput) => {
             borderBottomColor: theme.colors.defautlInput,
           },
         ]}
+        editable={!disabled}
         onChangeText={(str: string) => onChange(str)}
         placeholderTextColor={theme.colors.defautlInput}
         secureTextEntry={isPassword}
@@ -58,11 +61,15 @@ const Input = (props: IInput) => {
   );
 };
 
+Input.defaultProps = {
+  disabled: false,
+};
+
 export default Input;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: "5%",
+    marginVertical: "5%",
     marginBottom: 10,
   },
   viewStyle: {
@@ -74,7 +81,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: "100%",
     fontSize: 16,
-    height: 50,
+    height: 40,
   },
   error: {
     position: "absolute",

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AuthNavigator from "./AuthStack";
-import AppNavigator from "./AppStack";
+import AppNavigator, { APP_STACK_SCREENS } from "./AppStack";
 import { TAllNavProps } from "./Types/NavPropsTypes";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -48,8 +48,8 @@ const Router = () => {
     <AppLoading />
   ) : (
     <NavigationContainer>
-      <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.Access}>
-        {userToken ? AppNavigator() : AuthNavigator()}
+      <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.CreateProfile}>
+        {!userToken ? AppNavigator() : AuthNavigator()}
       </Navigator>
     </NavigationContainer>
   );

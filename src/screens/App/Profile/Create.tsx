@@ -7,13 +7,13 @@ import {
   ImageProfile,
   Header,
 } from "../../../components";
-// import { useNavigation } from "@react-navigation/native";
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { ERRORS } from "../../../lib/constants";
 import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 
-import { Text } from "../../../config/Theme";
+import { Text, Theme } from "../../../config/Theme";
+import { useTheme } from "@shopify/restyle";
 
 const { height } = Dimensions.get("window");
 
@@ -37,7 +37,8 @@ const SignupSchema = yup.object().shape({
 
 const CreateProfile = (props: ICreateProfile) => {
   const { navigation } = props;
-  // const { navigate, goBack } = useNavigation();
+
+  const theme = useTheme<Theme>();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,7 +46,9 @@ const CreateProfile = (props: ICreateProfile) => {
         <Header
           title="Create my Profile"
           subTitle="To store all your info in one place"
-          color="#00000029"
+          containerStyle={{
+            backgroundColor: theme.colors.grayLight,
+          }}
         />
       ),
     });
@@ -64,7 +67,7 @@ const CreateProfile = (props: ICreateProfile) => {
     return (
       <View>
         <ScrollView style={styles.scrollStyle}>
-          <ImageProfile label="JD" color="#002060" />
+          <ImageProfile label="JD" color={theme.colors.primary} />
           <View style={styles.contentEmailStyle}>
             <Text variant="body">jondoe@gmail.com</Text>
           </View>

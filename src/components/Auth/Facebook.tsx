@@ -26,8 +26,9 @@ const Facebook = () => {
       // TODO facebook appId on .env
       await FacebookExpo.initializeAsync("493225574911530", "mixo");
       const loginResult = await FacebookExpo.logInWithReadPermissionsAsync({
-        permissions: [],
+        permissions: ["public_profile", "email"],
       });
+      console.log("login -> loginResult", loginResult);
 
       if (loginResult.type === "success") {
         fbLogin({

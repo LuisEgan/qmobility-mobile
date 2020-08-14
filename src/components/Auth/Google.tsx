@@ -28,7 +28,7 @@ const Google = () => {
           "441334312883-1bcm6hgch36j0k75radv8m7pkk8ml9sj.apps.googleusercontent.com",
         androidStandaloneAppClientId:
           "441334312883-o079065rju6mejq52fgpir6vrt58phmq.apps.googleusercontent.com",
-        scopes: [],
+        scopes: ["profile", "email"],
       });
 
       if (loginResult.type === "success") {
