@@ -48,7 +48,7 @@ const Router = () => {
     <AppLoading />
   ) : (
     <NavigationContainer>
-      <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.Profile}>
+      <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.CreateProfile}>
         {!userToken ? AppNavigator() : AuthNavigator()}
       </Navigator>
     </NavigationContainer>

@@ -1,15 +1,9 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Modal,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import Button from "../Button";
 import Icons from "../svg";
 import { Text } from "../../config/Theme";
-
+import Modal from "../Modal";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
 
@@ -44,49 +38,37 @@ const Select = (props: ISelect) => {
 
   const ModalSelect = () => {
     return (
-      <Modal
-        transparent
-        animationType={"fade"}
-        visible={stateModal}
-        onRequestClose={() => setStateModal(false)}
-      >
-        <TouchableOpacity
-          activeOpacity={1}
-          style={styles.contentStyle}
-          onPress={() => setStateModal(false)}
-        >
-          <View style={{ flex: 1 }} />
+      <Modal state={stateModal} onClosed={() => setStateModal(!stateModal)}>
+        <View style={styles.veiwStyleConten}>
+          <ScrollView style={styles.ScrollViewStyle}>
+            {list.map((x: string | number, i: number) => {
+              return (
+                <TouchableOpacity
+                  style={styles.touchSelectStyle}
+                  key={i}
+                  onPress={() => {
+                    onPress(x);
+                    setStateModal(false);
+                  }}
+                >
+                  <View>
+                    <Text style={styles.textScrollViewStyle}>{x}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
 
-          <View style={styles.veiwStyleConten}>
-            <ScrollView style={styles.ScrollViewStyle}>
-              {list.map((x: string | number, i: number) => {
-                return (
-                  <TouchableOpacity
-                    style={styles.touchSelectStyle}
-                    key={i}
-                    onPress={() => {
-                      onPress(x);
-                      setStateModal(false);
-                    }}
-                  >
-                    <View>
-                      <Text style={styles.textScrollViewStyle}>{x}</Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
+        <View style={styles.contentButton}>
+          <View style={styles.veiwStyleContenButton}>
+            <Button
+              variant="primary"
+              onPress={() => setStateModal(false)}
+              label="CANCEL"
+            />
           </View>
-          <View style={{ alignItems: "center", paddingBottom: 25 }}>
-            <View style={styles.veiwStyleContenButton}>
-              <Button
-                variant="primary"
-                onPress={() => setStateModal(false)}
-                label="CANCEL"
-              />
-            </View>
-          </View>
-        </TouchableOpacity>
+        </View>
       </Modal>
     );
   };
@@ -190,6 +172,11 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     color: "#11041A",
     fontSize: 18,
+  },
+  contentButton: {
+    alignItems: "center",
+    paddingBottom: 25,
+    width: "100%",
   },
   veiwStyleContenButton: {
     margin: 10,
