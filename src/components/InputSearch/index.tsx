@@ -11,6 +11,7 @@ import { useTheme } from "@shopify/restyle";
 import { IComponentsDefaults } from "../../lib/Types";
 import { useNavigation } from "@react-navigation/native";
 import Icons from "../svg";
+import { TIcon } from "../svg/icons/TypeIcons";
 
 const { width, height } = Dimensions.get("window");
 interface IInputSearch extends IComponentsDefaults {
@@ -18,10 +19,19 @@ interface IInputSearch extends IComponentsDefaults {
   onVoiceCommand?: () => void;
   placeholder?: string;
   defaultValue?: string;
+  leftIcon?: TIcon;
+  onLeftIconPress?: () => void;
 }
 
 const InputSearch = (props: IInputSearch) => {
-  const { onChange, placeholder, defaultValue, containerStyle } = props;
+  const {
+    onChange,
+    placeholder,
+    defaultValue,
+    containerStyle,
+    leftIcon,
+    onLeftIconPress,
+  } = props;
 
   const { goBack } = useNavigation();
 
@@ -30,11 +40,11 @@ const InputSearch = (props: IInputSearch) => {
   return (
     <View style={[styles.container, containerStyle]}>
       <TouchableOpacity
-        onPress={() => goBack()}
+        onPress={onLeftIconPress || goBack}
         style={styles.contentIconsLeft}
       >
         <View style={styles.viewLeft}>
-          <Icons icon="ArrowBackLight" />
+          <Icons icon={leftIcon} />
         </View>
       </TouchableOpacity>
       <TextInput
@@ -48,6 +58,10 @@ const InputSearch = (props: IInputSearch) => {
       </TouchableOpacity>
     </View>
   );
+};
+
+InputSearch.defaultProps = {
+  leftIcon: "ArrowBackLight",
 };
 
 export default InputSearch;

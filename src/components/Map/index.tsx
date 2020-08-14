@@ -8,7 +8,7 @@ import * as Permissions from "expo-permissions";
 
 interface IHome {}
 
-const Mapa = (props: IHome) => {
+const Map = (props: IHome) => {
   const {} = props;
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const Mapa = (props: IHome) => {
   );
 };
 
-Mapa.defaultProps = {};
+Map.defaultProps = {};
 
 const styles = StyleSheet.create({
   map: {
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Mapa;
+export default Map;

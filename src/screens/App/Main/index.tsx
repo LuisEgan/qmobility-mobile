@@ -1,24 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { Text } from "../../../config/Theme";
 import DrawerMenu from "../../../components/HOCs/DrawerMenu";
+import { Icons, Map, InputSearch } from "../../../components";
 
 interface IMain {}
 
 const Main = (props: IMain) => {
   const {} = props;
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
   return (
-    <DrawerMenu>
-      <View style={styles.container}>
-        <Text variant="heading1">AYYE</Text>
-      </View>
-    </DrawerMenu>
+    <>
+      <DrawerMenu isDrawerOpen={isDrawerOpen} onDrawerToggle={setIsDrawerOpen}>
+        <View style={styles.container}>
+          <InputSearch
+            containerStyle={styles.inputSearch}
+            onChange={(e) => console.log(e)}
+            leftIcon="Menu"
+            onLeftIconPress={toggleDrawer}
+          />
+
+          <Map />
+        </View>
+      </DrawerMenu>
+    </>
   );
 };
 
 export default Main;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    ...StyleSheet.absoluteFillObject,
+  },
+
+  inputSearch: {
+    marginTop: 30,
+    zIndex: 1,
+    elevation: 1,
+  },
 });
