@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { PropsWithChildren } from "react";
 import {
   View,
   StyleSheet,
@@ -8,15 +8,15 @@ import {
 import { Theme } from "../../config/Theme";
 
 import { useTheme } from "@shopify/restyle";
+import { IComponentsDefaults } from "../../lib/Types";
 
-interface IModal {
+interface IModal extends IComponentsDefaults {
   state: boolean;
   onClosed: () => void;
-  children: ReactNode;
 }
 
-const Modal = (props: IModal) => {
-  const { state, onClosed, children } = props;
+const Modal = (props: PropsWithChildren<IModal>) => {
+  const { state, onClosed, children, containerStyle } = props;
 
   const theme = useTheme<Theme>();
 
@@ -34,6 +34,7 @@ const Modal = (props: IModal) => {
           {
             backgroundColor: theme.colors.blackTransparent,
           },
+          containerStyle,
         ]}
         onPress={onClosed}
       >

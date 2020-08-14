@@ -11,8 +11,9 @@ import Icons from "../svg";
 import { Text } from "../../config/Theme";
 
 import { TIcon } from "../svg/icons/TypeIcons";
+import { IComponentsDefaults } from "../../lib/Types";
 
-interface ISelect {
+interface ISelect extends IComponentsDefaults {
   onPress: (str: string) => void;
   title?: string;
   iconTitle?: TIcon;
@@ -33,6 +34,7 @@ const Select = (props: ISelect) => {
     placeholder,
     error,
     touched,
+    containerStyle,
   } = props;
 
   const [stateModal, setStateModal] = useState<boolean>(false);
@@ -40,7 +42,7 @@ const Select = (props: ISelect) => {
   const text = value === "" ? placeholder : value;
   const color = value === "" ? "#ACACAC" : "#1D2226";
 
-  const modalSelect = () => {
+  const ModalSelect = () => {
     return (
       <Modal
         transparent
@@ -91,8 +93,8 @@ const Select = (props: ISelect) => {
 
   return (
     <>
-      {modalSelect()}
-      <View style={styles.content}>
+      <ModalSelect />
+      <View style={[styles.content, containerStyle]}>
         {title && (
           <View style={styles.titleViewStyle}>
             <Text style={styles.titleStyle}>

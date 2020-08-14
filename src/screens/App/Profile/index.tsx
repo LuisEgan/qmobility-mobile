@@ -89,7 +89,7 @@ export default CreateProfile;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: "5%",
+    padding: "5%",
     height: "100%",
   },
   containerTtitleEdition: {

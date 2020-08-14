@@ -17,7 +17,7 @@ import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { ERRORS, APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
-import theme, { Text, Theme } from "../../../config/Theme";
+import { Text, Theme } from "../../../config/Theme";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "@shopify/restyle";
 
@@ -25,31 +25,29 @@ const { height } = Dimensions.get("window");
 
 interface IEdit extends TTCsNavProps {}
 
+interface IFormValues {
+  firstName: string;
+  lastName: string;
+  dateBirth: string;
+  number: string;
+}
+
+const SignupSchema = yup.object().shape({
+  firstName: yup.string().required("Required"),
+  lastName: yup.string().required("Required"),
+  dateBirth: yup.string().required("Required"),
+  number: yup.string().required("Required"),
+});
+
 const Edit = (props: IEdit) => {
   const { navigation } = props;
+  const theme = useTheme<Theme>();
 
   const { navigate, goBack } = useNavigation();
-
-  interface IFormValues {
-    firstName: string;
-    lastName: string;
-    dateBirth: string;
-    number: string;
-  }
-
-  const SignupSchema = yup.object().shape({
-    firstName: yup.string().required("Required"),
-    lastName: yup.string().required("Required"),
-    dateBirth: yup.string().required("Required"),
-    number: yup.string().required("Required"),
-  });
 
   const Form = (params: FormikProps<IFormValues>) => {
     const { handleChange, handleSubmit, handleBlur, errors, touched } = params;
 
-    const theme = useTheme<Theme>();
-
-    // ! Fix - This should be part of the Edit component, not the Form component
     useLayoutEffect(() => {
       navigation.setOptions({
         header: () => (

@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  StyleProp,
-  ViewStyle,
-} from "react-native";
+import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import Icons from "../svg";
 import { Text, Theme } from "../../config/Theme";
 import { TIcon } from "../svg/icons/TypeIcons";
@@ -17,7 +10,6 @@ interface ICard extends IComponentsDefaults {
   title: string;
   subTitle?: string;
   icon?: TIcon;
-  containerStyle: StyleProp<ViewStyle>;
 }
 
 const { width } = Dimensions.get("window");
