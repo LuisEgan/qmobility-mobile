@@ -4,7 +4,10 @@ import AppNavigator from "./AppStack";
 import { TAllNavProps } from "./Types/NavPropsTypes";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ASYNC_STORAGE_ITEMS, APP_STACK_SCREENS_NAMES } from "../lib/constants";
+import {
+  ASYNC_STORAGE_ITEMS,
+  AUTH_STACK_SCREENS_NAMES,
+} from "../lib/constants";
 import { AsyncStorage } from "react-native";
 import { AppLoading } from "expo";
 import { TUserToken } from "./Types/AuthTypes";
@@ -44,8 +47,8 @@ const Router = () => {
     <AppLoading />
   ) : (
     <NavigationContainer>
-      <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.Profile}>
-        {!userToken ? AppNavigator() : AuthNavigator()}
+      <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.Access}>
+        {userToken ? AppNavigator() : AuthNavigator()}
       </Navigator>
     </NavigationContainer>
   );
