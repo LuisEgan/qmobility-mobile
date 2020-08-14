@@ -18,6 +18,7 @@ interface IFormValues {
 
 const LoginSchema = yup.object().shape({
   emailAddress: yup.string().email(),
+  // TODO proper password validation
   password: yup.string().required("Required"),
 });
 

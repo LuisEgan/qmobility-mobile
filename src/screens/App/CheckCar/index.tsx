@@ -96,7 +96,7 @@ const MyCars = (props: IMyCars) => {
           title="Profile Created"
           subTitle="Well done"
           containerStyle={{
-            backgroundColor: theme.colors.grayLight,
+            backgroundColor: theme.colors.grayLighter,
           }}
         />
       ),
@@ -200,6 +200,7 @@ export default MyCars;
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
+    backgroundColor: "white",
   },
   content: {
     marginHorizontal: "5%",

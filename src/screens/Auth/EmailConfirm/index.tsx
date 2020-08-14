@@ -27,7 +27,7 @@ const EmailConfirm = (props: IEmailConfirm) => {
             <Icons icon="Email" fill="#00B0F0" />
           </View>
           <View style={styles.viewStyle}>
-            <Text variant="emailProfile">jondoe@gmail.com</Text>
+            <Text variant="body">jondoe@gmail.com</Text>
           </View>
         </View>
         <Button
