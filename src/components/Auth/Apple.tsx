@@ -26,7 +26,10 @@ const Apple = () => {
   const login = async () => {
     try {
       const { identityToken } = await AppleAuthentication.signInAsync({
-        requestedScopes: [],
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
       });
 
       if (identityToken) {

@@ -8,15 +8,15 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { Text } from "../../config/Theme";
+import { IComponentsDefaults } from "../../lib/Types";
 
-interface ICardImage {
+interface ICardImage extends IComponentsDefaults {
   imgUri?: string;
   imgSource?: ImageSourcePropType;
   svgIcon?: JSX.Element;
   name: string;
   title: string;
   subTitle: string;
-  containerStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<ViewStyle>;
 }
 

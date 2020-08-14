@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert, Modal } from "react-native";
-import { Text } from "../../config/Theme";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, Theme } from "../../config/Theme";
 
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import { useTheme } from "@shopify/restyle";
+import Modal from "../Modal";
 
 interface IImageProfile {
   label: string;
@@ -15,47 +17,44 @@ const ImageProfile = (props: IImageProfile) => {
 
   const [stateModal, setStateModal] = useState<boolean>(false);
 
+  const theme = useTheme<Theme>();
+
   useEffect(() => {
     getPermissionAsync();
   });
 
-  const modalSelect = () => {
+  const ModalSelect = () => {
     return (
       <Modal
-        transparent
-        animationType={"fade"}
-        visible={stateModal}
-        onRequestClose={() => setStateModal(false)}
+        state={stateModal}
+        onClosed={() => {
+          setStateModal(!stateModal);
+        }}
       >
-        <TouchableOpacity
-          activeOpacity={1}
-          style={styles.contentStyle}
-          onPress={() => setStateModal(false)}
+        <View
+          style={[
+            styles.modalViewStyle,
+            {
+              backgroundColor: theme.colors.white,
+            },
+          ]}
         >
-          <View style={{ flex: 1 }} />
-          <View style={styles.modalContent}>
-            <View style={styles.modalViewStyle}>
-              <TouchableOpacity
-                onPress={() => searchAlbum()}
-                style={styles.modalTouchStyle}
-              >
-                <Text style={styles.modalText}>Select album</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => tokePhoto()}
-                style={styles.modalTouchStyle}
-              >
-                <Text style={styles.modalText}>Take a photo</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setStateModal(false)}
-                style={styles.modalTouchStyle}
-              >
-                <Text style={styles.modalText}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={searchAlbum}
+            style={styles.modalTouchStyle}
+          >
+            <Text variant="body">Select album</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={takePhoto} style={styles.modalTouchStyle}>
+            <Text variant="body">Take a photo</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setStateModal(false)}
+            style={styles.modalTouchStyle}
+          >
+            <Text variant="body">Cancel</Text>
+          </TouchableOpacity>
+        </View>
       </Modal>
     );
   };
@@ -72,17 +71,16 @@ const ImageProfile = (props: IImageProfile) => {
     setStateModal(true);
   };
 
-  const tokePhoto = async () => {
+  const takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [3, 3],
-      //base64: true,
       quality: 0.2,
     });
     if (!result.cancelled) {
       setStateModal(false);
-      console.log("tokePhoto -> result", result);
+      console.log("takePhoto -> result", result);
     }
   };
 
@@ -91,7 +89,6 @@ const ImageProfile = (props: IImageProfile) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [3, 3],
-      //base64: true,
       quality: 1,
     });
     if (!result.cancelled) {
@@ -102,7 +99,7 @@ const ImageProfile = (props: IImageProfile) => {
 
   return (
     <>
-      {modalSelect()}
+      <ModalSelect />
       <View style={styles.container}>
         <View
           style={[
@@ -112,14 +109,19 @@ const ImageProfile = (props: IImageProfile) => {
             },
           ]}
         >
-          <Text style={styles.textStyle}>{label}</Text>
+          <Text
+            style={[
+              styles.textStyle,
+              {
+                color: theme.colors.secondaryLight,
+              },
+            ]}
+          >
+            {label}
+          </Text>
         </View>
         <View style={styles.viewContentStyle}>
-          <TouchableOpacity
-            onPress={() => {
-              loadingPhoto();
-            }}
-          >
+          <TouchableOpacity onPress={loadingPhoto}>
             <Text style={styles.textContentStyle}>Change Photo</Text>
           </TouchableOpacity>
         </View>
@@ -132,7 +134,6 @@ export default ImageProfile;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: "5%",
     marginVertical: "5%",
   },
   content: {
@@ -144,7 +145,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 30,
-    color: "#788BB2",
     fontWeight: "bold",
   },
   viewContentStyle: {
@@ -155,7 +155,6 @@ const styles = StyleSheet.create({
     color: "#00B0F0",
   },
   contentStyle: {
-    backgroundColor: "rgba(0,0,0,0.4)",
     width: "100%",
     height: "100%",
   },
@@ -163,7 +162,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalViewStyle: {
-    backgroundColor: "#fff",
     width: "90%",
     height: 180,
     borderTopRightRadius: 10,
@@ -173,10 +171,5 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     marginHorizontal: "5%",
-  },
-  modalText: {
-    fontSize: 16,
-    color: "#1D2226",
-    fontWeight: "bold",
   },
 });
