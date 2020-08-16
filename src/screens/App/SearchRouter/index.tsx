@@ -35,12 +35,12 @@ const SearchRouter = () => {
           setSearch(str);
         }}
       />
-      {/* <View style={styles.contentCard}>
+      <View style={styles.contentCard}>
         {ListTest.listFavorite &&
           ListTest.listFavorite.map((place, i) => {
             return <Card key={`${place.title}_${i}`} {...place} />;
           })}
-      </View> */}
+      </View>
       <View style={styles.content}>
         <Text style={styles.text} variant="label">
           RECENT

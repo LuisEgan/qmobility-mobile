@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import Button from "../Button";
 import Icons from "../svg";
-import { Text } from "../../config/Theme";
+import { Text, Theme } from "../../config/Theme";
 import Modal from "../Modal";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
+import { useTheme } from "@shopify/restyle";
 
 interface ISelect extends IComponentsDefaults {
   onPress: (str: string) => void;
@@ -31,20 +32,34 @@ const Select = (props: ISelect) => {
     containerStyle,
   } = props;
 
+  const theme = useTheme<Theme>();
+
   const [stateModal, setStateModal] = useState<boolean>(false);
 
   const text = value === "" ? placeholder : value;
-  const color = value === "" ? "#ACACAC" : "#1D2226";
+  const color = value === "" ? theme.colors.grayLight : theme.colors.black;
 
   const ModalSelect = () => {
     return (
       <Modal state={stateModal} onClosed={() => setStateModal(!stateModal)}>
-        <View style={styles.veiwStyleConten}>
+        <View
+          style={[
+            styles.veiwStyleConten,
+            {
+              backgroundColor: theme.colors.grayLighter,
+            },
+          ]}
+        >
           <ScrollView style={styles.ScrollViewStyle}>
             {list.map((x: string | number, i: number) => {
               return (
                 <TouchableOpacity
-                  style={styles.touchSelectStyle}
+                  style={[
+                    styles.touchSelectStyle,
+                    {
+                      borderColor: theme.colors.grayLight,
+                    },
+                  ]}
                   key={i}
                   onPress={() => {
                     onPress(x);
@@ -52,7 +67,16 @@ const Select = (props: ISelect) => {
                   }}
                 >
                   <View>
-                    <Text style={styles.textScrollViewStyle}>{x}</Text>
+                    <Text
+                      style={[
+                        styles.textScrollViewStyle,
+                        {
+                          color: theme.colors.black,
+                        },
+                      ]}
+                    >
+                      {x}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               );
@@ -84,10 +108,19 @@ const Select = (props: ISelect) => {
               {"  "}
             </Text>
 
-            {iconTitle && <Icons icon={iconTitle} fill="#707070" size={17} />}
+            {iconTitle && (
+              <Icons icon={iconTitle} fill={theme.colors.gray} size={17} />
+            )}
           </View>
         )}
-        <View style={styles.viewSelectStyle}>
+        <View
+          style={[
+            styles.viewSelectStyle,
+            {
+              borderColor: theme.colors.grayLighter,
+            },
+          ]}
+        >
           <TouchableOpacity
             style={styles.itemSelectStyle}
             onPress={() => setStateModal(true)}
@@ -106,7 +139,7 @@ const Select = (props: ISelect) => {
 
               <Icons
                 icon={stateModal ? "ArrowDownLight" : "ArrowUpLight"}
-                fill="#00B0F0"
+                fill={theme.colors.primary}
                 size={30}
               />
             </View>
@@ -125,11 +158,6 @@ const Select = (props: ISelect) => {
 export default Select;
 
 const styles = StyleSheet.create({
-  contentStyle: {
-    backgroundColor: "rgba(0,0,0,0.4)",
-    width: "100%",
-    height: "100%",
-  },
   content: {
     marginHorizontal: "5%",
     marginVertical: "3%",
@@ -138,14 +166,13 @@ const styles = StyleSheet.create({
     maxHeight: 370,
     width: "100%",
     maxWidth: 370,
-    backgroundColor: "#f1f1f1",
     borderRadius: 15,
     alignSelf: "center",
   },
   touchSelectStyle: {
     height: 50,
     justifyContent: "center",
-    borderColor: "#ACACAC",
+
     borderBottomWidth: 1,
   },
   titleViewStyle: {
@@ -170,7 +197,6 @@ const styles = StyleSheet.create({
   textScrollViewStyle: {
     width: "100%",
     paddingLeft: 10,
-    color: "#11041A",
     fontSize: 18,
   },
   contentButton: {
@@ -193,7 +219,6 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     alignSelf: "center",
-    borderColor: "#e0e0e0",
     borderWidth: 1,
     borderRadius: 10,
   },
