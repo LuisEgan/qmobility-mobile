@@ -21,6 +21,7 @@ import {
   Mic,
   MoreVert,
   Delete,
+  Circle,
   CompassWithCircles,
 } from "./icons";
 
@@ -56,6 +57,7 @@ const icons = {
   MoreVert: (props: Iicons) => <MoreVert {...props} />,
   CompassWithCircles: (props: Iicons) => <CompassWithCircles {...props} />,
   Delete: (props: Iicons) => <Delete {...props} />,
+  Circle: (props: Iicons) => <Circle {...props} />,
 };
 
 const Icons = (props: Iicons) => {

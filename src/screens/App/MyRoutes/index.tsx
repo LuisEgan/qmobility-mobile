@@ -4,6 +4,7 @@ import { Header, Icons } from "../../../components";
 import { TMyRoutesNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Text, Theme } from "../../../config/Theme";
 import { useTheme } from "@shopify/restyle";
+import { FlatList } from "react-native-gesture-handler";
 
 interface IMyRoutes extends TMyRoutesNavProps {}
 
@@ -56,11 +57,33 @@ const MyRoutes = (props: IMyRoutes) => {
     });
   }, [navigation]);
 
-  const MyRoutesList = ({ date, from, to }: IListRoutes) => {
+  const Detail = ({ title, detail }: { title: string; detail?: string }) => {
     return (
       <View
         style={{
-          height: height * 0.17,
+          flexDirection: "row",
+        }}
+      >
+        <View
+          style={{
+            marginRight: "3%",
+          }}
+        >
+          <Icons icon="Circle" fill={theme.colors.primary} size={18} />
+        </View>
+        <View>
+          <Text variant="bodyHighlight">{title}</Text>
+          {detail && <Text variant="heading2">{detail}</Text>}
+        </View>
+      </View>
+    );
+  };
+
+  const RoutesListItem = ({ date, from, to }: IListRoutes) => {
+    return (
+      <View
+        style={{
+          height: 140,
           marginHorizontal: "5%",
           marginVertical: "2%",
           backgroundColor: theme.colors.grayLighter,
@@ -74,29 +97,21 @@ const MyRoutes = (props: IMyRoutes) => {
             top: 15,
           }}
         >
-          holaasdasdasdasdasd
+          {"Today"}
+          {date}
         </Text>
         <View
           style={{
             flexDirection: "row",
             marginLeft: "3%",
-            height: height * 0.17,
+            height: 140,
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
           <View>
-            <View
-              style={{
-                flexDirection: "row",
-              }}
-            >
-              <Icons icon="ArrowBackLight" fill={theme.colors.primary} />
-              <View>
-                <Text>from</Text>
-                <Text>holaaaaaaaaaaaa</Text>
-              </View>
-            </View>
+            <Detail title="From" detail={from} />
+            <Detail title="To" detail={to} />
           </View>
           <View>
             <Icons icon="ArrowBackLight" fill={theme.colors.primary} />
@@ -119,7 +134,7 @@ const MyRoutes = (props: IMyRoutes) => {
         {listRoutes &&
           listRoutes.length &&
           listRoutes.map((route, i) => {
-            return <MyRoutesList key={`${route.from}_${i}`} {...route} />;
+            return <RoutesListItem key={`${route.from}_${i}`} {...route} />;
           })}
       </ScrollView>
     </View>
