@@ -7,6 +7,7 @@ export type TIcon =
   | "ArrowUpLight"
   | "ArrowDownLight"
   | "ArrowBackLight"
+  | "ArrowRightLight"
   | "Info"
   | "Email"
   | "Menu"
@@ -21,6 +22,7 @@ export type TIcon =
   | "CompassWithCircles"
   | "Delete"
   | "Circle"
+  | "Market"
   | "Error";
 
 export interface ISVG {
