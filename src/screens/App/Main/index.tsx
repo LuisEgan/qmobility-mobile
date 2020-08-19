@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import DrawerMenu from "../../../components/HOCs/DrawerMenu";
-import { Icons, Map, InputSearch } from "../../../components";
+import { Map, InputSearch } from "../../../components";
 
 interface IMain {}
 

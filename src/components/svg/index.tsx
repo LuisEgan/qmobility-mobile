@@ -30,6 +30,8 @@ import { IComponentsDefaults } from "../../lib/Types";
 interface Iicons extends IComponentsDefaults {
   icon: TIcon;
   size?: number;
+  width?: number;
+  height?: number;
   fill?: string;
   stroke?: string;
   onPress?: () => void;
@@ -59,13 +61,13 @@ const icons = {
 };
 
 const Icons = (props: Iicons) => {
-  const { size, icon, onPress, containerStyle } = props;
+  const { size, width, height, icon, onPress, containerStyle } = props;
 
   const renderSVG = () => {
     const style: StyleProp<ViewStyle> = [
       {
-        width: size,
-        height: size,
+        width: width || size,
+        height: height || size,
       },
     ];
 
