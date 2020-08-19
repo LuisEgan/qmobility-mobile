@@ -13,3 +13,6 @@ export { default as Map } from "./Map";
 export { default as ListItem } from "./ListItem";
 export { default as Modal } from "./Modal";
 export { default as SpeechToText } from "./SpeeshToText";
+export { default as IconsList } from "./IconsList";
+export { default as List } from "./List";
+export { default as RouteListItem } from "./List/Item/RouteListItem";

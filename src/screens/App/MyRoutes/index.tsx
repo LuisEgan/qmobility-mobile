@@ -1,19 +1,10 @@
 import React, { useLayoutEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
-import { Header, Icons } from "../../../components";
+import { View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import { Header, Icons, List, RouteListItem } from "../../../components";
 import { TMyRoutesNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Text, Theme } from "../../../config/Theme";
 import { useTheme } from "@shopify/restyle";
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
-
-interface IMyRoutes extends TMyRoutesNavProps {}
 
 interface IListRoutes {
   date?: string;
@@ -45,7 +36,7 @@ const listRoutes: IListRoutesArray = [
   },
 ];
 
-const { height } = Dimensions.get("window");
+interface IMyRoutes extends TMyRoutesNavProps {}
 
 const MyRoutes = (props: IMyRoutes) => {
   const { navigation } = props;
@@ -64,81 +55,6 @@ const MyRoutes = (props: IMyRoutes) => {
     });
   }, [navigation]);
 
-  const Detail = ({
-    title,
-    detail,
-    icon,
-  }: {
-    title: string;
-    detail?: string;
-    icon?: TIcon;
-  }) => {
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-        }}
-      >
-        {icon && (
-          <View
-            style={{
-              marginRight: "3%",
-            }}
-          >
-            <Icons icon={icon} fill={theme.colors.primary} size={18} />
-          </View>
-        )}
-        <View>
-          <Text variant="bodyHighlight">{title}</Text>
-          {detail && <Text variant="heading2">{detail}</Text>}
-        </View>
-      </View>
-    );
-  };
-
-  const RoutesListItem = ({ date, from, to }: IListRoutes) => {
-    return (
-      <TouchableOpacity
-        style={{
-          height: 140,
-          marginHorizontal: "5%",
-          marginVertical: "2%",
-          backgroundColor: theme.colors.grayLighter,
-          borderRadius: 10,
-        }}
-      >
-        <View
-          style={{
-            position: "absolute",
-            flexDirection: "row",
-            right: 15,
-            top: 15,
-          }}
-        >
-          <Text variant="body">{"Today "}</Text>
-          <Text variant="bodyHighlight">{date}</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            marginLeft: "3%",
-            height: 140,
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <View>
-            <Detail title="From" detail={from} icon="Circle" />
-            <Detail title="To" detail={to} icon="Market" />
-          </View>
-          <View>
-            <Icons icon="ArrowRightLight" fill={theme.colors.primary} />
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <View
       style={[
@@ -148,12 +64,7 @@ const MyRoutes = (props: IMyRoutes) => {
         },
       ]}
     >
-      <FlatList
-        data={listRoutes}
-        renderItem={({ item, index }) => {
-          return <RoutesListItem key={`${item.from}_${index}`} {...item} />;
-        }}
-      />
+      <List ListArray={listRoutes} TypeList="routerItem" />
     </View>
   );
 };
