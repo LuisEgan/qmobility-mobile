@@ -10,10 +10,11 @@ import Modal from "../Modal";
 interface IImageProfile {
   label: string;
   color: string;
+  changePhotoOption?: boolean;
 }
 
 const ImageProfile = (props: IImageProfile) => {
-  const { label, color } = props;
+  const { label, color, changePhotoOption } = props;
 
   const [stateModal, setStateModal] = useState<boolean>(false);
 
@@ -120,14 +121,21 @@ const ImageProfile = (props: IImageProfile) => {
             {label}
           </Text>
         </View>
-        <View style={styles.viewContentStyle}>
-          <TouchableOpacity onPress={loadingPhoto}>
-            <Text style={styles.textContentStyle}>Change Photo</Text>
-          </TouchableOpacity>
-        </View>
+
+        {changePhotoOption && (
+          <View style={styles.viewContentStyle}>
+            <TouchableOpacity onPress={loadingPhoto}>
+              <Text style={styles.textContentStyle}>Change Photo</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </>
   );
+};
+
+ImageProfile.defaultProps = {
+  changePhotoOption: true,
 };
 
 export default ImageProfile;
