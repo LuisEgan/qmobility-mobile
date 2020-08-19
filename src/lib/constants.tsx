@@ -35,4 +35,5 @@ export const APP_STACK_SCREENS_NAMES = {
   SearchRouter: "SearchRouter",
   EditProfile: "EditProfile",
   Profile: "Profile",
+  MyRoutes: "MyRoutes",
 };
