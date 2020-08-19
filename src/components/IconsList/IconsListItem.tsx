@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import Icons from "../svg";
 import { IComponentsDefaults } from "../../lib/Types";
 import { Text, Theme } from "../../config/Theme";
