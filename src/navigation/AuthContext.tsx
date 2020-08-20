@@ -17,11 +17,11 @@ export const authMethods = ({ setUserToken }: IAuthMethodsParams) => () => ({
   emailSignIn: (data: string) => {
     setUserToken(data);
   },
-  googleSignIn: () => {},
-  linkedInSignIn: () => {},
-  fbSignIn: () => {},
-  signOut: () => {},
-  signUp: () => {},
+  googleSignIn: () => null,
+  linkedInSignIn: () => null,
+  fbSignIn: () => null,
+  signOut: () => null,
+  signUp: () => null,
 });
 
 const setUserToken = (token = "") => token;

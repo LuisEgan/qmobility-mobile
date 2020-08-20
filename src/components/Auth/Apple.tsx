@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import * as AppleAuthentication from "expo-apple-authentication";
+import { Platform } from "react-native";
 import Icons from "../svg";
 import {
   ISocialNetworkLogin,
   ISocialNetworkLoginVars,
 } from "../../gql/User/mutations";
 import { User } from "../../gql";
-import { Platform } from "react-native";
 
 const isIOS = Platform.OS === "ios";
 
@@ -18,9 +18,7 @@ const Apple = () => {
   >(User.mutations.loginWithApple);
 
   useEffect(() => {
-    if (appleData) {
-      console.log("appleData: ", appleData);
-    }
+    // if (appleData) {}
   }, [appleData]);
 
   const login = async () => {
@@ -40,7 +38,7 @@ const Apple = () => {
         });
       }
     } catch (error) {
-      console.log("TCL: login -> error", error);
+      console.error("TCL: login -> error", error);
     }
   };
 

@@ -1,5 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "@shopify/restyle";
 import {
   Header,
   ImageProfile,
@@ -10,8 +12,6 @@ import {
 import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Text, Theme } from "../../../config/Theme";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
-import { useNavigation } from "@react-navigation/native";
-import { useTheme } from "@shopify/restyle";
 
 interface ICreateProfile extends TTCsNavProps {}
 
@@ -48,16 +48,8 @@ const CreateProfile = (props: ICreateProfile) => {
         <Text variant="heading1">Jon Doe</Text>
         <Text variant="bodyHighlight">JoDo</Text>
         <Text variant="subheadingLight">jondoe@gmail.com</Text>
-        <Input
-          disabled
-          defaultValue="18/08/1984"
-          onChange={() => console.log()}
-        />
-        <Input
-          disabled
-          defaultValue="+44 123 456 789"
-          onChange={() => console.log()}
-        />
+        <Input disabled defaultValue="18/08/1984" onChange={() => null} />
+        <Input disabled defaultValue="+44 123 456 789" onChange={() => null} />
         <View style={styles.containerTtitleEdition}>
           <Text variant="label">YOUR VIRTUAL EVE</Text>
           <TouchableOpacity

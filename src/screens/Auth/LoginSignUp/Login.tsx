@@ -4,7 +4,7 @@ import { Formik, FormikProps } from "formik";
 import { ScrollView } from "react-native-gesture-handler";
 import * as yup from "yup";
 
-import { Button, Input, Icons } from "../../../components";
+import { Button, Input } from "../../../components";
 import { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
 import Auth from "../../../components/Auth";
@@ -24,9 +24,8 @@ const LoginSchema = yup.object().shape({
 
 const Login = () => {
   // * Form Login
-  const formLogin = (values: IFormValues): void => {
-    console.log("values: ", values);
-  };
+  // const formLogin = (values: IFormValues): void => {
+  const formLogin = (): null => null;
 
   const Form = (params: FormikProps<IFormValues>) => {
     const { handleChange, handleSubmit, handleBlur, errors, touched } = params;
@@ -45,7 +44,7 @@ const Login = () => {
           <Input
             containerStyle={{ marginHorizontal: 0 }}
             placeholder="Password"
-            isPassword={true}
+            isPassword
             onChange={handleChange("password")}
             onBlur={handleBlur("password")}
             error={errors.password && ERRORS.WRONG_PASSWORD}

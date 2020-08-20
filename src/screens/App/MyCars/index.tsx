@@ -72,9 +72,9 @@ const MyCars = (props: IMyCars) => {
           <Text variant="label">Virtual vehicles</Text>
         </View>
 
-        {listMyCars.map((car, i) => {
-          return <CardImage key={`${car.title}_${i}`} {...car} />;
-        })}
+        {listMyCars.map((car) => (
+          <CardImage key={`${car.title}_${Math.random()}`} {...car} />
+        ))}
       </ScrollView>
       <Footer
         title="Feeling a bit adventurous today?"

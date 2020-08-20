@@ -7,8 +7,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint:fix": "eslint src/*.ts --fix && eslint src/*.tsx --fix",
-    "lint": "eslint src/*.ts && eslint src/*.tsx"
+    "lint:fix": "eslint src/**/*.{ts,tsx} --fix --no-error-on-unmatched-pattern",
+    "lint": "eslint src/**/*.{ts,tsx} --no-error-on-unmatched-pattern",
+    "prettier": "prettier . --write"
   },
   "dependencies": {
     "@apollo/client": "^3.1.2",

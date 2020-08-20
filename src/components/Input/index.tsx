@@ -6,8 +6,8 @@ import {
   NativeSyntheticEvent,
   TextInputFocusEventData,
 } from "react-native";
-import { Text, Theme } from "../../config/Theme";
 import { useTheme } from "@shopify/restyle";
+import { Text, Theme } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface IInput extends IComponentsDefaults {

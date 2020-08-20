@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { useTheme } from "@shopify/restyle";
 import Button from "../Button";
 import Icons from "../svg";
 import { Text, Theme } from "../../config/Theme";
 import Modal from "../Modal";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
-import { useTheme } from "@shopify/restyle";
 
 interface ISelect extends IComponentsDefaults {
-  onPress: (str: string) => void;
+  onPress: (str: string | number) => void;
   title?: string;
   iconTitle?: TIcon;
   list: Array<string | number>;
@@ -39,63 +39,59 @@ const Select = (props: ISelect) => {
   const text = value === "" ? placeholder : value;
   const color = value === "" ? theme.colors.grayLight : theme.colors.black;
 
-  const ModalSelect = () => {
-    return (
-      <Modal state={stateModal} onClosed={() => setStateModal(!stateModal)}>
-        <View
-          style={[
-            styles.veiwStyleConten,
-            {
-              backgroundColor: theme.colors.grayLighter,
-            },
-          ]}
-        >
-          <ScrollView style={styles.ScrollViewStyle}>
-            {list.map((x: string | number, i: number) => {
-              return (
-                <TouchableOpacity
+  const ModalSelect = () => (
+    <Modal state={stateModal} onClosed={() => setStateModal(!stateModal)}>
+      <View
+        style={[
+          styles.veiwStyleConten,
+          {
+            backgroundColor: theme.colors.grayLighter,
+          },
+        ]}
+      >
+        <ScrollView style={styles.ScrollViewStyle}>
+          {list.map((x) => (
+            <TouchableOpacity
+              style={[
+                styles.touchSelectStyle,
+                {
+                  borderColor: theme.colors.grayLight,
+                },
+              ]}
+              key={x}
+              onPress={() => {
+                onPress(x);
+                setStateModal(false);
+              }}
+            >
+              <View>
+                <Text
                   style={[
-                    styles.touchSelectStyle,
+                    styles.textScrollViewStyle,
                     {
-                      borderColor: theme.colors.grayLight,
+                      color: theme.colors.black,
                     },
                   ]}
-                  key={i}
-                  onPress={() => {
-                    onPress(x);
-                    setStateModal(false);
-                  }}
                 >
-                  <View>
-                    <Text
-                      style={[
-                        styles.textScrollViewStyle,
-                        {
-                          color: theme.colors.black,
-                        },
-                      ]}
-                    >
-                      {x}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
-        </View>
+                  {x}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
 
-        <View style={styles.contentButton}>
-          <View style={styles.veiwStyleContenButton}>
-            <Button
-              variant="primary"
-              onPress={() => setStateModal(false)}
-              label="CANCEL"
-            />
-          </View>
+      <View style={styles.contentButton}>
+        <View style={styles.veiwStyleContenButton}>
+          <Button
+            variant="primary"
+            onPress={() => setStateModal(false)}
+            label="CANCEL"
+          />
         </View>
-      </Modal>
-    );
-  };
+      </View>
+    </Modal>
+  );
 
   return (
     <>
@@ -129,7 +125,7 @@ const Select = (props: ISelect) => {
               <Text
                 style={[
                   {
-                    color: color,
+                    color,
                   },
                   styles.textSelectStyle,
                 ]}

@@ -1,9 +1,9 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
+import { useTheme } from "@shopify/restyle";
 import { Header, Icons, Button } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { TMyCarsNavProps } from "../../../navigation/Types/NavPropsTypes";
-import { useTheme } from "@shopify/restyle";
 
 interface IMyCars extends TMyCarsNavProps {}
 
@@ -166,10 +166,10 @@ const MyCars = (props: IMyCars) => {
           <Text variant="subheadingLight">This is your perfect match:</Text>
         </View>
 
-        {listMyCars &&
-          listMyCars.map((car, i) => {
-            return <ListCar key={`${car.name}_${i}`} {...car} />;
-          })}
+        {listMyCars
+          && listMyCars.map((car) => (
+            <ListCar key={`${car.name}_${Math.random()}`} {...car} />
+          ))}
 
         {ListAlternative && (
           <>
@@ -177,19 +177,17 @@ const MyCars = (props: IMyCars) => {
               <Text variant="subheadingLight">Here’s an alternative:</Text>
             </View>
 
-            {ListAlternative &&
-              ListAlternative.map((car, i) => {
-                return <ListCar key={`${car.name}_${i}`} {...car} />;
-              })}
+            {ListAlternative
+              && ListAlternative.map((car) => (
+                <ListCar key={`${car.name}_${Math.random()}`} {...car} />
+              ))}
           </>
         )}
       </ScrollView>
       <Button
         label="Go to map"
         variant="primary"
-        onPress={() => {
-          console.log("1");
-        }}
+        onPress={() => null}
         containerStyle={styles.buttonStyle}
       />
     </View>

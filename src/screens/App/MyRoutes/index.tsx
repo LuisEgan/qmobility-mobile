@@ -1,10 +1,9 @@
 import React, { useLayoutEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
-import { Header, Icons, List, RouteListItem } from "../../../components";
-import { TMyRoutesNavProps } from "../../../navigation/Types/NavPropsTypes";
-import { Text, Theme } from "../../../config/Theme";
+import { View, StyleSheet } from "react-native";
 import { useTheme } from "@shopify/restyle";
-import { TIcon } from "../../../components/svg/icons/TypeIcons";
+import { Header, List } from "../../../components";
+import { TMyRoutesNavProps } from "../../../navigation/Types/NavPropsTypes";
+import { Theme } from "../../../config/Theme";
 
 interface IListRoutes {
   date?: string;

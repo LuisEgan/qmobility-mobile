@@ -1,12 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { Button, Input } from "../../../components";
-
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
+import { ScrollView } from "react-native-gesture-handler";
+import { Button, Input } from "../../../components";
+
 import { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
-import { ScrollView } from "react-native-gesture-handler";
 import Auth from "../../../components/Auth";
 
 const { width, height } = Dimensions.get("window");
@@ -22,9 +22,8 @@ const SignUpSchema = yup.object().shape({
 });
 
 const SignUp = () => {
-  const login = (values: IFormValues): void => {
-    console.log("values: ", values);
-  };
+  // const login = (values: IFormValues): void => {
+  const login = (): null => null;
 
   const Form = (params: FormikProps<IFormValues>) => {
     const { handleChange, handleSubmit, handleBlur, errors, touched } = params;
@@ -43,7 +42,7 @@ const SignUp = () => {
           <Input
             containerStyle={{ marginHorizontal: 0 }}
             placeholder="Password"
-            isPassword={true}
+            isPassword
             onChange={handleChange("password")}
             onBlur={handleBlur("password")}
             error={errors.password && ERRORS.WRONG_PASSWORD}

@@ -16,9 +16,7 @@ const Google = () => {
   >(User.mutations.loginWithGoogle);
 
   useEffect(() => {
-    if (googleData) {
-      console.log("googleData: ", googleData);
-    }
+    // if (googleData) {}
   }, [googleData]);
 
   const login = async () => {
@@ -32,9 +30,10 @@ const Google = () => {
       });
 
       if (loginResult.type === "success") {
+        const accessToken = loginResult.accessToken || "";
         googleLogin({
           variables: {
-            accessToken: loginResult.accessToken as string,
+            accessToken,
           },
         });
       } else {

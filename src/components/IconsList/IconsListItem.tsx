@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
+import { useTheme } from "@shopify/restyle";
 import Icons from "../svg";
 import { IComponentsDefaults } from "../../lib/Types";
 import { Text, Theme } from "../../config/Theme";
 import { TIcon } from "../svg/icons/TypeIcons";
-import { useTheme } from "@shopify/restyle";
 
 export interface IIconsListItem extends IComponentsDefaults {
   text: string;

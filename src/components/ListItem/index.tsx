@@ -1,10 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { useTheme } from "@shopify/restyle";
 import Icons from "../svg";
 import { Text, Theme } from "../../config/Theme";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
-import { useTheme } from "@shopify/restyle";
 
 interface IListItem extends IComponentsDefaults {
   icon?: TIcon;

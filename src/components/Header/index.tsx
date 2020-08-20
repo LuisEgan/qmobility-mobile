@@ -7,12 +7,12 @@ import {
   StyleProp,
   ViewStyle,
 } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useTheme } from "@shopify/restyle";
 import { Text, Theme } from "../../config/Theme";
 import Icons from "../svg";
 
 import { TIcon } from "../svg/icons/TypeIcons";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { useTheme } from "@shopify/restyle";
 
 interface IHeader {
   onPress?: () => void;
@@ -24,6 +24,7 @@ interface IHeader {
   text?: string;
   textRight?: string;
   containerStyle?: StyleProp<ViewStyle>;
+  height?: number;
 }
 
 const { width, height } = Dimensions.get("window");
@@ -57,8 +58,8 @@ const Header = (props: IHeader) => {
         containerStyle,
       ]}
     >
-      {(icon || text) &&
-        (onPress ? (
+      {(icon || text)
+        && (onPress ? (
           <View style={styles.iconStyle}>
             <TouchableOpacity
               onPress={() => onPress()}
@@ -89,8 +90,8 @@ const Header = (props: IHeader) => {
         </View>
       </View>
 
-      {(iconRight || textRight) &&
-        (onPressRight ? (
+      {(iconRight || textRight)
+        && (onPressRight ? (
           <View style={styles.iconRightStyle}>
             <TouchableOpacity
               onPress={() => onPressRight()}
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     right: width * 0.02,
   },
   contentStyle: {
-    width: width,
+    width,
     height: height * 0.21,
     justifyContent: "center",
   },
