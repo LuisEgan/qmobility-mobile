@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import IconsListItem, { IIconsListItem } from "./IconsListItem";
-import { IComponentsDefaults } from "../../lib/Types";
+import { IComponentsDefaults } from "../../../lib/Types";
 
 interface ListItems extends Array<IIconsListItem> {}
 

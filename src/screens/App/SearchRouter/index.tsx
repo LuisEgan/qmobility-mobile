@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { useTheme } from "@shopify/restyle";
+import * as Permissions from "expo-permissions";
 import { InputSearch, Card, ListItem } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
@@ -24,6 +25,18 @@ const SearchRouter = () => {
 
   const theme = useTheme<Theme>();
 
+  useEffect(() => {
+    getPermissionAsync();
+  });
+
+  const getPermissionAsync = async () => {
+    try {
+      await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+    } catch (error) {
+      console.error("TCL: getPermissionAsync -> error", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <InputSearch
@@ -32,6 +45,7 @@ const SearchRouter = () => {
           setSearch(str);
         }}
       />
+
       <View style={styles.contentCard}>
         {ListTest.listFavorite
           && ListTest.listFavorite.map((place) => (

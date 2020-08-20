@@ -32,9 +32,9 @@ const LinkedIn = () => {
   return (
     <LinkedInModal
       ref={linkedRef}
-      clientID="78zmryvj0ujwqr"
-      clientSecret="6O9y600ae71XePWC"
-      redirectUri="https://www.linkedin.com/developers/apps/51992724"
+      clientID="78rt6ffawe2601"
+      clientSecret="ESxDZ5byttU4yv86"
+      redirectUri="https://www.linkedin.com/developers/apps/55928244"
       onSuccess={login}
       onError={(err) => alert(err)}
       renderButton={() => (

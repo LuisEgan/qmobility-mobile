@@ -9,6 +9,7 @@ import {
   ArrowUpLight,
   ArrowDownLight,
   ArrowBackLight,
+  ArrowRightLight,
   Info,
   Email,
   Menu,
@@ -21,6 +22,8 @@ import {
   Mic,
   MoreVert,
   Delete,
+  Circle,
+  Market,
   CompassWithCircles,
 } from "./icons";
 
@@ -44,6 +47,7 @@ const icons = {
   ArrowUpLight: (props: Iicons) => <ArrowUpLight {...props} />,
   ArrowDownLight: (props: Iicons) => <ArrowDownLight {...props} />,
   ArrowBackLight: (props: Iicons) => <ArrowBackLight {...props} />,
+  ArrowRightLight: (props: Iicons) => <ArrowRightLight {...props} />,
   Info: (props: Iicons) => <Info {...props} />,
   Email: (props: Iicons) => <Email {...props} />,
   Menu: (props: Iicons) => <Menu {...props} />,
@@ -58,6 +62,8 @@ const icons = {
   MoreVert: (props: Iicons) => <MoreVert {...props} />,
   CompassWithCircles: (props: Iicons) => <CompassWithCircles {...props} />,
   Delete: (props: Iicons) => <Delete {...props} />,
+  Circle: (props: Iicons) => <Circle {...props} />,
+  Market: (props: Iicons) => <Market {...props} />,
 };
 
 const Icons = (props: Iicons) => {

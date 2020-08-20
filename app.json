@@ -5,6 +5,10 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/png/icon.png",
+    "facebookScheme": "fb764850257614217",
+    "facebookAppId": "764850257614217",
+    "facebookAutoInitEnabled": true,
+    "facebookDisplayName": "cleverit",
     "splash": {
       "image": "./src/assets/png/eVeSplash.png",
       "resizeMode": "contain",
@@ -14,8 +18,53 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
+
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.qmobility.eve",
+      "supportsTablet": false,
+      "usesAppleSignIn": true,
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.69703201369-6lqjlkadpv8hh2ji4rg53g8mnd4kk7df"
+        }
+      },
+      "infoPlist": {
+        "UIBackgroundModes": ["audio"]
+      }
+    },
+    "android": {
+      "package": "com.qmobility.eve",
+      "versionCode": 1,
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA",
+        "MANAGE_DOCUMENTS",
+        "READ_CONTACTS",
+        "READ_CALENDAR",
+        "WRITE_CALENDAR",
+        "READ_EXTERNAL_STORAGE",
+        "USE_FINGERPRINT",
+        "VIBRATE",
+        "WAKE_LOCK",
+        "WRITE_EXTERNAL_STORAGE",
+        "com.anddoes.launcher.permission.UPDATE_COUNT",
+        "com.android.launcher.permission.INSTALL_SHORTCUT",
+        "com.google.android.c2dm.permission.RECEIVE",
+        "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
+        "com.google.android.providers.gsf.permission.READ_GSERVICES",
+        "com.htc.launcher.permission.READ_SETTINGS",
+        "com.htc.launcher.permission.UPDATE_SHORTCUT",
+        "com.majeur.launcher.permission.UPDATE_BADGE",
+        "com.sec.android.provider.badge.permission.READ",
+        "com.sec.android.provider.badge.permission.WRITE",
+        "com.sonyericsson.home.permission.BROADCAST_BADGE"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAQsNeWBPWMJioA3NDqt6M-s9b-bDf-UOQ"
+        }
+      }
     },
     "web": {
       "favicon": "./src/assets/png/favicon.png"

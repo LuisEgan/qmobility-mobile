@@ -22,7 +22,7 @@ const Facebook = () => {
   const login = async () => {
     try {
       // TODO facebook appId on .env
-      await FacebookExpo.initializeAsync("493225574911530", "mixo");
+      await FacebookExpo.initializeAsync("764850257614217", "cleverit");
       const loginResult = await FacebookExpo.logInWithReadPermissionsAsync({
         permissions: ["public_profile", "email"],
       });

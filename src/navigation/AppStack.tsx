@@ -10,6 +10,8 @@ import {
   Main,
   EditProfile,
   Profile,
+  MyRoutes,
+  Details,
 } from "../screens/App";
 import { APP_STACK_SCREENS_NAMES } from "../lib/constants";
 
@@ -51,6 +53,16 @@ export const APP_STACK_SCREENS: IScreens = [
   {
     name: APP_STACK_SCREENS_NAMES.Profile,
     component: Profile,
+    headerShown: true,
+  },
+  {
+    name: APP_STACK_SCREENS_NAMES.MyRoutes,
+    component: MyRoutes,
+    headerShown: true,
+  },
+  {
+    name: APP_STACK_SCREENS_NAMES.Details,
+    component: Details,
     headerShown: true,
   },
 ];
