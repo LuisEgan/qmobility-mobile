@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { useTheme } from "@shopify/restyle";
-import { Header, List } from "../../../components";
+import { Header } from "../../../components";
 import { TMyRoutesNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Theme } from "../../../config/Theme";
 
@@ -62,9 +62,7 @@ const MyRoutes = (props: IMyRoutes) => {
           backgroundColor: theme.colors.white,
         },
       ]}
-    >
-      <List ListArray={listRoutes} TypeList="routerItem" />
-    </View>
+    />
   );
 };
 export default MyRoutes;

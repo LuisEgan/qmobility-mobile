@@ -1,10 +1,10 @@
 import React from "react";
 import { FlatList, View } from "react-native";
-import { IComponentsDefaults } from "../../lib/Types";
-import { TList } from "./TypeList";
-import RouteListItem from "./Item/RouteListItem";
+import { IComponentsDefaults } from "../../../lib/Types";
+import { TList } from "../TypeList";
+import RouteListItem from "./RouteListItem";
 
-type TTypeList = "routerItem" | "iconItem" | "hi";
+type TTypeList = "routerItem" | "iconItem";
 
 interface IList extends IComponentsDefaults {
   ListArray: TList;

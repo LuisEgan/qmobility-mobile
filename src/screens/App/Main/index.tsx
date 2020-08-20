@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { Map, InputSearch, HOCS } from "../../../components";
-
-const { DrawerMenu } = HOCS;
+import { Map, InputSearch } from "../../../components";
+import { DrawerMenu } from "../../../components/HOCs";
 
 const Main = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);

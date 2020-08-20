@@ -4,8 +4,8 @@ import useTheme from "@shopify/restyle/dist/hooks/useTheme";
 import { useNavigation } from "@react-navigation/native";
 import { Text, Theme } from "../../../config/Theme";
 import { ImageProfile } from "../..";
-import IconsList from "../../IconsList";
-import { IIconsListItem } from "../../IconsList/IconsListItem";
+import IconsList from "../../Lists/IconsList";
+import { IIconsListItem } from "../../Lists/IconsList/IconsListItem";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const { width, height } = Dimensions.get("window");
