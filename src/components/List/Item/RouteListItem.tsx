@@ -1,39 +1,35 @@
-import React, { PropsWithChildren } from "react";
+import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { TIcon } from "../../svg/icons/TypeIcons";
 import useTheme from "@shopify/restyle/dist/hooks/useTheme";
+import { TIcon } from "../../svg/icons/TypeIcons";
 import { Theme, Text } from "../../../config/Theme";
 import Icons from "../../svg";
 import { IRoute } from "../TypeList";
+
+interface IDetail {
+  title: string;
+  detail?: string;
+  icon?: TIcon;
+}
 
 const RouteListItem = (props: IRoute) => {
   const { date, from, to } = props;
 
   const theme = useTheme<Theme>();
 
-  const Detail = ({
-    title,
-    detail,
-    icon,
-  }: {
-    title: string;
-    detail?: string;
-    icon?: TIcon;
-  }) => {
-    return (
-      <View style={styles.detailContainer}>
-        {icon && (
-          <View style={styles.detailContent}>
-            <Icons icon={icon} fill={theme.colors.primary} size={18} />
-          </View>
-        )}
-        <View>
-          <Text variant="bodyHighlight">{title}</Text>
-          {detail && <Text variant="heading2">{detail}</Text>}
+  const Detail = ({ title, detail, icon }: IDetail) => (
+    <View style={styles.detailContainer}>
+      {icon && (
+        <View style={styles.detailContent}>
+          <Icons icon={icon} fill={theme.colors.primary} size={18} />
         </View>
+      )}
+      <View>
+        <Text variant="bodyHighlight">{title}</Text>
+        {detail && <Text variant="heading2">{detail}</Text>}
       </View>
-    );
-  };
+    </View>
+  );
 
   return (
     <TouchableOpacity

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { useTheme } from "@shopify/restyle";
+import * as Permissions from "expo-permissions";
 import { InputSearch, Card, ListItem } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
 
 import ListTest from "./ListTest";
-
-import * as Permissions from "expo-permissions";
 
 const { height } = Dimensions.get("window");
 

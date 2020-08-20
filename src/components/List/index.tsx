@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, FlatList, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { IComponentsDefaults } from "../../lib/Types";
 import { TList } from "./TypeList";
 import RouteListItem from "./Item/RouteListItem";
 
-type TTypeList = "routerItem" | "iconItem";
+type TTypeList = "routerItem" | "iconItem" | "hi";
 
 interface IList extends IComponentsDefaults {
   ListArray: TList;
@@ -26,21 +26,10 @@ const List = (props: IList) => {
   return (
     <FlatList
       data={ListArray}
-      renderItem={({ item, index }) => {
-        return <TypeItem key={`${item}_${index}`} {...item} />;
-      }}
+      renderItem={({ item, index }) => (
+        <TypeItem key={`${item}_${index}`} {...item} />
+      )}
     />
   );
 };
 export default List;
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    marginHorizontal: "5%",
-    marginVertical: 10,
-
-    borderBottomWidth: 1,
-    justifyContent: "space-between",
-  },
-});
