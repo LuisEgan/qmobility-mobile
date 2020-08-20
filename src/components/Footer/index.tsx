@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { Text } from "../../config/Theme";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { Text } from "../../config/Theme";
 
 interface IFooter {
   title?: string;
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   contentStyle: {
-    width: width,
+    width,
   },
   viewStyle: {
     justifyContent: "center",

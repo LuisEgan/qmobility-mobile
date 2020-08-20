@@ -1,9 +1,9 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
+import { useTheme } from "@shopify/restyle";
 import { Header, Slider } from "../../../components";
 import slides from "./slides";
 import { TProfileScrollNavProps } from "../../../navigation/Types/NavPropsTypes";
-import { useTheme } from "@shopify/restyle";
 import { Theme } from "../../../config/Theme";
 
 const { height, width } = Dimensions.get("window");

@@ -3,11 +3,7 @@ import { View, StyleSheet } from "react-native";
 import DrawerMenu from "../../../components/HOCs/DrawerMenu";
 import { Map, InputSearch } from "../../../components";
 
-interface IMain {}
-
-const Main = (props: IMain) => {
-  const {} = props;
-
+const Main = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const toggleDrawer = () => {
@@ -20,7 +16,7 @@ const Main = (props: IMain) => {
         <View style={styles.container}>
           <InputSearch
             containerStyle={styles.inputSearch}
-            onChange={(e) => console.log(e)}
+            onChange={() => null}
             leftIcon="Menu"
             onLeftIconPress={toggleDrawer}
           />

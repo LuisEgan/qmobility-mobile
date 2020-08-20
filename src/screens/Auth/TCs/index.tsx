@@ -7,9 +7,9 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Button, Icons } from "../../../components";
 import { Text } from "../../../config/Theme";
-import { useNavigation } from "@react-navigation/native";
 import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Title, textBlack, StepText, textLight } from "./Texts";
 import Header from "../../../components/Header";
@@ -19,9 +19,8 @@ const isCloseToBottom = ({
   layoutMeasurement,
   contentOffset,
   contentSize,
-}: NativeScrollEvent) => {
-  return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
-};
+}: NativeScrollEvent) =>
+  layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
 
 interface ITCs extends TTCsNavProps {}
 
@@ -61,22 +60,22 @@ const TCs = (props: ITCs) => {
       >
         {Title("General Rules")}
         {textBlack(
-          "IMPORTANT: BY USING YOUR iPHONE, iPAD OR iPOD TOUCH (“DEVICE”), YOU ARE AGREEING TO BE BOUND BY THE FOLLOWING TERMS:"
+          "IMPORTANT: BY USING YOUR iPHONE, iPAD OR iPOD TOUCH (“DEVICE”), YOU ARE AGREEING TO BE BOUND BY THE FOLLOWING TERMS:",
         )}
         {StepText(
           1,
-          "You may use the Services only if you agree to form a binding contract with us and are not a person barred from receiving services under the laws of the applicable jurisdiction."
+          "You may use the Services only if you agree to form a binding contract with us and are not a person barred from receiving services under the laws of the applicable jurisdiction.",
         )}
 
         {StepText(
           2,
-          "Our Privacy Policy describes how we handle the information you provide to us when you use our Services."
+          "Our Privacy Policy describes how we handle the information you provide to us when you use our Services.",
         )}
 
         {Title("Final Rules")}
 
         {textLight(
-          "a) The software (including Boot ROM code, embedded software and third party software), documentation, interfaces, content, fonts and any data that came with your Device (“Original Apple Software”), as may be updated or replaced by feature enhancements, software updates or system restore software provided by Apple"
+          "a) The software (including Boot ROM code, embedded software and third party software), documentation, interfaces, content, fonts and any data that came with your Device (“Original Apple Software”), as may be updated or replaced by feature enhancements, software updates or system restore software provided by Apple",
         )}
       </ScrollView>
 
@@ -84,7 +83,8 @@ const TCs = (props: ITCs) => {
         <TouchableOpacity style={styles.buttonContainer}>
           <View>
             <Text style={styles.textStyle}>
-              scroll down to agree{"   "}
+              scroll down to agree
+              {"   "}
               <Icons icon="ArrowDown" size={13} />
             </Text>
           </View>

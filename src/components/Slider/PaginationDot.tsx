@@ -1,8 +1,8 @@
 import React from "react";
 import Animated, { interpolate, Extrapolate } from "react-native-reanimated";
 import { useTheme } from "@shopify/restyle";
-import { Theme } from "../../config/Theme";
 import { StyleSheet } from "react-native";
+import { Theme } from "../../config/Theme";
 
 interface IPaginationDot {
   index: number;
@@ -36,7 +36,7 @@ const PaginationDot = (props: IPaginationDot) => {
           backgroundColor: theme.colors.primary,
         },
       ]}
-    ></Animated.View>
+    />
   );
 };
 

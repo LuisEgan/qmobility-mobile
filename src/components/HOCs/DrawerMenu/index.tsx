@@ -49,7 +49,7 @@ const DrawerMenu: FC<IDrawerMenu> = (props) => {
 
   const toggleDrawer = (open: boolean) => {
     setIsDrawerOpen(open);
-    onDrawerToggle && onDrawerToggle(open);
+    if (onDrawerToggle) onDrawerToggle(open);
   };
 
   return (
@@ -61,32 +61,30 @@ const DrawerMenu: FC<IDrawerMenu> = (props) => {
         styles.swipeableContainer,
         { backgroundColor: theme.colors.drawerBackground },
       ]}
-      renderLeftActions={() => {
-        return (
-          <View
+      renderLeftActions={() => (
+        <View
+          style={[
+            styles.menu,
+            { backgroundColor: theme.colors.drawerBackground },
+          ]}
+        >
+          <Animated.View
             style={[
-              styles.menu,
-              { backgroundColor: theme.colors.drawerBackground },
+              styles.menuContent,
+              {
+                opacity: menuOpacity,
+                transform: [
+                  {
+                    translateX: menuX,
+                  },
+                ],
+              },
             ]}
           >
-            <Animated.View
-              style={[
-                styles.menuContent,
-                {
-                  opacity: menuOpacity,
-                  transform: [
-                    {
-                      translateX: menuX,
-                    },
-                  ],
-                },
-              ]}
-            >
-              <LeftMenu />
-            </Animated.View>
-          </View>
-        );
-      }}
+            <LeftMenu />
+          </Animated.View>
+        </View>
+      )}
       friction={5}
       onSwipeableLeftWillOpen={() => toggleDrawer(true)}
       onSwipeableWillClose={() => {

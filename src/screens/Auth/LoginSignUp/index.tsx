@@ -1,14 +1,14 @@
 import React, { useLayoutEffect } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useTheme } from "@shopify/restyle";
+import { Dimensions } from "react-native";
 import { IAuthScreens } from "../../../navigation/AuthStack";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import { TLoginSignUpNavProps } from "../../../navigation/Types/NavPropsTypes";
 import Header from "../../../components/Header";
-import { useTheme } from "@shopify/restyle";
 import { Theme } from "../../../config/Theme";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
-import { Dimensions } from "react-native";
 
 const { height } = Dimensions.get("window");
 
@@ -46,7 +46,7 @@ const LoginSignUp = (props: ILoginSignUp) => {
 
   return (
     <Tab.Navigator
-      lazy={true}
+      lazy
       initialRouteName={AUTH_STACK_SCREENS_NAMES.Login}
       tabBarOptions={{
         indicatorStyle: {
@@ -62,9 +62,9 @@ const LoginSignUp = (props: ILoginSignUp) => {
         },
       }}
     >
-      {LOGIN_SIGNUP_STACK_SCREENS.map(({ name, component }) => {
-        return <Tab.Screen key={name} {...{ name, component }}></Tab.Screen>;
-      })}
+      {LOGIN_SIGNUP_STACK_SCREENS.map(({ name, component }) => (
+        <Tab.Screen key={name} {...{ name, component }} />
+      ))}
     </Tab.Navigator>
   );
 };

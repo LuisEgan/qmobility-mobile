@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Text, Theme } from "../../config/Theme";
 
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import { useTheme } from "@shopify/restyle";
+import { Text, Theme } from "../../config/Theme";
 import Modal from "../Modal";
 
 interface IImageProfile {
@@ -24,41 +24,36 @@ const ImageProfile = (props: IImageProfile) => {
     getPermissionAsync();
   });
 
-  const ModalSelect = () => {
-    return (
-      <Modal
-        state={stateModal}
-        onClosed={() => {
-          setStateModal(!stateModal);
-        }}
+  const ModalSelect = () => (
+    <Modal
+      state={stateModal}
+      onClosed={() => {
+        setStateModal(!stateModal);
+      }}
+    >
+      <View
+        style={[
+          styles.modalViewStyle,
+          {
+            backgroundColor: theme.colors.white,
+          },
+        ]}
       >
-        <View
-          style={[
-            styles.modalViewStyle,
-            {
-              backgroundColor: theme.colors.white,
-            },
-          ]}
+        <TouchableOpacity onPress={searchAlbum} style={styles.modalTouchStyle}>
+          <Text variant="body">Select album</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={takePhoto} style={styles.modalTouchStyle}>
+          <Text variant="body">Take a photo</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setStateModal(false)}
+          style={styles.modalTouchStyle}
         >
-          <TouchableOpacity
-            onPress={searchAlbum}
-            style={styles.modalTouchStyle}
-          >
-            <Text variant="body">Select album</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={takePhoto} style={styles.modalTouchStyle}>
-            <Text variant="body">Take a photo</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setStateModal(false)}
-            style={styles.modalTouchStyle}
-          >
-            <Text variant="body">Cancel</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-    );
-  };
+          <Text variant="body">Cancel</Text>
+        </TouchableOpacity>
+      </View>
+    </Modal>
+  );
 
   const getPermissionAsync = async () => {
     try {
@@ -73,7 +68,7 @@ const ImageProfile = (props: IImageProfile) => {
   };
 
   const takePhoto = async () => {
-    let result = await ImagePicker.launchCameraAsync({
+    const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [3, 3],
@@ -81,12 +76,11 @@ const ImageProfile = (props: IImageProfile) => {
     });
     if (!result.cancelled) {
       setStateModal(false);
-      console.log("takePhoto -> result", result);
     }
   };
 
   const searchAlbum = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [3, 3],
@@ -94,7 +88,6 @@ const ImageProfile = (props: IImageProfile) => {
     });
     if (!result.cancelled) {
       setStateModal(false);
-      console.log("searchAlbum -> result", result);
     }
   };
 

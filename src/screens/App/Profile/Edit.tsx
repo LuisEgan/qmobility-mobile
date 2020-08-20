@@ -6,6 +6,10 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import { Formik, FormikProps } from "formik";
+import * as yup from "yup";
+import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "@shopify/restyle";
 import {
   ImageProfile,
   Header,
@@ -13,13 +17,9 @@ import {
   Icons,
   CardImage,
 } from "../../../components";
-import { Formik, FormikProps } from "formik";
-import * as yup from "yup";
 import { ERRORS, APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Text, Theme } from "../../../config/Theme";
-import { useNavigation } from "@react-navigation/native";
-import { useTheme } from "@shopify/restyle";
 
 const { height } = Dimensions.get("window");
 
@@ -147,9 +147,8 @@ const Edit = (props: IEdit) => {
     );
   };
 
-  const edit = (values: IFormValues): void => {
-    console.log("edit -> values", values);
-  };
+  // const edit = (values: IFormValues): void => {
+  const edit = (): null => null;
 
   return (
     <View

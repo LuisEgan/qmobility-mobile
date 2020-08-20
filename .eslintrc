@@ -1,3 +1,54 @@
 {
-  "extends": ["react-native"]
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["react", "@typescript-eslint"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx",
+          ".native.ts",
+          ".native.tsx"
+        ],
+        "moduleDirectory": ["node_modules"]
+      }
+    }
+  },
+  "rules": {
+    "linebreak-style": "off",
+    "object-curly-newline": "off",
+    "quotes": ["error", "double"],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-props-no-spreading": "off",
+    "no-alert": "off",
+    "react/prop-types": "off",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "react/jsx-filename-extension": [
+      2,
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    "no-use-before-define": [
+      "error",
+      { "functions": true, "classes": true, "variables": false }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  }
 }

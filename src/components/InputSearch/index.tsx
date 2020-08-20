@@ -6,10 +6,10 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import { Theme } from "../../config/Theme";
 import { useTheme } from "@shopify/restyle";
-import { IComponentsDefaults } from "../../lib/Types";
 import { useNavigation } from "@react-navigation/native";
+import { Theme } from "../../config/Theme";
+import { IComponentsDefaults } from "../../lib/Types";
 import Icons from "../svg";
 import { TIcon } from "../svg/icons/TypeIcons";
 
