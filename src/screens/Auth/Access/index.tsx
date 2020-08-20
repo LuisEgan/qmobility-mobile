@@ -1,16 +1,12 @@
 import React from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
-import { Button } from "../../../components/";
 import { useNavigation } from "@react-navigation/native";
+import { Button } from "../../../components";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
-
-interface IAccess {}
 
 const image = { uri: "https://reactjs.org/logo-og.png" };
 
-const Access = (props: IAccess) => {
-  const {} = props;
-
+const Access = () => {
   const { navigate } = useNavigation();
 
   return (
@@ -25,8 +21,7 @@ const Access = (props: IAccess) => {
                   navigate(AUTH_STACK_SCREENS_NAMES.LoginSignUp, {
                     screen: AUTH_STACK_SCREENS_NAMES.SignUp,
                     from: 1,
-                  })
-                }
+                  })}
                 label="SIGN UP"
                 containerStyle={{ marginHorizontal: "10%" }}
               />
@@ -38,8 +33,7 @@ const Access = (props: IAccess) => {
                   navigate(AUTH_STACK_SCREENS_NAMES.LoginSignUp, {
                     screen: AUTH_STACK_SCREENS_NAMES.Login,
                     from: 0,
-                  })
-                }
+                  })}
                 label="LOGIN"
                 containerStyle={{ marginHorizontal: "10%" }}
               />

@@ -17,9 +17,8 @@ const LinkedIn = () => {
   >(User.mutations.loginWithLinkedIn);
 
   useEffect(() => {
-    if (linkedInData) {
-      console.log("linkedInData: ", linkedInData);
-    }
+    // if (linkedInData) {
+    // }
   }, [linkedInData]);
 
   const login = (token: LinkedInToken) => {
@@ -38,11 +37,9 @@ const LinkedIn = () => {
       redirectUri="https://www.linkedin.com/developers/apps/51992724"
       onSuccess={login}
       onError={(err) => alert(err)}
-      renderButton={() => {
-        return (
-          <Icons icon="LinkedIn" onPress={() => linkedRef.current?.open()} />
-        );
-      }}
+      renderButton={() => (
+        <Icons icon="LinkedIn" onPress={() => linkedRef.current?.open()} />
+      )}
     />
   );
 };

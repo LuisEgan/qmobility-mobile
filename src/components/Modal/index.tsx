@@ -5,9 +5,9 @@ import {
   TouchableOpacity,
   Modal as ModalItem,
 } from "react-native";
+import { useTheme } from "@shopify/restyle";
 import { Theme } from "../../config/Theme";
 
-import { useTheme } from "@shopify/restyle";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface IModal extends IComponentsDefaults {
@@ -23,7 +23,7 @@ const Modal = (props: PropsWithChildren<IModal>) => {
   return (
     <ModalItem
       transparent
-      animationType={"fade"}
+      animationType="fade"
       visible={state}
       onRequestClose={onClosed}
     >

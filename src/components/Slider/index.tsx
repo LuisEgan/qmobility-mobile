@@ -37,7 +37,7 @@ const Slider = (props: ISlider) => {
               titleColor,
               textColor,
             },
-            index
+            index,
           ) => (
             <Slide
               key={title}
@@ -54,14 +54,14 @@ const Slider = (props: ISlider) => {
                 currentIndex: divide(x, width),
               }}
             />
-          )
+          ),
         )}
       </Animated.ScrollView>
 
       <View style={styles.pagination}>
         {slides.map((_, index) => (
           <PaginationDot
-            key={index}
+            key={_.text}
             currentIndex={divide(x, width)}
             {...{ index }}
           />

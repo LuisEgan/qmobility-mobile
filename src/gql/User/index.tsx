@@ -1,5 +1,5 @@
-import { default as mutations } from "./mutations";
-import { default as queries } from "./queries";
+import mutations from "./mutations";
+import queries from "./queries";
 
 export default {
   mutations,

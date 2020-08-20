@@ -62,7 +62,7 @@ const AppNavigator = () => (
     {APP_STACK_SCREENS.map(({ name, component, headerShown }) => {
       const options = { headerShown: headerShown || false };
 
-      return <Screen key={name} {...{ name, component, options }}></Screen>;
+      return <Screen key={name} {...{ name, component, options }} />;
     })}
   </>
 );

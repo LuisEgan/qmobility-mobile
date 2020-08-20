@@ -9,12 +9,11 @@ const httpLink = new HttpLink({
 
 const authLink = setContext(async (_, { headers }) => {
   const userToken = await AsyncStorage.getItem(ASYNC_STORAGE_ITEMS.USER_TOKEN);
-  console.log("userToken: ", userToken);
 
   return {
     headers: {
       ...headers,
-      Authorization: userToken ? `Bearer ${userToken}` : ``,
+      Authorization: userToken ? `Bearer ${userToken}` : "",
     },
   };
 });

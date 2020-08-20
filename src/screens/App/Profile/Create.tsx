@@ -1,5 +1,8 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
+import { Formik, FormikProps } from "formik";
+import * as yup from "yup";
+import { useTheme } from "@shopify/restyle";
 import {
   Input,
   Button,
@@ -7,13 +10,10 @@ import {
   ImageProfile,
   Header,
 } from "../../../components";
-import { Formik, FormikProps } from "formik";
-import * as yup from "yup";
 import { ERRORS } from "../../../lib/constants";
 import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 import { Text, Theme } from "../../../config/Theme";
-import { useTheme } from "@shopify/restyle";
 
 const { height } = Dimensions.get("window");
 
@@ -128,9 +128,8 @@ const CreateProfile = (props: ICreateProfile) => {
     );
   };
 
-  const Create = (values: IFormValues): void => {
-    console.log("CreateProfile -> values", values);
-  };
+  // const Create = (values: IFormValues): void => {
+  const Create = (): null => null;
 
   return (
     <View style={styles.container}>

@@ -1,21 +1,18 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
+import useTheme from "@shopify/restyle/dist/hooks/useTheme";
+import { useNavigation } from "@react-navigation/native";
 import { Text, Theme } from "../../../config/Theme";
 import { ImageProfile } from "../..";
-import useTheme from "@shopify/restyle/dist/hooks/useTheme";
 import IconsList from "../../IconsList";
 import { IIconsListItem } from "../../IconsList/IconsListItem";
-import { useNavigation } from "@react-navigation/native";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const { width, height } = Dimensions.get("window");
 
 interface ListItems extends Array<IIconsListItem> {}
 
-interface ILeftMenu {}
-
-const LeftMenu = (props: ILeftMenu) => {
-  const {} = props;
+const LeftMenu = () => {
   const { navigate } = useNavigation();
 
   const theme = useTheme<Theme>();

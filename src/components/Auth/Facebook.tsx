@@ -16,9 +16,7 @@ const Facebook = () => {
   >(User.mutations.loginWithFacebook);
 
   useEffect(() => {
-    if (fbData) {
-      console.log("fbData: ", fbData);
-    }
+    // if (fbData) {}
   }, [fbData]);
 
   const login = async () => {
@@ -28,7 +26,6 @@ const Facebook = () => {
       const loginResult = await FacebookExpo.logInWithReadPermissionsAsync({
         permissions: ["public_profile", "email"],
       });
-      console.log("login -> loginResult", loginResult);
 
       if (loginResult.type === "success") {
         fbLogin({

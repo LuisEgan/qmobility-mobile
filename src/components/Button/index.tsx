@@ -1,11 +1,12 @@
 import React from "react";
 import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
-import { Text, Theme } from "../../config/Theme";
 import { useTheme } from "@shopify/restyle";
+import { Text, Theme } from "../../config/Theme";
 import Icons from "../svg";
 
 import { TIcon } from "../svg/icons/TypeIcons";
+
 export type TVariant = "default" | "primary" | "secondary";
 
 interface IButton {
@@ -56,7 +57,11 @@ const Button = (props: IButton) => {
           accessible
         >
           {iconLeft && <Icons size={22} icon={iconLeft} fill="#fff" />}
-          <Text variant="button"> {label} </Text>
+          <Text variant="button">
+            {" "}
+            {label}
+            {" "}
+          </Text>
           {iconRight && <Icons size={22} icon={iconRight} fill="#fff" />}
         </View>
       </RectButton>

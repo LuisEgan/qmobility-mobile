@@ -1,19 +1,15 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { Slider } from "../../../components";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Text } from "../../../config/Theme";
 import { useNavigation } from "@react-navigation/native";
+import { Slider } from "../../../components";
+import { Text } from "../../../config/Theme";
 import slides from "./slides";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const { height, width } = Dimensions.get("window");
 
-interface IOnboarding {}
-
-const Onboarding = (props: IOnboarding) => {
-  const {} = props;
-
+const Onboarding = () => {
   const { navigate } = useNavigation();
 
   const skip = () => {

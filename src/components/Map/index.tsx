@@ -3,25 +3,19 @@ import { StyleSheet } from "react-native";
 
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 
-import * as Location from "expo-location";
+// import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 
-interface IHome {}
-
-const Map = (props: IHome) => {
-  const {} = props;
-
+const Map = () => {
   useEffect(() => {
-    _getLocationAsync();
+    getLocationAsync();
   }, []);
 
-  const _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+  const getLocationAsync = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
-      const location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
-      console.log("_getLocationAsync -> longitude", longitude);
-      console.log("_getLocationAsync -> latitude", latitude);
+      // const location = await Location.getCurrentPositionAsync({});
+      // const { latitude, longitude } = location.coords;
     }
   };
 
