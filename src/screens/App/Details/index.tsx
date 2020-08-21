@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useTheme } from "@shopify/restyle";
-import { Header, Icons } from "../../../components";
+import { Header, Icons, Button } from "../../../components";
 import { TDetailsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Theme, Text } from "../../../config/Theme";
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
@@ -68,83 +68,92 @@ const Details = (props: IDetails) => {
         },
       ]}
     >
-      <View style={styles.contentTitle}>
-        <Text variant="heading2">Nissan Leaf+</Text>
-        <TouchableOpacity>
-          <Icons icon="MoreVert" fill={theme.colors.primary} size={28} />
-        </TouchableOpacity>
-      </View>
+      <ScrollView style={styles.containerScroll}>
+        <View style={styles.contentTitle}>
+          <Text variant="heading2">Nissan Leaf+</Text>
+          <TouchableOpacity>
+            <Icons icon="MoreVert" fill={theme.colors.primary} size={28} />
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.content}>
-        <Icons icon="Circle" fill={theme.colors.primary} size={28} />
-        <Text
-          variant="heading2"
-          style={{
-            color: theme.colors.primary,
-          }}
-        >
-          100%
-        </Text>
-      </View>
+        <View style={styles.content}>
+          <Icons icon="Circle" fill={theme.colors.primary} size={28} />
+          <Text
+            variant="heading2"
+            style={{
+              color: theme.colors.primary,
+            }}
+          >
+            100%
+          </Text>
+        </View>
 
-      <View style={styles.content}>
-        <Text
-          variant="bodyHighlight"
-          style={{
-            marginRight: 10,
-          }}
-        >
-          eV Battery 62 kWh
-        </Text>
-        <Text variant="body">Range 280 km</Text>
-      </View>
+        <View style={styles.content}>
+          <Text
+            variant="bodyHighlight"
+            style={{
+              marginRight: 10,
+            }}
+          >
+            eV Battery 62 kWh
+          </Text>
+          <Text variant="body">Range 280 km</Text>
+        </View>
 
-      <View style={styles.content}>
-        <IconText />
-        <IconText />
-      </View>
+        <View style={styles.content}>
+          <IconText />
+          <IconText />
+        </View>
 
-      <View
-        style={[
-          styles.content,
-          {
-            justifyContent: "space-between",
-          },
-        ]}
-      >
-        <Text variant="body">United Kingdom</Text>
-        <Text variant="body">£42,345</Text>
-      </View>
-
-      <View
-        style={[
-          styles.content,
-          {
-            justifyContent: "space-between",
-          },
-        ]}
-      >
-        <Text
-          variant="body"
-          style={{
-            color: theme.colors.gray,
-          }}
-        >
-          Availability
-        </Text>
-        <Text variant="body">In production</Text>
-      </View>
-
-      <View style={[styles.card, { borderColor: theme.colors.primary }]}>
-        <ContentView icon="Bubble" subTitle="Trips" />
         <View
-          style={[styles.line, { borderColor: theme.colors.primaryLighter }]}
-        />
-        <ContentView icon="Circle" subTitle="Travelled" type="km" />
+          style={[
+            styles.content,
+            {
+              justifyContent: "space-between",
+            },
+          ]}
+        >
+          <Text variant="body">United Kingdom</Text>
+          <Text variant="body">£42,345</Text>
+        </View>
+
         <View
-          style={[styles.line, { borderColor: theme.colors.primaryLighter }]}
+          style={[
+            styles.content,
+            {
+              justifyContent: "space-between",
+            },
+          ]}
+        >
+          <Text
+            variant="body"
+            style={{
+              color: theme.colors.gray,
+            }}
+          >
+            Availability
+          </Text>
+          <Text variant="body">In production</Text>
+        </View>
+
+        <View style={[styles.card, { borderColor: theme.colors.primary }]}>
+          <ContentView icon="Bubble" subTitle="Trips" />
+          <View
+            style={[styles.line, { borderColor: theme.colors.primaryLighter }]}
+          />
+          <ContentView icon="Circle" subTitle="Travelled" type="km" />
+          <View
+            style={[styles.line, { borderColor: theme.colors.primaryLighter }]}
+          />
+          <ContentView icon="Clock" subTitle="Driving" type="h" />
+        </View>
+      </ScrollView>
+      <View style={styles.button}>
+        <Button
+          label="SET AS DEFAULT"
+          variant="primary"
+          onPress={() => console.warn("here")}
         />
-        <ContentView icon="Clock" subTitle="Driving" type="h" />
       </View>
     </View>
   );
@@ -153,7 +162,9 @@ export default Details;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
+  },
+  containerScroll: {
     paddingHorizontal: "5%",
   },
   contentTitle: {
@@ -196,5 +207,11 @@ const styles = StyleSheet.create({
   },
   cardType: {
     alignSelf: "flex-end",
+  },
+  button: {
+    marginHorizontal: "5%",
+    marginBottom: "6%",
+    marginTop: "3%",
+    justifyContent: "center",
   },
 });
