@@ -94,6 +94,11 @@ const theme: BaseTheme = {
       fontSize: 16,
       color: "body",
     },
+    bodyBold: {
+      fontSize: 16,
+      color: "body",
+      fontWeight: "bold",
+    },
     label: {
       fontSize: 14,
       color: "label",
