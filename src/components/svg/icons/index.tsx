@@ -21,3 +21,5 @@ export { default as CompassWithCircles } from "./CompassWithCircles";
 export { default as Delete } from "./Delete";
 export { default as Circle } from "./Circle";
 export { default as Market } from "./Market";
+export { default as Clock } from "./Clock";
+export { default as Bubble } from "./Bubble";

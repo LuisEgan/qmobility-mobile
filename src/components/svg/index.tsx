@@ -24,6 +24,8 @@ import {
   Delete,
   Circle,
   Market,
+  Clock,
+  Bubble,
   CompassWithCircles,
 } from "./icons";
 
@@ -64,6 +66,8 @@ const icons = {
   Delete: (props: Iicons) => <Delete {...props} />,
   Circle: (props: Iicons) => <Circle {...props} />,
   Market: (props: Iicons) => <Market {...props} />,
+  Clock: (props: Iicons) => <Clock {...props} />,
+  Bubble: (props: Iicons) => <Bubble {...props} />,
 };
 
 const Icons = (props: Iicons) => {
