@@ -4,6 +4,7 @@ import { useTheme } from "@shopify/restyle";
 import { Header } from "../../../components";
 import { TMyRoutesNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Theme } from "../../../config/Theme";
+import { RouterList } from "../../../components/Lists";
 
 interface IMyRoutes extends TMyRoutesNavProps {}
 
@@ -32,7 +33,9 @@ const MyRoutes = (props: IMyRoutes) => {
           backgroundColor: theme.colors.white,
         },
       ]}
-    />
+    >
+      <RouterList ListArray={listRoutes} />
+    </View>
   );
 };
 export default MyRoutes;
