@@ -11,7 +11,6 @@ interface IPaginationDot {
 
 const PaginationDot = (props: IPaginationDot) => {
   const { index, currentIndex } = props;
-
   const theme = useTheme<Theme>();
 
   const opacity = interpolate(currentIndex, {
