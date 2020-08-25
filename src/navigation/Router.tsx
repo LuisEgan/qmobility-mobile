@@ -45,7 +45,7 @@ const Router = () => {
   ) : (
     <NavigationContainer>
       <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.MyRoutes}>
-        {!userToken ? AppNavigator() : AuthNavigator()}
+        {userToken ? AppNavigator() : AuthNavigator()}
       </Navigator>
     </NavigationContainer>
   );

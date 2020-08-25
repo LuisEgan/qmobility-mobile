@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
@@ -10,6 +10,8 @@ import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
 const { height, width } = Dimensions.get("window");
 
 const Onboarding = () => {
+  const [onLastSlide, setOnLastSlide] = useState(false);
+
   const { navigate } = useNavigation();
 
   const skip = () => {
@@ -18,11 +20,15 @@ const Onboarding = () => {
 
   return (
     <View style={[styles.container]}>
-      <Slider {...{ slides, width, height: height * 0.85 }} />
+      <Slider
+        {...{ slides, width, height: height * 0.85 }}
+        onLastSlide={() => setOnLastSlide(true)}
+        notOnLastSlide={() => setOnLastSlide(false)}
+      />
 
       <TouchableOpacity onPress={skip}>
         <Text variant="bodyHighlight" color="primary" fontWeight="bold">
-          Skip
+          {onLastSlide ? "Next" : "Skip"}
         </Text>
       </TouchableOpacity>
     </View>
