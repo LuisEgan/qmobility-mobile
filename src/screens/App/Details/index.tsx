@@ -14,6 +14,11 @@ interface IContentView {
   type?: string;
 }
 
+interface IIconText {
+  icon?: TIcon;
+  label?: string;
+}
+
 const Details = (props: IDetails) => {
   const { navigation } = props;
 
@@ -25,17 +30,18 @@ const Details = (props: IDetails) => {
     });
   }, [navigation]);
 
-  const IconText = () => (
-    <View
-      style={[
-        styles.content,
-        {
-          marginRight: 10,
-        },
-      ]}
-    >
-      <Icons icon="Circle" fill={theme.colors.grayLight} size={17} />
-      <Text variant="label">Range 280 km</Text>
+  const IconText = ({ icon, label }: IIconText) => (
+    <View style={styles.iconTextContent}>
+      {icon && (
+        <View
+          style={{
+            marginRight: 5,
+          }}
+        >
+          <Icons icon={icon} fill={theme.colors.grayLight} size={17} />
+        </View>
+      )}
+      {label && <Text variant="label">{label}</Text>}
     </View>
   );
 
@@ -46,10 +52,7 @@ const Details = (props: IDetails) => {
         <View style={styles.cardBodyContent}>
           <Text variant="heading1">0</Text>
           {type && (
-            <Text
-              style={[styles.cardType, { color: theme.colors.gray }]}
-              variant="body"
-            >
+            <Text style={styles.cardType} variant="bodyBold">
               {type}
             </Text>
           )}
@@ -90,19 +93,14 @@ const Details = (props: IDetails) => {
 
         <View style={styles.content}>
           <Text
-            variant="bodyHighlight"
+            variant="bodyHighlightBold"
             style={{
               marginRight: 10,
             }}
           >
             eV Battery 62 kWh
           </Text>
-          <Text variant="body">Range 280 km</Text>
-        </View>
-
-        <View style={styles.content}>
-          <IconText />
-          <IconText />
+          <Text variant="bodyBold">Range 280 km</Text>
         </View>
 
         <View
@@ -113,8 +111,44 @@ const Details = (props: IDetails) => {
             },
           ]}
         >
-          <Text variant="body">United Kingdom</Text>
-          <Text variant="body">£42,345</Text>
+          <IconText icon="Bubble" label="5" />
+          <IconText icon="Circle" label="0 g/km" />
+        </View>
+
+        <View
+          style={[
+            styles.content,
+            {
+              justifyContent: "space-between",
+            },
+          ]}
+        >
+          <IconText icon="Bubble" label="Max 220 km" />
+          <IconText icon="Circle" label="16.4 kWh/100km" />
+        </View>
+
+        <View
+          style={[
+            styles.content,
+            {
+              justifyContent: "space-between",
+            },
+          ]}
+        >
+          <IconText icon="Bubble" label="Max 144 km/h" />
+          <IconText icon="Circle" label="Time 0:40 h" />
+        </View>
+
+        <View
+          style={[
+            styles.content,
+            {
+              justifyContent: "space-between",
+            },
+          ]}
+        >
+          <Text variant="bodyBold">United Kingdom</Text>
+          <Text variant="bodyBold">£42,345</Text>
         </View>
 
         <View
@@ -177,19 +211,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: "3%",
   },
+  iconTextContent: {
+    flexDirection: "row",
+    marginVertical: "1%",
+    justifyContent: "flex-start",
+    flex: 1,
+  },
   line: {
-    borderWidth: 1,
+    borderLeftWidth: 1,
     height: 60,
     alignSelf: "flex-end",
+    marginBottom: 10,
   },
   card: {
     marginVertical: "5%",
-    borderRadius: 20,
+    borderRadius: 10,
     borderWidth: 1,
     height: 122,
     flexDirection: "row",
     justifyContent: "space-around",
-    padding: 10,
   },
   cardContent: {
     justifyContent: "center",
@@ -207,6 +247,7 @@ const styles = StyleSheet.create({
   },
   cardType: {
     alignSelf: "flex-end",
+    opacity: 0.25,
   },
   button: {
     marginHorizontal: "5%",

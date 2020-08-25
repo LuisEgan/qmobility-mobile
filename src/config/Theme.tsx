@@ -107,6 +107,11 @@ const theme: BaseTheme = {
       fontSize: 16,
       color: "bodyHighlight",
     },
+    bodyHighlightBold: {
+      fontSize: 16,
+      color: "bodyHighlight",
+      fontWeight: "bold",
+    },
     bodySmall: {
       fontSize: 12,
       color: "bodySmall",
