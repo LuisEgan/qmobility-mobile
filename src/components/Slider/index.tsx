@@ -1,23 +1,25 @@
 import React from "react";
-import { View, StyleSheet, ViewStyle } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Animated, { divide } from "react-native-reanimated";
 import { useScrollHandler } from "react-native-redash";
-import Slide, { ISlide } from "./Slide";
+import Slide, { ISlide, TSlide } from "./Slide";
 import PaginationDot from "./PaginationDot";
 import { getFirstDecimalNumber } from "../../lib/strings";
+import { IComponentsDefaults } from "../../lib/Types";
 
-interface ISlider {
+interface ISlider extends IComponentsDefaults {
   slides: ISlide[];
   width: number;
   height: number;
-  styles?: ViewStyle;
+  type?: TSlide;
   onLastSlide?: () => void;
   notOnLastSlide?: () => void;
 }
 
 const Slider = (props: ISlider) => {
   const {
-    styles: stylesProp,
+    type,
+    containerStyle,
     slides,
     width,
     height,
@@ -58,8 +60,27 @@ const Slider = (props: ISlider) => {
     }
   };
 
+  const setStyle = () => {
+    switch (type) {
+      case TSlide.Default:
+        return {
+          pagination: styles.defaultPagination,
+        };
+
+      case TSlide.Cards:
+        return {
+          pagination: styles.cardsPagination,
+        };
+
+      default:
+        return {};
+    }
+  };
+
+  const typeStyle = setStyle();
+
   return (
-    <View style={[styles.container, stylesProp, { width, height }]}>
+    <View style={[styles.container, containerStyle, { width, height }]}>
       <Animated.ScrollView
         horizontal
         snapToInterval={width}
@@ -82,8 +103,9 @@ const Slider = (props: ISlider) => {
             index,
           ) => (
             <Slide
-              key={title}
+              key={Math.random()}
               {...{
+                type,
                 title,
                 text,
                 imgSource,
@@ -100,13 +122,17 @@ const Slider = (props: ISlider) => {
         )}
       </Animated.ScrollView>
 
-      <View style={styles.pagination}>
+      <View style={typeStyle.pagination}>
         {slides.map((_, index) => (
-          <PaginationDot key={_.text} {...{ index, currentIndex }} />
+          <PaginationDot key={Math.random()} {...{ index, currentIndex }} />
         ))}
       </View>
     </View>
   );
+};
+
+Slider.defaultProps = {
+  type: TSlide.Default,
 };
 
 export default Slider;
@@ -114,7 +140,21 @@ export default Slider;
 const styles = StyleSheet.create({
   container: {},
 
-  pagination: {
+  // * Default
+  defaultPagination: {
+    position: "absolute",
+    bottom: 10,
+    left: 0,
+    right: 0,
+    marginHorizontal: "auto",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  // * Cards
+  cardsPagination: {
+    marginHorizontal: "auto",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",

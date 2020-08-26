@@ -27,6 +27,7 @@ import {
   Clock,
   Bubble,
   CompassWithCircles,
+  Eve,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -55,6 +56,7 @@ const icons = {
   Menu: (props: Iicons) => <Menu {...props} />,
   Edit: (props: Iicons) => <Edit {...props} />,
   Error: (props: Iicons) => <Error {...props} />,
+  Eve: (props: Iicons) => <Eve {...props} />,
   Facebook: (props: Iicons) => <Facebook {...props} />,
   LinkedIn: (props: Iicons) => <LinkedIn {...props} />,
   Google: (props: Iicons) => <Google {...props} />,

@@ -1,10 +1,19 @@
 import React, { useLayoutEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { useTheme } from "@shopify/restyle";
-import { Header, Icons, Button } from "../../../components";
+import { Header, Icons, Button, Slider } from "../../../components";
 import { TDetailsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Theme, Text } from "../../../config/Theme";
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
+import slides from "./slides";
+
+const { height, width } = Dimensions.get("window");
 
 interface IDetails extends TDetailsNavProps {}
 
@@ -71,6 +80,8 @@ const Details = (props: IDetails) => {
         },
       ]}
     >
+      <Slider slides={slides} {...{ width, height: height * 0.4 }} />
+
       <ScrollView style={styles.containerScroll}>
         <View style={styles.contentTitle}>
           <Text variant="heading2">Nissan Leaf+</Text>
@@ -103,62 +114,27 @@ const Details = (props: IDetails) => {
           <Text variant="bodyBold">Range 280 km</Text>
         </View>
 
-        <View
-          style={[
-            styles.content,
-            {
-              justifyContent: "space-between",
-            },
-          ]}
-        >
+        <View style={[styles.content]}>
           <IconText icon="Bubble" label="5" />
           <IconText icon="Circle" label="0 g/km" />
         </View>
 
-        <View
-          style={[
-            styles.content,
-            {
-              justifyContent: "space-between",
-            },
-          ]}
-        >
+        <View style={[styles.content]}>
           <IconText icon="Bubble" label="Max 220 km" />
           <IconText icon="Circle" label="16.4 kWh/100km" />
         </View>
 
-        <View
-          style={[
-            styles.content,
-            {
-              justifyContent: "space-between",
-            },
-          ]}
-        >
+        <View style={[styles.content]}>
           <IconText icon="Bubble" label="Max 144 km/h" />
           <IconText icon="Circle" label="Time 0:40 h" />
         </View>
 
-        <View
-          style={[
-            styles.content,
-            {
-              justifyContent: "space-between",
-            },
-          ]}
-        >
+        <View style={[styles.content]}>
           <Text variant="bodyBold">United Kingdom</Text>
           <Text variant="bodyBold">£42,345</Text>
         </View>
 
-        <View
-          style={[
-            styles.content,
-            {
-              justifyContent: "space-between",
-            },
-          ]}
-        >
+        <View style={[styles.content]}>
           <Text
             variant="body"
             style={{
@@ -182,6 +158,7 @@ const Details = (props: IDetails) => {
           <ContentView icon="Clock" subTitle="Driving" type="h" />
         </View>
       </ScrollView>
+
       <View style={styles.button}>
         <Button
           label="SET AS DEFAULT"
@@ -200,6 +177,10 @@ const styles = StyleSheet.create({
   },
   containerScroll: {
     paddingHorizontal: "5%",
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    backgroundColor: "white",
+    marginTop: -height * 0.01,
   },
   contentTitle: {
     flexDirection: "row",

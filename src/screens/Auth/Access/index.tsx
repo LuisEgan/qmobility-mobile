@@ -1,17 +1,26 @@
 import React from "react";
-import { View, StyleSheet, ImageBackground } from "react-native";
+import { View, StyleSheet, ImageBackground, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Button } from "../../../components";
+import { Button, Icons } from "../../../components";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
-const image = { uri: "https://reactjs.org/logo-og.png" };
+import bg from "../../../assets/png/accessBackgroundMedium.png";
+
+const { height, width } = Dimensions.get("window");
 
 const Access = () => {
   const { navigate } = useNavigation();
 
   return (
-    <ImageBackground source={image} style={styles.image}>
+    <ImageBackground source={bg} style={styles.image}>
       <View style={styles.container}>
+        <Icons
+          icon="Eve"
+          size={100}
+          width={width}
+          containerStyle={styles.isologo}
+        />
+
         <View style={styles.content}>
           <View style={styles.contentButton}>
             <View style={styles.ButtonStyle}>
@@ -48,6 +57,13 @@ const Access = () => {
 export default Access;
 
 const styles = StyleSheet.create({
+  isologo: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    marginHorizontal: "auto",
+    top: height * 0.15,
+  },
   image: {
     flex: 1,
     resizeMode: "cover",

@@ -25,6 +25,7 @@ export type TIcon =
   | "Market"
   | "Clock"
   | "Bubble"
+  | "Eve"
   | "Error";
 
 export interface ISVG {
