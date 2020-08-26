@@ -63,7 +63,6 @@ export const APP_STACK_SCREENS: IScreens = [
   {
     name: APP_STACK_SCREENS_NAMES.Details,
     component: Details,
-    headerShown: true,
   },
 ];
 

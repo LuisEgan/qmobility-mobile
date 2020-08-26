@@ -6,6 +6,7 @@ import { Slider } from "../../../components";
 import { Text } from "../../../config/Theme";
 import slides from "./slides";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { TSlide } from "../../../components/Slider/Slide";
 
 const { height, width } = Dimensions.get("window");
 
@@ -22,6 +23,7 @@ const Onboarding = () => {
     <View style={[styles.container]}>
       <Slider
         {...{ slides, width, height: height * 0.85 }}
+        type={TSlide.Cards}
         onLastSlide={() => setOnLastSlide(true)}
         notOnLastSlide={() => setOnLastSlide(false)}
       />

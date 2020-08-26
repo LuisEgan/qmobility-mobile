@@ -23,6 +23,9 @@ export type TIcon =
   | "Delete"
   | "Circle"
   | "Market"
+  | "Clock"
+  | "Bubble"
+  | "Eve"
   | "Error";
 
 export interface ISVG {
