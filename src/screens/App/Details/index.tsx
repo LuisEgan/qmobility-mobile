@@ -129,12 +129,12 @@ const Details = (props: IDetails) => {
           <IconText icon="Circle" label="Time 0:40 h" />
         </View>
 
-        <View style={[styles.content]}>
+        <View style={[styles.content, { justifyContent: "space-between" }]}>
           <Text variant="bodyBold">United Kingdom</Text>
           <Text variant="bodyBold">£42,345</Text>
         </View>
 
-        <View style={[styles.content]}>
+        <View style={[styles.content, { justifyContent: "space-between" }]}>
           <Text
             variant="body"
             style={{
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   contentTitle: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: "6%",
+    marginTop: "10%",
     marginBottom: "3%",
   },
   content: {
@@ -195,8 +195,7 @@ const styles = StyleSheet.create({
   iconTextContent: {
     flexDirection: "row",
     marginVertical: "1%",
-    justifyContent: "flex-start",
-    flex: 1,
+    marginRight: 15,
   },
   line: {
     borderLeftWidth: 1,
