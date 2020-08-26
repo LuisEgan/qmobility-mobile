@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useMutation } from "@apollo/client/react/hooks/useMutation";
 import * as FacebookExpo from "expo-facebook";
 import Icons from "../svg";
@@ -8,15 +8,28 @@ import {
   ISocialNetworkLogin,
   ISocialNetworkLoginVars,
 } from "../../gql/User/mutations";
+import { AuthContext } from "../../navigation/AuthContext";
 
 const Facebook = () => {
+  const { signIn } = useContext(AuthContext);
+
   const [fbLogin, { data: fbData }] = useMutation<
-    { fbLogin: ISocialNetworkLogin },
+    { loginWithFacebook: ISocialNetworkLogin },
     ISocialNetworkLoginVars
   >(User.mutations.loginWithFacebook);
 
   useEffect(() => {
-    // if (fbData) {}
+    if (fbData) {
+      const doSignIn = async () => {
+        try {
+          signIn(fbData.loginWithFacebook.accessToken);
+        } catch (error) {
+          console.error("error: ", error);
+        }
+      };
+
+      doSignIn();
+    }
   }, [fbData]);
 
   const login = async () => {

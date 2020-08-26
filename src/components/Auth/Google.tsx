@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import * as GoogleExpo from "expo-google-app-auth";
 import Icons from "../svg";
@@ -8,24 +8,38 @@ import {
 } from "../../gql/User/mutations";
 import { User } from "../../gql";
 import { ERRORS } from "../../lib/constants";
+import { AuthContext } from "../../navigation/AuthContext";
 
 const Google = () => {
+  const { signIn } = useContext(AuthContext);
+
   const [googleLogin, { data: googleData }] = useMutation<
-    { googleLogin: ISocialNetworkLogin },
+    { loginWithGoogle: ISocialNetworkLogin },
     ISocialNetworkLoginVars
   >(User.mutations.loginWithGoogle);
 
   useEffect(() => {
-    // if (googleData) {}
+    if (googleData) {
+      const doSignIn = async () => {
+        try {
+          signIn(googleData.loginWithGoogle.accessToken);
+        } catch (error) {
+          console.error("error: ", error);
+        }
+      };
+
+      doSignIn();
+    }
   }, [googleData]);
 
   const login = async () => {
     try {
       const loginResult = await GoogleExpo.logInAsync({
-        iosStandaloneAppClientId:
+        iosClientId:
           "69703201369-6lqjlkadpv8hh2ji4rg53g8mnd4kk7df.apps.googleusercontent.com",
-        androidStandaloneAppClientId:
+        androidClientId:
           "69703201369-872et3pp11lgsomheffnskvmp2u8o24e.apps.googleusercontent.com",
+
         scopes: ["profile", "email"],
       });
 

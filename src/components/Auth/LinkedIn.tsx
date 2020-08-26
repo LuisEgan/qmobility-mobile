@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import LinkedInModal, { LinkedInToken } from "react-native-linkedin";
 import Icons from "../svg";
@@ -7,24 +7,35 @@ import {
   ISocialNetworkLoginVars,
 } from "../../gql/User/mutations";
 import { User } from "../../gql";
+import { AuthContext } from "../../navigation/AuthContext";
 
 const LinkedIn = () => {
+  const { signIn } = useContext(AuthContext);
   const linkedRef = useRef<LinkedInModal>(null);
 
   const [linkedInLogin, { data: linkedInData }] = useMutation<
-    { linkedInLogin: ISocialNetworkLogin },
+    { loginWithLinkedIn: ISocialNetworkLogin },
     ISocialNetworkLoginVars
   >(User.mutations.loginWithLinkedIn);
 
   useEffect(() => {
-    // if (linkedInData) {
-    // }
+    if (linkedInData) {
+      const doSignIn = async () => {
+        try {
+          signIn(linkedInData.loginWithLinkedIn.accessToken);
+        } catch (error) {
+          console.error("error: ", error);
+        }
+      };
+
+      doSignIn();
+    }
   }, [linkedInData]);
 
   const login = (token: LinkedInToken) => {
     linkedInLogin({
       variables: {
-        accessToken: token,
+        accessToken: `${token.access_token}`,
       },
     });
   };
@@ -32,9 +43,9 @@ const LinkedIn = () => {
   return (
     <LinkedInModal
       ref={linkedRef}
-      clientID="78rt6ffawe2601"
-      clientSecret="ESxDZ5byttU4yv86"
-      redirectUri="https://www.linkedin.com/developers/apps/55928244"
+      clientID="789w58w9etnssh"
+      clientSecret="hSlAJZVgWr5QCfR2"
+      redirectUri="https://www.linkedin.com/developers/apps/56468744"
       onSuccess={login}
       onError={(err) => alert(err)}
       renderButton={() => (

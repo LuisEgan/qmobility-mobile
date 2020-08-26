@@ -1,28 +1,12 @@
-// ! Deprecated
+/* eslint import/prefer-default-export: "off" */
 import { createContext } from "react";
 
 interface IAuthMethods {
-  emailSignIn: (data: string) => void;
-  googleSignIn: () => void;
-  linkedInSignIn: () => void;
-  fbSignIn: () => void;
+  signIn: (token?: string) => void;
   signOut: () => void;
-  signUp: () => void;
 }
-interface IAuthMethodsParams {
-  setUserToken: (token: string) => void;
-}
-
-export const authMethods = ({ setUserToken }: IAuthMethodsParams) => () => ({
-  emailSignIn: (data: string) => {
-    setUserToken(data);
-  },
-  googleSignIn: () => null,
-  linkedInSignIn: () => null,
-  fbSignIn: () => null,
+const authMethods = {
+  signIn: () => null,
   signOut: () => null,
-  signUp: () => null,
-});
-
-const setUserToken = (token = "") => token;
-export default createContext<IAuthMethods>(authMethods({ setUserToken })());
+};
+export const AuthContext = createContext<IAuthMethods>(authMethods);

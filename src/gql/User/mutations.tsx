@@ -29,7 +29,7 @@ const loginWithGoogle = gql`
 // * LinkedIn Login
 const loginWithLinkedIn = gql`
   mutation LoginWithLinkedIn($accessToken: String!) {
-    loginWithLinkedIn(linkedInLogInInput: { accessToken: $accessToken }) {
+    loginWithLinkedIn(linkedinLogInInput: { accessToken: $accessToken }) {
       accessToken
     }
   }

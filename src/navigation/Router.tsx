@@ -6,8 +6,12 @@ import { AppLoading } from "expo";
 import AuthNavigator from "./AuthStack";
 import AppNavigator from "./AppStack";
 import { TAllNavProps } from "./Types/NavPropsTypes";
-import { ASYNC_STORAGE_ITEMS, APP_STACK_SCREENS_NAMES } from "../lib/constants";
+import {
+  ASYNC_STORAGE_ITEMS,
+  AUTH_STACK_SCREENS_NAMES,
+} from "../lib/constants";
 import { TUserToken } from "./Types/AuthTypes";
+import { AuthContext } from "./AuthContext";
 
 const { Navigator } = createStackNavigator();
 
@@ -26,6 +30,7 @@ const Router = () => {
     const setInitialUserToken = async () => {
       let newUserToken: TUserToken = null;
       try {
+        await AsyncStorage.removeItem(ASYNC_STORAGE_ITEMS.USER_TOKEN);
         newUserToken = await AsyncStorage.getItem(
           ASYNC_STORAGE_ITEMS.USER_TOKEN,
         );
@@ -40,13 +45,26 @@ const Router = () => {
     setInitialUserToken();
   }, []);
 
+  const authContext = React.useMemo(
+    () => ({
+      signIn: async (token?: string) => {
+        await AsyncStorage.setItem(ASYNC_STORAGE_ITEMS.USER_TOKEN, token || "");
+        setUserToken(token || "");
+      },
+      signOut: () => setUserToken(null),
+    }),
+    [],
+  );
+
   return isLoading ? (
     <AppLoading />
   ) : (
     <NavigationContainer>
-      <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.Details}>
-        {!userToken ? AppNavigator() : AuthNavigator()}
-      </Navigator>
+      <AuthContext.Provider value={authContext}>
+        <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.Access}>
+          {userToken ? AppNavigator() : AuthNavigator()}
+        </Navigator>
+      </AuthContext.Provider>
     </NavigationContainer>
   );
 };
