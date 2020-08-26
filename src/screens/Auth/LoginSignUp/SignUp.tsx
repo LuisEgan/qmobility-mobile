@@ -17,8 +17,14 @@ interface IFormValues {
 }
 
 const SignUpSchema = yup.object().shape({
-  emailAddress: yup.string().email(),
-  password: yup.string().required("Required"),
+  emailAddress: yup.string().email(ERRORS.EMPTY_EMAIL),
+  password: yup
+    .string()
+    .required(ERRORS.EMPTY_PASSWORD)
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      ERRORS.INVALID_PASSWORD,
+    ),
 });
 
 const SignUp = () => {
@@ -36,16 +42,17 @@ const SignUp = () => {
             placeholder="Email Address"
             onChange={handleChange("emailAddress")}
             onBlur={handleBlur("emailAddress")}
-            error={errors.emailAddress && ERRORS.INVALID_EMAIL}
+            error={errors.emailAddress}
             touched={touched.emailAddress}
           />
           <Input
             containerStyle={{ marginHorizontal: 0 }}
             placeholder="Password"
             isPassword
+            isSignUp
             onChange={handleChange("password")}
             onBlur={handleBlur("password")}
-            error={errors.password && ERRORS.WRONG_PASSWORD}
+            error={errors.password}
             touched={touched.password}
           />
         </View>
@@ -88,10 +95,12 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
     paddingHorizontal: width * 0.1,
   },
 
   content: {
+    backgroundColor: "white",
     marginVertical: height * 0.05,
   },
 

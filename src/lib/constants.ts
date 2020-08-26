@@ -1,9 +1,13 @@
 export const ERRORS = {
   INVALID_EMAIL: "Invalid email address",
+  INVALID_PASSWORD:
+    "Must contain 8 characters, one number and one special character",
   WRONG_PASSWORD: "Wrong password",
   USER_NOT_FOUND: "User not found",
   REQUIRED: "Mandatory field",
   LOGIN_FAILED: "Login failed",
+  EMPTY_EMAIL: "Please enter your email",
+  EMPTY_PASSWORD: "Please enter your password",
 };
 
 export const AUTH_REDUCER_TYPES = {

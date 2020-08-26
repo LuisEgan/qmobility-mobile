@@ -17,9 +17,11 @@ interface IFormValues {
 }
 
 const LoginSchema = yup.object().shape({
-  emailAddress: yup.string().email(),
-  // TODO proper password validation
-  password: yup.string().required("Required"),
+  emailAddress: yup
+    .string()
+    .email(ERRORS.INVALID_EMAIL)
+    .required(ERRORS.EMPTY_EMAIL),
+  password: yup.string().required(ERRORS.EMPTY_PASSWORD),
 });
 
 const Login = () => {
@@ -38,7 +40,7 @@ const Login = () => {
             placeholder="Email Address"
             onChange={handleChange("emailAddress")}
             onBlur={handleBlur("emailAddress")}
-            error={errors.emailAddress && ERRORS.INVALID_EMAIL}
+            error={errors.emailAddress}
             touched={touched.emailAddress}
           />
           <Input
@@ -47,8 +49,9 @@ const Login = () => {
             isPassword
             onChange={handleChange("password")}
             onBlur={handleBlur("password")}
-            error={errors.password && ERRORS.WRONG_PASSWORD}
+            error={errors.password}
             touched={touched.password}
+            onForgotPass={() => console.warn("forgot")}
           />
         </View>
         <Button variant="secondary" onPress={handleSubmit} label="LOG IN" />
@@ -89,11 +92,13 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "white",
     flex: 1,
     paddingHorizontal: width * 0.1,
   },
 
   content: {
+    backgroundColor: "white",
     marginVertical: height * 0.05,
   },
 
