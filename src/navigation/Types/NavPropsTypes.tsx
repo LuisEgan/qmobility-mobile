@@ -74,4 +74,5 @@ export type TAllNavProps = TTCsNavProps &
   TProfileScrollNavProps &
   TCheckCarNavProps &
   TMyRoutesNavProps &
+  TDetailsNavProps &
   TLoginSignUpScreenProps;

@@ -45,6 +45,7 @@ const theme: BaseTheme = {
     red: palette.red,
     black: palette.black,
     blackTransparent: palette.blackTransparent,
+    gray: palette.gray,
     grayLight: palette.grayLight,
     grayLighter: palette.grayLighter,
 
@@ -93,6 +94,11 @@ const theme: BaseTheme = {
       fontSize: 16,
       color: "body",
     },
+    bodyBold: {
+      fontSize: 16,
+      color: "body",
+      fontWeight: "bold",
+    },
     label: {
       fontSize: 14,
       color: "label",
@@ -100,6 +106,11 @@ const theme: BaseTheme = {
     bodyHighlight: {
       fontSize: 16,
       color: "bodyHighlight",
+    },
+    bodyHighlightBold: {
+      fontSize: 16,
+      color: "bodyHighlight",
+      fontWeight: "bold",
     },
     bodySmall: {
       fontSize: 12,
