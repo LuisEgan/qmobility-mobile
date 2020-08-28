@@ -16,6 +16,7 @@ type StackParamsList = {
   CheckCar: {};
   MyRoutes: {};
   Details: {};
+  MapSearchDone: {};
 };
 
 // * Terms and conditions props
@@ -66,6 +67,12 @@ export type TMyRoutesNavProps = StackScreenProps<StackParamsList, "MyRoutes">;
 // * Details screen props
 export type TDetailsNavProps = StackScreenProps<StackParamsList, "Details">;
 
+// * MapSearchDone screen props
+export type TMapSearchDoneNavProps = StackScreenProps<
+  StackParamsList,
+  "MapSearchDone"
+>;
+
 // * Export all types as one type
 export type TAllNavProps = TTCsNavProps &
   TLoginSignUpNavProps &
@@ -75,4 +82,5 @@ export type TAllNavProps = TTCsNavProps &
   TCheckCarNavProps &
   TMyRoutesNavProps &
   TDetailsNavProps &
+  TMapSearchDoneNavProps &
   TLoginSignUpScreenProps;

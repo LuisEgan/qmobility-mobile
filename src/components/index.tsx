@@ -12,4 +12,5 @@ export { default as InputSearch } from "./InputSearch";
 export { default as Map } from "./Map";
 export { default as ListItem } from "./ListItem";
 export { default as Modal } from "./Modal";
+export { default as BottomDrawer } from "./BottomDrawer";
 export { default as SpeechToText } from "./SpeechToText";

@@ -41,4 +41,5 @@ export const APP_STACK_SCREENS_NAMES = {
   Profile: "Profile",
   MyRoutes: "MyRoutes",
   Details: "Details",
+  MapSearchDone: "MapSearchDone",
 };

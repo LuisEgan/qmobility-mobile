@@ -12,6 +12,7 @@ import {
   Profile,
   MyRoutes,
   Details,
+  MapSearchDone,
 } from "../screens/App";
 import { APP_STACK_SCREENS_NAMES } from "../lib/constants";
 
@@ -63,6 +64,11 @@ export const APP_STACK_SCREENS: IScreens = [
   {
     name: APP_STACK_SCREENS_NAMES.Details,
     component: Details,
+  },
+
+  {
+    name: APP_STACK_SCREENS_NAMES.MapSearchDone,
+    component: MapSearchDone,
   },
 ];
 

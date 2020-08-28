@@ -7,4 +7,5 @@ export { default as Main } from "./Main";
 export { default as EditProfile } from "./Profile/Edit";
 export { default as Profile } from "./Profile";
 export { default as MyRoutes } from "./MyRoutes";
+export { default as MapSearchDone } from "./MapSearchDone";
 export { default as Details } from "./Details";

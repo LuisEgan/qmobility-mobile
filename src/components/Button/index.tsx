@@ -16,6 +16,7 @@ interface IButton {
   iconRight?: TIcon;
   iconLeft?: TIcon;
   containerStyle?: StyleProp<ViewStyle>;
+  inverse?: boolean;
 }
 
 const Button = (props: IButton) => {
@@ -26,41 +27,43 @@ const Button = (props: IButton) => {
     iconRight,
     iconLeft,
     containerStyle,
+    inverse,
   } = props;
 
   const theme = useTheme<Theme>();
 
-  const setRectButtonStyle = () => {
+  const setRectButtonStyle = (): ViewStyle => {
+    let backgroundColor = "";
     switch (variant) {
       case "primary":
-        return theme.colors.primaryButton;
+        backgroundColor = theme.colors.primaryButton;
+        break;
       case "secondary":
-        return theme.colors.secondaryButton;
+        backgroundColor = theme.colors.secondaryButton;
+        break;
       default:
-        return theme.colors.defaultButton;
+        backgroundColor = theme.colors.defaultButton;
     }
+
+    return inverse
+      ? {
+        borderWidth: 1,
+        borderColor: backgroundColor,
+        backgroundColor: theme.colors.inverseButtonBackground,
+      }
+      : { backgroundColor };
   };
 
   return (
-    <View style={containerStyle}>
-      <RectButton
-        onPress={() => onPress()}
-        style={[
-          styles.btnStyle,
-          {
-            backgroundColor: setRectButtonStyle(),
-          },
-        ]}
-      >
+    <View style={[setRectButtonStyle(), styles.btnStyle, containerStyle]}>
+      <RectButton onPress={onPress}>
         <View
           style={{ flexDirection: "row", justifyContent: "center" }}
           accessible
         >
           {iconLeft && <Icons size={22} icon={iconLeft} fill="#fff" />}
-          <Text variant="button">
-            {" "}
+          <Text variant="button" color={inverse ? `${variant}Button` : "white"}>
             {label}
-            {" "}
           </Text>
           {iconRight && <Icons size={22} icon={iconRight} fill="#fff" />}
         </View>

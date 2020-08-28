@@ -40,6 +40,7 @@ const theme: BaseTheme = {
     background: palette.grayLight,
 
     borderColor: palette.grayLighter,
+    drawerHandle: palette.gray,
 
     white: palette.white,
     red: palette.red,
@@ -48,6 +49,9 @@ const theme: BaseTheme = {
     gray: palette.gray,
     grayLight: palette.grayLight,
     grayLighter: palette.grayLighter,
+
+    // * Header
+    headerBackground: palette.grayLighter,
 
     // * Texts
     heading1: palette.grayDark,
@@ -65,6 +69,7 @@ const theme: BaseTheme = {
     defaultButton: palette.grayLight,
     primaryButton: palette.bluePrimary,
     secondaryButton: palette.blueSecondaryDark,
+    inverseButtonBackground: palette.white,
 
     // * Drawer Menu
     drawerBackground: palette.grayDark,
