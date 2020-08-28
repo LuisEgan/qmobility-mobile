@@ -17,6 +17,7 @@ interface IButton {
   iconLeft?: TIcon;
   containerStyle?: StyleProp<ViewStyle>;
   inverse?: boolean;
+  enabled?: boolean;
 }
 
 const Button = (props: IButton) => {
@@ -28,6 +29,7 @@ const Button = (props: IButton) => {
     iconLeft,
     containerStyle,
     inverse,
+    enabled = true,
   } = props;
 
   const theme = useTheme<Theme>();
@@ -56,7 +58,11 @@ const Button = (props: IButton) => {
 
   return (
     <View style={[setRectButtonStyle(), styles.btnStyle, containerStyle]}>
-      <RectButton onPress={onPress}>
+      <RectButton
+        style={[setRectButtonStyle(), styles.btnStyle]}
+        onPress={onPress}
+        enabled={enabled}
+      >
         <View
           style={{ flexDirection: "row", justifyContent: "center" }}
           accessible

@@ -155,7 +155,6 @@ export default Select;
 
 const styles = StyleSheet.create({
   content: {
-    marginHorizontal: "5%",
     marginVertical: "3%",
   },
   veiwStyleConten: {

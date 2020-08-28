@@ -1,23 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { ScrollView } from "react-native-gesture-handler";
+import { useMutation } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
 import { Button, Input } from "../../../components";
 
 import { Text } from "../../../config/Theme";
-import { ERRORS } from "../../../lib/constants";
+import { ERRORS, AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import Auth from "../../../components/Auth";
+import { User } from "../../../gql";
+import { IAuthResponse, IEmailSignUpVars } from "../../../gql/User/mutations";
 
 const { width, height } = Dimensions.get("window");
 
 interface IFormValues {
-  emailAddress: string;
+  email: string;
   password: string;
 }
 
 const SignUpSchema = yup.object().shape({
-  emailAddress: yup.string().email(ERRORS.EMPTY_EMAIL),
+  email: yup.string().email(ERRORS.EMPTY_EMAIL),
   password: yup
     .string()
     .required(ERRORS.EMPTY_PASSWORD)
@@ -28,8 +32,36 @@ const SignUpSchema = yup.object().shape({
 });
 
 const SignUp = () => {
-  // const login = (values: IFormValues): void => {
-  const login = (): null => null;
+  const { navigate } = useNavigation();
+
+  const [signUp, { data: signUpData, loading }] = useMutation<
+    { signup: IAuthResponse },
+    IEmailSignUpVars
+  >(User.mutations.signUp);
+
+  const [userEmail, setUserEmail] = useState<string>("");
+
+  useEffect(() => {
+    if (signUpData) {
+      const redirect = async () => {
+        try {
+          navigate(AUTH_STACK_SCREENS_NAMES.EmailConfirm, {
+            userToken: signUpData.signup.accessToken,
+            userEmail,
+          });
+        } catch (error) {
+          console.error("error: ", error);
+        }
+      };
+
+      redirect();
+    }
+  }, [signUpData]);
+
+  const submitSignUp = (values: IFormValues): void => {
+    setUserEmail(values.email);
+    signUp({ variables: { ...values } });
+  };
 
   const Form = (params: FormikProps<IFormValues>) => {
     const { handleChange, handleSubmit, handleBlur, errors, touched } = params;
@@ -40,10 +72,10 @@ const SignUp = () => {
           <Input
             containerStyle={{ marginHorizontal: 0 }}
             placeholder="Email Address"
-            onChange={handleChange("emailAddress")}
-            onBlur={handleBlur("emailAddress")}
-            error={errors.emailAddress}
-            touched={touched.emailAddress}
+            onChange={handleChange("email")}
+            onBlur={handleBlur("email")}
+            error={errors.email}
+            touched={touched.email}
           />
           <Input
             containerStyle={{ marginHorizontal: 0 }}
@@ -56,7 +88,12 @@ const SignUp = () => {
             touched={touched.password}
           />
         </View>
-        <Button variant="primary" onPress={handleSubmit} label="SIGN UP" />
+        <Button
+          variant="primary"
+          onPress={handleSubmit}
+          label={`${loading ? "Loading..." : "SIGN UP"}`}
+          enabled={!loading || !!signUpData}
+        />
       </View>
     );
   };
@@ -80,8 +117,8 @@ const SignUp = () => {
       </Text>
 
       <Formik
-        initialValues={{ emailAddress: "", password: "" }}
-        onSubmit={login}
+        initialValues={{ email: "", password: "" }}
+        onSubmit={submitSignUp}
         validationSchema={SignUpSchema}
       >
         {Form}

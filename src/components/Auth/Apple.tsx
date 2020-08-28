@@ -3,10 +3,7 @@ import { useMutation } from "@apollo/client";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Platform } from "react-native";
 import Icons from "../svg";
-import {
-  ISocialNetworkLogin,
-  ISocialNetworkLoginVars,
-} from "../../gql/User/mutations";
+import { IAuthResponse, ISocialNetworkVars } from "../../gql/User/mutations";
 import { User } from "../../gql";
 import { AuthContext } from "../../navigation/AuthContext";
 
@@ -16,8 +13,8 @@ const Apple = () => {
   const { signIn } = useContext(AuthContext);
 
   const [appleLogin, { data: appleData }] = useMutation<
-    { loginWithApple: ISocialNetworkLogin },
-    ISocialNetworkLoginVars
+    { loginWithApple: IAuthResponse },
+    ISocialNetworkVars
   >(User.mutations.loginWithApple);
 
   useEffect(() => {

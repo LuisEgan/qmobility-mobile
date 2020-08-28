@@ -2,10 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import * as GoogleExpo from "expo-google-app-auth";
 import Icons from "../svg";
-import {
-  ISocialNetworkLogin,
-  ISocialNetworkLoginVars,
-} from "../../gql/User/mutations";
+import { IAuthResponse, ISocialNetworkVars } from "../../gql/User/mutations";
 import { User } from "../../gql";
 import { ERRORS } from "../../lib/constants";
 import { AuthContext } from "../../navigation/AuthContext";
@@ -14,8 +11,8 @@ const Google = () => {
   const { signIn } = useContext(AuthContext);
 
   const [googleLogin, { data: googleData }] = useMutation<
-    { loginWithGoogle: ISocialNetworkLogin },
-    ISocialNetworkLoginVars
+    { loginWithGoogle: IAuthResponse },
+    ISocialNetworkVars
   >(User.mutations.loginWithGoogle);
 
   useEffect(() => {

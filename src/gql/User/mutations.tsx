@@ -1,11 +1,16 @@
 import { gql } from "@apollo/client";
 import { LinkedInToken } from "react-native-linkedin";
 
-export interface ISocialNetworkLogin {
+export interface IAuthResponse {
   accessToken: string;
 }
-export interface ISocialNetworkLoginVars {
+export interface ISocialNetworkVars {
   accessToken: string | LinkedInToken;
+}
+
+export interface IEmailSignUpVars {
+  email: string;
+  password: string;
 }
 
 // * Facebook Login
@@ -44,9 +49,19 @@ const loginWithApple = gql`
   }
 `;
 
+// * Email sign up
+const signUp = gql`
+  mutation EmailSignUp($email: String!, $password: String!) {
+    signup(signUpInput: { email: $email, password: $password }) {
+      accessToken
+    }
+  }
+`;
+
 export default {
   loginWithFacebook,
   loginWithGoogle,
   loginWithLinkedIn,
   loginWithApple,
+  signUp,
 };

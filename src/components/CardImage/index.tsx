@@ -7,7 +7,8 @@ import {
   ViewStyle,
   ImageSourcePropType,
 } from "react-native";
-import { Text } from "../../config/Theme";
+import { useTheme } from "@shopify/restyle";
+import { Text, Theme } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface ICardImage extends IComponentsDefaults {
@@ -31,8 +32,17 @@ const CardImage = (props: ICardImage) => {
     containerStyle,
     textStyle,
   } = props;
+
+  const theme = useTheme<Theme>();
+
   return (
-    <View style={[styles.container, containerStyle]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: theme.colors.cardsBackground },
+        containerStyle,
+      ]}
+    >
       <View style={styles.costent}>
         <View style={styles.contentImage}>
           {imgUri || imgSource ? (
@@ -70,7 +80,6 @@ const styles = StyleSheet.create({
     marginVertical: "1%",
     height: 100,
     borderRadius: 10,
-    backgroundColor: "#ACACAC",
   },
   costent: {
     flexDirection: "row",

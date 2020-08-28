@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import Animated, { divide } from "react-native-reanimated";
 import { useScrollHandler } from "react-native-redash";
-import Slide, { ISlide, TSlide } from "./Slide";
+import Slide, { ISlide, ESlide } from "./Slide";
 import PaginationDot from "./PaginationDot";
 import { getFirstDecimalNumber } from "../../lib/strings";
 import { IComponentsDefaults } from "../../lib/Types";
@@ -11,7 +11,7 @@ interface ISlider extends IComponentsDefaults {
   slides: ISlide[];
   width: number;
   height: number;
-  type?: TSlide;
+  type?: ESlide;
   onLastSlide?: () => void;
   notOnLastSlide?: () => void;
 }
@@ -62,12 +62,12 @@ const Slider = (props: ISlider) => {
 
   const setStyle = () => {
     switch (type) {
-      case TSlide.Default:
+      case ESlide.Default:
         return {
           pagination: styles.defaultPagination,
         };
 
-      case TSlide.Cards:
+      case ESlide.Cards:
         return {
           pagination: styles.cardsPagination,
         };
@@ -132,7 +132,7 @@ const Slider = (props: ISlider) => {
 };
 
 Slider.defaultProps = {
-  type: TSlide.Default,
+  type: ESlide.Default,
 };
 
 export default Slider;

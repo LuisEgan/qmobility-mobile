@@ -81,7 +81,12 @@ const DrawerMenu: FC<IDrawerMenu> = (props) => {
               },
             ]}
           >
-            <LeftMenu />
+            <LeftMenu
+              onItemPress={() => {
+                toggleDrawer(false);
+                swipeRef?.current?.close();
+              }}
+            />
           </Animated.View>
         </View>
       )}

@@ -1,9 +1,13 @@
 import React, { useLayoutEffect } from "react";
-import { View, StyleSheet, Image, ScrollView } from "react-native";
+import { View, StyleSheet, Image, ScrollView, Dimensions } from "react-native";
 import { useTheme } from "@shopify/restyle";
+import { useNavigation } from "@react-navigation/native";
 import { Header, Icons, Button } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { TMyCarsNavProps } from "../../../navigation/Types/NavPropsTypes";
+import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+
+const { width } = Dimensions.get("window");
 
 interface IMyCars extends TMyCarsNavProps {}
 
@@ -16,34 +20,6 @@ interface IListCar {
 }
 interface IListCarArray extends Array<IListCar> {}
 const listMyCars: IListCarArray = [
-  {
-    img: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-    type: 1,
-  },
-  {
-    img: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-    type: 1,
-  },
-  {
-    img: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-    type: 1,
-  },
-  {
-    img: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-    type: 1,
-  },
   {
     img: "https://reactnative.dev/img/tiny_logo.png",
     name: "Nissan Leaf Acenta 40",
@@ -87,6 +63,8 @@ const ListAlternative: IListCarArray = [
 const MyCars = (props: IMyCars) => {
   const { navigation } = props;
 
+  const { navigate } = useNavigation();
+
   const theme = useTheme<Theme>();
 
   useLayoutEffect(() => {
@@ -113,7 +91,7 @@ const MyCars = (props: IMyCars) => {
           {
             backgroundColor: type
               ? theme.colors.primary
-              : theme.colors.grayLight,
+              : theme.colors.grayLighter,
           },
         ]}
       >
@@ -160,7 +138,7 @@ const MyCars = (props: IMyCars) => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.content}>
-        <View style={styles.containerTtitleEdition}>
+        <View style={styles.containerTitleEdition}>
           <Icons icon="Done" fill={theme.colors.primaryLight} />
           <Text variant="subheadingLight">Congratulations! You’re done!</Text>
           <Text variant="subheadingLight">This is your perfect match:</Text>
@@ -173,7 +151,7 @@ const MyCars = (props: IMyCars) => {
 
         {ListAlternative && (
           <>
-            <View style={styles.containerTtitleEdition}>
+            <View style={styles.containerTitleEdition}>
               <Text variant="subheadingLight">Here’s an alternative:</Text>
             </View>
 
@@ -185,9 +163,9 @@ const MyCars = (props: IMyCars) => {
         )}
       </ScrollView>
       <Button
-        label="Go to map"
+        label="GO TO MAP"
         variant="primary"
-        onPress={() => null}
+        onPress={() => navigate(APP_STACK_SCREENS_NAMES.Main)}
         containerStyle={styles.buttonStyle}
       />
     </View>
@@ -201,9 +179,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   content: {
-    marginHorizontal: "5%",
+    paddingHorizontal: "5%",
   },
-  containerTtitleEdition: {
+  containerTitleEdition: {
     justifyContent: "center",
     alignItems: "center",
     marginVertical: "5%",
@@ -235,5 +213,6 @@ const styles = StyleSheet.create({
   buttonStyle: {
     marginHorizontal: "10%",
     marginVertical: "6%",
+    width: width * 0.8,
   },
 });

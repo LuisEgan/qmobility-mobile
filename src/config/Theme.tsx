@@ -38,6 +38,7 @@ const theme: BaseTheme = {
     title: palette.grayDark,
     subTitle: palette.gray,
     background: palette.grayLight,
+    backgroundLighter: palette.white,
 
     borderColor: palette.grayLighter,
     drawerHandle: palette.gray,
@@ -73,6 +74,12 @@ const theme: BaseTheme = {
 
     // * Drawer Menu
     drawerBackground: palette.grayDark,
+
+    // * Cards
+    cardsBackground: palette.grayLighter,
+
+    // * Content
+    contentBackground: palette.white,
   },
   spacing: {
     s: 8,

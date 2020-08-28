@@ -2,10 +2,7 @@ import React, { useEffect, useRef, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import LinkedInModal, { LinkedInToken } from "react-native-linkedin";
 import Icons from "../svg";
-import {
-  ISocialNetworkLogin,
-  ISocialNetworkLoginVars,
-} from "../../gql/User/mutations";
+import { IAuthResponse, ISocialNetworkVars } from "../../gql/User/mutations";
 import { User } from "../../gql";
 import { AuthContext } from "../../navigation/AuthContext";
 
@@ -14,8 +11,8 @@ const LinkedIn = () => {
   const linkedRef = useRef<LinkedInModal>(null);
 
   const [linkedInLogin, { data: linkedInData }] = useMutation<
-    { loginWithLinkedIn: ISocialNetworkLogin },
-    ISocialNetworkLoginVars
+    { loginWithLinkedIn: IAuthResponse },
+    ISocialNetworkVars
   >(User.mutations.loginWithLinkedIn);
 
   useEffect(() => {

@@ -4,18 +4,15 @@ import * as FacebookExpo from "expo-facebook";
 import Icons from "../svg";
 import { ERRORS } from "../../lib/constants";
 import { User } from "../../gql";
-import {
-  ISocialNetworkLogin,
-  ISocialNetworkLoginVars,
-} from "../../gql/User/mutations";
+import { IAuthResponse, ISocialNetworkVars } from "../../gql/User/mutations";
 import { AuthContext } from "../../navigation/AuthContext";
 
 const Facebook = () => {
   const { signIn } = useContext(AuthContext);
 
   const [fbLogin, { data: fbData }] = useMutation<
-    { loginWithFacebook: ISocialNetworkLogin },
-    ISocialNetworkLoginVars
+    { loginWithFacebook: IAuthResponse },
+    ISocialNetworkVars
   >(User.mutations.loginWithFacebook);
 
   useEffect(() => {

@@ -1,15 +1,39 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useEffect, useContext, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Header, Footer, Icons, Button } from "../../../components";
-import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
+import { TEmailConfirmNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Text } from "../../../config/Theme";
+import { AuthContext } from "../../../navigation/AuthContext";
+import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
-const { height } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 
-interface IEmailConfirm extends TTCsNavProps {}
+interface IEmailConfirm extends TEmailConfirmNavProps {}
 
 const EmailConfirm = (props: IEmailConfirm) => {
-  const { navigation } = props;
+  const { navigation, route } = props;
+
+  const { navigate } = useNavigation();
+  const { signIn } = useContext(AuthContext);
+
+  const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
+  const [goToCreateProfile, setGoToCreateProfile] = useState(false);
+
+  useEffect(() => {
+    const doSignIn = async () => {
+      try {
+        await signIn(route.params.userToken);
+        navigate(APP_STACK_SCREENS_NAMES.CreateProfile);
+      } catch (error) {
+        console.error("error: ", error);
+      }
+    };
+
+    if (isEmailConfirmed) {
+      doSignIn();
+    }
+  }, [goToCreateProfile]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -21,24 +45,43 @@ const EmailConfirm = (props: IEmailConfirm) => {
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.body}>
-          <Text variant="heading1">Check your mailbox</Text>
-          <Text variant="subheadingLight">We’ve sent you a message.</Text>
+          <Text variant="heading1">
+            {isEmailConfirmed ? "Mail confirmed" : "Check your mailbox"}
+          </Text>
+          <Text variant="subheadingLight">
+            {isEmailConfirmed
+              ? "Congratulations! You're in!"
+              : "We’ve sent you a message."}
+          </Text>
           <View style={styles.viewStyle}>
-            <Icons icon="Email" fill="#00B0F0" />
+            {isEmailConfirmed ? (
+              <Icons icon="Done" fill="#00B0F0" />
+            ) : (
+              <Icons icon="Email" fill="#00B0F0" />
+            )}
           </View>
           <View style={styles.viewStyle}>
             <Text variant="body">jondoe@gmail.com</Text>
           </View>
         </View>
         <Button
-          label="Go to inbox"
+          label={`${isEmailConfirmed ? "GO TO PROFILE" : "GO TO INBOX"}`}
           iconRight="ArrowForward"
           variant="primary"
-          onPress={() => null}
-          containerStyle={{ marginHorizontal: "10%" }}
+          onPress={() => {
+            if (isEmailConfirmed) {
+              setGoToCreateProfile(true);
+            } else {
+              setIsEmailConfirmed(true);
+            }
+          }}
+          containerStyle={{ marginHorizontal: "10%", width: width * 0.8 }}
         />
       </View>
-      <Footer title="Something went wrong?" subTitle="Restart registration" />
+
+      {!isEmailConfirmed && (
+        <Footer title="Something went wrong?" subTitle="Restart registration" />
+      )}
     </View>
   );
 };

@@ -8,7 +8,7 @@ import {
 import Animated, { interpolate, Extrapolate } from "react-native-reanimated";
 import theme, { Text } from "../../config/Theme";
 
-export enum TSlide {
+export enum ESlide {
   Default,
   Cards,
 }
@@ -16,7 +16,7 @@ export enum TSlide {
 export interface ISlide {
   title?: string;
   text?: string;
-  type?: TSlide;
+  type?: ESlide;
   imgSource?: ImageSourcePropType;
   svgIcon?: JSX.Element;
   width?: number;
@@ -46,7 +46,7 @@ const Slide = (props: ISLideProps) => {
 
   const setStyle = () => {
     switch (type) {
-      case TSlide.Default:
+      case ESlide.Default:
         return {
           container: styles.defaultContainer,
           content: styles.defaultContent,
@@ -54,7 +54,7 @@ const Slide = (props: ISLideProps) => {
           text: styles.defaultText,
         };
 
-      case TSlide.Cards:
+      case ESlide.Cards:
         return {
           container: styles.cardsContainer,
           content: styles.cardsContent,
@@ -81,10 +81,10 @@ const Slide = (props: ISLideProps) => {
     });
 
     switch (type) {
-      case TSlide.Default:
+      case ESlide.Default:
         return {};
 
-      case TSlide.Cards:
+      case ESlide.Cards:
         return {
           transform: [
             {

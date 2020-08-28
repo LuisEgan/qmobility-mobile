@@ -2,11 +2,11 @@
 import { createContext } from "react";
 
 interface IAuthMethods {
-  signIn: (token?: string) => void;
+  signIn: (token?: string) => Promise<void>;
   signOut: () => void;
 }
 const authMethods = {
-  signIn: () => null,
+  signIn: () => new Promise<void>(() => null),
   signOut: () => null,
 };
 export const AuthContext = createContext<IAuthMethods>(authMethods);

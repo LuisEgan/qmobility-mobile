@@ -10,6 +10,10 @@ type StackParamsList = {
   LoginSignUp: {
     from: LoginSignUpFrom;
   };
+  EmailConfirm: {
+    userToken: string;
+    userEmail: string;
+  };
   Login: {};
   MyCars: {};
   ProfileScroll: {};
@@ -49,6 +53,12 @@ export type TLoginSignUpScreenProps = MaterialTopTabScreenProps<
   "Login"
 >;
 
+// * Email Confirm screen props
+export type TEmailConfirmNavProps = StackScreenProps<
+  StackParamsList,
+  "EmailConfirm"
+>;
+
 // * My Cars screen props
 export type TMyCarsNavProps = StackScreenProps<StackParamsList, "MyCars">;
 
@@ -83,4 +93,5 @@ export type TAllNavProps = TTCsNavProps &
   TMyRoutesNavProps &
   TDetailsNavProps &
   TMapSearchDoneNavProps &
+  TEmailConfirmNavProps &
   TLoginSignUpScreenProps;

@@ -1,7 +1,8 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
+import { useTheme } from "@shopify/restyle";
 import { Header, Icons, Footer, CardImage } from "../../../components";
-import { Text } from "../../../config/Theme";
+import { Text, Theme } from "../../../config/Theme";
 import { TMyCarsNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 const { height } = Dimensions.get("window");
@@ -33,6 +34,8 @@ const listMyCars: IListCarArray = [
 const MyCars = (props: IMyCars) => {
   const { navigation } = props;
 
+  const theme = useTheme<Theme>();
+
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () => (
@@ -47,7 +50,12 @@ const MyCars = (props: IMyCars) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.content}>
+      <ScrollView
+        style={[
+          styles.content,
+          { backgroundColor: theme.colors.contentBackground },
+        ]}
+      >
         <View style={styles.containerTtitleEdition}>
           <Text variant="label">Your Comparison vehicles</Text>
           <Icons icon="Edit" fill="#ACACAC" size={15} />
@@ -91,7 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    marginHorizontal: "5%",
+    paddingHorizontal: "5%",
     height: height * 0.69,
   },
   containerTtitleEdition: {

@@ -7,40 +7,61 @@ import { ImageProfile } from "../..";
 import IconsList from "../../Lists/IconsList";
 import { IIconsListItem } from "../../Lists/IconsList/IconsListItem";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { IComponentsDefaults } from "../../../lib/Types";
 
 const { width, height } = Dimensions.get("window");
 
 interface ListItems extends Array<IIconsListItem> {}
 
-const LeftMenu = () => {
+interface ILeftMenu extends IComponentsDefaults {
+  onItemPress?: (navigateTo?: string) => void;
+}
+
+const LeftMenu = (props: ILeftMenu) => {
+  const { onItemPress: onItemPressProp } = props;
+
   const { navigate } = useNavigation();
 
   const theme = useTheme<Theme>();
+
+  const onItemPress = (navigateTo: string) => {
+    if (onItemPressProp) {
+      onItemPressProp(navigateTo);
+    }
+
+    navigate(navigateTo);
+  };
 
   const listItems: ListItems = [
     {
       text: "Create Route",
       icon: "Apple",
       textColor: "white",
-      onPress: () => navigate(APP_STACK_SCREENS_NAMES.CreateProfile),
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.CreateProfile),
+    },
+    {
+      text: "My Routes",
+      icon: "Apple",
+      textColor: "white",
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyRoutes),
     },
     {
       text: "My Vehicles",
       icon: "Apple",
       textColor: "white",
-      onPress: () => navigate(APP_STACK_SCREENS_NAMES.CreateProfile),
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyCars),
     },
     {
       text: "My Stats",
       icon: "Apple",
       textColor: "white",
-      onPress: () => navigate(APP_STACK_SCREENS_NAMES.CreateProfile),
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.CreateProfile),
     },
     {
       text: "My Match",
       icon: "Apple",
       textColor: "white",
-      onPress: () => navigate(APP_STACK_SCREENS_NAMES.CreateProfile),
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.CreateProfile),
     },
   ];
 

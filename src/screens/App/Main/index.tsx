@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { Map, InputSearch } from "../../../components";
 import { DrawerMenu } from "../../../components/HOCs";
+
+const { height } = Dimensions.get("window");
 
 const Main = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -36,8 +38,9 @@ const styles = StyleSheet.create({
   },
 
   inputSearch: {
-    marginTop: 30,
+    marginTop: height * 0.06,
     zIndex: 1,
     elevation: 1,
+    margin: 30,
   },
 });

@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { useTheme } from "@shopify/restyle";
+import { useNavigation } from "@react-navigation/native";
 import {
   Input,
   Button,
@@ -10,12 +11,12 @@ import {
   ImageProfile,
   Header,
 } from "../../../components";
-import { ERRORS } from "../../../lib/constants";
+import { ERRORS, APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 import { Text, Theme } from "../../../config/Theme";
 
-const { height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 interface ICreateProfile extends TTCsNavProps {}
 
@@ -28,15 +29,16 @@ interface IFormValues {
 }
 
 const SignupSchema = yup.object().shape({
-  firstName: yup.string().required("Required"),
-  lastName: yup.string().required("Required"),
-  dateBirth: yup.string().required("Required"),
-  car: yup.string().required("Required"),
-  modelCar: yup.string().required("Required"),
+  firstName: yup.string(),
+  lastName: yup.string(),
+  dateBirth: yup.string(),
+  car: yup.string(),
+  modelCar: yup.string(),
 });
 
 const CreateProfile = (props: ICreateProfile) => {
   const { navigation } = props;
+  const { navigate } = useNavigation();
 
   const theme = useTheme<Theme>();
 
@@ -47,7 +49,7 @@ const CreateProfile = (props: ICreateProfile) => {
           title="Create my Profile"
           subTitle="To store all your info in one place"
           containerStyle={{
-            backgroundColor: theme.colors.grayLight,
+            backgroundColor: theme.colors.grayLighter,
           }}
         />
       ),
@@ -65,12 +67,14 @@ const CreateProfile = (props: ICreateProfile) => {
     } = params;
 
     return (
-      <View>
-        <ScrollView style={styles.scrollStyle}>
+      <View style={styles.container}>
+        <ScrollView
+          style={[
+            styles.scrollStyle,
+            { backgroundColor: theme.colors.backgroundLighter },
+          ]}
+        >
           <ImageProfile label="JD" color={theme.colors.primary} />
-          <View style={styles.contentEmailStyle}>
-            <Text variant="body">jondoe@gmail.com</Text>
-          </View>
           <View style={styles.contentViewIput}>
             <Input
               placeholder="First name"
@@ -118,18 +122,28 @@ const CreateProfile = (props: ICreateProfile) => {
             />
           </View>
         </ScrollView>
-        <Button
-          label="DONE"
-          variant="primary"
-          onPress={handleSubmit}
-          containerStyle={{ marginHorizontal: "10%" }}
-        />
+
+        <View
+          style={[
+            styles.buttonContainer,
+            { backgroundColor: theme.colors.backgroundLighter },
+          ]}
+        >
+          <Button
+            label="DONE"
+            variant="primary"
+            onPress={handleSubmit}
+            containerStyle={styles.button}
+          />
+        </View>
       </View>
     );
   };
 
   // const Create = (values: IFormValues): void => {
-  const Create = (): null => null;
+  const Create = () => {
+    navigate(APP_STACK_SCREENS_NAMES.ProfileScroll);
+  };
 
   return (
     <View style={styles.container}>
@@ -153,20 +167,27 @@ export default CreateProfile;
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    flex: 1,
   },
   contentViewIput: {
     marginBottom: "10%",
   },
   scrollStyle: {
-    height: height * 0.69,
+    flex: 1,
+    padding: "5%",
   },
   contentEmailStyle: {
     marginHorizontal: "5%",
   },
   textSelectStyle: {
-    marginLeft: "5%",
     marginTop: 30,
     marginBottom: 10,
   },
+
+  buttonContainer: {
+    flex: 0.2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: { marginHorizontal: "10%", width: width * 0.8 },
 });

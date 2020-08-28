@@ -32,7 +32,7 @@ const Access = () => {
                     from: 1,
                   })}
                 label="SIGN UP"
-                containerStyle={{ marginHorizontal: "10%" }}
+                containerStyle={styles.button}
               />
             </View>
             <View style={styles.ButtonStyle}>
@@ -44,7 +44,7 @@ const Access = () => {
                     from: 0,
                   })}
                 label="LOGIN"
-                containerStyle={{ marginHorizontal: "10%" }}
+                containerStyle={styles.button}
               />
             </View>
           </View>
@@ -86,4 +86,5 @@ const styles = StyleSheet.create({
   ButtonStyle: {
     marginVertical: "2%",
   },
+  button: { marginHorizontal: "10%", width: width * 0.8 },
 });
