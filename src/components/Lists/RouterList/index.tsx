@@ -8,7 +8,7 @@ interface IList extends IComponentsDefaults {
   ListArray: TList;
 }
 
-const List = (props: IList) => {
+const RouterList = (props: IList) => {
   const { ListArray } = props;
 
   return (
@@ -21,4 +21,4 @@ const List = (props: IList) => {
     />
   );
 };
-export default List;
+export default RouterList;

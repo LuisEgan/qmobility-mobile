@@ -6,8 +6,38 @@ import { useTheme } from "@shopify/restyle";
 import RouteDestination from "./RouteDestination";
 import { Map, BottomDrawer, Icons, Button } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
+import { RoutePointsList } from "../../../components/Lists";
+import { IRouterPointsListItem } from "../../../components/Lists/RoutePointsList/RouterPointsListItem";
 
 const { height, width } = Dimensions.get("window");
+
+const routerPointsListItems: Array<IRouterPointsListItem> = [
+  {
+    label: "O2 Academy",
+    description: "211 Stockwell Rd, Ferndale, London SW9 9SL, United Kingdom",
+  },
+  {
+    label: "Kid’s School",
+    description: "40 Stansfield Rd, London SW9 9RY, UK",
+  },
+  {
+    label: "Charging Point 1",
+    description: "2 Stansfield Rd, London SW9 9RY, UK",
+    isChargingPoint: true,
+  },
+  {
+    label: "Charging Point 2",
+    isChargingPoint: true,
+  },
+  {
+    label: "Charging Point 3",
+    isChargingPoint: true,
+  },
+  {
+    label: "Westminster, London",
+    description: "Westminster, London SW1A 1AA, UK",
+  },
+];
 
 const MapSearchDone = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -44,7 +74,7 @@ const MapSearchDone = () => {
           variant="primary"
           inverse
           label="STEPS"
-          onPress={() => null}
+          onPress={() => setIsDrawerOpen(!isDrawerOpen)}
         />
         <Button
           containerStyle={[styles.button, { marginLeft: 25 }]}
@@ -77,9 +107,13 @@ const MapSearchDone = () => {
       <BottomDrawer
         maxHeight={height * 0.9}
         closeOffset={height * 0.35}
-        onToggle={() => setIsDrawerOpen(!isDrawerOpen)}
+        onToggle={setIsDrawerOpen}
+        isOpen={isDrawerOpen}
+        scrollable={false}
       >
         <RouteActions />
+
+        <RoutePointsList points={routerPointsListItems} />
       </BottomDrawer>
     </View>
   );

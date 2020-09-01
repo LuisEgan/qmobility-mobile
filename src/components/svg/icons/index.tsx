@@ -24,3 +24,4 @@ export { default as Market } from "./Market";
 export { default as Clock } from "./Clock";
 export { default as Bubble } from "./Bubble";
 export { default as Eve } from "./Eve";
+export { default as Dot } from "./Dot";

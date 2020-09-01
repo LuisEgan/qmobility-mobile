@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
@@ -12,10 +12,11 @@ const { width, height } = Dimensions.get("window");
 interface IBottomDrawer extends IComponentsDefaults {
   maxHeight?: number;
   closeOffset?: number;
-  isDrawerOpen?: boolean;
+  isOpen?: boolean;
+  scrollable?: boolean;
   onOpen?: () => void;
   onClose?: () => void;
-  onToggle?: () => void;
+  onToggle?: (newStatus: boolean) => void;
 }
 
 const BottomDrawer: FC<IBottomDrawer> = (props) => {
@@ -23,7 +24,8 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
     children,
     maxHeight = height * 0.6,
     closeOffset = height * 0.05,
-    isDrawerOpen: isDrawerOpenProp = false,
+    isOpen: isOpenProp = false,
+    scrollable = true,
     containerStyle,
     onOpen,
     onClose,
@@ -32,28 +34,32 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
 
   const theme = useTheme<Theme>();
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(isDrawerOpenProp);
+  const [isOpen, setIsDrawerOpen] = useState<boolean>(isOpenProp);
 
-  const transition = useTransition(isDrawerOpen, { duration: 100 });
+  const transition = useTransition(isOpen, { duration: 100 });
   const translateY = mix(transition, maxHeight - closeOffset, 0);
+
+  useEffect(() => {
+    setIsDrawerOpen(isOpenProp);
+  }, [isOpenProp]);
 
   const toggleDrawer = () => {
     // * Open drawer
-    if (!isDrawerOpen && onOpen) {
+    if (!isOpen && onOpen) {
       onOpen();
     }
 
     // * Close drawer
-    if (isDrawerOpen && onClose) {
+    if (isOpen && onClose) {
       onClose();
     }
 
     // * Toggle cb
     if (onToggle) {
-      onToggle();
+      onToggle(!isOpen);
     }
 
-    setIsDrawerOpen(!isDrawerOpen);
+    setIsDrawerOpen(!isOpen);
   };
 
   return (
@@ -74,7 +80,7 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
       </TouchableOpacity>
 
       <View style={styles.content}>
-        <ScrollView>{children}</ScrollView>
+        {scrollable ? <ScrollView>{children}</ScrollView> : children}
       </View>
     </Animated.View>
   );
