@@ -43,14 +43,14 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
     setIsDrawerOpen(isOpenProp);
   }, [isOpenProp]);
 
-  const toggleDrawer = () => {
+  useEffect(() => {
     // * Open drawer
-    if (!isOpen && onOpen) {
+    if (isOpen && onOpen) {
       onOpen();
     }
 
     // * Close drawer
-    if (isOpen && onClose) {
+    if (!isOpen && onClose) {
       onClose();
     }
 
@@ -58,7 +58,9 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
     if (onToggle) {
       onToggle(!isOpen);
     }
+  }, [isOpen]);
 
+  const toggleDrawer = () => {
     setIsDrawerOpen(!isOpen);
   };
 
@@ -86,7 +88,7 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
   );
 };
 
-export default BottomDrawer;
+export default React.memo<FC<IBottomDrawer>>(BottomDrawer);
 
 const styles = StyleSheet.create({
   container: {

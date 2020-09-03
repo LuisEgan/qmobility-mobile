@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
 import { useTheme } from "@shopify/restyle";
 import RouteDestination from "./RouteDestination";
-import { Map, BottomDrawer, Icons, Button } from "../../../components";
+import { Map, BottomDrawer, Icons, Button, Card } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { RoutePointsList } from "../../../components/Lists";
 import { IRouterPointsListItem } from "../../../components/Lists/RoutePointsList/RouterPointsListItem";
@@ -41,6 +41,7 @@ const routerPointsListItems: Array<IRouterPointsListItem> = [
 
 const MapSearchDone = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [showContent, setShowContent] = useState<boolean>(false);
 
   const theme = useTheme<Theme>();
 
@@ -100,20 +101,60 @@ const MapSearchDone = () => {
         <RouteDestination containerStyle={styles.routeDestination} />
       </Animated.View>
 
-      <View style={styles.mapContainer}>
-        <Map />
-      </View>
+      <View style={styles.mapContainer}>{/* <Map /> */}</View>
 
       <BottomDrawer
         maxHeight={height * 0.9}
         closeOffset={height * 0.35}
-        onToggle={setIsDrawerOpen}
+        // onToggle={setIsDrawerOpen}
         isOpen={isDrawerOpen}
         scrollable={false}
+        onOpen={() => {
+          setTimeout(() => {
+            setShowContent(true);
+          }, 0);
+        }}
+        onClose={() => setShowContent(false)}
       >
         <RouteActions />
 
-        <RoutePointsList points={routerPointsListItems} />
+        {showContent ? (
+          <>
+            <RoutePointsList points={routerPointsListItems} />
+
+            <View style={styles.cardsContainer}>
+              <Card
+                title="200Km"
+                subTitle="Total distance"
+                containerStyle={styles.card}
+              />
+              <Card
+                title="400Km"
+                subTitle="Total distance"
+                containerStyle={[styles.card]}
+                contentStyle={{ backgroundColor: theme.colors.primary }}
+              />
+              <Card
+                title="200Km"
+                subTitle="Total distance"
+                containerStyle={[styles.card, styles.lastCard]}
+                contentStyle={{
+                  backgroundColor: theme.colors.cardsBackground,
+                }}
+                textColor="heading2"
+              />
+            </View>
+          </>
+        ) : (
+          <View
+            style={[
+              styles.contentLoading,
+              { borderColor: theme.colors.borderColor },
+            ]}
+          >
+            <Text variant="bodyHighlight">Loading...</Text>
+          </View>
+        )}
       </BottomDrawer>
     </View>
   );
@@ -124,6 +165,14 @@ export default MapSearchDone;
 const styles = StyleSheet.create({
   container: {
     height,
+  },
+
+  contentLoading: {
+    height: 250,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderRadius: 10,
   },
 
   row: {
@@ -152,5 +201,17 @@ const styles = StyleSheet.create({
 
   mapContainer: {
     flex: 1,
+  },
+
+  cardsContainer: {
+    flexDirection: "row",
+    marginVertical: 15,
+  },
+  card: {
+    flex: 1,
+    paddingRight: 5,
+  },
+  lastCard: {
+    paddingRight: 0,
   },
 });

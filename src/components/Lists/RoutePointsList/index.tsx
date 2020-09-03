@@ -43,7 +43,7 @@ const RoutePointsList = (props: IRoutePointsList) => {
   );
 };
 
-export default RoutePointsList;
+export default React.memo<IRoutePointsList>(RoutePointsList);
 
 const LIST_PADDING = 10;
 
