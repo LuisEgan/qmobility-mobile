@@ -28,6 +28,7 @@ import {
   Bubble,
   CompassWithCircles,
   Eve,
+  Dot,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -70,6 +71,7 @@ const icons = {
   Market: (props: Iicons) => <Market {...props} />,
   Clock: (props: Iicons) => <Clock {...props} />,
   Bubble: (props: Iicons) => <Bubble {...props} />,
+  Dot: (props: Iicons) => <Dot {...props} />,
 };
 
 const Icons = (props: Iicons) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import * as Permissions from "expo-permissions";
 import { InputSearch, Card, ListItem, GoogleSearch } from "../../../components";
@@ -15,11 +15,11 @@ interface IList {
   subTitle?: string;
 }
 
-const searchFor = (search: string) => ({ title }: IList): boolean =>
-  title.toLowerCase().includes(search.toLowerCase()) || !search;
+// const searchFor = (search: string) => ({ title }: IList): boolean =>
+//   title.toLowerCase().includes(search.toLowerCase()) || !search;
 
 const SearchRouter = () => {
-  const [search, setSearch] = useState<string>("");
+  // const [search, setSearch] = useState<string>("");
   const [listDescriptionPlace, setListDescriptionPlace] = useState<
     Array<IList>
   >([]);

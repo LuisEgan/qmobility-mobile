@@ -57,9 +57,16 @@ const Button = (props: IButton) => {
   };
 
   return (
-    <View style={[setRectButtonStyle(), styles.btnStyle, containerStyle]}>
+    <View
+      style={[
+        setRectButtonStyle(),
+        styles.button,
+        styles.buttonContainer,
+        containerStyle,
+      ]}
+    >
       <RectButton
-        style={[setRectButtonStyle(), styles.btnStyle]}
+        style={[setRectButtonStyle(), styles.button]}
         onPress={onPress}
         enabled={enabled}
       >
@@ -85,10 +92,12 @@ Button.defaultProps = {
 export default Button;
 
 const styles = StyleSheet.create({
-  btnStyle: {
+  buttonContainer: { height: 50 },
+
+  button: {
     width: "100%",
+    height: "100%",
     justifyContent: "center",
-    height: 50,
     borderRadius: 25,
   },
 });
