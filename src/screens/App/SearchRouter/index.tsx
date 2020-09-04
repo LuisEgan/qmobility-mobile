@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import * as Permissions from "expo-permissions";
-import { InputSearch, Card, ListItem } from "../../../components";
+import { InputSearch, Card, ListItem, GoogleSearch } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
 
 import ListTest from "./ListTest";
-
-const { height } = Dimensions.get("window");
 
 interface IList {
   icon?: TIcon;
@@ -22,6 +20,9 @@ const searchFor = (search: string) => ({ title }: IList): boolean =>
 
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
+  const [listDescriptionPlace, setListDescriptionPlace] = useState<
+    Array<IList>
+  >([]);
 
   const theme = useTheme<Theme>();
 
@@ -37,14 +38,25 @@ const SearchRouter = () => {
     }
   };
 
+  const listRowPlace = (descriptionPlace: string) => {
+    setListDescriptionPlace([]);
+    const datatmp = listDescriptionPlace;
+    datatmp.push({
+      icon: "Info",
+      title: descriptionPlace.split(",")[0],
+      subTitle: descriptionPlace.split(",")[1],
+    });
+    setListDescriptionPlace(datatmp);
+  };
+
   return (
     <View style={styles.container}>
-      <InputSearch
-        placeholder="Where are you going?"
-        onChange={(str) => {
-          setSearch(str);
-        }}
-      />
+      <InputSearch>
+        <GoogleSearch
+          placeholder="Where are you going?"
+          onPlaces={listRowPlace}
+        />
+      </InputSearch>
 
       <View style={styles.contentCard}>
         {ListTest.listFavorite
@@ -63,13 +75,11 @@ const SearchRouter = () => {
           { backgroundColor: theme.colors.white },
         ]}
       >
-        {ListTest.listHistory
-          && ListTest.listHistory
-            .filter(searchFor(search))
-            .map((place) => (
-              <ListItem key={`${place.title}_${Math.random()}`} {...place} />
-            ))}
-        <View style={{ height: 80 }} />
+        {listDescriptionPlace
+          && listDescriptionPlace.map((place) => (
+            <ListItem key={`${place.title}_${Math.random()}`} {...place} />
+          ))}
+        <View style={{ height: 30 }} />
       </ScrollView>
     </View>
   );
@@ -79,11 +89,11 @@ export default SearchRouter;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: "5%",
+    flex: 1,
   },
   containerScroll: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    height: height * 0.7,
   },
   contentCard: {
     flexDirection: "row",

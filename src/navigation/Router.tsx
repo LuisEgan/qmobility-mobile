@@ -9,7 +9,7 @@ import { TAllNavProps } from "./Types/NavPropsTypes";
 import {
   ASYNC_STORAGE_ITEMS,
   AUTH_STACK_SCREENS_NAMES,
-} from "../lib/constants";
+  APP_STACK_SCREENS_NAMES } from "../lib/constants";
 import { TUserToken } from "./Types/AuthTypes";
 import { AuthContext } from "./AuthContext";
 
@@ -75,8 +75,8 @@ const Router = () => {
   ) : (
     <NavigationContainer>
       <AuthContext.Provider value={authContext}>
-        <Navigator initialRouteName={AUTH_STACK_SCREENS_NAMES.Access}>
-          {userToken ? AppNavigator() : AuthNavigator()}
+        <Navigator initialRouteName={APP_STACK_SCREENS_NAMES.SearchRouter}>
+          {!userToken ? AppNavigator() : AuthNavigator()}
         </Navigator>
       </AuthContext.Provider>
     </NavigationContainer>
