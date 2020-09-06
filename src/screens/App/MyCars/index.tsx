@@ -1,13 +1,11 @@
-import React, { useLayoutEffect } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { Header, Icons, Footer, CardImage } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
-import { TMyCarsNavProps } from "../../../navigation/Types/NavPropsTypes";
+import { DrawerMenu } from "../../../components/HOCs";
 
 const { height } = Dimensions.get("window");
-
-interface IMyCars extends TMyCarsNavProps {}
 
 interface IListCar {
   imgUri: string;
@@ -31,64 +29,65 @@ const listMyCars: IListCarArray = [
   },
 ];
 
-const MyCars = (props: IMyCars) => {
-  const { navigation } = props;
+const MyCars = () => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const theme = useTheme<Theme>();
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      header: () => (
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  return (
+    <DrawerMenu isDrawerOpen={isDrawerOpen} onDrawerToggle={setIsDrawerOpen}>
+      <View style={styles.container}>
         <Header
           title="My Vehicles"
           subTitle="These are all you beautiful cars"
           icon="Menu"
+          onPress={toggleDrawer}
         />
-      ),
-    });
-  }, [navigation]);
 
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={[
-          styles.content,
-          { backgroundColor: theme.colors.contentBackground },
-        ]}
-      >
-        <View style={styles.containerTtitleEdition}>
-          <Text variant="label">Your Comparison vehicles</Text>
-          <Icons icon="Edit" fill="#ACACAC" size={15} />
-        </View>
-        <View style={styles.cardMyCar}>
-          <View style={styles.costentCar}>
-            <View style={styles.contentImage}>
-              <Image
-                style={styles.tinyLogo}
-                source={{
-                  uri: "https://reactnative.dev/img/tiny_logo.png",
-                }}
-              />
-            </View>
-            <View>
-              <Text variant="heading2">Jon´s Mercedes</Text>
-              <Text variant="bodyHighlight">Model s</Text>
+        <ScrollView
+          style={[
+            styles.content,
+            { backgroundColor: theme.colors.contentBackground },
+          ]}
+        >
+          <View style={styles.containerTtitleEdition}>
+            <Text variant="label">Your Comparison vehicles</Text>
+            <Icons icon="Edit" fill="#ACACAC" size={15} />
+          </View>
+          <View style={styles.cardMyCar}>
+            <View style={styles.costentCar}>
+              <View style={styles.contentImage}>
+                <Image
+                  style={styles.tinyLogo}
+                  source={{
+                    uri: "https://reactnative.dev/img/tiny_logo.png",
+                  }}
+                />
+              </View>
+              <View>
+                <Text variant="heading2">Jon´s Mercedes</Text>
+                <Text variant="bodyHighlight">Model s</Text>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.containerTtitleEdition}>
-          <Text variant="label">Virtual vehicles</Text>
-        </View>
+          <View style={styles.containerTtitleEdition}>
+            <Text variant="label">Virtual vehicles</Text>
+          </View>
 
-        {listMyCars.map((car) => (
-          <CardImage key={`${car.title}_${Math.random()}`} {...car} />
-        ))}
-      </ScrollView>
-      <Footer
-        title="Feeling a bit adventurous today?"
-        subTitle="Check our catalogue"
-      />
-    </View>
+          {listMyCars.map((car) => (
+            <CardImage key={`${car.title}_${Math.random()}`} {...car} />
+          ))}
+        </ScrollView>
+        <Footer
+          title="Feeling a bit adventurous today?"
+          subTitle="Check our catalogue"
+        />
+      </View>
+    </DrawerMenu>
   );
 };
 export default MyCars;

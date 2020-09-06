@@ -1,15 +1,12 @@
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import { View, StyleSheet, Image, ScrollView, Dimensions } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { useNavigation } from "@react-navigation/native";
 import { Header, Icons, Button } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
-import { TMyCarsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const { width } = Dimensions.get("window");
-
-interface IMyCars extends TMyCarsNavProps {}
 
 interface IListCar {
   img: string;
@@ -60,26 +57,10 @@ const ListAlternative: IListCarArray = [
   },
 ];
 
-const MyCars = (props: IMyCars) => {
-  const { navigation } = props;
-
+const MyCars = () => {
   const { navigate } = useNavigation();
 
   const theme = useTheme<Theme>();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      header: () => (
-        <Header
-          title="Profile Created"
-          subTitle="Well done"
-          containerStyle={{
-            backgroundColor: theme.colors.grayLighter,
-          }}
-        />
-      ),
-    });
-  }, [navigation]);
 
   const ListCar = ({ img, name, title, subTitle, type }: IListCar) => {
     const colorType = type ? theme.colors.white : theme.colors.black;
@@ -137,6 +118,14 @@ const MyCars = (props: IMyCars) => {
 
   return (
     <View style={styles.container}>
+      <Header
+        title="Profile Created"
+        subTitle="Well done"
+        containerStyle={{
+          backgroundColor: theme.colors.grayLighter,
+        }}
+      />
+
       <ScrollView style={styles.content}>
         <View style={styles.containerTitleEdition}>
           <Icons icon="Done" fill={theme.colors.primaryLight} />

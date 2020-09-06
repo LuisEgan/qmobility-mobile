@@ -121,11 +121,11 @@ const Header = (props: IHeader) => {
 
 export default Header;
 
-const heightPor = Platform.OS === "ios" ? 0.21 : 0.23;
+const heightMultiplier = Platform.OS === "ios" ? 0.21 : 0.23;
 
 const styles = StyleSheet.create({
   container: {
-    height: height * heightPor,
+    height: height * heightMultiplier,
     borderBottomWidth: 0.5,
   },
   touchableOpacityStyle: {

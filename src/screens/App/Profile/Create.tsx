@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
@@ -12,13 +12,10 @@ import {
   Header,
 } from "../../../components";
 import { ERRORS, APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
-import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 import { Text, Theme } from "../../../config/Theme";
 
 const { width } = Dimensions.get("window");
-
-interface ICreateProfile extends TTCsNavProps {}
 
 interface IFormValues {
   firstName: string;
@@ -36,25 +33,10 @@ const SignupSchema = yup.object().shape({
   modelCar: yup.string(),
 });
 
-const CreateProfile = (props: ICreateProfile) => {
-  const { navigation } = props;
+const CreateProfile = () => {
   const { navigate } = useNavigation();
 
   const theme = useTheme<Theme>();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      header: () => (
-        <Header
-          title="Create my Profile"
-          subTitle="To store all your info in one place"
-          containerStyle={{
-            backgroundColor: theme.colors.grayLighter,
-          }}
-        />
-      ),
-    });
-  }, [navigation]);
 
   const Form = (params: FormikProps<IFormValues>) => {
     const {
@@ -147,6 +129,14 @@ const CreateProfile = (props: ICreateProfile) => {
 
   return (
     <View style={styles.container}>
+      <Header
+        title="Create my Profile"
+        subTitle="To store all your info in one place"
+        containerStyle={{
+          backgroundColor: theme.colors.grayLighter,
+        }}
+      />
+
       <Formik
         initialValues={{
           firstName: "",

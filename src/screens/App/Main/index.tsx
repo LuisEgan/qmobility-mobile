@@ -5,6 +5,20 @@ import { DrawerMenu } from "../../../components/HOCs";
 
 const { height } = Dimensions.get("window");
 
+const coords = [
+  { latitude: 51.50731, longitude: -0.12802 },
+  { latitude: 51.50736, longitude: -0.12813 },
+  { latitude: 51.50738, longitude: -0.12818 },
+  { latitude: 51.50741, longitude: -0.12827 },
+  { latitude: 51.50744, longitude: -0.12846 },
+  { latitude: 51.50747, longitude: -0.12871 },
+  { latitude: 51.50748, longitude: -0.12886 },
+  { latitude: 51.5075, longitude: -0.12898 },
+  { latitude: 51.50761, longitude: -0.12998 },
+  { latitude: 51.50764, longitude: -0.13032 },
+  { latitude: 51.50765, longitude: -0.13049 },
+];
+
 const Main = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
@@ -23,7 +37,7 @@ const Main = () => {
             onLeftIconPress={toggleDrawer}
           />
 
-          <Map />
+          <Map routeCoords={coords} />
         </View>
       </DrawerMenu>
     </>
