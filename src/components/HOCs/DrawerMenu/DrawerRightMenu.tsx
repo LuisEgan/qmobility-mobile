@@ -57,7 +57,7 @@ const DrawerRightMenu: FC<IDrawerRightMenu> = (props) => {
       />
 
       <RightMenu
-        containerStyle={[
+        animContainerStyle={[
           styles.menu,
           {
             width: MENU_WIDTH,

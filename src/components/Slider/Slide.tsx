@@ -4,16 +4,20 @@ import {
   StyleSheet,
   ImageSourcePropType,
   ImageBackground,
+  StyleProp,
+  ViewStyle,
 } from "react-native";
 import Animated, { interpolate, Extrapolate } from "react-native-reanimated";
 import theme, { Text } from "../../config/Theme";
+import { IComponentsDefaults } from "../../lib/Types";
 
 export enum ESlide {
   Default,
   Cards,
 }
 
-export interface ISlide {
+export interface ISlide extends IComponentsDefaults {
+  contentStyle?: StyleProp<Animated.AnimateStyle<ViewStyle>>;
   title?: string;
   text?: string;
   type?: ESlide;
@@ -23,6 +27,8 @@ export interface ISlide {
   backgroundColor?: string;
   titleColor?: string;
   textColor?: string;
+  inCardComponent?: JSX.Element;
+  outerCardComponent?: JSX.Element;
 }
 
 interface ISLideProps extends ISlide {
@@ -31,6 +37,8 @@ interface ISLideProps extends ISlide {
 }
 const Slide = (props: ISLideProps) => {
   const {
+    containerStyle,
+    contentStyle,
     type,
     title,
     text,
@@ -39,9 +47,11 @@ const Slide = (props: ISLideProps) => {
     width,
     index,
     currentIndex,
-    titleColor,
-    textColor,
-    backgroundColor,
+    titleColor = "white",
+    textColor = "white",
+    backgroundColor = theme.colors.primary,
+    inCardComponent,
+    outerCardComponent,
   } = props;
 
   const setStyle = () => {
@@ -104,7 +114,7 @@ const Slide = (props: ISLideProps) => {
   const typeStyle = setStyle();
 
   return (
-    <View style={[typeStyle.container, { width }]}>
+    <View style={[typeStyle.container, { width }, containerStyle]}>
       <Animated.View
         style={[
           typeStyle.content,
@@ -112,7 +122,7 @@ const Slide = (props: ISLideProps) => {
           {
             backgroundColor,
           },
-          {},
+          contentStyle,
         ]}
       >
         {imgSource ? (
@@ -129,15 +139,13 @@ const Slide = (props: ISLideProps) => {
         <Text variant="body" color={textColor} style={typeStyle.text}>
           {text}
         </Text>
+
+        {inCardComponent}
       </Animated.View>
+
+      {outerCardComponent}
     </View>
   );
-};
-
-Slide.defaultProps = {
-  backgroundColor: theme.colors.primary,
-  titleColor: "white",
-  textColor: "white",
 };
 
 export default Slide;
@@ -149,9 +157,7 @@ const styles = StyleSheet.create({
   image: { flex: 1, resizeMode: "cover" },
 
   // * Default
-  defaultContainer: {
-    backgroundColor: "gold",
-  },
+  defaultContainer: {},
   defaultContent: {
     height: "100%",
   },

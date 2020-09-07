@@ -18,7 +18,7 @@ interface IRightMenu extends IComponentsDefaults {
 }
 
 const RightMenu = (props: IRightMenu) => {
-  const { containerStyle, onItemPress: onItemPressProp } = props;
+  const { animContainerStyle, onItemPress: onItemPressProp } = props;
 
   const theme = useTheme<Theme>();
 
@@ -46,7 +46,7 @@ const RightMenu = (props: IRightMenu) => {
   ];
 
   return (
-    <Animated.View style={[styles.container, containerStyle]}>
+    <Animated.View style={[styles.container, animContainerStyle]}>
       <View
         style={[styles.header, { borderBottomColor: theme.colors.primary }]}
       >
