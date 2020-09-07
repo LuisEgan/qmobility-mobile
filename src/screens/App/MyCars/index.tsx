@@ -3,7 +3,7 @@ import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { Header, Icons, Footer, CardImage } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
-import { DrawerMenu } from "../../../components/HOCs";
+import { DrawerLeftMenu } from "../../../components/HOCs";
 
 const { height } = Dimensions.get("window");
 
@@ -39,7 +39,10 @@ const MyCars = () => {
   };
 
   return (
-    <DrawerMenu isDrawerOpen={isDrawerOpen} onDrawerToggle={setIsDrawerOpen}>
+    <DrawerLeftMenu
+      isDrawerOpen={isDrawerOpen}
+      onDrawerToggle={setIsDrawerOpen}
+    >
       <View style={styles.container}>
         <Header
           title="My Vehicles"
@@ -87,7 +90,7 @@ const MyCars = () => {
           subTitle="Check our catalogue"
         />
       </View>
-    </DrawerMenu>
+    </DrawerLeftMenu>
   );
 };
 export default MyCars;

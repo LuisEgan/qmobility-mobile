@@ -11,7 +11,7 @@ import {
 } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
-import { DrawerMenu } from "../../../components/HOCs";
+import { DrawerLeftMenu } from "../../../components/HOCs";
 
 const CreateProfile = () => {
   const { navigate } = useNavigation();
@@ -25,7 +25,10 @@ const CreateProfile = () => {
   };
 
   return (
-    <DrawerMenu isDrawerOpen={isDrawerOpen} onDrawerToggle={setIsDrawerOpen}>
+    <DrawerLeftMenu
+      isDrawerOpen={isDrawerOpen}
+      onDrawerToggle={setIsDrawerOpen}
+    >
       <Header
         title="My Profile"
         subTitle="To store all your info in one place"
@@ -77,7 +80,7 @@ const CreateProfile = () => {
           </View>
         </View>
       </ScrollView>
-    </DrawerMenu>
+    </DrawerLeftMenu>
   );
 };
 export default CreateProfile;

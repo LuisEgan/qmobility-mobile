@@ -12,13 +12,19 @@ const { width, height } = Dimensions.get("window");
 const ANIM_DURATION = 300;
 const OPEN_THRESHOLD = width * 0.08;
 
-interface IDrawerMenu {
+interface IDrawerLeftMenu {
   isDrawerOpen: boolean;
   onDrawerToggle?: (isOpen: boolean) => void;
+  swippable?: boolean;
 }
 
-const DrawerMenu: FC<IDrawerMenu> = (props) => {
-  const { children, isDrawerOpen: isDrawerOpenProp, onDrawerToggle } = props;
+const DrawerLeftMenu: FC<IDrawerLeftMenu> = (props) => {
+  const {
+    children,
+    isDrawerOpen: isDrawerOpenProp,
+    onDrawerToggle,
+    swippable,
+  } = props;
   const theme = useTheme<Theme>();
 
   const swipeRef = useRef<Swipeable>(null);
@@ -90,7 +96,7 @@ const DrawerMenu: FC<IDrawerMenu> = (props) => {
           </Animated.View>
         </View>
       )}
-      friction={5}
+      friction={swippable ? 5 : 500}
       onSwipeableLeftWillOpen={() => toggleDrawer(true)}
       onSwipeableWillClose={() => {
         toggleDrawer(false);
@@ -122,7 +128,7 @@ const DrawerMenu: FC<IDrawerMenu> = (props) => {
   );
 };
 
-export default DrawerMenu;
+export default DrawerLeftMenu;
 
 const styles = StyleSheet.create({
   container: {},

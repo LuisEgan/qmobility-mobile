@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from "react-native-maps";
+import MapView, {
+  PROVIDER_GOOGLE,
+  Marker,
+  Polyline,
+  LatLng,
+} from "react-native-maps";
 
 // import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
@@ -13,7 +18,7 @@ interface ICoords {
 }
 
 interface IMap {
-  routeCoords?: Array<ICoords>;
+  routeCoords: Array<LatLng>;
   initialMarkerCoords?: ICoords;
 }
 
@@ -54,10 +59,6 @@ const Map = (props: IMap) => {
 
         <Marker coordinate={routeCoords[0]} />
         <Marker coordinate={routeCoords[routeCoords.length - 1]} />
-
-        {/* {coords.map((coord) => (
-          <Marker key={coord.latitude} coordinate={coord} />
-        ))} */}
       </MapView>
     </>
   );

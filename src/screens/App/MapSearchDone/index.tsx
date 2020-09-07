@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
 import { useTheme } from "@shopify/restyle";
 import RouteDestination from "./RouteDestination";
-import { Map, BottomDrawer, Icons, Button, Card } from "../../../components";
+import { BottomDrawer, Icons, Button, Card } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { RoutePointsList } from "../../../components/Lists";
 import { IRouterPointsListItem } from "../../../components/Lists/RoutePointsList/RouterPointsListItem";

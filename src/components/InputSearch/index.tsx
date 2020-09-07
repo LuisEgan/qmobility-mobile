@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { useNavigation } from "@react-navigation/native";
 import { Theme } from "../../config/Theme";
@@ -13,7 +7,6 @@ import { IComponentsDefaults } from "../../lib/Types";
 import Icons from "../svg";
 import { TIcon } from "../svg/icons/TypeIcons";
 
-const { width, height } = Dimensions.get("window");
 interface IInputSearch extends IComponentsDefaults {
   onChange: (str: string) => void;
   onVoiceCommand?: () => void;
@@ -51,7 +44,6 @@ const InputSearch = (props: IInputSearch) => {
         onChangeText={(str: string) => onChange(str)}
         placeholderTextColor={theme.colors.defautlInput}
         {...{ defaultValue, placeholder }}
-        style={styles.inputStyle}
       />
       <TouchableOpacity style={styles.contentIconsRight}>
         <Icons icon="Mic" size={30} />
@@ -68,8 +60,6 @@ export default InputSearch;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: height * 0.08,
-    marginBottom: height * 0.03,
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "#fff",
@@ -88,9 +78,6 @@ const styles = StyleSheet.create({
     borderRightColor: "#e0e0e0",
     paddingHorizontal: 5,
     alignItems: "center",
-  },
-  inputStyle: {
-    width: width * 0.6,
   },
   contentIconsRight: {
     justifyContent: "center",

@@ -4,7 +4,7 @@ import { useTheme } from "@shopify/restyle";
 import { Header } from "../../../components";
 import { Theme } from "../../../config/Theme";
 import { RouterList } from "../../../components/Lists";
-import { DrawerMenu } from "../../../components/HOCs";
+import { DrawerLeftMenu } from "../../../components/HOCs";
 
 interface IListRoutes {
   date?: string;
@@ -46,7 +46,10 @@ const MyRoutes = () => {
   };
 
   return (
-    <DrawerMenu isDrawerOpen={isDrawerOpen} onDrawerToggle={setIsDrawerOpen}>
+    <DrawerLeftMenu
+      isDrawerOpen={isDrawerOpen}
+      onDrawerToggle={setIsDrawerOpen}
+    >
       <Header
         title="My Routes"
         subTitle="Here we store all your everyday routes"
@@ -64,7 +67,7 @@ const MyRoutes = () => {
       >
         <RouterList ListArray={listRoutes} />
       </View>
-    </DrawerMenu>
+    </DrawerLeftMenu>
   );
 };
 export default MyRoutes;
