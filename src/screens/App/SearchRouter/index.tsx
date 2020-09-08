@@ -8,7 +8,7 @@ import { Text, Theme } from "../../../config/Theme";
 import ListTest from "./ListTest";
 
 const SearchRouter = () => {
-  const [search, setSearch] = useState<string>();
+  const [search, setSearch] = useState<string>("");
 
   const theme = useTheme<Theme>();
 
@@ -62,17 +62,11 @@ const SearchRouter = () => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          marginTop: 45,
-          marginBottom: 50,
-        }}
-      >
-        <GoogleSearch
-          placeholder="Where are you going?"
-          onChange={(str) => setSearch(str)}
-        />
-      </View>
+      <GoogleSearch
+        placeholder="Where are you going?"
+        onChange={setSearch}
+        containerStyle={styles.googleSearch}
+      />
 
       {search.length <= 2 && <History />}
     </View>
@@ -85,6 +79,10 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: "5%",
     flex: 1,
+  },
+  googleSearch: {
+    marginTop: 45,
+    marginBottom: 50,
   },
   containerScroll: {
     borderTopLeftRadius: 10,

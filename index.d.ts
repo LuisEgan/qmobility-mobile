@@ -8,5 +8,6 @@ declare module "*.png" {}
 declare module "react-native-google-places-autocomplete" {
   interface GooglePlacesAutocompleteProps {
     renderRow?: (description: DescriptionRow) => JSX.Element;
+    preProcess?: (str: string) => string;
   }
 }

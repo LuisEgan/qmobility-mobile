@@ -9,17 +9,23 @@ import { Theme } from "../../config/Theme";
 interface IGoogleSearch {
   placeholder?: string;
   onChange?: (str: string) => void;
+
+  // TODO add proper type definition
+  containerStyle?: Object;
 }
 
 const GoogleSearch = (props: IGoogleSearch) => {
-  const { placeholder, onChange } = props;
+  const { containerStyle, placeholder, onChange } = props;
 
   const theme = useTheme<Theme>();
 
   return (
     <GooglePlacesAutocomplete
       renderRow={(e) => <ListItem icon="Dot" title={e.description} />}
-      preProcess={(str) => onChange(str)}
+      preProcess={(str) => {
+        if (onChange) onChange(str);
+        return str;
+      }}
       onFail={(error) => console.warn(error)}
       renderLeftButton={() => (
         <TouchableOpacity style={styles.contentIconsLeft}>
@@ -35,6 +41,8 @@ const GoogleSearch = (props: IGoogleSearch) => {
       styles={{
         container: {
           borderColor: theme.colors.white,
+          zIndex: 10,
+          ...containerStyle,
         },
 
         textInputContainer: {
