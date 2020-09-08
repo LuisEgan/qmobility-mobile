@@ -10,11 +10,12 @@ interface IListItem extends IComponentsDefaults {
   icon?: TIcon;
   title: string;
   subTitle?: string;
+  detail?: boolean;
 }
 const { width } = Dimensions.get("window");
 
 const ListItem = (props: IListItem) => {
-  const { title, subTitle, icon, containerStyle } = props;
+  const { title, subTitle, icon, detail, containerStyle } = props;
   const theme = useTheme<Theme>();
 
   return (
@@ -34,9 +35,11 @@ const ListItem = (props: IListItem) => {
         <Text variant="body">{title}</Text>
         {subTitle && <Text variant="label">{subTitle}</Text>}
       </View>
-      <TouchableOpacity style={styles.viewRight}>
-        <Icons icon="MoreVert" fill={theme.colors.grayLight} size={20} />
-      </TouchableOpacity>
+      {detail && (
+        <TouchableOpacity style={styles.viewRight}>
+          <Icons icon="MoreVert" fill={theme.colors.grayLight} size={20} />
+        </TouchableOpacity>
+      )}
     </TouchableOpacity>
   );
 };
@@ -45,15 +48,12 @@ export default ListItem;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    marginHorizontal: "5%",
-    marginVertical: 10,
-    borderBottomWidth: 1,
+
     justifyContent: "space-between",
   },
   viewLeft: {
-    marginRight: "3%",
     justifyContent: "center",
-    paddingVertical: 20,
+
     alignItems: "center",
     width: width * 0.07,
   },

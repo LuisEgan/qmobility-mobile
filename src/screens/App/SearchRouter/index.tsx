@@ -1,22 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import * as Permissions from "expo-permissions";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { Card, ListItem, Icons } from "../../../components";
+import { Card, ListItem, GoogleSearch } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
-
-// import { TIcon } from "../../../components/svg/icons/TypeIcons";
 
 import ListTest from "./ListTest";
 
-// interface IList {
-//   icon?: TIcon;
-//   title: string;
-//   subTitle?: string;
-// }
-
 const SearchRouter = () => {
+  const [search, setSearch] = useState<string>();
+
   const theme = useTheme<Theme>();
 
   useEffect(() => {
@@ -31,44 +24,8 @@ const SearchRouter = () => {
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <GooglePlacesAutocomplete
-        renderRow={(e) => <ListItem icon="ArrowBack" title={e.description} />}
-        renderLeftButton={() => <Icons icon="Apple" />}
-        textInputProps={{
-          style: {
-            backgroundColor: "rgba(0,0,0,0)",
-            borderTopWidth: 0,
-            borderBottomWidth: 0,
-          },
-        }}
-        styles={{
-          container: { marginTop: 100, zIndex: 1, backgroundColor: "red" },
-          textInput: {
-            marginLeft: 0,
-            marginRight: 0,
-            height: 38,
-            color: "#5d5d5d",
-            fontSize: 16,
-          },
-          predefinedPlacesDescription: { color: "#1faadb" },
-        }}
-        placeholder="Search"
-        // onPress={(data, details = null) => {
-        //   console.log(data, details);
-        // }}
-        query={{
-          key: "AIzaSyDyz9GjDVV8RA5x5BSsXm_SzVtqc8F1QPU",
-          language: "en",
-        }}
-        enablePoweredByContainer={false}
-      />
-      {/* <GoogleSearch
-          placeholder="Where are you going?"
-          onPlaces={listRowPlace}
-        /> */}
-
+  const History = () => (
+    <>
       <View style={styles.contentCard}>
         {ListTest.listFavorite
           && ListTest.listFavorite.map((place) => (
@@ -89,14 +46,35 @@ const SearchRouter = () => {
         ]}
       >
         <FlatList
-          style={{ flex: 1 }}
+          style={{
+            flex: 1,
+            paddingHorizontal: "5%",
+          }}
           data={ListTest.listHistory}
           renderItem={({ item, index }) => (
-            <ListItem key={`${item}_${index}`} {...item} />
+            <ListItem detail key={`${item}_${index}`} {...item} />
           )}
           keyExtractor={(item, index) => `${item}_${index}`}
         />
       </View>
+    </>
+  );
+
+  return (
+    <View style={styles.container}>
+      <View
+        style={{
+          marginTop: 45,
+          marginBottom: 50,
+        }}
+      >
+        <GoogleSearch
+          placeholder="Where are you going?"
+          onChange={(str) => setSearch(str)}
+        />
+      </View>
+
+      {search.length <= 2 && <History />}
     </View>
   );
 };
