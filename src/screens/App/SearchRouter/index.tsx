@@ -1,26 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView, FlatList } from "react-native";
+import React, { useEffect } from "react";
+import { View, StyleSheet, FlatList } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import * as Permissions from "expo-permissions";
-import { InputSearch, Card, ListItem, GoogleSearch } from "../../../components";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { Card, ListItem, Icons } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
-import { TIcon } from "../../../components/svg/icons/TypeIcons";
+// import { TIcon } from "../../../components/svg/icons/TypeIcons";
 
 import ListTest from "./ListTest";
 
-interface IList {
-  icon?: TIcon;
-  title: string;
-  subTitle?: string;
-}
+// interface IList {
+//   icon?: TIcon;
+//   title: string;
+//   subTitle?: string;
+// }
 
 const SearchRouter = () => {
-  // const [search, setSearch] = useState<string>("");
-  const [listDescriptionPlace, setListDescriptionPlace] = useState<
-    Array<IList>
-  >([]);
-
   const theme = useTheme<Theme>();
 
   useEffect(() => {
@@ -35,18 +31,43 @@ const SearchRouter = () => {
     }
   };
 
-  const listRowPlace = (descriptionPlace: Array<IList>) => {
-    setListDescriptionPlace(descriptionPlace);
-  };
-
   return (
     <View style={styles.container}>
-      <InputSearch>
-        <GoogleSearch
+      <GooglePlacesAutocomplete
+        renderRow={(e) => <ListItem icon="ArrowBack" title={e.description} />}
+        renderLeftButton={() => <Icons icon="Apple" />}
+        textInputProps={{
+          style: {
+            backgroundColor: "rgba(0,0,0,0)",
+            borderTopWidth: 0,
+            borderBottomWidth: 0,
+          },
+        }}
+        styles={{
+          container: { marginTop: 100, zIndex: 1, backgroundColor: "red" },
+          textInput: {
+            marginLeft: 0,
+            marginRight: 0,
+            height: 38,
+            color: "#5d5d5d",
+            fontSize: 16,
+          },
+          predefinedPlacesDescription: { color: "#1faadb" },
+        }}
+        placeholder="Search"
+        // onPress={(data, details = null) => {
+        //   console.log(data, details);
+        // }}
+        query={{
+          key: "AIzaSyDyz9GjDVV8RA5x5BSsXm_SzVtqc8F1QPU",
+          language: "en",
+        }}
+        enablePoweredByContainer={false}
+      />
+      {/* <GoogleSearch
           placeholder="Where are you going?"
           onPlaces={listRowPlace}
-        />
-      </InputSearch>
+        /> */}
 
       <View style={styles.contentCard}>
         {ListTest.listFavorite
@@ -54,27 +75,28 @@ const SearchRouter = () => {
             <Card key={`${place.title}_${Math.random()}`} {...place} />
           ))}
       </View>
+
       <View style={styles.content}>
         <Text style={styles.text} variant="label">
           RECENT
         </Text>
       </View>
-      <ScrollView
+
+      <View
         style={[
           styles.containerScroll,
           { backgroundColor: theme.colors.white },
         ]}
       >
         <FlatList
-          data={listDescriptionPlace}
+          style={{ flex: 1 }}
+          data={ListTest.listHistory}
           renderItem={({ item, index }) => (
             <ListItem key={`${item}_${index}`} {...item} />
           )}
           keyExtractor={(item, index) => `${item}_${index}`}
         />
-
-        <View style={{ height: 30 }} />
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -89,6 +111,8 @@ const styles = StyleSheet.create({
   containerScroll: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    flex: 1,
+    backgroundColor: "red",
   },
   contentCard: {
     flexDirection: "row",
