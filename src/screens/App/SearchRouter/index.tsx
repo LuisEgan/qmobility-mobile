@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, FlatList } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import * as Permissions from "expo-permissions";
 import { InputSearch, Card, ListItem, GoogleSearch } from "../../../components";
@@ -14,9 +14,6 @@ interface IList {
   title: string;
   subTitle?: string;
 }
-
-// const searchFor = (search: string) => ({ title }: IList): boolean =>
-//   title.toLowerCase().includes(search.toLowerCase()) || !search;
 
 const SearchRouter = () => {
   // const [search, setSearch] = useState<string>("");
@@ -34,19 +31,12 @@ const SearchRouter = () => {
     try {
       await Permissions.askAsync(Permissions.AUDIO_RECORDING);
     } catch (error) {
-      console.error("TCL: getPermissionAsync -> error", error);
+      console.warn("TCL: getPermissionAsync -> error", error);
     }
   };
 
-  const listRowPlace = (descriptionPlace: string) => {
-    setListDescriptionPlace([]);
-    const datatmp = listDescriptionPlace;
-    datatmp.push({
-      icon: "Info",
-      title: descriptionPlace.split(",")[0],
-      subTitle: descriptionPlace.split(",")[1],
-    });
-    setListDescriptionPlace(datatmp);
+  const listRowPlace = (descriptionPlace: Array<IList>) => {
+    setListDescriptionPlace(descriptionPlace);
   };
 
   return (
@@ -75,15 +65,20 @@ const SearchRouter = () => {
           { backgroundColor: theme.colors.white },
         ]}
       >
-        {listDescriptionPlace
-          && listDescriptionPlace.map((place) => (
-            <ListItem key={`${place.title}_${Math.random()}`} {...place} />
-          ))}
+        <FlatList
+          data={listDescriptionPlace}
+          renderItem={({ item, index }) => (
+            <ListItem key={`${item}_${index}`} {...item} />
+          )}
+          keyExtractor={(item, index) => `${item}_${index}`}
+        />
+
         <View style={{ height: 30 }} />
       </ScrollView>
     </View>
   );
 };
+
 export default SearchRouter;
 
 const styles = StyleSheet.create({

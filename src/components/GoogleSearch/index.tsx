@@ -1,32 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import {
+  GooglePlacesAutocomplete,
+  GooglePlacesAutocompleteProps,
+} from "react-native-google-places-autocomplete";
+import { TIcon } from "../svg/icons/TypeIcons";
 
 const GOOGLE_PLACES_API_KEY = "";
 
-interface TGoogleSearch {
+interface IList {
+  icon?: TIcon;
+  title: string;
+  subTitle?: string;
+}
+
+interface TGoogleSearch extends GooglePlacesAutocompleteProps {
   placeholder?: string;
-  onPlaces?: (str: string) => void;
+  onPlaces?: (obj: Array<IList>) => void;
 }
 
 const GoogleSearch = (props: TGoogleSearch) => {
   const { placeholder, onPlaces } = props;
+  // GooglePlacesAutocompleteProps
+  const [listDescriptionPlace, setListDescriptionPlace] = useState<
+    Array<IList>
+  >([]);
+
+  const onGroup = (descriptionPlace: string) => {
+    setListDescriptionPlace([]);
+    const datatmp = listDescriptionPlace;
+
+    const datos = descriptionPlace.replace(",", "/").split("/");
+
+    datatmp.push({
+      icon: "Info",
+      title: datos[0],
+      subTitle: datos[1],
+    });
+
+    if (datatmp) {
+      onPlaces(datatmp);
+    }
+  };
+
   return (
     <GooglePlacesAutocomplete
       placeholder={placeholder}
+      minLength={2}
+      renderDescription={(row) => {
+        if (row.description) {
+          onGroup(row.description);
+        }
+        return row.description;
+      }}
       query={{
         key: GOOGLE_PLACES_API_KEY,
         language: "en",
+        types: "address",
       }}
-      onFail={(error) => console.error("ERROR API GOOGLE ----->", error)}
-      minLength={2} // minimum length of text to search
-      returnKeyType="search"
-      fetchDetails
-      renderDescription={(row) => {
-        onPlaces(row.description);
-        return row.description;
-      }} // custom description render
-      debounce={200}
       styles={{
         textInputContainer: {
           backgroundColor: "rgba(0,0,0,0)",
@@ -44,6 +75,16 @@ const GoogleSearch = (props: TGoogleSearch) => {
           color: "#1faadb",
         },
       }}
+      currentLocationLabel="Current location"
+      nearbyPlacesAPI="GooglePlacesSearch"
+      GooglePlacesSearchQuery={{
+        rankby: "distance",
+      }}
+      filterReverseGeocodingByTypes={[
+        "locality",
+        "administrative_area_level_3",
+      ]}
+      debounce={200}
     />
   );
 };
