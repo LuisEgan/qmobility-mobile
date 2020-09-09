@@ -23,7 +23,7 @@ const Main = () => {
             onLeftIconPress={toggleDrawer}
           />
 
-          <Map />
+          <Map initialMain />
         </View>
       </DrawerMenu>
     </>
