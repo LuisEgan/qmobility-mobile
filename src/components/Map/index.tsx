@@ -5,6 +5,7 @@ import MapView, {
   Marker,
   Polyline,
   LatLng,
+  MapEvent,
 } from "react-native-maps";
 
 import * as Location from "expo-location";
@@ -25,12 +26,16 @@ interface IMap {
   initialMarkerCoords?: IInitialCoords;
   initialMain?: boolean;
 }
-// MapPolylineProps
+
 const Map = (props: IMap) => {
   const { initialMarkerCoords, routeCoords, initialMain } = props;
 
-  const [inicioLat, setInicioLat] = useState(0);
-  const [inicioLon, setInicioLon] = useState(0);
+  const [inicioLat, setInicioLat] = useState<number>(0);
+  const [inicioLon, setInicioLon] = useState<number>(0);
+  const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
+    latitude: 0,
+    longitude: 0,
+  });
 
   useEffect(() => {
     getLocationAsync();
@@ -46,37 +51,58 @@ const Map = (props: IMap) => {
     }
   };
 
+  const newMarker = (event: MapEvent<{}>) => {
+    let marker;
+    if (markeeSelect.latitude === 0) {
+      marker = {
+        latitude: event?.nativeEvent?.coordinate?.latitude,
+        longitude: event?.nativeEvent?.coordinate?.longitude,
+      };
+    } else {
+      marker = {
+        latitude: 0,
+        longitude: 0,
+      };
+    }
+    setMarkeeSelect(marker);
+  };
+
   return (
-    <>
-      <MapView
-        showsUserLocation={initialMain}
-        showsMyLocationButton={initialMain}
-        followsUserLocation={initialMain}
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        mapType="standard"
-        region={
-          initialMarkerCoords || {
-            latitude: inicioLat,
-            longitude: inicioLon,
-            latitudeDelta: 0.002,
-            longitudeDelta: 0.002,
-          }
+    <MapView
+      showsUserLocation={initialMain}
+      showsMyLocationButton={initialMain}
+      followsUserLocation={initialMain}
+      provider={PROVIDER_GOOGLE}
+      style={styles.map}
+      mapType="standard"
+      onLongPress={(ev) => {
+        if (initialMain) newMarker(ev);
+      }}
+      region={
+        initialMarkerCoords || {
+          latitude: inicioLat,
+          longitude: inicioLon,
+          latitudeDelta: 0.002,
+          longitudeDelta: 0.002,
         }
-      >
-        {routeCoords && (
-          <>
-            <Polyline
-              coordinates={routeCoords}
-              strokeWidth={10}
-              strokeColor="red"
-            />
-            <Marker coordinate={routeCoords[0]} />
-            <Marker coordinate={routeCoords[routeCoords.length - 1]} />
-          </>
-        )}
-      </MapView>
-    </>
+      }
+    >
+      {routeCoords && (
+        <>
+          <Polyline
+            coordinates={routeCoords}
+            strokeWidth={10}
+            strokeColor="red"
+          />
+          <Marker coordinate={routeCoords[0]} />
+          <Marker coordinate={routeCoords[routeCoords.length - 1]} />
+        </>
+      )}
+
+      {markeeSelect.latitude !== 0 && initialMain && (
+        <Marker coordinate={markeeSelect} />
+      )}
+    </MapView>
   );
 };
 
