@@ -99,6 +99,9 @@ const Slider = (props: ISlider) => {
               backgroundColor,
               titleColor,
               textColor,
+              inCardComponent,
+              outerCardComponent,
+              contentStyle,
             },
             index,
           ) => (
@@ -114,6 +117,9 @@ const Slider = (props: ISlider) => {
                 backgroundColor,
                 titleColor,
                 textColor,
+                inCardComponent,
+                outerCardComponent,
+                contentStyle,
                 width,
                 currentIndex,
               }}

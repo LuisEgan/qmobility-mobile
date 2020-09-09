@@ -1,2 +1,2 @@
-/* eslint import/prefer-default-export: "off" */
-export { default as DrawerMenu } from "./DrawerMenu";
+export { default as DrawerLeftMenu } from "./DrawerMenu/DrawerLeftMenu";
+export { default as DrawerRightMenu } from "./DrawerMenu/DrawerRightMenu";

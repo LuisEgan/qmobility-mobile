@@ -19,53 +19,46 @@ import { APP_STACK_SCREENS_NAMES } from "../lib/constants";
 interface IScreens extends Array<IScreen> {}
 export const APP_STACK_SCREENS: IScreens = [
   {
+    name: APP_STACK_SCREENS_NAMES.Main,
+    component: Main,
+  },
+  {
     name: APP_STACK_SCREENS_NAMES.CreateProfile,
     component: CreateProfile,
-    headerShown: true,
   },
   {
     name: APP_STACK_SCREENS_NAMES.MyCars,
     component: MyCars,
-    headerShown: true,
   },
   {
     name: APP_STACK_SCREENS_NAMES.ProfileScroll,
     component: ProfileScroll,
-    headerShown: true,
   },
   {
     name: APP_STACK_SCREENS_NAMES.CheckCar,
     component: CheckCar,
-    headerShown: true,
   },
   {
     name: APP_STACK_SCREENS_NAMES.SearchRouter,
     component: SearchRouter,
   },
-  {
-    name: APP_STACK_SCREENS_NAMES.Main,
-    component: Main,
-  },
+
   {
     name: APP_STACK_SCREENS_NAMES.EditProfile,
     component: EditProfile,
-    headerShown: true,
   },
   {
     name: APP_STACK_SCREENS_NAMES.Profile,
     component: Profile,
-    headerShown: true,
   },
   {
     name: APP_STACK_SCREENS_NAMES.MyRoutes,
     component: MyRoutes,
-    headerShown: true,
   },
   {
     name: APP_STACK_SCREENS_NAMES.Details,
     component: Details,
   },
-
   {
     name: APP_STACK_SCREENS_NAMES.MapSearchDone,
     component: MapSearchDone,

@@ -7,11 +7,10 @@ interface ISlides extends Array<ISlide> {}
 
 const slides: ISlides = [
   {
-    title: "Who is eVe?",
-    text:
-      "If you're offered a seat on a rocket ship, don't ask what seat! Just get on.",
-    svgIcon: <Icons icon="CompassWithCircles" size={250} />,
+    title: "Favorite clothing style?",
+    svgIcon: <Icons icon="CompassWithCircles" size={100} />,
     backgroundColor: theme.colors.primaryDark,
+    contentStyle: { flex: 1 },
   },
   {
     title: "Why eVe",
@@ -19,6 +18,7 @@ const slides: ISlides = [
       "If you're offered a seat on a rocket ship, don't ask what seat! Just get on.",
     svgIcon: <Icons icon="CompassWithCircles" size={250} />,
     backgroundColor: theme.colors.primaryLight,
+    contentStyle: { flex: 1 },
   },
   {
     title: "How to",
@@ -28,6 +28,7 @@ const slides: ISlides = [
     backgroundColor: theme.colors.primaryLighter,
     titleColor: "primary",
     textColor: "primary",
+    contentStyle: { flex: 1 },
   },
 ];
 

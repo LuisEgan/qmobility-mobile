@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -18,12 +18,9 @@ import {
   CardImage,
 } from "../../../components";
 import { ERRORS, APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
-import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Text, Theme } from "../../../config/Theme";
 
 const { height } = Dimensions.get("window");
-
-interface IEdit extends TTCsNavProps {}
 
 interface IFormValues {
   firstName: string;
@@ -39,8 +36,7 @@ const SignupSchema = yup.object().shape({
   number: yup.string().required("Required"),
 });
 
-const Edit = (props: IEdit) => {
-  const { navigation } = props;
+const Edit = () => {
   const theme = useTheme<Theme>();
 
   const { navigate, goBack } = useNavigation();
@@ -48,25 +44,19 @@ const Edit = (props: IEdit) => {
   const Form = (params: FormikProps<IFormValues>) => {
     const { handleChange, handleSubmit, handleBlur, errors, touched } = params;
 
-    useLayoutEffect(() => {
-      navigation.setOptions({
-        header: () => (
-          <Header
-            title="Edit my Profile"
-            text="Cancel"
-            onPress={goBack}
-            textRight="Done"
-            onPressRight={handleSubmit}
-            containerStyle={{
-              backgroundColor: theme.colors.secondaryLighter,
-            }}
-          />
-        ),
-      });
-    }, [navigation]);
-
     return (
       <>
+        <Header
+          title="Edit my Profile"
+          text="Cancel"
+          onPress={goBack}
+          textRight="Done"
+          onPressRight={handleSubmit}
+          containerStyle={{
+            backgroundColor: theme.colors.secondaryLighter,
+          }}
+        />
+
         <ScrollView style={styles.scrollStyle}>
           <View style={{}}>
             <ImageProfile label="JD" color={theme.colors.primary} />

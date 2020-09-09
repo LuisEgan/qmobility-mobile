@@ -1,13 +1,10 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { Header } from "../../../components";
-import { TMyRoutesNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Theme } from "../../../config/Theme";
 import { RouterList } from "../../../components/Lists";
-import { DrawerMenu } from "../../../components/HOCs";
-
-interface IMyRoutes extends TMyRoutesNavProps {}
+import { DrawerLeftMenu } from "../../../components/HOCs";
 
 interface IListRoutes {
   date?: string;
@@ -39,9 +36,7 @@ const listRoutes: IListRoutesArray = [
   },
 ];
 
-const MyRoutes = (props: IMyRoutes) => {
-  const { navigation } = props;
-
+const MyRoutes = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const theme = useTheme<Theme>();
@@ -50,21 +45,18 @@ const MyRoutes = (props: IMyRoutes) => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      header: () => (
-        <Header
-          title="My Routes"
-          subTitle="Here we store all your everyday routes"
-          icon="Menu"
-          onPress={toggleDrawer}
-        />
-      ),
-    });
-  }, [navigation]);
-
   return (
-    <DrawerMenu isDrawerOpen={isDrawerOpen} onDrawerToggle={setIsDrawerOpen}>
+    <DrawerLeftMenu
+      isDrawerOpen={isDrawerOpen}
+      onDrawerToggle={setIsDrawerOpen}
+    >
+      <Header
+        title="My Routes"
+        subTitle="Here we store all your everyday routes"
+        icon="Menu"
+        onPress={toggleDrawer}
+      />
+
       <View
         style={[
           styles.container,
@@ -75,7 +67,7 @@ const MyRoutes = (props: IMyRoutes) => {
       >
         <RouterList ListArray={listRoutes} />
       </View>
-    </DrawerMenu>
+    </DrawerLeftMenu>
   );
 };
 export default MyRoutes;

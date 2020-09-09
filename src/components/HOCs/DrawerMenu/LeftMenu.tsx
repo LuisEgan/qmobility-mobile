@@ -37,7 +37,7 @@ const LeftMenu = (props: ILeftMenu) => {
       text: "Create Route",
       icon: "Apple",
       textColor: "white",
-      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.CreateProfile),
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Main),
     },
     {
       text: "My Routes",
@@ -55,13 +55,13 @@ const LeftMenu = (props: ILeftMenu) => {
       text: "My Stats",
       icon: "Apple",
       textColor: "white",
-      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.CreateProfile),
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Main),
     },
     {
       text: "My Match",
       icon: "Apple",
       textColor: "white",
-      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.CreateProfile),
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Details),
     },
   ];
 
