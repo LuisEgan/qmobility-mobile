@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import Icons from "../svg";
 import { Text, Theme } from "../../config/Theme";
@@ -12,7 +12,6 @@ interface IListItem extends IComponentsDefaults {
   subTitle?: string;
   detail?: boolean;
 }
-const { width } = Dimensions.get("window");
 
 const ListItem = (props: IListItem) => {
   const { title, subTitle, icon, detail, containerStyle } = props;
@@ -31,9 +30,15 @@ const ListItem = (props: IListItem) => {
           <Icons icon={icon} fill={theme.colors.primary} size={20} />
         </View>
       )}
-      <View style={styles.text}>
-        <Text variant="body">{title}</Text>
-        {subTitle && <Text variant="label">{subTitle}</Text>}
+      <View style={styles.textContent}>
+        <Text style={styles.text} variant="body">
+          {title}
+        </Text>
+        {subTitle && (
+          <Text style={styles.text} variant="label">
+            {subTitle}
+          </Text>
+        )}
       </View>
       {detail && (
         <TouchableOpacity style={styles.viewRight}>
@@ -48,25 +53,25 @@ export default ListItem;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-
     justifyContent: "space-between",
   },
   viewLeft: {
     justifyContent: "center",
-
     alignItems: "center",
-    width: width * 0.07,
+    paddingHorizontal: 10,
   },
-  text: {
+  textContent: {
     alignItems: "flex-start",
     justifyContent: "center",
-    width: width * 0.6,
+    flex: 1,
+  },
+  text: {
+    width: "100%",
+    textAlignVertical: "center",
   },
   viewRight: {
-    marginLeft: "3%",
     justifyContent: "center",
     paddingVertical: 20,
     alignItems: "center",
-    width: width * 0.07,
   },
 });

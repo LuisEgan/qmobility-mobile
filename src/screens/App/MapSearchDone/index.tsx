@@ -4,10 +4,13 @@ import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
 import { useTheme } from "@shopify/restyle";
 import RouteDestination from "./RouteDestination";
-import { BottomDrawer, Icons, Button, Card } from "../../../components";
+import { BottomDrawer, Icons, Button, Card, Map } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { RoutePointsList } from "../../../components/Lists";
 import { IRouterPointsListItem } from "../../../components/Lists/RoutePointsList/RouterPointsListItem";
+import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes";
+
+import { coords } from "../../../components/Map/MapTest";
 
 const { height, width } = Dimensions.get("window");
 
@@ -39,7 +42,11 @@ const routerPointsListItems: Array<IRouterPointsListItem> = [
   },
 ];
 
-const MapSearchDone = () => {
+interface IMapSearchDone extends TMapSearchDoneNavProps {}
+
+const MapSearchDone = (props: IMapSearchDone) => {
+  const { route } = props;
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
 
@@ -98,10 +105,15 @@ const MapSearchDone = () => {
           },
         ]}
       >
-        <RouteDestination containerStyle={styles.routeDestination} />
+        <RouteDestination
+          endDireccion={route?.params?.formatted_address}
+          containerStyle={styles.routeDestination}
+        />
       </Animated.View>
 
-      <View style={styles.mapContainer}>{/* <Map /> */}</View>
+      <View style={styles.mapContainer}>
+        <Map routeCoords={coords} />
+      </View>
 
       <BottomDrawer
         maxHeight={height * 0.9}

@@ -1,6 +1,9 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
+import {
+  GooglePlacesAutocomplete,
+  GooglePlaceDetail,
+} from "react-native-google-places-autocomplete";
 import useTheme from "@shopify/restyle/dist/hooks/useTheme";
 import ListItem from "../ListItem/index";
 import Icons from "../svg/index";
@@ -9,19 +12,27 @@ import { Theme } from "../../config/Theme";
 interface IGoogleSearch {
   placeholder?: string;
   onChange?: (str: string) => void;
-
+  onPress?: (details: GooglePlaceDetail) => void;
   // TODO add proper type definition
   containerStyle?: Object;
 }
 
 const GoogleSearch = (props: IGoogleSearch) => {
-  const { containerStyle, placeholder, onChange } = props;
+  const { containerStyle, placeholder, onChange, onPress } = props;
 
   const theme = useTheme<Theme>();
 
   return (
     <GooglePlacesAutocomplete
-      renderRow={(e) => <ListItem icon="Dot" title={e.description} />}
+      renderRow={(Details) => (
+        <View style={{ height: 80, flex: 1 }}>
+          <ListItem
+            icon="Dot"
+            title={Details?.structured_formatting?.main_text}
+            subTitle={Details?.structured_formatting?.secondary_text}
+          />
+        </View>
+      )}
       preProcess={(str) => {
         if (onChange) onChange(str);
         return str;
@@ -53,15 +64,20 @@ const GoogleSearch = (props: IGoogleSearch) => {
         textInput: {
           fontSize: 16,
         },
+        row: {
+          height: 70,
+        },
       }}
       placeholder={placeholder}
-      // onPress={(data, details = null) => {
-      //   console.log(data, details);
-      // }}
+      fetchDetails
+      onPress={(data, details = null) => {
+        if (onPress && details) onPress(details);
+      }}
       query={{
         key: "AIzaSyDyz9GjDVV8RA5x5BSsXm_SzVtqc8F1QPU",
         language: "en",
       }}
+      filterReverseGeocodingByTypes={["geocode"]}
       enablePoweredByContainer={false}
     />
   );

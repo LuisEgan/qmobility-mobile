@@ -7,10 +7,13 @@ import { IComponentsDefaults } from "../../../lib/Types";
 
 const { width } = Dimensions.get("window");
 
-interface IRouteDestination extends IComponentsDefaults {}
+interface IRouteDestination extends IComponentsDefaults {
+  startDireccion?: string;
+  endDireccion?: string;
+}
 
 const RouteDestination = (props: IRouteDestination) => {
-  const { containerStyle } = props;
+  const { startDireccion, endDireccion, containerStyle } = props;
 
   const theme = useTheme<Theme>();
 
@@ -32,14 +35,14 @@ const RouteDestination = (props: IRouteDestination) => {
         >
           <Text variant="label">Start</Text>
           <Text variant="bodyBold" numberOfLines={1}>
-            Current location
+            {startDireccion}
           </Text>
         </View>
 
         <View style={styles.to}>
           <Text variant="label">End</Text>
           <Text variant="bodyBold" numberOfLines={1}>
-            WestminsonWestminsonWestminsonWestminson SW1A 1AA
+            {endDireccion}
           </Text>
         </View>
       </View>
@@ -48,6 +51,11 @@ const RouteDestination = (props: IRouteDestination) => {
       </View>
     </View>
   );
+};
+
+RouteDestination.defaultProps = {
+  startDireccion: "startDireccion",
+  endDireccion: "endDireccion",
 };
 
 export default RouteDestination;

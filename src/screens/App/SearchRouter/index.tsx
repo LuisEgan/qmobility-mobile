@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import * as Permissions from "expo-permissions";
+import { useNavigation } from "@react-navigation/native";
 import { Card, ListItem, GoogleSearch } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
 import ListTest from "./ListTest";
+import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
 
   const theme = useTheme<Theme>();
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     getPermissionAsync();
@@ -65,6 +68,15 @@ const SearchRouter = () => {
       <GoogleSearch
         placeholder="Where are you going?"
         onChange={setSearch}
+        onPress={(details) => {
+          navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
+            location: {
+              latitude: details?.geometry.location.lat || 0,
+              longitude: details?.geometry.location.lng || 0,
+            },
+            formatted_address: details?.formatted_address || "",
+          });
+        }}
         containerStyle={styles.googleSearch}
       />
 

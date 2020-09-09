@@ -1,6 +1,7 @@
 import { StackScreenProps, StackNavigationProp } from "@react-navigation/stack";
 import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 import { RouteProp } from "@react-navigation/native";
+import { LatLng } from "react-native-maps";
 
 type LoginSignUpFrom = 0 | 1;
 
@@ -20,7 +21,10 @@ type StackParamsList = {
   CheckCar: {};
   MyRoutes: {};
   Details: {};
-  MapSearchDone: {};
+  MapSearchDone: {
+    location: LatLng;
+    formatted_address: string;
+  };
 };
 
 // * Terms and conditions props
