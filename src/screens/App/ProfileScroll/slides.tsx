@@ -1,33 +1,40 @@
-import React from "react";
 import { ISlide } from "../../../components/Slider/Slide";
 import theme from "../../../config/Theme";
-import Icons from "../../../components/svg";
+
+import favClothingStyle from "../../../assets/png/favClothingStyle.png";
+import favHobby from "../../../assets/png/favHobby.png";
+import nextRestaurant from "../../../assets/png/nextRestaurant.png";
+import perfectWeekend from "../../../assets/png/perfectWeekend.png";
 
 interface ISlides extends Array<ISlide> {}
 
 const slides: ISlides = [
   {
     title: "Favorite clothing style?",
-    svgIcon: <Icons icon="CompassWithCircles" size={100} />,
+    titleStyle: { textAlign: "center", marginVertical: 0 },
+    imgSource: favClothingStyle,
     backgroundColor: theme.colors.primaryDark,
     contentStyle: { flex: 1 },
   },
   {
-    title: "Why eVe",
-    text:
-      "If you're offered a seat on a rocket ship, don't ask what seat! Just get on.",
-    svgIcon: <Icons icon="CompassWithCircles" size={250} />,
-    backgroundColor: theme.colors.primaryLight,
+    title: "Perfect weekend?",
+    titleStyle: { textAlign: "center", marginVertical: 0 },
+    imgSource: favHobby,
+    backgroundColor: theme.colors.primaryDark,
     contentStyle: { flex: 1 },
   },
   {
-    title: "How to",
-    text:
-      "If you're offered a seat on a rocket ship, don't ask what seat! Just get on.",
-    svgIcon: <Icons icon="CompassWithCircles" size={250} />,
-    backgroundColor: theme.colors.primaryLighter,
-    titleColor: "primary",
-    textColor: "primary",
+    title: "Favourite hobby?",
+    titleStyle: { textAlign: "center", marginVertical: 0 },
+    imgSource: nextRestaurant,
+    backgroundColor: theme.colors.redLight,
+    contentStyle: { flex: 1 },
+  },
+  {
+    title: "Your next restaurant?",
+    titleStyle: { textAlign: "center", marginVertical: 0 },
+    imgSource: perfectWeekend,
+    backgroundColor: theme.colors.yellow,
     contentStyle: { flex: 1 },
   },
 ];

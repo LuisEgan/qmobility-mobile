@@ -31,11 +31,9 @@
     "react/jsx-props-no-spreading": "off",
     "no-alert": "off",
     "react/prop-types": "off",
+    "import/prefer-default-export": "off",
     "no-console": ["error", { "allow": ["warn", "error"] }],
-    "react/jsx-filename-extension": [
-      2,
-      { "extensions": [".ts", ".tsx"] }
-    ],
+    "react/jsx-filename-extension": [2, { "extensions": [".ts", ".tsx"] }],
     "no-use-before-define": [
       "error",
       { "functions": true, "classes": true, "variables": false }

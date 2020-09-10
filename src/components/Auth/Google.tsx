@@ -6,9 +6,13 @@ import { IAuthResponse, ISocialNetworkVars } from "../../gql/User/mutations";
 import { User } from "../../gql";
 import { ERRORS } from "../../lib/constants";
 import { AuthContext } from "../../navigation/AuthContext";
+import { LoginSignUpLoadingContext } from "../../screens/Auth/LoginSignUp/LoginSignUpLoadingContext";
 
 const Google = () => {
   const { signIn } = useContext(AuthContext);
+  const { setDisplayFeedbackScreen, setFeedbackMessage } = useContext(
+    LoginSignUpLoadingContext,
+  );
 
   const [googleLogin, { data: googleData }] = useMutation<
     { loginWithGoogle: IAuthResponse },
@@ -19,8 +23,10 @@ const Google = () => {
     if (googleData) {
       const doSignIn = async () => {
         try {
+          if (setFeedbackMessage) setFeedbackMessage("Welcome!");
           signIn(googleData.loginWithGoogle.accessToken);
         } catch (error) {
+          setDisplayFeedbackScreen(false);
           console.error("error: ", error);
         }
       };
@@ -30,6 +36,8 @@ const Google = () => {
   }, [googleData]);
 
   const login = async () => {
+    setDisplayFeedbackScreen(true);
+
     try {
       const loginResult = await GoogleExpo.logInAsync({
         iosClientId:
@@ -51,6 +59,7 @@ const Google = () => {
         throw new Error(ERRORS.LOGIN_FAILED);
       }
     } catch (error) {
+      setDisplayFeedbackScreen(false);
       alert(error);
     }
   };

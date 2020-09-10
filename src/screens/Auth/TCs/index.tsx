@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Button, Icons } from "../../../components";
@@ -14,6 +15,8 @@ import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Title, textBlack, StepText, textLight } from "./Texts";
 import Header from "../../../components/Header";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
+
+const { width } = Dimensions.get("window");
 
 const isCloseToBottom = ({
   layoutMeasurement,
@@ -95,7 +98,7 @@ const TCs = (props: ITCs) => {
             variant="primary"
             onPress={() => confirmTermsConditions()}
             label="AGREE & CONTINUE"
-            containerStyle={{ marginHorizontal: "10%" }}
+            containerStyle={{ marginHorizontal: "10%", width: width * 0.8 }}
           />
         </View>
       )}

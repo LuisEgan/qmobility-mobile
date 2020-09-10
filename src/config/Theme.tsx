@@ -20,7 +20,11 @@ const palette = {
   blackTransparent: "rgba(0,0,0,0.4)",
 
   white: "white",
+
   red: "red",
+  redLight: "#FF8077",
+
+  yellow: "#FFB900",
 };
 
 const theme: BaseTheme = {
@@ -44,7 +48,9 @@ const theme: BaseTheme = {
     drawerHandle: palette.gray,
 
     white: palette.white,
+    yellow: palette.yellow,
     red: palette.red,
+    redLight: palette.redLight,
     black: palette.black,
     blackTransparent: palette.blackTransparent,
     gray: palette.gray,

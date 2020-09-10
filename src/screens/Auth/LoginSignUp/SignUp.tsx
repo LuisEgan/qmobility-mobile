@@ -123,6 +123,8 @@ const SignUp = () => {
       >
         {Form}
       </Formik>
+
+      <View style={{ height: 70 }} />
     </ScrollView>
   );
 };

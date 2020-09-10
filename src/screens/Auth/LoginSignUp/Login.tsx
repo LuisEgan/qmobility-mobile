@@ -60,31 +60,35 @@ const Login = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.content}>
-        <Text variant="heading1">Welcome Back!</Text>
-        <Text variant="subheadingLight">Please login to your account</Text>
-      </View>
+    <>
+      <ScrollView style={styles.container}>
+        <View style={styles.content}>
+          <Text variant="heading1">Welcome Back!</Text>
+          <Text variant="subheadingLight">Please login to your account</Text>
+        </View>
 
-      <View style={styles.social}>
-        <Auth.Google />
-        <Auth.Facebook />
-        <Auth.LinkedIn />
-        <Auth.Apple />
-      </View>
+        <View style={styles.social}>
+          <Auth.Google />
+          <Auth.Facebook />
+          <Auth.LinkedIn />
+          <Auth.Apple />
+        </View>
 
-      <Text variant="body" style={styles.or}>
-        OR
-      </Text>
+        <Text variant="body" style={styles.or}>
+          OR
+        </Text>
 
-      <Formik
-        initialValues={{ emailAddress: "", password: "" }}
-        onSubmit={formLogin}
-        validationSchema={LoginSchema}
-      >
-        {Form}
-      </Formik>
-    </ScrollView>
+        <Formik
+          initialValues={{ emailAddress: "", password: "" }}
+          onSubmit={formLogin}
+          validationSchema={LoginSchema}
+        >
+          {Form}
+        </Formik>
+
+        <View style={{ height: 70 }} />
+      </ScrollView>
+    </>
   );
 };
 

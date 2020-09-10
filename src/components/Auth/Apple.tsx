@@ -6,10 +6,14 @@ import Icons from "../svg";
 import { IAuthResponse, ISocialNetworkVars } from "../../gql/User/mutations";
 import { User } from "../../gql";
 import { AuthContext } from "../../navigation/AuthContext";
+import { LoginSignUpLoadingContext } from "../../screens/Auth/LoginSignUp/LoginSignUpLoadingContext";
 
 const isIOS = Platform.OS === "ios";
 
 const Apple = () => {
+  const { setDisplayFeedbackScreen, setFeedbackMessage } = useContext(
+    LoginSignUpLoadingContext,
+  );
   const { signIn } = useContext(AuthContext);
 
   const [appleLogin, { data: appleData }] = useMutation<
@@ -21,8 +25,10 @@ const Apple = () => {
     if (appleData) {
       const doSignIn = async () => {
         try {
+          if (setFeedbackMessage) setFeedbackMessage("Welcome!");
           signIn(appleData.loginWithApple.accessToken);
         } catch (error) {
+          setDisplayFeedbackScreen(false);
           console.error("error: ", error);
         }
       };
@@ -32,6 +38,7 @@ const Apple = () => {
   }, [appleData]);
 
   const login = async () => {
+    setDisplayFeedbackScreen(true);
     try {
       const { identityToken } = await AppleAuthentication.signInAsync({
         requestedScopes: [
@@ -48,6 +55,7 @@ const Apple = () => {
         });
       }
     } catch (error) {
+      setDisplayFeedbackScreen(false);
       console.warn("TCL: login -> error", error);
     }
   };

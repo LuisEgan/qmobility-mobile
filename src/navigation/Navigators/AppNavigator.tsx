@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { IScreen } from "./Router";
+import { IScreen } from "../Router";
 import {
   CreateProfile,
   MyCars,
@@ -13,8 +13,8 @@ import {
   MyRoutes,
   Details,
   MapSearchDone,
-} from "../screens/App";
-import { APP_STACK_SCREENS_NAMES } from "../lib/constants";
+} from "../../screens/App";
+import { APP_STACK_SCREENS_NAMES } from "../../lib/constants";
 
 interface IScreens extends Array<IScreen> {}
 export const APP_STACK_SCREENS: IScreens = [
@@ -65,16 +65,15 @@ export const APP_STACK_SCREENS: IScreens = [
   },
 ];
 
-const { Screen } = createStackNavigator();
+const { Navigator, Screen } = createStackNavigator();
 
 const AppNavigator = () => (
-  <>
+  <Navigator>
     {APP_STACK_SCREENS.map(({ name, component, headerShown }) => {
       const options = { headerShown: headerShown || false };
-
       return <Screen key={name} {...{ name, component, options }} />;
     })}
-  </>
+  </Navigator>
 );
 
 export default AppNavigator;

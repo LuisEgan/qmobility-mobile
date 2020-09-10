@@ -6,9 +6,9 @@ import {
   LoginSignUp,
   Access,
   EmailConfirm,
-} from "../screens/Auth";
-import { IScreen } from "./Router";
-import { AUTH_STACK_SCREENS_NAMES } from "../lib/constants";
+} from "../../screens/Auth";
+import { IScreen } from "../Router";
+import { AUTH_STACK_SCREENS_NAMES } from "../../lib/constants";
 
 interface IScreens extends Array<IScreen> {}
 export interface IAuthScreens extends Array<IScreen> {}
@@ -38,15 +38,15 @@ export const AUTH_STACK_SCREENS: IScreens = [
   },
 ];
 
-const { Screen } = createStackNavigator();
+const { Navigator, Screen } = createStackNavigator();
 
 const AuthNavigator = () => (
-  <>
+  <Navigator>
     {AUTH_STACK_SCREENS.map(({ name, component, headerShown }) => {
       const options = { headerShown: headerShown || false };
       return <Screen key={name} {...{ name, component, options }} />;
     })}
-  </>
+  </Navigator>
 );
 
 export default AuthNavigator;

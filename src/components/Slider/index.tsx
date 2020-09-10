@@ -18,7 +18,7 @@ interface ISlider extends IComponentsDefaults {
 
 const Slider = (props: ISlider) => {
   const {
-    type,
+    type = ESlide.Default,
     containerStyle,
     slides,
     width,
@@ -89,43 +89,18 @@ const Slider = (props: ISlider) => {
         onScrollEndDrag={(e) => getIsOnLastSlide(e.nativeEvent.contentOffset.x)}
         {...scrollHandler}
       >
-        {slides.map(
-          (
-            {
-              title,
-              text,
-              imgSource,
-              svgIcon,
-              backgroundColor,
-              titleColor,
-              textColor,
-              inCardComponent,
-              outerCardComponent,
-              contentStyle,
-            },
-            index,
-          ) => (
-            <Slide
-              key={Math.random()}
-              {...{
-                type,
-                title,
-                text,
-                imgSource,
-                svgIcon,
-                index,
-                backgroundColor,
-                titleColor,
-                textColor,
-                inCardComponent,
-                outerCardComponent,
-                contentStyle,
-                width,
-                currentIndex,
-              }}
-            />
-          ),
-        )}
+        {slides.map((slide, index) => (
+          <Slide
+            key={Math.random()}
+            {...{
+              ...slide,
+              index,
+              type,
+              width,
+              currentIndex,
+            }}
+          />
+        ))}
       </Animated.ScrollView>
 
       <View style={typeStyle.pagination}>
@@ -135,10 +110,6 @@ const Slider = (props: ISlider) => {
       </View>
     </View>
   );
-};
-
-Slider.defaultProps = {
-  type: ESlide.Default,
 };
 
 export default Slider;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import useTheme from "@shopify/restyle/dist/hooks/useTheme";
 import { useNavigation } from "@react-navigation/native";
@@ -8,6 +8,7 @@ import IconsList from "../../Lists/IconsList";
 import { IIconsListItem } from "../../Lists/IconsList/IconsListItem";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { IComponentsDefaults } from "../../../lib/Types";
+import { AuthContext } from "../../../navigation/AuthContext";
 
 const { width, height } = Dimensions.get("window");
 
@@ -20,6 +21,7 @@ interface ILeftMenu extends IComponentsDefaults {
 const LeftMenu = (props: ILeftMenu) => {
   const { onItemPress: onItemPressProp } = props;
 
+  const { signOut } = useContext(AuthContext);
   const { navigate } = useNavigation();
 
   const theme = useTheme<Theme>();
@@ -76,7 +78,7 @@ const LeftMenu = (props: ILeftMenu) => {
       text: "Logout",
       icon: "Apple",
       textColor: "white",
-      onPress: () => navigate(APP_STACK_SCREENS_NAMES.CreateProfile),
+      onPress: () => signOut(),
     },
   ];
 

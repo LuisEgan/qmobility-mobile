@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Header, Slider, Button } from "../../../components";
+import { Header, Slider } from "../../../components";
 import slides from "./slides";
 import theme, { Text } from "../../../config/Theme";
 import { ESlide, ISlide } from "../../../components/Slider/Slide";
@@ -58,7 +58,13 @@ const allCardOptions = [
 const ProfileScroll = () => {
   const { navigate } = useNavigation();
 
-  const [answers, setAnswers] = useState<IAnswers>();
+  const [answers, setAnswers] = useState<IAnswers>({});
+
+  useEffect(() => {
+    if (Object.keys(answers).length === slides.length) {
+      navigate(APP_STACK_SCREENS_NAMES.CheckCar);
+    }
+  }, [answers]);
 
   const OptionsSet = ({ question, options }: IOptionsSet) => {
     const onOptionPress = (answer: string) => {
@@ -71,7 +77,15 @@ const ProfileScroll = () => {
           <TouchableOpacity
             key={opt}
             onPress={() => onOptionPress(opt)}
-            style={styles.option}
+            style={[
+              styles.option,
+              {
+                backgroundColor:
+                  answers[question] === opt
+                    ? theme.colors.primary
+                    : theme.colors.secondaryDark,
+              },
+            ]}
           >
             <Text color="white" style={{ textAlign: "center" }}>
               {opt}
@@ -107,11 +121,6 @@ const ProfileScroll = () => {
         type={ESlide.Cards}
         {...{ slides: setSlides(), width, height: height * 0.74 }}
       />
-
-      <Button
-        label="GO"
-        onPress={() => navigate(APP_STACK_SCREENS_NAMES.CheckCar)}
-      />
     </View>
   );
 };
@@ -129,7 +138,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   option: {
-    backgroundColor: theme.colors.secondaryDark,
     borderRadius: 10,
     padding: 10,
   },

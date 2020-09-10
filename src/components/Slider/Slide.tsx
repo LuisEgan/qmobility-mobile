@@ -3,13 +3,18 @@ import {
   View,
   StyleSheet,
   ImageSourcePropType,
-  ImageBackground,
+  Image,
   StyleProp,
   ViewStyle,
+  TextStyle,
+  Dimensions,
+  ImageStyle,
 } from "react-native";
 import Animated, { interpolate, Extrapolate } from "react-native-reanimated";
 import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
+
+const { width } = Dimensions.get("window");
 
 export enum ESlide {
   Default,
@@ -19,9 +24,12 @@ export enum ESlide {
 export interface ISlide extends IComponentsDefaults {
   contentStyle?: StyleProp<Animated.AnimateStyle<ViewStyle>>;
   title?: string;
+  titleStyle?: TextStyle;
   text?: string;
   type?: ESlide;
   imgSource?: ImageSourcePropType;
+  imgContainerStyle?: StyleProp<ViewStyle>;
+  imgStyle?: ImageStyle;
   svgIcon?: JSX.Element;
   width?: number;
   backgroundColor?: string;
@@ -40,11 +48,14 @@ const Slide = (props: ISLideProps) => {
     containerStyle,
     contentStyle,
     type,
+    titleStyle,
     title,
     text,
     imgSource,
+    imgContainerStyle,
+    imgStyle,
     svgIcon,
-    width,
+    width: widthProp,
     index,
     currentIndex,
     titleColor = "white",
@@ -114,7 +125,7 @@ const Slide = (props: ISLideProps) => {
   const typeStyle = setStyle();
 
   return (
-    <View style={[typeStyle.container, { width }, containerStyle]}>
+    <View style={[typeStyle.container, { width: widthProp }, containerStyle]}>
       <Animated.View
         style={[
           typeStyle.content,
@@ -126,14 +137,18 @@ const Slide = (props: ISLideProps) => {
         ]}
       >
         {imgSource ? (
-          <View style={styles.imageContainer}>
-            <ImageBackground source={imgSource} style={styles.image} />
+          <View style={[styles.imageContainer, imgContainerStyle]}>
+            <Image source={imgSource} style={[styles.image, imgStyle]} />
           </View>
         ) : (
           svgIcon
         )}
 
-        <Text variant="heading1" color={titleColor} style={typeStyle.title}>
+        <Text
+          variant="heading1"
+          color={titleColor}
+          style={[typeStyle.title, titleStyle]}
+        >
           {title}
         </Text>
         <Text variant="body" color={textColor} style={typeStyle.text}>
@@ -153,8 +168,12 @@ export default Slide;
 const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
+    height: width * 0.5,
+    width: width * 0.5,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  image: { flex: 1, resizeMode: "cover" },
+  image: { width: width * 0.3, height: width * 0.3 },
 
   // * Default
   defaultContainer: {},
@@ -175,12 +194,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cardsTitle: {
-    marginTop: 25,
-    marginBottom: 25,
+    marginVertical: 25,
+    marginHorizontal: 10,
   },
   cardsText: {
     textAlign: "center",
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingHorizontal: 15,
   },
 });

@@ -29,6 +29,7 @@ import {
   CompassWithCircles,
   Eve,
   Dot,
+  FavClothingStyle,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -72,6 +73,7 @@ const icons = {
   Clock: (props: Iicons) => <Clock {...props} />,
   Bubble: (props: Iicons) => <Bubble {...props} />,
   Dot: (props: Iicons) => <Dot {...props} />,
+  FavClothingStyle: (props: Iicons) => <FavClothingStyle {...props} />,
 };
 
 const Icons = (props: Iicons) => {

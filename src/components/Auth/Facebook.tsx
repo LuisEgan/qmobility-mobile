@@ -6,8 +6,12 @@ import { ERRORS } from "../../lib/constants";
 import { User } from "../../gql";
 import { IAuthResponse, ISocialNetworkVars } from "../../gql/User/mutations";
 import { AuthContext } from "../../navigation/AuthContext";
+import { LoginSignUpLoadingContext } from "../../screens/Auth/LoginSignUp/LoginSignUpLoadingContext";
 
 const Facebook = () => {
+  const { setDisplayFeedbackScreen, setFeedbackMessage } = useContext(
+    LoginSignUpLoadingContext,
+  );
   const { signIn } = useContext(AuthContext);
 
   const [fbLogin, { data: fbData }] = useMutation<
@@ -19,8 +23,10 @@ const Facebook = () => {
     if (fbData) {
       const doSignIn = async () => {
         try {
+          if (setFeedbackMessage) setFeedbackMessage("Welcome!");
           signIn(fbData.loginWithFacebook.accessToken);
         } catch (error) {
+          setDisplayFeedbackScreen(false);
           console.error("error: ", error);
         }
       };
@@ -36,6 +42,8 @@ const Facebook = () => {
       const loginResult = await FacebookExpo.logInWithReadPermissionsAsync({
         permissions: ["public_profile", "email"],
       });
+
+      setDisplayFeedbackScreen(true);
 
       if (loginResult.type === "success") {
         fbLogin({

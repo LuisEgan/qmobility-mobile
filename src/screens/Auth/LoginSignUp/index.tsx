@@ -1,14 +1,16 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTheme } from "@shopify/restyle";
 import { Dimensions } from "react-native";
-import { IAuthScreens } from "../../../navigation/AuthStack";
+import { IAuthScreens } from "../../../navigation/Navigators/AuthNavigator";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import { TLoginSignUpNavProps } from "../../../navigation/Types/NavPropsTypes";
 import Header from "../../../components/Header";
 import { Theme } from "../../../config/Theme";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import FullScreenModal from "../../Feedback/FullScreenModal";
+import { LoginSignUpLoadingContext } from "./LoginSignUpLoadingContext";
 
 const { height } = Dimensions.get("window");
 
@@ -30,6 +32,11 @@ const LOGIN_SIGNUP_STACK_SCREENS: IAuthScreens = [
 const LoginSignUp = (props: ILoginSignUp) => {
   const { navigation, route } = props;
 
+  const [displayLoadingScreen, setDisplayFeedbackScreen] = useState<boolean>(
+    false,
+  );
+  const [feedbackMessage, setFeedbackMessage] = useState<string>("Loading...");
+
   // * activeScreen
   // * 0 - Login
   // * 1 - SignUp
@@ -40,32 +47,47 @@ const LoginSignUp = (props: ILoginSignUp) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      header: () => <Header height={height * 0.17} />,
+      header: () => null,
     });
   }, [navigation]);
 
+  const loadingContext = React.useMemo(
+    () => ({
+      setDisplayFeedbackScreen: (display: boolean) =>
+        setDisplayFeedbackScreen(display),
+      setFeedbackMessage: (message: string) => setFeedbackMessage(message),
+    }),
+    [],
+  );
+
   return (
-    <Tab.Navigator
-      lazy
-      initialRouteName={AUTH_STACK_SCREENS_NAMES.Login}
-      tabBarOptions={{
-        indicatorStyle: {
-          backgroundColor:
-            activeScreen === 0 ? colors.secondaryDark : colors.primary,
-          height: 7,
-        },
-        labelStyle: { fontWeight: "bold" },
-        tabStyle: {
-          borderTopWidth: 1,
-          borderBottomWidth: 1,
-          borderColor: colors.borderColor,
-        },
-      }}
-    >
-      {LOGIN_SIGNUP_STACK_SCREENS.map(({ name, component }) => (
-        <Tab.Screen key={name} {...{ name, component }} />
-      ))}
-    </Tab.Navigator>
+    <LoginSignUpLoadingContext.Provider value={loadingContext}>
+      <FullScreenModal show={displayLoadingScreen} message={feedbackMessage} />
+
+      <Header height={height * 0.17} />
+
+      <Tab.Navigator
+        lazy
+        initialRouteName={AUTH_STACK_SCREENS_NAMES.Login}
+        tabBarOptions={{
+          indicatorStyle: {
+            backgroundColor:
+              activeScreen === 0 ? colors.secondaryDark : colors.primary,
+            height: 7,
+          },
+          labelStyle: { fontWeight: "bold" },
+          tabStyle: {
+            borderTopWidth: 1,
+            borderBottomWidth: 1,
+            borderColor: colors.borderColor,
+          },
+        }}
+      >
+        {LOGIN_SIGNUP_STACK_SCREENS.map(({ name, component }) => (
+          <Tab.Screen key={name} {...{ name, component }} />
+        ))}
+      </Tab.Navigator>
+    </LoginSignUpLoadingContext.Provider>
   );
 };
 

@@ -20,6 +20,10 @@ export const ASYNC_STORAGE_ITEMS = {
   USER_TOKEN: "USER_TOKEN",
 };
 
+export const LOADING_STACK_SCREENS_NAMES = {
+  Loading: "Loading",
+};
+
 export const AUTH_STACK_SCREENS_NAMES = {
   Onboarding: "Onboarding",
   TCs: "Terms and conditions",

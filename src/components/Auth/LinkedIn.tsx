@@ -5,8 +5,12 @@ import Icons from "../svg";
 import { IAuthResponse, ISocialNetworkVars } from "../../gql/User/mutations";
 import { User } from "../../gql";
 import { AuthContext } from "../../navigation/AuthContext";
+import { LoginSignUpLoadingContext } from "../../screens/Auth/LoginSignUp/LoginSignUpLoadingContext";
 
 const LinkedIn = () => {
+  const { setDisplayFeedbackScreen, setFeedbackMessage } = useContext(
+    LoginSignUpLoadingContext,
+  );
   const { signIn } = useContext(AuthContext);
   const linkedRef = useRef<LinkedInModal>(null);
 
@@ -19,8 +23,10 @@ const LinkedIn = () => {
     if (linkedInData) {
       const doSignIn = async () => {
         try {
+          if (setFeedbackMessage) setFeedbackMessage("Welcome!");
           signIn(linkedInData.loginWithLinkedIn.accessToken);
         } catch (error) {
+          setDisplayFeedbackScreen(false);
           console.error("error: ", error);
         }
       };
@@ -30,6 +36,7 @@ const LinkedIn = () => {
   }, [linkedInData]);
 
   const login = (token: LinkedInToken) => {
+    setDisplayFeedbackScreen(true);
     linkedInLogin({
       variables: {
         accessToken: `${token.access_token}`,

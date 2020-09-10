@@ -27,6 +27,7 @@ export type TIcon =
   | "Bubble"
   | "Eve"
   | "Dot"
+  | "FavClothingStyle"
   | "Error";
 
 export interface ISVG {
