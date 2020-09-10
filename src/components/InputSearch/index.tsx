@@ -1,11 +1,10 @@
 import React, { PropsWithChildren } from "react";
-import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { useTheme } from "@shopify/restyle";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Theme } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 import Icons from "../svg";
 import { TIcon } from "../svg/icons/TypeIcons";
+import { APP_STACK_SCREENS_NAMES } from "../../lib/constants";
 
 interface IInputSearch extends IComponentsDefaults {
   onChange?: (str: string) => void;
@@ -18,7 +17,6 @@ interface IInputSearch extends IComponentsDefaults {
 
 const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
   const {
-    onChange,
     placeholder,
     defaultValue,
     containerStyle,
@@ -27,28 +25,29 @@ const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
     children,
   } = props;
 
-  const { goBack } = useNavigation();
-
-  const theme = useTheme<Theme>();
+  const { goBack, navigate } = useNavigation();
 
   return (
     <View style={[styles.container, containerStyle]}>
-      <TouchableOpacity
-        onPress={onLeftIconPress || goBack}
-        style={styles.contentIconsLeft}
-      >
-        <View style={styles.viewLeft}>
-          <Icons icon={leftIcon} />
-        </View>
-      </TouchableOpacity>
-      {children || (
-        <TextInput
-          onChangeText={(str: string) => onChange && onChange(str)}
-          placeholderTextColor={theme.colors.defautlInput}
-          {...{ defaultValue, placeholder }}
-          style={styles.inputStyle}
-        />
-      )}
+      <View style={{ flexDirection: "row", flex: 1 }}>
+        <TouchableOpacity
+          onPress={onLeftIconPress || goBack}
+          style={styles.contentIconsLeft}
+        >
+          <View style={styles.viewLeft}>
+            <Icons icon={leftIcon} />
+          </View>
+        </TouchableOpacity>
+        {children || (
+          <TouchableOpacity
+            // onChangeText={(str: string) => onChange && onChange(str)}
+            // placeholderTextColor={theme.colors.defautlInput}
+            {...{ defaultValue, placeholder }}
+            style={styles.inputStyle}
+            onPress={() => navigate(APP_STACK_SCREENS_NAMES.SearchRouter)}
+          />
+        )}
+      </View>
       <TouchableOpacity style={styles.contentIconsRight}>
         <Icons icon="Mic" size={30} />
       </TouchableOpacity>
@@ -70,8 +69,8 @@ const styles = StyleSheet.create({
     borderColor: "#fff",
     fontSize: 16,
     height: 50,
-    justifyContent: "space-between",
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   contentIconsLeft: {
     marginVertical: 10,
@@ -87,6 +86,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
+    flex: 0.1,
   },
-  inputStyle: {},
+  inputStyle: {
+    flex: 1,
+    marginLeft: 10,
+  },
 });

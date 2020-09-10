@@ -5,6 +5,7 @@ import {
   GooglePlaceDetail,
 } from "react-native-google-places-autocomplete";
 import useTheme from "@shopify/restyle/dist/hooks/useTheme";
+import { useNavigation } from "@react-navigation/native";
 import ListItem from "../ListItem/index";
 import Icons from "../svg/index";
 import { Theme } from "../../config/Theme";
@@ -20,10 +21,13 @@ interface IGoogleSearch {
 const GoogleSearch = (props: IGoogleSearch) => {
   const { containerStyle, placeholder, onChange, onPress } = props;
 
+  const { goBack } = useNavigation();
+
   const theme = useTheme<Theme>();
 
   return (
     <GooglePlacesAutocomplete
+      autoFocus
       renderRow={(details) => (
         <View style={{ height: 80, flex: 1 }}>
           <ListItem
@@ -39,7 +43,7 @@ const GoogleSearch = (props: IGoogleSearch) => {
       }}
       onFail={(error) => console.warn(error)}
       renderLeftButton={() => (
-        <TouchableOpacity style={styles.contentIconsLeft}>
+        <TouchableOpacity style={styles.contentIconsLeft} onPress={goBack}>
           <Icons icon="ArrowBackLight" />
         </TouchableOpacity>
       )}
