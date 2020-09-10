@@ -8,16 +8,7 @@ interface IList {
 
 interface IListArray extends Array<IList> {}
 
-const listFavorite: IListArray = [
-  {
-    icon: "Info",
-    title: "Home",
-  },
-  {
-    title: "Work",
-    subTitle: "Kennington Oval, London",
-  },
-];
+const listFavorite: IListArray = [];
 
 const listHistory: IListArray = [
   {

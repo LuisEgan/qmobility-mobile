@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     elevation: 1,
     zIndex: 1,
     top: height * 0.05,
-    left: width * 0.02,
+    left: width * -0.02,
   },
   iconRightStyle: {
     flexDirection: "row",

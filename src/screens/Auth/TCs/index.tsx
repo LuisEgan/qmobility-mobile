@@ -93,7 +93,7 @@ const TCs = (props: ITCs) => {
           </View>
         </TouchableOpacity>
       ) : (
-        <View style={{ marginBottom: 30 }}>
+        <View style={{ marginBottom: 30, marginHorizontal: "5%" }}>
           <Button
             variant="primary"
             onPress={() => confirmTermsConditions()}

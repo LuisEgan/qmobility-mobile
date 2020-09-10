@@ -14,3 +14,4 @@ export { default as ListItem } from "./ListItem";
 export { default as Modal } from "./Modal";
 export { default as BottomDrawer } from "./BottomDrawer";
 export { default as SpeechToText } from "./SpeechToText";
+export { default as GoogleSearch } from "./GoogleSearch";

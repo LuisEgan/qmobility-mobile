@@ -1,29 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, FlatList } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import * as Permissions from "expo-permissions";
-import { InputSearch, Card, ListItem } from "../../../components";
+import { useNavigation } from "@react-navigation/native";
+import { Card, ListItem, GoogleSearch } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
-import { TIcon } from "../../../components/svg/icons/TypeIcons";
-
 import ListTest from "./ListTest";
-
-const { height } = Dimensions.get("window");
-
-interface IList {
-  icon?: TIcon;
-  title: string;
-  subTitle?: string;
-}
-
-const searchFor = (search: string) => ({ title }: IList): boolean =>
-  title.toLowerCase().includes(search.toLowerCase()) || !search;
+import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
 
   const theme = useTheme<Theme>();
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     getPermissionAsync();
@@ -33,57 +23,87 @@ const SearchRouter = () => {
     try {
       await Permissions.askAsync(Permissions.AUDIO_RECORDING);
     } catch (error) {
-      console.error("TCL: getPermissionAsync -> error", error);
+      console.warn("TCL: getPermissionAsync -> error", error);
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <InputSearch
-        placeholder="Where are you going?"
-        onChange={(str) => {
-          setSearch(str);
-        }}
-      />
-
+  const History = () => (
+    <>
       <View style={styles.contentCard}>
         {ListTest.listFavorite
           && ListTest.listFavorite.map((place) => (
             <Card key={`${place.title}_${Math.random()}`} {...place} />
           ))}
       </View>
+
       <View style={styles.content}>
         <Text style={styles.text} variant="label">
           RECENT
         </Text>
       </View>
-      <ScrollView
+
+      <View
         style={[
           styles.containerScroll,
           { backgroundColor: theme.colors.white },
         ]}
       >
-        {ListTest.listHistory
-          && ListTest.listHistory
-            .filter(searchFor(search))
-            .map((place) => (
-              <ListItem key={`${place.title}_${Math.random()}`} {...place} />
-            ))}
-        <View style={{ height: 80 }} />
-      </ScrollView>
+        <FlatList
+          style={{
+            flex: 1,
+            paddingHorizontal: "5%",
+          }}
+          data={ListTest.listHistory}
+          renderItem={({ item, index }) => (
+            <ListItem detail key={`${item}_${index}`} {...item} />
+          )}
+          keyExtractor={(item, index) => `${item}_${index}`}
+        />
+      </View>
+    </>
+  );
+
+  return (
+    <View style={styles.container}>
+      <GoogleSearch
+        placeholder="Where are you going?"
+        onChange={setSearch}
+        onPress={(details) => {
+          navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
+            location: {
+              latitude: details?.geometry.location.lat || 0,
+              longitude: details?.geometry.location.lng || 0,
+            },
+            formatted_address: details?.formatted_address || "",
+          });
+        }}
+        containerStyle={{
+          ...styles.googleSearch,
+          flex: search.length < 2 ? 0.2 : 1,
+        }}
+      />
+
+      {search.length < 2 && <History />}
     </View>
   );
 };
+
 export default SearchRouter;
 
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: "5%",
+    flex: 1,
+  },
+  googleSearch: {
+    marginTop: 45,
+    // flex: .1
   },
   containerScroll: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    height: height * 0.7,
+    flex: 1,
+    backgroundColor: "red",
   },
   contentCard: {
     flexDirection: "row",

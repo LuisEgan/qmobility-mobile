@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { useNavigation } from "@react-navigation/native";
@@ -8,7 +8,7 @@ import Icons from "../svg";
 import { TIcon } from "../svg/icons/TypeIcons";
 
 interface IInputSearch extends IComponentsDefaults {
-  onChange: (str: string) => void;
+  onChange?: (str: string) => void;
   onVoiceCommand?: () => void;
   placeholder?: string;
   defaultValue?: string;
@@ -16,7 +16,7 @@ interface IInputSearch extends IComponentsDefaults {
   onLeftIconPress?: () => void;
 }
 
-const InputSearch = (props: IInputSearch) => {
+const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
   const {
     onChange,
     placeholder,
@@ -24,6 +24,7 @@ const InputSearch = (props: IInputSearch) => {
     containerStyle,
     leftIcon,
     onLeftIconPress,
+    children,
   } = props;
 
   const { goBack } = useNavigation();
@@ -40,11 +41,14 @@ const InputSearch = (props: IInputSearch) => {
           <Icons icon={leftIcon} />
         </View>
       </TouchableOpacity>
-      <TextInput
-        onChangeText={(str: string) => onChange(str)}
-        placeholderTextColor={theme.colors.defautlInput}
-        {...{ defaultValue, placeholder }}
-      />
+      {children || (
+        <TextInput
+          onChangeText={(str: string) => onChange && onChange(str)}
+          placeholderTextColor={theme.colors.defautlInput}
+          {...{ defaultValue, placeholder }}
+          style={styles.inputStyle}
+        />
+      )}
       <TouchableOpacity style={styles.contentIconsRight}>
         <Icons icon="Mic" size={30} />
       </TouchableOpacity>
@@ -84,4 +88,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
   },
+  inputStyle: {},
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import Icons from "../svg";
 import { Text, Theme } from "../../config/Theme";
@@ -10,11 +10,11 @@ interface IListItem extends IComponentsDefaults {
   icon?: TIcon;
   title: string;
   subTitle?: string;
+  detail?: boolean;
 }
-const { width } = Dimensions.get("window");
 
 const ListItem = (props: IListItem) => {
-  const { title, subTitle, icon, containerStyle } = props;
+  const { title, subTitle, icon, detail, containerStyle } = props;
   const theme = useTheme<Theme>();
 
   return (
@@ -30,13 +30,21 @@ const ListItem = (props: IListItem) => {
           <Icons icon={icon} fill={theme.colors.primary} size={20} />
         </View>
       )}
-      <View style={styles.text}>
-        <Text variant="body">{title}</Text>
-        {subTitle && <Text variant="label">{subTitle}</Text>}
+      <View style={styles.textContent}>
+        <Text style={styles.text} variant="body">
+          {title}
+        </Text>
+        {subTitle && (
+          <Text style={styles.text} variant="label">
+            {subTitle}
+          </Text>
+        )}
       </View>
-      <TouchableOpacity style={styles.viewRight}>
-        <Icons icon="MoreVert" fill={theme.colors.grayLight} size={20} />
-      </TouchableOpacity>
+      {detail && (
+        <TouchableOpacity style={styles.viewRight}>
+          <Icons icon="MoreVert" fill={theme.colors.grayLight} size={20} />
+        </TouchableOpacity>
+      )}
     </TouchableOpacity>
   );
 };
@@ -45,29 +53,25 @@ export default ListItem;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    marginHorizontal: "5%",
-    marginVertical: 10,
-
-    borderBottomWidth: 1,
     justifyContent: "space-between",
   },
   viewLeft: {
-    marginRight: "3%",
     justifyContent: "center",
-    paddingVertical: 20,
     alignItems: "center",
-    width: width * 0.07,
+    paddingHorizontal: 10,
   },
-  text: {
+  textContent: {
     alignItems: "flex-start",
     justifyContent: "center",
-    width: width * 0.6,
+    flex: 1,
+  },
+  text: {
+    width: "100%",
+    textAlignVertical: "center",
   },
   viewRight: {
-    marginLeft: "3%",
     justifyContent: "center",
     paddingVertical: 20,
     alignItems: "center",
-    width: width * 0.07,
   },
 });

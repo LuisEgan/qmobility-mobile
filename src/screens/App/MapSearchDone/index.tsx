@@ -3,11 +3,16 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
 import { useTheme } from "@shopify/restyle";
+import { useQuery } from "@apollo/client";
 import RouteDestination from "./RouteDestination";
-import { BottomDrawer, Icons, Button, Card } from "../../../components";
+import { BottomDrawer, Icons, Button, Card, Map } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { RoutePointsList } from "../../../components/Lists";
 import { IRouterPointsListItem } from "../../../components/Lists/RoutePointsList/RouterPointsListItem";
+import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes";
+
+import { Route } from "../../../gql";
+import { IGetRouter, IGetRouterVar } from "../../../gql/Route/queries";
 
 const { height, width } = Dimensions.get("window");
 
@@ -39,7 +44,29 @@ const routerPointsListItems: Array<IRouterPointsListItem> = [
   },
 ];
 
-const MapSearchDone = () => {
+interface IMapSearchDone extends TMapSearchDoneNavProps {}
+
+const MapSearchDone = (props: IMapSearchDone) => {
+  const { route } = props;
+
+  const { loading, data, error } = useQuery<IGetRouter, IGetRouterVar>(
+    Route.queries.getRoutes,
+    {
+      variables: {
+        origin: "London, Regno Unito",
+        destination: "Thurso, Regno Unito",
+        carid: "1107",
+        carcharge: 50,
+        chargerlimit: 10,
+        chargerdistance: 10,
+      },
+    },
+  );
+
+  console.warn("MapSearchDone -> loading", loading);
+  console.warn("MapSearchDone -> error.message", error?.message);
+  console.warn("MapSearchDone -> data", data);
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
 
@@ -98,10 +125,15 @@ const MapSearchDone = () => {
           },
         ]}
       >
-        <RouteDestination containerStyle={styles.routeDestination} />
+        <RouteDestination
+          endDireccion={route?.params?.formatted_address}
+          containerStyle={styles.routeDestination}
+        />
       </Animated.View>
 
-      <View style={styles.mapContainer}>{/* <Map /> */}</View>
+      <View style={styles.mapContainer}>
+        <Map routeCoords={data?.getRoutes?.Route?.Route_Coords} />
+      </View>
 
       <BottomDrawer
         maxHeight={height * 0.9}
