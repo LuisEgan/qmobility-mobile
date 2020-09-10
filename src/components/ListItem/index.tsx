@@ -11,14 +11,16 @@ interface IListItem extends IComponentsDefaults {
   title: string;
   subTitle?: string;
   detail?: boolean;
+  onPress?: () => void;
 }
 
 const ListItem = (props: IListItem) => {
-  const { title, subTitle, icon, detail, containerStyle } = props;
+  const { title, subTitle, icon, detail, containerStyle, onPress } = props;
   const theme = useTheme<Theme>();
 
   return (
     <TouchableOpacity
+      onPress={onPress}
       style={[
         styles.container,
         containerStyle,

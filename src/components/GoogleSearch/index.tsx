@@ -28,15 +28,21 @@ const GoogleSearch = (props: IGoogleSearch) => {
   return (
     <GooglePlacesAutocomplete
       autoFocus
-      renderRow={(details) => (
-        <View style={{ height: 80, flex: 1 }}>
-          <ListItem
-            icon="Dot"
-            title={details?.structured_formatting?.main_text}
-            subTitle={details?.structured_formatting?.secondary_text}
-          />
-        </View>
-      )}
+      renderRow={(details) =>
+      // console.log("details: ", details);
+
+        (
+          <View style={{ height: 80, flex: 1 }}>
+            <ListItem
+              onPress={() => {
+                // if (onPress && details) onPress(details);
+              }}
+              icon="Dot"
+              title={details?.structured_formatting?.main_text}
+              subTitle={details?.structured_formatting?.secondary_text}
+            />
+          </View>
+        )}
       preProcess={(str) => {
         if (onChange) onChange(str);
         return str;
@@ -75,6 +81,7 @@ const GoogleSearch = (props: IGoogleSearch) => {
       placeholder={placeholder}
       fetchDetails
       onPress={(data, details = null) => {
+        // console.log("details: ", details);
         if (onPress && details) onPress(details);
       }}
       query={{
