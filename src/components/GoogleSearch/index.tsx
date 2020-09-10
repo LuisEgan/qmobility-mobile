@@ -24,12 +24,12 @@ const GoogleSearch = (props: IGoogleSearch) => {
 
   return (
     <GooglePlacesAutocomplete
-      renderRow={(Details) => (
+      renderRow={(details) => (
         <View style={{ height: 80, flex: 1 }}>
           <ListItem
             icon="Dot"
-            title={Details?.structured_formatting?.main_text}
-            subTitle={Details?.structured_formatting?.secondary_text}
+            title={details?.structured_formatting?.main_text}
+            subTitle={details?.structured_formatting?.secondary_text}
           />
         </View>
       )}
