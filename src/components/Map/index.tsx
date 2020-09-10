@@ -30,8 +30,8 @@ interface IMap {
 const Map = (props: IMap) => {
   const { initialMarkerCoords, routeCoords, initialMain } = props;
 
-  const [inicioLat, setInicioLat] = useState<number>(0);
-  const [inicioLon, setInicioLon] = useState<number>(0);
+  const [initialLat, setInitialLat] = useState<number>(0);
+  const [initialLon, setInitialLon] = useState<number>(0);
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
     longitude: 0,
@@ -46,8 +46,8 @@ const Map = (props: IMap) => {
     if (status === "granted") {
       const location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
-      setInicioLat(latitude);
-      setInicioLon(longitude);
+      setInitialLat(latitude);
+      setInitialLon(longitude);
     }
   };
 
@@ -80,8 +80,8 @@ const Map = (props: IMap) => {
       }}
       region={
         initialMarkerCoords || {
-          latitude: inicioLat,
-          longitude: inicioLon,
+          latitude: initialLat,
+          longitude: initialLon,
           latitudeDelta: 0.002,
           longitudeDelta: 0.002,
         }

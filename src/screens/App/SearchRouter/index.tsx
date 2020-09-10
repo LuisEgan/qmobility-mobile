@@ -77,10 +77,13 @@ const SearchRouter = () => {
             formatted_address: details?.formatted_address || "",
           });
         }}
-        containerStyle={styles.googleSearch}
+        containerStyle={{
+          ...styles.googleSearch,
+          flex: search.length < 2 ? 0.2 : 1,
+        }}
       />
 
-      {search.length <= 2 && <History />}
+      {search.length < 2 && <History />}
     </View>
   );
 };
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
   },
   googleSearch: {
     marginTop: 45,
-    flex: 1,
+    // flex: .1
   },
   containerScroll: {
     borderTopLeftRadius: 10,
