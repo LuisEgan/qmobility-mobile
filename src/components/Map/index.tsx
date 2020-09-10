@@ -38,7 +38,7 @@ const Map = (props: IMap) => {
   });
 
   useEffect(() => {
-    getLocationAsync();
+    if (initialMain) getLocationAsync();
   }, []);
 
   const getLocationAsync = async () => {

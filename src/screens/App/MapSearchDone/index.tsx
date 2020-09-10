@@ -3,6 +3,7 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
 import { useTheme } from "@shopify/restyle";
+import { useQuery } from "@apollo/client";
 import RouteDestination from "./RouteDestination";
 import { BottomDrawer, Icons, Button, Card, Map } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
@@ -10,7 +11,8 @@ import { RoutePointsList } from "../../../components/Lists";
 import { IRouterPointsListItem } from "../../../components/Lists/RoutePointsList/RouterPointsListItem";
 import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes";
 
-import { coords } from "../../../components/Map/MapTest";
+import { Route } from "../../../gql";
+import { IGetRouter, IGetRouterVar } from "../../../gql/Route/queries";
 
 const { height, width } = Dimensions.get("window");
 
@@ -46,6 +48,24 @@ interface IMapSearchDone extends TMapSearchDoneNavProps {}
 
 const MapSearchDone = (props: IMapSearchDone) => {
   const { route } = props;
+
+  const { loading, data, error } = useQuery<IGetRouter, IGetRouterVar>(
+    Route.queries.getRoutes,
+    {
+      variables: {
+        origin: "London, Regno Unito",
+        destination: "Thurso, Regno Unito",
+        carid: "1107",
+        carcharge: 50,
+        chargerlimit: 10,
+        chargerdistance: 10,
+      },
+    },
+  );
+
+  console.warn("MapSearchDone -> loading", loading);
+  console.warn("MapSearchDone -> error.message", error?.message);
+  console.warn("MapSearchDone -> data", data);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
@@ -112,7 +132,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
       </Animated.View>
 
       <View style={styles.mapContainer}>
-        <Map routeCoords={coords} />
+        <Map routeCoords={data?.getRoutes?.Route?.Route_Coords} />
       </View>
 
       <BottomDrawer
