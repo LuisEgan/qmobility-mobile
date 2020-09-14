@@ -34,13 +34,16 @@ const SignUpSchema = yup.object().shape({
 const SignUp = () => {
   const { navigate } = useNavigation();
 
-  const [signUp, { data: signUpData, loading }] = useMutation<
-    { signup: IAuthResponse },
-    IEmailSignUpVars
-  >(User.mutations.signUp);
+  const [
+    signUp,
+    { data: signUpData, loading, error: signUpError },
+  ] = useMutation<{ signup: IAuthResponse }, IEmailSignUpVars>(
+    User.mutations.signUp,
+  );
 
   const [userEmail, setUserEmail] = useState<string>("");
 
+  // * Redirect on SignUp
   useEffect(() => {
     if (signUpData) {
       const redirect = async () => {
@@ -58,9 +61,13 @@ const SignUp = () => {
     }
   }, [signUpData]);
 
-  const submitSignUp = (values: IFormValues): void => {
-    setUserEmail(values.email);
-    signUp({ variables: { ...values } });
+  const submitSignUp = async (values: IFormValues): Promise<void> => {
+    try {
+      setUserEmail(values.email);
+      signUp({ variables: { ...values } });
+    } catch (error) {
+      console.warn("error: ", error);
+    }
   };
 
   const Form = (params: FormikProps<IFormValues>) => {
@@ -88,6 +95,12 @@ const SignUp = () => {
             touched={touched.password}
           />
         </View>
+
+        {signUpError && (
+          <Text variant="error" style={styles.error}>
+            {signUpError.message}
+          </Text>
+        )}
         <Button
           variant="primary"
           onPress={handleSubmit}
@@ -142,6 +155,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginVertical: height * 0.05,
   },
+
+  error: { textAlign: "center", marginBottom: 10 },
 
   or: {
     textAlign: "center",

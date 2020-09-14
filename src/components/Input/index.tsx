@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     width: "100%",
     fontSize: 16,
     height: 40,
+    padding: 10,
   },
   error: {
     position: "absolute",

@@ -49,6 +49,12 @@ const loginWithApple = gql`
   }
 `;
 
+export interface IEmailConfirmation {}
+export interface IEmailConfirmationVars {
+  email: string;
+  random4digits: number;
+}
+
 // * Email sign up
 const signUp = gql`
   mutation EmailSignUp($email: String!, $password: String!) {
@@ -58,10 +64,19 @@ const signUp = gql`
   }
 `;
 
+const emailConfirmation = gql`
+  mutation EmailConfirmation($email: String!, $random4digits: Float!) {
+    emailConfirmation(
+      emailConfirmationInput: { email: $email, random4digits: $random4digits }
+    )
+  }
+`;
+
 export default {
   loginWithFacebook,
   loginWithGoogle,
   loginWithLinkedIn,
   loginWithApple,
   signUp,
+  emailConfirmation,
 };

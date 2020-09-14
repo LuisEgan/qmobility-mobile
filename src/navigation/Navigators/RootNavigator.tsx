@@ -62,24 +62,20 @@ const RootNavigator = () => {
     [],
   );
 
-  const NavigatorComponent = () => (
-    <AuthContext.Provider value={authContext}>
-      {userToken ? <AppNavigator /> : <AuthNavigator />}
-    </AuthContext.Provider>
-  );
-
   return (
-    <RootStack.Navigator
-      headerMode="none"
-      screenOptions={{ animationEnabled: false }}
-      mode="modal"
-    >
-      {userToken ? (
-        <RootStack.Screen name="AppNavigator" component={NavigatorComponent} />
-      ) : (
-        <RootStack.Screen name="AuthNavigator" component={NavigatorComponent} />
-      )}
-    </RootStack.Navigator>
+    <AuthContext.Provider value={authContext}>
+      <RootStack.Navigator
+        headerMode="none"
+        screenOptions={{ animationEnabled: false }}
+        mode="modal"
+      >
+        {userToken ? (
+          <RootStack.Screen name="AppNavigator" component={AppNavigator} />
+        ) : (
+          <RootStack.Screen name="AuthNavigator" component={AuthNavigator} />
+        )}
+      </RootStack.Navigator>
+    </AuthContext.Provider>
   );
 };
 
