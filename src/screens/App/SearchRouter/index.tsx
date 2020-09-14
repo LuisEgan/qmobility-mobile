@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   googleSearch: {
-    marginTop: 45,
+    marginTop: 60,
     // flex: .1
   },
   containerScroll: {

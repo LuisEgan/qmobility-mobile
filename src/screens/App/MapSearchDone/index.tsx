@@ -49,23 +49,23 @@ interface IMapSearchDone extends TMapSearchDoneNavProps {}
 const MapSearchDone = (props: IMapSearchDone) => {
   const { route } = props;
 
+  // lat, lng
   const { loading, data, error } = useQuery<IGetRouter, IGetRouterVar>(
     Route.queries.getRoutes,
     {
       variables: {
         origin: "London, Regno Unito",
-        destination: "Thurso, Regno Unito",
-        carid: "1107",
-        carcharge: 50,
-        chargerlimit: 10,
-        chargerdistance: 10,
+        destination: route?.params?.formatted_address,
+        car_id: "1107",
+        car_charge: 50,
+        chargers_limit: 10,
+        charger_distance: 10,
+        car_tolerance: 10,
       },
     },
   );
 
-  console.warn("MapSearchDone -> loading", loading);
-  console.warn("MapSearchDone -> error.message", error?.message);
-  console.warn("MapSearchDone -> data", data);
+  console.warn("MapSearchDone -> error", error);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
@@ -77,7 +77,12 @@ const MapSearchDone = (props: IMapSearchDone) => {
 
   const RouteActions = () => (
     <>
-      <Text variant="heading2">Westminster, London</Text>
+      <Text>{loading ? "cargando..." : "cargado"}</Text>
+      <Text variant="heading2">
+        {data?.getRoutes?.Route?.Origin}
+        ,
+        {data?.getRoutes?.Route?.Destination}
+      </Text>
 
       <View style={styles.row}>
         <Icons icon="Done" size={20} containerStyle={styles.icon} />
@@ -132,7 +137,10 @@ const MapSearchDone = (props: IMapSearchDone) => {
       </Animated.View>
 
       <View style={styles.mapContainer}>
-        <Map routeCoords={data?.getRoutes?.Route?.Route_Coords} />
+        <Map
+          routeCoords={data?.getRoutes?.Route?.Route_Coords}
+          Chargers={data?.getRoutes?.Chargers}
+        />
       </View>
 
       <BottomDrawer
@@ -156,19 +164,19 @@ const MapSearchDone = (props: IMapSearchDone) => {
 
             <View style={styles.cardsContainer}>
               <Card
-                title="200Km"
+                title={data?.getRoutes?.Route?.Total_kWh_Difference}
                 subTitle="Total distance"
                 containerStyle={styles.card}
               />
               <Card
-                title="400Km"
-                subTitle="Total distance"
+                title={data?.getRoutes?.Route?.Time}
+                subTitle="Time"
                 containerStyle={[styles.card]}
                 contentStyle={{ backgroundColor: theme.colors.primary }}
               />
               <Card
-                title="200Km"
-                subTitle="Total distance"
+                title={data?.getRoutes?.Route?.Distance}
+                subTitle="Distance"
                 containerStyle={[styles.card, styles.lastCard]}
                 contentStyle={{
                   backgroundColor: theme.colors.cardsBackground,

@@ -1,10 +1,12 @@
 import React, { PropsWithChildren } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import useTheme from "@shopify/restyle/dist/hooks/useTheme";
 import { IComponentsDefaults } from "../../lib/Types";
 import Icons from "../svg";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { APP_STACK_SCREENS_NAMES } from "../../lib/constants";
+import { Text, Theme } from "../../config/Theme";
 
 interface IInputSearch extends IComponentsDefaults {
   onChange?: (str: string) => void;
@@ -27,6 +29,8 @@ const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
 
   const { goBack, navigate } = useNavigation();
 
+  const theme = useTheme<Theme>();
+
   return (
     <View style={[styles.container, containerStyle]}>
       <View style={{ flexDirection: "row", flex: 1 }}>
@@ -45,7 +49,15 @@ const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
             {...{ defaultValue, placeholder }}
             style={styles.inputStyle}
             onPress={() => navigate(APP_STACK_SCREENS_NAMES.SearchRouter)}
-          />
+          >
+            <Text
+              style={{
+                color: theme.colors.defautlInput,
+              }}
+            >
+              {placeholder}
+            </Text>
+          </TouchableOpacity>
         )}
       </View>
       <TouchableOpacity style={styles.contentIconsRight}>
@@ -91,5 +103,6 @@ const styles = StyleSheet.create({
   inputStyle: {
     flex: 1,
     marginLeft: 10,
+    justifyContent: "center",
   },
 });

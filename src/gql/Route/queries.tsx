@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 export interface IGetRouter {
   SearchPoints: Object;
   Route: Object;
+  Chargers: Array<Array<Object>>;
 }
 
 export interface IGetRouterVar {
@@ -19,19 +20,21 @@ const getRoutes = gql`
   query GetRoutes(
     $origin: String!
     $destination: String!
-    $carid: String!
-    $carcharge: Float!
-    $chargerlimit: Float!
-    $chargerdistance: Float!
+    $car_id: String!
+    $car_charge: Float!
+    $chargers_limit: Float!
+    $charger_distance: Float!
+    $car_tolerance: Float!
   ) {
     getRoutes(
       getRouteInput: {
         origin: $origin
         destination: $destination
-        carid: $carid
-        carcharge: $carcharge
-        chargerlimit: $chargerlimit
-        chargerdistance: $chargerdistance
+        car_id: $car_id
+        car_charge: $car_charge
+        chargers_limit: $chargers_limit
+        car_tolerance: $car_tolerance
+        charger_distance: $charger_distance
       }
     ) {
       SearchPoints {
@@ -39,10 +42,19 @@ const getRoutes = gql`
         lng
       }
       Route {
+        Total_kWh_Difference
+        Time
+        Origin
+        Distance
+        Destination
         Route_Coords {
-          lat
-          lng
+          latitude
+          longitude
         }
+      }
+      Chargers {
+        Lat
+        Lng
       }
     }
   }

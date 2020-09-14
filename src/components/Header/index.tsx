@@ -122,6 +122,7 @@ const Header = (props: IHeader) => {
 export default Header;
 
 const heightMultiplier = Platform.OS === "ios" ? 0.21 : 0.23;
+const heightTopIcons = Platform.OS === "ios" ? 0.04 : 0.03;
 
 const styles = StyleSheet.create({
   container: {
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     elevation: 1,
     zIndex: 1,
-    top: height * 0.05,
+    top: height * heightTopIcons,
     left: width * -0.02,
   },
   iconRightStyle: {

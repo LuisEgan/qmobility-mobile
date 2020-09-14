@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import MapView, {
   PROVIDER_GOOGLE,
@@ -8,48 +8,37 @@ import MapView, {
   MapEvent,
 } from "react-native-maps";
 
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
+const getAltitude = (origin: LatLng, destination: LatLng) => {
+  const k = Math.PI / 180;
+  const difLatitud = k * (origin.latitude - destination.latitude);
+  const difLongitud = k * (origin.longitude - destination.longitude);
 
-interface ICoords {
-  latitude: number;
-  longitude: number;
-}
+  const a = Math.sin(difLatitud / 2) ** 2
+    + Math.cos(k * destination.latitude)
+      * Math.cos(k * origin.latitude)
+      * Math.sin(difLongitud / 2) ** 2;
 
-interface IInitialCoords extends ICoords {
-  latitudeDelta: number;
-  longitudeDelta: number;
-}
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const altitud = 6378 * (k * c);
+  return altitud;
+};
 
 interface IMap {
   routeCoords?: LatLng[];
-  initialMarkerCoords?: IInitialCoords;
+  Chargers?: Array<Array<Object>>;
   initialMain?: boolean;
+  initialLat?: number;
+  initialLon?: number;
 }
 
 const Map = (props: IMap) => {
-  const { initialMarkerCoords, routeCoords, initialMain } = props;
+  const { routeCoords, initialMain, initialLat, initialLon } = props;
 
-  const [initialLat, setInitialLat] = useState<number>(0);
-  const [initialLon, setInitialLon] = useState<number>(0);
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
     longitude: 0,
   });
-
-  useEffect(() => {
-    if (initialMain) getLocationAsync();
-  }, []);
-
-  const getLocationAsync = async () => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === "granted") {
-      const location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
-      setInitialLat(latitude);
-      setInitialLon(longitude);
-    }
-  };
 
   const newMarker = (event: MapEvent<{}>) => {
     let marker;
@@ -67,25 +56,41 @@ const Map = (props: IMap) => {
     setMarkeeSelect(marker);
   };
 
+  let region = {
+    latitude: initialLat || 0,
+    longitude: initialLon || 0,
+    latitudeDelta: 0.008,
+    longitudeDelta: 0.008,
+  };
+
+  if (routeCoords) {
+    const altitude = getAltitude(
+      routeCoords[routeCoords.length - 1],
+      routeCoords[0],
+    );
+
+    region = {
+      latitude: routeCoords[0].latitude,
+      longitude: routeCoords[0].longitude,
+      latitudeDelta: altitude,
+      longitudeDelta: altitude,
+    };
+  }
+
   return (
     <MapView
       showsUserLocation={initialMain}
       showsMyLocationButton={initialMain}
-      followsUserLocation={initialMain}
       provider={PROVIDER_GOOGLE}
+      loadingEnabled
+      loadingIndicatorColor="#11041A"
+      loadingBackgroundColor="#F6F6F5"
       style={styles.map}
       mapType="standard"
       onLongPress={(ev) => {
         if (initialMain) newMarker(ev);
       }}
-      region={
-        initialMarkerCoords || {
-          latitude: initialLat,
-          longitude: initialLon,
-          latitudeDelta: 0.002,
-          longitudeDelta: 0.002,
-        }
-      }
+      region={region}
     >
       {routeCoords && (
         <>
@@ -102,6 +107,18 @@ const Map = (props: IMap) => {
       {markeeSelect.latitude !== 0 && initialMain && (
         <Marker coordinate={markeeSelect} />
       )}
+
+      {/* {Chargers &&
+        Chargers[0].map((x, i) => (
+          <Marker
+            key={i}
+            pinColor="#76ff03"
+            coordinate={{
+              latitude: x.Lat,
+              longitude: x.Lng,
+            }}
+          />
+        ))} */}
     </MapView>
   );
 };

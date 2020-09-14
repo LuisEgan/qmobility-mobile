@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Dimensions, ImageBackground } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
 import { Map, InputSearch } from "../../../components";
 import { DrawerLeftMenu, DrawerRightMenu } from "../../../components/HOCs";
 
@@ -17,13 +19,29 @@ const Main = () => {
   const [isDrawerLeftOpen, setIsDrawerLeftOpen] = useState<boolean>(false);
   const [isDrawerRightOpen, setIsDrawerRightOpen] = useState<boolean>(false);
 
+  const [initialLat, setInitialLat] = useState<number>(0);
+  const [initialLon, setInitialLon] = useState<number>(0);
+
+  useEffect(() => {
+    getLocationAsync();
+  });
+
   const toggleDrawer = (drawer: EDrawer) => {
     if (drawer === EDrawer.LEFT) {
       setIsDrawerLeftOpen(!isDrawerLeftOpen);
       return;
     }
-
     setIsDrawerRightOpen(!isDrawerRightOpen);
+  };
+
+  const getLocationAsync = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === "granted") {
+      const location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+      setInitialLat(latitude);
+      setInitialLon(longitude);
+    }
   };
 
   return (
@@ -41,6 +59,7 @@ const Main = () => {
           <View style={styles.searchContainer}>
             <InputSearch
               containerStyle={styles.inputSearch}
+              placeholder="Where are you going?"
               onChange={() => null}
               leftIcon="Menu"
               onLeftIconPress={() => toggleDrawer(EDrawer.LEFT)}
@@ -56,7 +75,11 @@ const Main = () => {
             </TouchableOpacity>
           </View>
 
-          <Map initialMain />
+          {initialLat !== 0 && initialLon !== 0 ? (
+            <Map initialMain initialLat={initialLat} initialLon={initialLon} />
+          ) : (
+            <Map initialMain />
+          )}
         </View>
       </DrawerLeftMenu>
     </>
