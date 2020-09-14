@@ -17,6 +17,7 @@ interface IBottomDrawer extends IComponentsDefaults {
   onOpen?: () => void;
   onClose?: () => void;
   onToggle?: (newStatus: boolean) => void;
+  disableToggler?: boolean;
 }
 
 const BottomDrawer: FC<IBottomDrawer> = (props) => {
@@ -26,6 +27,7 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
     closeOffset = height * 0.05,
     isOpen: isOpenProp = false,
     scrollable = true,
+    disableToggler = false,
     containerStyle,
     onOpen,
     onClose,
@@ -72,7 +74,11 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
         containerStyle,
       ]}
     >
-      <TouchableOpacity onPress={toggleDrawer} style={styles.handle}>
+      <TouchableOpacity
+        onPress={toggleDrawer}
+        style={styles.handle}
+        disabled={disableToggler}
+      >
         <View
           style={[
             styles.handleIcon,

@@ -7,6 +7,7 @@ import MapView, {
   LatLng,
   MapEvent,
 } from "react-native-maps";
+import { ICoord } from "../../gql/Route/queries";
 
 const getAltitude = (origin: LatLng, destination: LatLng) => {
   const k = Math.PI / 180;
@@ -26,14 +27,14 @@ const getAltitude = (origin: LatLng, destination: LatLng) => {
 
 interface IMap {
   routeCoords?: LatLng[];
-  Chargers?: Array<Array<Object>>;
+  chargers?: Array<Array<ICoord>>;
   initialMain?: boolean;
   initialLat?: number;
   initialLon?: number;
 }
 
 const Map = (props: IMap) => {
-  const { routeCoords, initialMain, initialLat, initialLon } = props;
+  const { routeCoords, initialMain, initialLat, initialLon, chargers } = props;
 
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
@@ -108,17 +109,17 @@ const Map = (props: IMap) => {
         <Marker coordinate={markeeSelect} />
       )}
 
-      {/* {Chargers &&
-        Chargers[0].map((x, i) => (
+      {chargers
+        && chargers[0].map((charger) => (
           <Marker
-            key={i}
+            key={charger.Lat}
             pinColor="#76ff03"
             coordinate={{
-              latitude: x.Lat,
-              longitude: x.Lng,
+              latitude: +charger.Lat,
+              longitude: +charger.Lng,
             }}
           />
-        ))} */}
+        ))}
     </MapView>
   );
 };

@@ -1,18 +1,36 @@
 import { gql } from "@apollo/client";
+import { LatLng } from "react-native-maps";
+
+export interface ICoord {
+  Lat: number;
+  Lng: number;
+}
+
+export interface IRoute {
+  Destination: string;
+  Distance: number;
+  Origin: string;
+  Route_Coords: LatLng[];
+  Time: number;
+  Total_kWh_Difference: number;
+}
 
 export interface IGetRouter {
-  SearchPoints: Object;
-  Route: Object;
-  Chargers: Array<Array<Object>>;
+  getRoutes: {
+    Chargers?: Array<Array<ICoord>>;
+    SearchPoints?: Array<Array<ICoord>>;
+    Route?: IRoute;
+  };
 }
 
 export interface IGetRouterVar {
   origin?: string;
   destination?: string;
-  carid?: string;
-  carcharge?: number;
-  chargerlimit?: number;
-  chargerdistance?: number;
+  car_id?: string;
+  car_charge?: number;
+  chargers_limit?: number;
+  charger_distance?: number;
+  car_tolerance?: number;
 }
 
 // * Search Router

@@ -50,7 +50,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
   const { route } = props;
 
   // lat, lng
-  const { loading, data, error } = useQuery<IGetRouter, IGetRouterVar>(
+  const { data } = useQuery<IGetRouter, IGetRouterVar>(
     Route.queries.getRoutes,
     {
       variables: {
@@ -65,8 +65,6 @@ const MapSearchDone = (props: IMapSearchDone) => {
     },
   );
 
-  console.warn("MapSearchDone -> error", error);
-
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
 
@@ -77,7 +75,6 @@ const MapSearchDone = (props: IMapSearchDone) => {
 
   const RouteActions = () => (
     <>
-      <Text>{loading ? "cargando..." : "cargado"}</Text>
       <Text variant="heading2">
         {data?.getRoutes?.Route?.Origin}
         ,
@@ -112,7 +109,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
         <Button
           containerStyle={[styles.button, { marginLeft: 25 }]}
           variant="primary"
-          label="START"
+          label="SAVE ROUTE"
           onPress={() => null}
         />
       </View>
@@ -139,16 +136,16 @@ const MapSearchDone = (props: IMapSearchDone) => {
       <View style={styles.mapContainer}>
         <Map
           routeCoords={data?.getRoutes?.Route?.Route_Coords}
-          Chargers={data?.getRoutes?.Chargers}
+          chargers={data?.getRoutes?.Chargers}
         />
       </View>
 
       <BottomDrawer
         maxHeight={height * 0.9}
         closeOffset={height * 0.35}
-        // onToggle={setIsDrawerOpen}
         isOpen={isDrawerOpen}
         scrollable={false}
+        disableToggler
         onOpen={() => {
           setTimeout(() => {
             setShowContent(true);
@@ -164,18 +161,18 @@ const MapSearchDone = (props: IMapSearchDone) => {
 
             <View style={styles.cardsContainer}>
               <Card
-                title={data?.getRoutes?.Route?.Total_kWh_Difference}
+                title={`${data?.getRoutes?.Route?.Total_kWh_Difference}`}
                 subTitle="Total distance"
                 containerStyle={styles.card}
               />
               <Card
-                title={data?.getRoutes?.Route?.Time}
+                title={`${data?.getRoutes?.Route?.Time}`}
                 subTitle="Time"
                 containerStyle={[styles.card]}
                 contentStyle={{ backgroundColor: theme.colors.primary }}
               />
               <Card
-                title={data?.getRoutes?.Route?.Distance}
+                title={`${data?.getRoutes?.Route?.Distance}`}
                 subTitle="Distance"
                 containerStyle={[styles.card, styles.lastCard]}
                 contentStyle={{
