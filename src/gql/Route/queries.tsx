@@ -74,7 +74,7 @@ const getRoutes = gql`
       }
       Chargers {
         Id
-        Name
+        label: Name
         latitude
         longitude
       }

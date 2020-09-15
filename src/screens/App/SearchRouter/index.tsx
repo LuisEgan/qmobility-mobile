@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@apollo/client";
+import { GooglePlaceDetail } from "react-native-google-places-autocomplete";
 import { Card, ListItem, GoogleSearch } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
@@ -40,6 +42,13 @@ const SearchRouter = () => {
     } catch (error) {
       console.warn("TCL: getPermissionAsync -> error", error);
     }
+  };
+
+  const onRoute = (details: { origin?: string; destination?: string }) => {
+    navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
+      origin: details?.origin || "",
+      destination: details?.destination || "",
+    });
   };
 
   const History = () => (
@@ -102,6 +111,7 @@ const SearchRouter = () => {
                     icon="Circle"
                     title={item.origin || ""}
                     subTitle={item.destination}
+                    onPress={onRoute}
                   />
                 )}
                 keyExtractor={(item, index) => `${item}_${index}`}
@@ -113,20 +123,25 @@ const SearchRouter = () => {
     </>
   );
 
+  const onGoogleReute = async (details: GooglePlaceDetail) => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === "granted") {
+      const location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+      // 51.506964, -0.124942
+      navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
+        origin: `${latitude},${longitude}`,
+        destination: details?.formatted_address,
+      });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <GoogleSearch
         placeholder="Where are you going?"
         onChange={setSearch}
-        onPress={(details) => {
-          navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
-            location: {
-              latitude: details?.geometry.location.lat || 0,
-              longitude: details?.geometry.location.lng || 0,
-            },
-            formatted_address: details?.formatted_address || "",
-          });
-        }}
+        onPress={(details) => onGoogleReute(details)}
         containerStyle={{
           ...styles.googleSearch,
           flex: search.length < 2 ? 0.2 : 1,

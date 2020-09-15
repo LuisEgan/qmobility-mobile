@@ -22,8 +22,9 @@ type StackParamsList = {
   MyRoutes: {};
   Details: {};
   MapSearchDone: {
-    location: LatLng;
-    formatted_address: string;
+    location?: LatLng;
+    origin?: string;
+    destination?: string;
   };
 };
 

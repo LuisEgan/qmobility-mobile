@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, ActivityIndicator } from "react-native";
 import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
 import { useTheme } from "@shopify/restyle";
@@ -8,7 +8,6 @@ import RouteDestination from "./RouteDestination";
 import { BottomDrawer, Icons, Button, Card, Map } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { RoutePointsList } from "../../../components/Lists";
-import { IRouterPointsListItem } from "../../../components/Lists/RoutePointsList/RouterPointsListItem";
 import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 import { Route } from "../../../gql";
@@ -16,53 +15,25 @@ import { IGetRouter, IGetRouterVar } from "../../../gql/Route/queries";
 
 const { height, width } = Dimensions.get("window");
 
-const routerPointsListItems: Array<IRouterPointsListItem> = [
-  {
-    label: "O2 Academy",
-    description: "211 Stockwell Rd, Ferndale, London SW9 9SL, United Kingdom",
-  },
-  {
-    label: "Kid’s School",
-    description: "40 Stansfield Rd, London SW9 9RY, UK",
-  },
-  {
-    label: "Charging Point 1",
-    description: "2 Stansfield Rd, London SW9 9RY, UK",
-    isChargingPoint: true,
-  },
-  {
-    label: "Charging Point 2",
-    isChargingPoint: true,
-  },
-  {
-    label: "Charging Point 3",
-    isChargingPoint: true,
-  },
-  {
-    label: "Westminster, London",
-    description: "Westminster, London SW1A 1AA, UK",
-  },
-];
-
 interface IMapSearchDone extends TMapSearchDoneNavProps {}
 
 const MapSearchDone = (props: IMapSearchDone) => {
   const { route } = props;
 
-  const { data } = useQuery<IGetRouter, IGetRouterVar>(
-    Route.queries.getRoutes,
-    {
-      variables: {
-        origin: "London, Regno Unito",
-        destination: route?.params?.formatted_address,
-        car_id: "1107",
-        car_charge: 50,
-        chargers_limit: 10,
-        charger_distance: 10,
-        car_tolerance: 10,
-      },
+  const { loading: loadingRoute, data: dataRoute } = useQuery<
+    IGetRouter,
+    IGetRouterVar
+  >(Route.queries.getRoutes, {
+    variables: {
+      origin: route?.params?.origin,
+      destination: route?.params?.destination,
+      car_id: "1107",
+      car_charge: 50,
+      chargers_limit: 10,
+      charger_distance: 10,
+      car_tolerance: 10,
     },
-  );
+  });
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
@@ -74,44 +45,64 @@ const MapSearchDone = (props: IMapSearchDone) => {
 
   const RouteActions = () => (
     <>
-      <Text variant="heading2">
-        {data?.getRoutes?.Route?.Origin}
-        ,
-        {data?.getRoutes?.Route?.Destination}
-      </Text>
+      {loadingRoute ? (
+        <View
+          style={{
+            marginVertical: 50,
+          }}
+        >
+          <ActivityIndicator color={theme.colors.primary} />
+          <Text
+            variant="bodyHighlight"
+            style={{
+              textAlign: "center",
+              marginVertical: "5%",
+            }}
+          >
+            Loading...
+          </Text>
+        </View>
+      ) : (
+        <>
+          <Text variant="heading2">
+            {dataRoute?.getRoutes?.Route?.Origin}
+            ,
+            {dataRoute?.getRoutes?.Route?.Destination}
+          </Text>
+          <View style={styles.row}>
+            <Icons icon="Done" size={20} containerStyle={styles.icon} />
+            <Text variant="bodySmall">
+              30 John Islip St, Westminster, London SW1P 4DD, United Kingdom
+            </Text>
+          </View>
+          <View style={styles.row}>
+            <Icons icon="Done" size={20} containerStyle={styles.icon} />
+            <Text variant="bodySmall">1 hr 29 min (200 km)</Text>
+            <Icons
+              icon="Done"
+              size={20}
+              containerStyle={[styles.icon, { marginLeft: 10 }]}
+            />
+            <Text variant="bodySmall">100%</Text>
+          </View>
 
-      <View style={styles.row}>
-        <Icons icon="Done" size={20} containerStyle={styles.icon} />
-        <Text variant="bodySmall">
-          30 John Islip St, Westminster, London SW1P 4DD, United Kingdom
-        </Text>
-      </View>
-      <View style={styles.row}>
-        <Icons icon="Done" size={20} containerStyle={styles.icon} />
-        <Text variant="bodySmall">1 hr 29 min (200 km)</Text>
-        <Icons
-          icon="Done"
-          size={20}
-          containerStyle={[styles.icon, { marginLeft: 10 }]}
-        />
-        <Text variant="bodySmall">100%</Text>
-      </View>
-
-      <View style={styles.row}>
-        <Button
-          containerStyle={styles.button}
-          variant="primary"
-          inverse
-          label="STEPS"
-          onPress={() => setIsDrawerOpen(!isDrawerOpen)}
-        />
-        <Button
-          containerStyle={[styles.button, { marginLeft: 25 }]}
-          variant="primary"
-          label="SAVE ROUTE"
-          onPress={() => null}
-        />
-      </View>
+          <View style={styles.row}>
+            <Button
+              containerStyle={styles.button}
+              variant="primary"
+              inverse
+              label="STEPS"
+              onPress={() => setIsDrawerOpen(!isDrawerOpen)}
+            />
+            <Button
+              containerStyle={[styles.button, { marginLeft: 25 }]}
+              variant="primary"
+              label="SAVE ROUTE"
+              onPress={() => null}
+            />
+          </View>
+        </>
+      )}
     </>
   );
 
@@ -127,15 +118,16 @@ const MapSearchDone = (props: IMapSearchDone) => {
         ]}
       >
         <RouteDestination
-          endDireccion={route?.params?.formatted_address}
+          startDireccion={route?.params?.origin}
+          endDireccion={route?.params?.destination}
           containerStyle={styles.routeDestination}
         />
       </Animated.View>
 
       <View style={styles.mapContainer}>
         <Map
-          routeCoords={data?.getRoutes?.Route?.Route_Coords}
-          chargers={data?.getRoutes?.Chargers}
+          routeCoords={dataRoute?.getRoutes?.Route?.Route_Coords}
+          chargers={dataRoute?.getRoutes?.Chargers}
         />
       </View>
 
@@ -156,22 +148,22 @@ const MapSearchDone = (props: IMapSearchDone) => {
 
         {showContent ? (
           <>
-            <RoutePointsList points={routerPointsListItems} />
+            <RoutePointsList points={dataRoute?.getRoutes?.Chargers[0]} />
 
             <View style={styles.cardsContainer}>
               <Card
-                title={`${data?.getRoutes?.Route?.Total_kWh_Difference}`}
+                title={`${dataRoute?.getRoutes?.Route?.Total_kWh_Difference}`}
                 subTitle="Total distance"
                 containerStyle={styles.card}
               />
               <Card
-                title={`${data?.getRoutes?.Route?.Time}`}
+                title={`${dataRoute?.getRoutes?.Route?.Time}`}
                 subTitle="Time"
                 containerStyle={[styles.card]}
                 contentStyle={{ backgroundColor: theme.colors.primary }}
               />
               <Card
-                title={`${data?.getRoutes?.Route?.Distance}`}
+                title={`${dataRoute?.getRoutes?.Route?.Distance}`}
                 subTitle="Distance"
                 containerStyle={[styles.card, styles.lastCard]}
                 contentStyle={{
@@ -236,7 +228,7 @@ const styles = StyleSheet.create({
   },
 
   mapContainer: {
-    flex: 1,
+    flex: 0.54,
   },
 
   cardsContainer: {

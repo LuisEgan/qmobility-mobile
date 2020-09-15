@@ -34,7 +34,7 @@ interface IMap {
 }
 
 const Map = (props: IMap) => {
-  const { routeCoords, initialMain, initialLat, initialLon, chargers } = props;
+  const { routeCoords, chargers, initialMain, initialLat, initialLon } = props;
 
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
@@ -121,7 +121,7 @@ const Map = (props: IMap) => {
       {chargers
         && chargers[0].map((charger) => (
           <Marker
-            key={charger.latitude}
+            key={`${charger.latitude}`}
             pinColor="#76ff03"
             coordinate={charger}
           />
