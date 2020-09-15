@@ -1,11 +1,6 @@
 import { gql } from "@apollo/client";
 import { LatLng } from "react-native-maps";
 
-export interface ICoord {
-  Lat: number;
-  Lng: number;
-}
-
 export interface IRoute {
   Destination: string;
   Distance: number;
@@ -15,10 +10,17 @@ export interface IRoute {
   Total_kWh_Difference: number;
 }
 
+export interface IChargers {
+  Id?: string;
+  Name?: string;
+  latitude?: number;
+  longitude?: number;
+}
+
 export interface IGetRouter {
   getRoutes: {
-    Chargers?: Array<Array<ICoord>>;
-    SearchPoints?: Array<Array<ICoord>>;
+    Chargers?: Array<IChargers>;
+    SearchPoints?: Array<LatLng[]>;
     Route?: IRoute;
   };
 }
@@ -56,8 +58,8 @@ const getRoutes = gql`
       }
     ) {
       SearchPoints {
-        lat
-        lng
+        latitude
+        longitude
       }
       Route {
         Total_kWh_Difference
@@ -71,8 +73,10 @@ const getRoutes = gql`
         }
       }
       Chargers {
-        Lat
-        Lng
+        Id
+        Name
+        latitude
+        longitude
       }
     }
   }

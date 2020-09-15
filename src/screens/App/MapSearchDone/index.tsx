@@ -49,7 +49,6 @@ interface IMapSearchDone extends TMapSearchDoneNavProps {}
 const MapSearchDone = (props: IMapSearchDone) => {
   const { route } = props;
 
-  // lat, lng
   const { data } = useQuery<IGetRouter, IGetRouterVar>(
     Route.queries.getRoutes,
     {
@@ -223,7 +222,7 @@ const styles = StyleSheet.create({
   button: { width: width * 0.3 },
 
   headerContainer: {
-    position: "absolute",
+    position: "relative",
     top: 0,
     width,
     height: height * 0.25,

@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import * as Permissions from "expo-permissions";
 import { useNavigation } from "@react-navigation/native";
+import { useQuery } from "@apollo/client";
 import { Card, ListItem, GoogleSearch } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
 import ListTest from "./ListTest";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import {
+  IGetRouterRecent,
+  IGetRouterRecentVar,
+} from "../../../gql/RecentRoute/queries";
+import { RecentRoute } from "../../../gql";
 
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
@@ -17,6 +23,15 @@ const SearchRouter = () => {
 
   useEffect(() => {
     getPermissionAsync();
+  });
+
+  const { loading, data: dataRecent, error: errorLoading } = useQuery<
+    IGetRouterRecent,
+    IGetRouterRecentVar
+  >(RecentRoute.queries.getMyRecentRoutes, {
+    variables: {
+      limit: 20,
+    },
   });
 
   const getPermissionAsync = async () => {
@@ -48,17 +63,52 @@ const SearchRouter = () => {
           { backgroundColor: theme.colors.white },
         ]}
       >
-        <FlatList
-          style={{
-            flex: 1,
-            paddingHorizontal: "5%",
-          }}
-          data={ListTest.listHistory}
-          renderItem={({ item, index }) => (
-            <ListItem detail key={`${item}_${index}`} {...item} />
-          )}
-          keyExtractor={(item, index) => `${item}_${index}`}
-        />
+        {loading ? (
+          <View
+            style={{
+              marginVertical: 50,
+            }}
+          >
+            <ActivityIndicator color={theme.colors.primary} />
+            <Text
+              variant="bodyHighlight"
+              style={{
+                textAlign: "center",
+                marginVertical: "5%",
+              }}
+            >
+              Loading...
+            </Text>
+          </View>
+        ) : (
+          <>
+            {errorLoading ? (
+              <View>
+                <Text variant="body" style={styles.textLoading}>
+                  {errorLoading.message}
+                </Text>
+              </View>
+            ) : (
+              <FlatList
+                style={{
+                  flex: 1,
+                  paddingHorizontal: "5%",
+                }}
+                data={dataRecent?.getMyRecentRoutes}
+                renderItem={({ item, index }) => (
+                  <ListItem
+                    detail
+                    key={`${item}_${index}`}
+                    icon="Circle"
+                    title={item.origin || ""}
+                    subTitle={item.destination}
+                  />
+                )}
+                keyExtractor={(item, index) => `${item}_${index}`}
+              />
+            )}
+          </>
+        )}
       </View>
     </>
   );
@@ -115,5 +165,9 @@ const styles = StyleSheet.create({
   },
   text: {
     marginVertical: "1%",
+  },
+  textLoading: {
+    textAlign: "center",
+    marginVertical: "5%",
   },
 });

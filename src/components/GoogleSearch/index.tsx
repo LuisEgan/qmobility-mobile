@@ -28,6 +28,7 @@ const GoogleSearch = (props: IGoogleSearch) => {
   return (
     <GooglePlacesAutocomplete
       autoFocus
+      minLength={2}
       renderRow={(details) => (
         <View style={{ height: 80, flex: 1 }}>
           <ListItem

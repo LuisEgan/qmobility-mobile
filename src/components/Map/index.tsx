@@ -7,7 +7,7 @@ import MapView, {
   LatLng,
   MapEvent,
 } from "react-native-maps";
-import { ICoord } from "../../gql/Route/queries";
+import { IChargers } from "../../gql/Route/queries";
 
 const getAltitude = (origin: LatLng, destination: LatLng) => {
   const k = Math.PI / 180;
@@ -27,7 +27,7 @@ const getAltitude = (origin: LatLng, destination: LatLng) => {
 
 interface IMap {
   routeCoords?: LatLng[];
-  chargers?: Array<Array<ICoord>>;
+  chargers?: Array<IChargers>;
   initialMain?: boolean;
   initialLat?: number;
   initialLon?: number;
@@ -70,9 +70,15 @@ const Map = (props: IMap) => {
       routeCoords[0],
     );
 
+    const mediumLat = (routeCoords[routeCoords.length - 1].latitude + routeCoords[0].latitude)
+      / 2;
+    const mediumLng = (routeCoords[0].longitude
+        + routeCoords[routeCoords.length - 1].longitude)
+      / 2;
+
     region = {
-      latitude: routeCoords[0].latitude,
-      longitude: routeCoords[0].longitude,
+      latitude: mediumLat,
+      longitude: mediumLng,
       latitudeDelta: altitude,
       longitudeDelta: altitude,
     };
@@ -98,10 +104,13 @@ const Map = (props: IMap) => {
           <Polyline
             coordinates={routeCoords}
             strokeWidth={10}
-            strokeColor="red"
+            strokeColor="#00D6FD"
           />
-          <Marker coordinate={routeCoords[0]} />
-          <Marker coordinate={routeCoords[routeCoords.length - 1]} />
+          <Marker pinColor="#002060" coordinate={routeCoords[0]} />
+          <Marker
+            pinColor="#002060"
+            coordinate={routeCoords[routeCoords.length - 1]}
+          />
         </>
       )}
 
@@ -112,12 +121,9 @@ const Map = (props: IMap) => {
       {chargers
         && chargers[0].map((charger) => (
           <Marker
-            key={charger.Lat}
+            key={charger.latitude}
             pinColor="#76ff03"
-            coordinate={{
-              latitude: +charger.Lat,
-              longitude: +charger.Lng,
-            }}
+            coordinate={charger}
           />
         ))}
     </MapView>
