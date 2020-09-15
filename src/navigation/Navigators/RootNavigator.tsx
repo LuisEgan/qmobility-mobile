@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 import React, { useState, useEffect } from "react";
 import { AsyncStorage } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -6,11 +8,13 @@ import AppNavigator from "./AppNavigator";
 import AuthNavigator from "./AuthNavigator";
 import { TUserToken } from "../Types/AuthTypes";
 import { ASYNC_STORAGE_ITEMS } from "../../lib/constants";
+import { FullScreenModal } from "../../screens/Feedback";
 
 const RootStack = createStackNavigator();
 
 const RootNavigator = () => {
   const [userToken, setUserToken] = useState<TUserToken>(null);
+  const [loading, setLoading] = useState(true);
 
   // * Set user token from cached data
   useEffect(() => {
@@ -24,11 +28,14 @@ const RootNavigator = () => {
         console.error("error: ", error);
       } finally {
         setUserToken(newUserToken);
+        setLoading(false);
       }
     };
 
     setInitialUserToken();
   }, []);
+
+  const LoadingScreen = () => <FullScreenModal show />;
 
   const authContext = React.useMemo(
     () => ({
@@ -69,7 +76,9 @@ const RootNavigator = () => {
         screenOptions={{ animationEnabled: false }}
         mode="modal"
       >
-        {userToken ? (
+        {loading ? (
+          <RootStack.Screen name="Loading" component={LoadingScreen} />
+        ) : userToken ? (
           <RootStack.Screen name="AppNavigator" component={AppNavigator} />
         ) : (
           <RootStack.Screen name="AuthNavigator" component={AuthNavigator} />
