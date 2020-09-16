@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { Icons } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
@@ -10,10 +10,11 @@ const { width } = Dimensions.get("window");
 interface IRouteDestination extends IComponentsDefaults {
   startDireccion?: string;
   endDireccion?: string;
+  onChangeRoute?: () => void;
 }
 
 const RouteDestination = (props: IRouteDestination) => {
-  const { startDireccion, endDireccion, containerStyle } = props;
+  const { startDireccion, endDireccion, containerStyle, onChangeRoute } = props;
 
   const theme = useTheme<Theme>();
 
@@ -46,9 +47,12 @@ const RouteDestination = (props: IRouteDestination) => {
           </Text>
         </View>
       </View>
-      <View style={styles.reverse}>
-        <Icons icon="ArrowDown" size={20} />
-      </View>
+      <TouchableOpacity
+        onPress={() => onChangeRoute && onChangeRoute()}
+        style={styles.reverse}
+      >
+        <Icons icon="ArrowChange" size={20} />
+      </TouchableOpacity>
     </View>
   );
 };

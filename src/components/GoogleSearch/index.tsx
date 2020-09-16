@@ -3,6 +3,7 @@ import { TouchableOpacity, StyleSheet, View } from "react-native";
 import {
   GooglePlacesAutocomplete,
   GooglePlaceDetail,
+  DescriptionRow,
 } from "react-native-google-places-autocomplete";
 import useTheme from "@shopify/restyle/dist/hooks/useTheme";
 import { useNavigation } from "@react-navigation/native";
@@ -10,10 +11,12 @@ import ListItem from "../ListItem/index";
 import Icons from "../svg/index";
 import { Theme } from "../../config/Theme";
 
+export type TDetails = GooglePlaceDetail | DescriptionRow;
+
 interface IGoogleSearch {
   placeholder?: string;
   onChange?: (str: string) => void;
-  onPress?: (details: GooglePlaceDetail) => void;
+  onPress?: (details: TDetails) => void;
   // TODO add proper type definition
   containerStyle?: Object;
 }
@@ -28,10 +31,12 @@ const GoogleSearch = (props: IGoogleSearch) => {
   return (
     <GooglePlacesAutocomplete
       autoFocus
-      minLength={2}
       renderRow={(details) => (
         <View style={{ height: 80, flex: 1 }}>
           <ListItem
+            onPress={() => {
+              if (onPress && details) onPress(details);
+            }}
             icon="Dot"
             title={details?.structured_formatting?.main_text}
             subTitle={details?.structured_formatting?.secondary_text}
@@ -76,6 +81,7 @@ const GoogleSearch = (props: IGoogleSearch) => {
       placeholder={placeholder}
       fetchDetails
       onPress={(data, details = null) => {
+        // console.log("details: ", details);
         if (onPress && details) onPress(details);
       }}
       query={{

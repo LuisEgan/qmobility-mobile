@@ -5,7 +5,10 @@ import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@apollo/client";
-import { GooglePlaceDetail } from "react-native-google-places-autocomplete";
+import {
+  GooglePlaceDetail,
+  DescriptionRow,
+} from "react-native-google-places-autocomplete";
 import { Card, ListItem, GoogleSearch } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
@@ -16,6 +19,8 @@ import {
   IGetRouterRecentVar,
 } from "../../../gql/RecentRoute/queries";
 import { RecentRoute } from "../../../gql";
+
+interface IDetails extends GooglePlaceDetail, DescriptionRow {}
 
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
@@ -123,15 +128,15 @@ const SearchRouter = () => {
     </>
   );
 
-  const onGoogleReute = async (details: GooglePlaceDetail) => {
+  const onGoogleReute = async (details: IDetails) => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
       const location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
-      // 51.506964, -0.124942
+
       navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
         origin: `${latitude},${longitude}`,
-        destination: details?.formatted_address,
+        destination: details?.formatted_address || details?.description,
       });
     }
   };

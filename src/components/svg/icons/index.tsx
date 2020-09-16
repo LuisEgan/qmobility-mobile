@@ -1,5 +1,6 @@
 export { default as ArrowDown } from "./ArrowDown";
 export { default as ArrowBack } from "./ArrowBack";
+export { default as ArrowChange } from "./ArrowChange";
 export { default as ArrowForward } from "./ArrowForward";
 export { default as ArrowUpLight } from "./ArrowUpLight";
 export { default as ArrowDownLight } from "./ArrowDownLight";

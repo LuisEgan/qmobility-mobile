@@ -8,6 +8,7 @@ export type TIcon =
   | "ArrowDownLight"
   | "ArrowBackLight"
   | "ArrowRightLight"
+  | "ArrowChange"
   | "Info"
   | "Email"
   | "Menu"

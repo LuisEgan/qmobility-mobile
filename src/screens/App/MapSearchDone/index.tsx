@@ -43,6 +43,10 @@ const MapSearchDone = (props: IMapSearchDone) => {
   const transition = useTransition(isDrawerOpen, { duration: 100 });
   const translateY = mix(transition, 0, -200);
 
+  const onChangeRoute = () => {
+    console.warn("here");
+  };
+
   const RouteActions = () => (
     <>
       {loadingRoute ? (
@@ -121,6 +125,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
           startDireccion={route?.params?.origin}
           endDireccion={route?.params?.destination}
           containerStyle={styles.routeDestination}
+          onChangeRoute={onChangeRoute}
         />
       </Animated.View>
 

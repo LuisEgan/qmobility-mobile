@@ -8,6 +8,7 @@ import MapView, {
   MapEvent,
 } from "react-native-maps";
 import { IChargers } from "../../gql/Route/queries";
+import Icons from "../svg";
 
 const getAltitude = (origin: LatLng, destination: LatLng) => {
   const k = Math.PI / 180;
@@ -120,11 +121,9 @@ const Map = (props: IMap) => {
 
       {chargers
         && chargers[0].map((charger) => (
-          <Marker
-            key={`${charger.latitude}`}
-            pinColor="#76ff03"
-            coordinate={charger}
-          />
+          <Marker key={Math.random()} pinColor="#76ff03" coordinate={charger}>
+            <Icons icon="ArrowDown" />
+          </Marker>
         ))}
     </MapView>
   );
