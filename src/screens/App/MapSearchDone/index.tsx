@@ -1,11 +1,25 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Dimensions, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
 import { useTheme } from "@shopify/restyle";
 import { useQuery } from "@apollo/client";
 import RouteDestination from "./RouteDestination";
-import { BottomDrawer, Icons, Button, Card, Map } from "../../../components";
+import {
+  BottomDrawer,
+  Icons,
+  Button,
+  Card,
+  Map,
+  Modal,
+  Select,
+} from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { RoutePointsList } from "../../../components/Lists";
 import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes";
@@ -35,8 +49,14 @@ const MapSearchDone = (props: IMapSearchDone) => {
     },
   });
 
+  const location = dataRoute?.getRoutes?.Route?.Origin.includes(".")
+    ? "Current location"
+    : dataRoute?.getRoutes?.Route?.Origin;
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
+
+  const [stateModal, setStateModal] = useState<boolean>(false);
 
   const theme = useTheme<Theme>();
 
@@ -69,7 +89,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
       ) : (
         <>
           <Text variant="heading2">
-            {dataRoute?.getRoutes?.Route?.Origin}
+            {location}
             ,
             {dataRoute?.getRoutes?.Route?.Destination}
           </Text>
@@ -102,7 +122,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
               containerStyle={[styles.button, { marginLeft: 25 }]}
               variant="primary"
               label="SAVE ROUTE"
-              onPress={() => null}
+              onPress={() => setStateModal(!stateModal)}
             />
           </View>
         </>
@@ -110,86 +130,159 @@ const MapSearchDone = (props: IMapSearchDone) => {
     </>
   );
 
-  return (
-    <View style={styles.container}>
-      <Animated.View
-        style={[
-          styles.headerContainer,
-          {
-            backgroundColor: theme.colors.headerBackground,
-            transform: [{ translateY }],
-          },
-        ]}
-      >
-        <RouteDestination
-          startDireccion={route?.params?.origin}
-          endDireccion={route?.params?.destination}
-          containerStyle={styles.routeDestination}
-          onChangeRoute={onChangeRoute}
-        />
-      </Animated.View>
-
-      <View style={styles.mapContainer}>
-        <Map
-          routeCoords={dataRoute?.getRoutes?.Route?.Route_Coords}
-          chargers={dataRoute?.getRoutes?.Chargers}
-        />
-      </View>
-
-      <BottomDrawer
-        maxHeight={height * 0.9}
-        closeOffset={height * 0.35}
-        isOpen={isDrawerOpen}
-        scrollable={false}
-        disableToggler
-        onOpen={() => {
-          setTimeout(() => {
-            setShowContent(true);
-          }, 0);
-        }}
-        onClose={() => setShowContent(false)}
-      >
-        <RouteActions />
-
-        {showContent ? (
-          <>
-            <RoutePointsList points={dataRoute?.getRoutes?.Chargers[0]} />
-
-            <View style={styles.cardsContainer}>
-              <Card
-                title={`${dataRoute?.getRoutes?.Route?.Total_kWh_Difference}`}
-                subTitle="Total distance"
-                containerStyle={styles.card}
-              />
-              <Card
-                title={`${dataRoute?.getRoutes?.Route?.Time}`}
-                subTitle="Time"
-                containerStyle={[styles.card]}
-                contentStyle={{ backgroundColor: theme.colors.primary }}
-              />
-              <Card
-                title={`${dataRoute?.getRoutes?.Route?.Distance}`}
-                subTitle="Distance"
-                containerStyle={[styles.card, styles.lastCard]}
-                contentStyle={{
-                  backgroundColor: theme.colors.cardsBackground,
-                }}
-                textColor="heading2"
-              />
-            </View>
-          </>
-        ) : (
-          <View
-            style={[
-              styles.contentLoading,
-              { borderColor: theme.colors.borderColor },
-            ]}
-          >
-            <Text variant="bodyHighlight">Loading...</Text>
+  const ModalSaveRoute = () => (
+    <Modal state={stateModal} onClosed={() => setStateModal(!stateModal)}>
+      <View style={styles.containerModal}>
+        <TouchableOpacity activeOpacity={1} style={styles.contentModal}>
+          <View>
+            <Text
+              variant="heading2"
+              style={[
+                {
+                  color: theme.colors.white,
+                },
+                styles.titleModal,
+              ]}
+            >
+              Save your route
+            </Text>
           </View>
-        )}
-      </BottomDrawer>
-    </View>
+          <View style={styles.bodyModal}>
+            <Select
+              list={["CAR"]}
+              value="a"
+              onPress={(str) => console.warn(str)}
+              containerStyle={{
+                backgroundColor: theme.colors.white,
+                borderRadius: 10,
+              }}
+            />
+
+            <Select
+              placeholder="Category"
+              list={["CAR"]}
+              value=""
+              onPress={(str) => console.warn(str)}
+              containerStyle={{
+                backgroundColor: theme.colors.white,
+                borderRadius: 10,
+              }}
+            />
+
+            <Select
+              placeholder="Frequency"
+              list={["CAR"]}
+              value=""
+              onPress={(str) => console.warn(str)}
+              containerStyle={{
+                backgroundColor: theme.colors.white,
+                borderRadius: 10,
+              }}
+            />
+          </View>
+          <View style={styles.contentButtonModal}>
+            <TouchableOpacity onPress={() => setStateModal(!stateModal)}>
+              <Text variant="bodyBold">CANCEL</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text
+                variant="bodyBold"
+                style={{
+                  color: theme.colors.white,
+                }}
+              >
+                CONTINUE
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </Modal>
+  );
+
+  return (
+    <>
+      <ModalSaveRoute />
+      <View style={styles.container}>
+        <Animated.View
+          style={[
+            styles.headerContainer,
+            {
+              backgroundColor: theme.colors.headerBackground,
+              transform: [{ translateY }],
+            },
+          ]}
+        >
+          <RouteDestination
+            startDireccion={location}
+            endDireccion={route?.params?.destination}
+            containerStyle={styles.routeDestination}
+            onChangeRoute={onChangeRoute}
+          />
+        </Animated.View>
+
+        <View style={styles.mapContainer}>
+          <Map
+            routeCoords={dataRoute?.getRoutes?.Route?.Route_Coords}
+            chargers={dataRoute?.getRoutes?.Chargers}
+          />
+        </View>
+
+        <BottomDrawer
+          maxHeight={height * 0.9}
+          closeOffset={height * 0.35}
+          isOpen={isDrawerOpen}
+          scrollable={false}
+          disableToggler
+          onOpen={() => {
+            setTimeout(() => {
+              setShowContent(true);
+            }, 0);
+          }}
+          onClose={() => setShowContent(false)}
+        >
+          <RouteActions />
+
+          {showContent ? (
+            <>
+              <RoutePointsList points={dataRoute?.getRoutes?.Chargers[0]} />
+
+              <View style={styles.cardsContainer}>
+                <Card
+                  title={`${dataRoute?.getRoutes?.Route?.Total_kWh_Difference}`}
+                  subTitle="Total distance"
+                  containerStyle={styles.card}
+                />
+                <Card
+                  title={`${dataRoute?.getRoutes?.Route?.Time}`}
+                  subTitle="Time"
+                  containerStyle={[styles.card]}
+                  contentStyle={{ backgroundColor: theme.colors.primary }}
+                />
+                <Card
+                  title={`${dataRoute?.getRoutes?.Route?.Distance}`}
+                  subTitle="Distance"
+                  containerStyle={[styles.card, styles.lastCard]}
+                  contentStyle={{
+                    backgroundColor: theme.colors.cardsBackground,
+                  }}
+                  textColor="heading2"
+                />
+              </View>
+            </>
+          ) : (
+            <View
+              style={[
+                styles.contentLoading,
+                { borderColor: theme.colors.borderColor },
+              ]}
+            >
+              <Text variant="bodyHighlight">Loading...</Text>
+            </View>
+          )}
+        </BottomDrawer>
+      </View>
+    </>
   );
 };
 
@@ -231,11 +324,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     elevation: 1,
   },
-
   mapContainer: {
     flex: 0.54,
   },
-
   cardsContainer: {
     flexDirection: "row",
     marginVertical: 15,
@@ -246,5 +337,27 @@ const styles = StyleSheet.create({
   },
   lastCard: {
     paddingRight: 0,
+  },
+  containerModal: {
+    marginVertical: height * 0.25,
+  },
+  contentModal: {
+    backgroundColor: "#002060",
+    height: height * 0.5,
+    width: width * 0.9,
+    borderRadius: 10,
+  },
+  titleModal: {
+    alignSelf: "center",
+    marginVertical: "5%",
+  },
+  bodyModal: {
+    paddingHorizontal: "5%",
+    flex: 1,
+  },
+  contentButtonModal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: "5%",
   },
 });

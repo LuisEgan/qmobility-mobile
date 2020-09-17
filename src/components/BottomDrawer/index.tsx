@@ -102,8 +102,6 @@ const styles = StyleSheet.create({
     width,
     elevation: 1,
     backgroundColor: "white",
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
     bottom: 0,
   },
 
