@@ -55,6 +55,10 @@ export interface IEmailConfirmationVars {
   random4digits: number;
 }
 
+export interface IResendEmailVars {
+  email: string;
+}
+
 // * Email sign up
 const signUp = gql`
   mutation EmailSignUp($email: String!, $password: String!) {
@@ -72,6 +76,51 @@ const emailConfirmation = gql`
   }
 `;
 
+const resendEmailConfirmation = gql`
+  mutation ResendEmailConfirmation($email: String!) {
+    reSendEmailConfirmation(email: $email)
+  }
+`;
+
+export interface IUpdateUser {
+  name: string;
+  lastname: string;
+  dateOfBirth: Date;
+  email?: string;
+  selectedVehicle?: string;
+  avatarUrl?: string;
+}
+
+const updateUser = gql`
+  mutation UpdateUser(
+    $name: String
+    $lastname: String
+    $email: String
+    $username: String
+    $avatarUrl: String
+    $dateOfBirth: DateTime
+    $selectedVehicle: ID
+  ) {
+    updateUser(
+      updateProfileInput: {
+        name: $name
+        lastname: $lastname
+        email: $email
+        username: $username
+        avatarUrl: $avatarUrl
+        dateOfBirth: $dateOfBirth
+        selectedVehicle: $selectedVehicle
+      }
+    ) {
+      id
+      name
+      avatarUrl
+      dateOfBirth
+      lastname
+    }
+  }
+`;
+
 export default {
   loginWithFacebook,
   loginWithGoogle,
@@ -79,4 +128,6 @@ export default {
   loginWithApple,
   signUp,
   emailConfirmation,
+  resendEmailConfirmation,
+  updateUser,
 };

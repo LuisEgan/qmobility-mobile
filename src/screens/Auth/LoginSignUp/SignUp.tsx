@@ -34,14 +34,13 @@ const SignUpSchema = yup.object().shape({
 const SignUp = () => {
   const { navigate } = useNavigation();
 
-  const [
-    signUp,
-    { data: signUpData, loading, error: signUpError },
-  ] = useMutation<{ signup: IAuthResponse }, IEmailSignUpVars>(
-    User.mutations.signUp,
-  );
+  const [signUp, { data: signUpData, loading }] = useMutation<
+    { signup: IAuthResponse },
+    IEmailSignUpVars
+  >(User.mutations.signUp);
 
   const [userEmail, setUserEmail] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   // * Redirect on SignUp
   useEffect(() => {
@@ -52,8 +51,8 @@ const SignUp = () => {
             userToken: signUpData.signup.accessToken,
             userEmail,
           });
-        } catch (error) {
-          console.error("error: ", error);
+        } catch (e) {
+          setError(e.message || e);
         }
       };
 
@@ -64,9 +63,9 @@ const SignUp = () => {
   const submitSignUp = async (values: IFormValues): Promise<void> => {
     try {
       setUserEmail(values.email);
-      signUp({ variables: { ...values } });
-    } catch (error) {
-      console.warn("error: ", error);
+      await signUp({ variables: { ...values } });
+    } catch (e) {
+      setError(e.message);
     }
   };
 
@@ -96,9 +95,9 @@ const SignUp = () => {
           />
         </View>
 
-        {signUpError && (
+        {!!error && (
           <Text variant="error" style={styles.error}>
-            {signUpError.message}
+            {error}
           </Text>
         )}
         <Button
