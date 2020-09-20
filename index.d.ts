@@ -11,3 +11,5 @@ declare module "react-native-google-places-autocomplete" {
     preProcess?: (str: string) => string;
   }
 }
+
+declare module "react-native-smooth-pincode-input";

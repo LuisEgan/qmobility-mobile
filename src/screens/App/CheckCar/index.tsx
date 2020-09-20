@@ -5,8 +5,11 @@ import { useNavigation } from "@react-navigation/native";
 import { Header, Icons, Button } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { TCheckCarNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 const { width } = Dimensions.get("window");
+
+interface ICheckCar extends TCheckCarNavProps {}
 
 interface IListCar {
   img: string;
@@ -15,7 +18,9 @@ interface IListCar {
   subTitle: string;
   type: number;
 }
+
 interface IListCarArray extends Array<IListCar> {}
+
 const listMyCars: IListCarArray = [
   {
     img: "https://reactnative.dev/img/tiny_logo.png",
@@ -57,13 +62,18 @@ const ListAlternative: IListCarArray = [
   },
 ];
 
-const MyCars = () => {
+const MyCars = (props: ICheckCar) => {
+  const {
+    route: {
+      params: { answers },
+    },
+  } = props;
   const { navigate } = useNavigation();
 
   const theme = useTheme<Theme>();
 
   const ListCar = ({ img, name, title, subTitle, type }: IListCar) => {
-    const colorType = type ? theme.colors.white : theme.colors.black;
+    const colorType = type && answers ? theme.colors.white : theme.colors.black;
 
     return (
       <View

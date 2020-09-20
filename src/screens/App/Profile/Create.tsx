@@ -1,131 +1,58 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
-import { Formik, FormikProps } from "formik";
+import { View, StyleSheet } from "react-native";
+import { Formik } from "formik";
 import * as yup from "yup";
 import { useTheme } from "@shopify/restyle";
 import { useNavigation } from "@react-navigation/native";
-import {
-  Input,
-  Button,
-  Select,
-  ImageProfile,
-  Header,
-} from "../../../components";
-import { ERRORS, APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { useMutation, useQuery } from "@apollo/client";
+import { Header } from "../../../components";
 
-import { Text, Theme } from "../../../config/Theme";
-
-const { width } = Dimensions.get("window");
-
-interface IFormValues {
-  firstName: string;
-  lastName: string;
-  dateBirth: string;
-  car: string;
-  modelCar: string;
-}
+import { Theme } from "../../../config/Theme";
+import Form, { IFormValues } from "./Form";
+import { IUpdateUser } from "../../../gql/User/mutations";
+import { User } from "../../../gql";
+import { IUser } from "../../../gql/User/Types";
+import { FullScreenModal } from "../../Feedback";
+import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const SignupSchema = yup.object().shape({
-  firstName: yup.string(),
-  lastName: yup.string(),
-  dateBirth: yup.string(),
-  car: yup.string(),
-  modelCar: yup.string(),
+  name: yup.string().required(),
+  lastname: yup.string().required(),
+  dateOfBirth: yup.string().required(),
 });
 
 const CreateProfile = () => {
   const { navigate } = useNavigation();
 
+  const { data: userData, loading } = useQuery<{ user: IUser }, IUser>(
+    User.queries.user,
+  );
+
+  const [updateUser, { loading: updateUserLoading }] = useMutation<
+    { updateUser: IUpdateUser },
+    IUpdateUser
+  >(User.mutations.updateUser);
+
   const theme = useTheme<Theme>();
 
-  const Form = (params: FormikProps<IFormValues>) => {
-    const {
-      handleChange,
-      handleSubmit,
-      handleBlur,
-      errors,
-      touched,
-      values,
-    } = params;
-
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          style={[
-            styles.scrollStyle,
-            { backgroundColor: theme.colors.backgroundLighter },
-          ]}
-        >
-          <ImageProfile label="JD" color={theme.colors.primary} />
-          <View style={styles.contentViewIput}>
-            <Input
-              placeholder="First name"
-              onChange={handleChange("firstName")}
-              onBlur={handleBlur("firstName")}
-              error={errors.firstName && ERRORS.REQUIRED}
-              touched={touched.firstName}
-            />
-            <Input
-              placeholder="Last name"
-              onChange={handleChange("lastName")}
-              onBlur={handleBlur("lastName")}
-              error={errors.lastName && ERRORS.REQUIRED}
-              touched={touched.lastName}
-            />
-            <Input
-              placeholder="Date of birth"
-              onChange={handleChange("dateBirth")}
-              onBlur={handleBlur("dateBirth")}
-              error={errors.dateBirth && ERRORS.REQUIRED}
-              touched={touched.dateBirth}
-            />
-            <Text style={styles.textSelectStyle} variant="label">
-              Select Your Car
-            </Text>
-            <Select
-              title="Vehicle Make"
-              iconTitle="Info"
-              list={["Mercedes -Benz"]}
-              placeholder="Ex. Renault"
-              onPress={handleChange("car")}
-              value={values.car}
-              error={errors.car && ERRORS.REQUIRED}
-              touched={touched.car}
-            />
-
-            <Select
-              title="Vehicle Model"
-              list={["Model S"]}
-              placeholder="Model"
-              onPress={handleChange("modelCar")}
-              value={values.modelCar}
-              error={errors.modelCar && ERRORS.REQUIRED}
-              touched={touched.modelCar}
-            />
-          </View>
-        </ScrollView>
-
-        <View
-          style={[
-            styles.buttonContainer,
-            { backgroundColor: theme.colors.backgroundLighter },
-          ]}
-        >
-          <Button
-            label="DONE"
-            variant="primary"
-            onPress={handleSubmit}
-            containerStyle={styles.button}
-          />
-        </View>
-      </View>
-    );
+  const Create = async (values: IFormValues): Promise<void> => {
+    try {
+      await updateUser({
+        variables: { ...values },
+        refetchQueries: [
+          {
+            query: User.queries.user,
+          },
+        ],
+      });
+      navigate(APP_STACK_SCREENS_NAMES.ProfileScroll);
+    } catch (e) {
+      // TODO e feedback display
+      console.warn("e: ", e.message);
+    }
   };
 
-  // const Create = (values: IFormValues): void => {
-  const Create = () => {
-    navigate(APP_STACK_SCREENS_NAMES.ProfileScroll);
-  };
+  if (!userData) return <FullScreenModal show />;
 
   return (
     <View style={styles.container}>
@@ -139,16 +66,15 @@ const CreateProfile = () => {
 
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
-          dateBirth: "",
-          car: "",
-          modelCar: "",
+          name: userData.user?.name,
+          lastname: userData.user?.lastname || "",
+          dateOfBirth: userData.user?.dateOfBirth || new Date(),
+          avatarUrl: userData.user?.avatarUrl || "",
         }}
         onSubmit={Create}
         validationSchema={SignupSchema}
       >
-        {Form}
+        {(props) => <Form {...props} loading={loading || updateUserLoading} />}
       </Formik>
     </View>
   );
@@ -159,25 +85,4 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  contentViewIput: {
-    marginBottom: "10%",
-  },
-  scrollStyle: {
-    flex: 1,
-    padding: "5%",
-  },
-  contentEmailStyle: {
-    marginHorizontal: "5%",
-  },
-  textSelectStyle: {
-    marginTop: 30,
-    marginBottom: 10,
-  },
-
-  buttonContainer: {
-    flex: 0.2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: { marginHorizontal: "10%", width: width * 0.8 },
 });

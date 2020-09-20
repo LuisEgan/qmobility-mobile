@@ -1,16 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { AsyncStorage } from "react-native";
+/* eslint-disable no-nested-ternary */
+
+import React, { useState, useEffect, useMemo } from "react";
+import { AsyncStorage, Keyboard } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AuthContext } from "../AuthContext";
 import AppNavigator from "./AppNavigator";
 import AuthNavigator from "./AuthNavigator";
 import { TUserToken } from "../Types/AuthTypes";
 import { ASYNC_STORAGE_ITEMS } from "../../lib/constants";
+import { FullScreenModal } from "../../screens/Feedback";
+import { KeyboardContext } from "../../lib/Contexts/KeyboardContext";
 
 const RootStack = createStackNavigator();
 
 const RootNavigator = () => {
   const [userToken, setUserToken] = useState<TUserToken>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isKeyboardHidden, setIsKeyboardHidden] = useState<boolean>(true);
 
   // * Set user token from cached data
   useEffect(() => {
@@ -24,13 +30,29 @@ const RootNavigator = () => {
         console.error("error: ", error);
       } finally {
         setUserToken(newUserToken);
+        setLoading(false);
       }
     };
 
     setInitialUserToken();
   }, []);
 
-  const authContext = React.useMemo(
+  // * Set keyboard listeners
+  useEffect(() => {
+    const keyboardShow = () => setIsKeyboardHidden(false);
+    const keyboardHide = () => setIsKeyboardHidden(true);
+
+    Keyboard.addListener("keyboardDidShow", keyboardShow);
+    Keyboard.addListener("keyboardDidHide", keyboardHide);
+
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", keyboardShow);
+      Keyboard.removeListener("keyboardDidHide", keyboardHide);
+    };
+  }, []);
+
+  // * Set contexts values
+  const authContext = useMemo(
     () => ({
       signIn: async (token?: string) =>
         new Promise<void>((resolve, reject) => {
@@ -62,24 +84,34 @@ const RootNavigator = () => {
     [],
   );
 
-  const NavigatorComponent = () => (
-    <AuthContext.Provider value={authContext}>
-      {userToken ? <AppNavigator /> : <AuthNavigator />}
-    </AuthContext.Provider>
+  const keyboardContext = useMemo(
+    () => ({
+      isHidden: () => isKeyboardHidden,
+    }),
+    [],
   );
 
+  // * Loading screen
+  const LoadingScreen = () => <FullScreenModal show />;
+
   return (
-    <RootStack.Navigator
-      headerMode="none"
-      screenOptions={{ animationEnabled: false }}
-      mode="modal"
-    >
-      {userToken ? (
-        <RootStack.Screen name="AppNavigator" component={NavigatorComponent} />
-      ) : (
-        <RootStack.Screen name="AuthNavigator" component={NavigatorComponent} />
-      )}
-    </RootStack.Navigator>
+    <AuthContext.Provider value={authContext}>
+      <KeyboardContext.Provider value={keyboardContext}>
+        <RootStack.Navigator
+          headerMode="none"
+          screenOptions={{ animationEnabled: false }}
+          mode="modal"
+        >
+          {loading ? (
+            <RootStack.Screen name="Loading" component={LoadingScreen} />
+          ) : userToken ? (
+            <RootStack.Screen name="AppNavigator" component={AppNavigator} />
+          ) : (
+            <RootStack.Screen name="AuthNavigator" component={AuthNavigator} />
+          )}
+        </RootStack.Navigator>
+      </KeyboardContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
