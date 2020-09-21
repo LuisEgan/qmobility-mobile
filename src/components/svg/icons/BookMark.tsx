@@ -2,31 +2,31 @@ import React from "react";
 import Svg, { Path } from "react-native-svg";
 import { ISVG } from "./TypeIcons";
 
-const Delete = (props: ISVG) => {
+const BookMark = (props: ISVG) => {
   const { fill, stroke } = props;
 
   return (
     <Svg
       height="100%"
       width="100%"
-      viewBox="0 0 24 24"
+      viewBox="0 0 20 21"
       fill={fill}
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
     >
       <Path
-        d="M15.82,3.32V5H4.18V3.32H7.07L7.93,2.5H12.07l.8594.82ZM5,15.82v-10H15v10a1.7368,1.7368,0,0,1-1.68,1.68H6.68a1.6062,1.6062,0,0,1-1.1719-.5078A1.6062,1.6062,0,0,1,5,15.82Z"
         fill={fill}
         stroke={stroke}
+        d="M14.18,2.5a1.5506,1.5506,0,0,1,1.1523.5078A1.6435,1.6435,0,0,1,15.82,4.18V17.5L10,15,4.18,17.5V4.18A1.6394,1.6394,0,0,1,4.668,3.0078,1.5478,1.5478,0,0,1,5.82,2.5Z"
       />
     </Svg>
   );
 };
 
-Delete.defaultProps = {
-  fill: "white",
-  stroke: "white",
+BookMark.defaultProps = {
+  fill: "black",
+  stroke: "black",
 };
 
-export default Delete;
+export default BookMark;

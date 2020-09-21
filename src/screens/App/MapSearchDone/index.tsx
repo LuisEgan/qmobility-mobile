@@ -31,10 +31,21 @@ const { height, width } = Dimensions.get("window");
 
 interface IMapSearchDone extends TMapSearchDoneNavProps {}
 
+const editNameCity = (nameCity: string): string => {
+  if (nameCity.includes(".")) {
+    return "Current location";
+  }
+  return nameCity;
+};
+
 const MapSearchDone = (props: IMapSearchDone) => {
   const { route } = props;
 
-  const { loading: loadingRoute, data: dataRoute } = useQuery<
+  const [startDirection, setStartDirection] = useState<string>("");
+  const [endDirection, setEndDirection] = useState<string>("");
+  const [stateChange, setStateChange] = useState<boolean>(false);
+
+  const { loading: loadingRoute, data: dataRoute, refetch } = useQuery<
     IGetRouter,
     IGetRouterVar
   >(Route.queries.getRoutes, {
@@ -49,10 +60,6 @@ const MapSearchDone = (props: IMapSearchDone) => {
     },
   });
 
-  const location = dataRoute?.getRoutes?.Route?.Origin.includes(".")
-    ? "Current location"
-    : dataRoute?.getRoutes?.Route?.Origin;
-
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
 
@@ -64,8 +71,31 @@ const MapSearchDone = (props: IMapSearchDone) => {
   const translateY = mix(transition, 0, -200);
 
   const onChangeRoute = () => {
-    console.warn("here");
+    const start = !stateChange
+      ? route?.params?.origin
+      : route?.params?.destination;
+    const end = !stateChange
+      ? route?.params?.destination
+      : route?.params?.origin;
+
+    setEndDirection(start || "");
+    setStartDirection(end || "");
+    setStateChange(!stateChange);
+
+    // TODO : FIX
+    refetch({
+      origin: start,
+      destination: end,
+      car_id: "1107",
+      car_charge: 50,
+      chargers_limit: 10,
+      charger_distance: 10,
+      car_tolerance: 10,
+    });
   };
+
+  const locationStart = startDirection || route?.params?.origin;
+  const locationEnd = endDirection || route?.params?.destination;
 
   const RouteActions = () => (
     <>
@@ -89,9 +119,9 @@ const MapSearchDone = (props: IMapSearchDone) => {
       ) : (
         <>
           <Text variant="heading2">
-            {location}
+            {locationStart && editNameCity(locationStart)}
             ,
-            {dataRoute?.getRoutes?.Route?.Destination}
+            {locationEnd && editNameCity(locationEnd)}
           </Text>
           <View style={styles.row}>
             <Icons icon="Done" size={20} containerStyle={styles.icon} />
@@ -133,7 +163,15 @@ const MapSearchDone = (props: IMapSearchDone) => {
   const ModalSaveRoute = () => (
     <Modal state={stateModal} onClosed={() => setStateModal(!stateModal)}>
       <View style={styles.containerModal}>
-        <TouchableOpacity activeOpacity={1} style={styles.contentModal}>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={[
+            styles.contentModal,
+            {
+              backgroundColor: theme.colors.secondaryDark,
+            },
+          ]}
+        >
           <View>
             <Text
               variant="heading2"
@@ -214,8 +252,10 @@ const MapSearchDone = (props: IMapSearchDone) => {
           ]}
         >
           <RouteDestination
-            startDireccion={location}
-            endDireccion={route?.params?.destination}
+            startDireccion={
+              (locationStart && editNameCity(locationStart)) || ""
+            }
+            endDireccion={(locationEnd && editNameCity(locationEnd)) || ""}
             containerStyle={styles.routeDestination}
             onChangeRoute={onChangeRoute}
           />
@@ -242,7 +282,6 @@ const MapSearchDone = (props: IMapSearchDone) => {
           onClose={() => setShowContent(false)}
         >
           <RouteActions />
-
           {showContent ? (
             <>
               <RoutePointsList points={dataRoute?.getRoutes?.Chargers[0]} />
@@ -329,7 +368,7 @@ const styles = StyleSheet.create({
   },
   cardsContainer: {
     flexDirection: "row",
-    marginVertical: 15,
+    marginVertical: "5%",
   },
   card: {
     flex: 1,
@@ -342,7 +381,6 @@ const styles = StyleSheet.create({
     marginVertical: height * 0.25,
   },
   contentModal: {
-    backgroundColor: "#002060",
     height: height * 0.5,
     width: width * 0.9,
     borderRadius: 10,

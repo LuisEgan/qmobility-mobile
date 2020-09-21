@@ -12,7 +12,7 @@ export interface IRoute {
 
 export interface IChargers {
   Id?: string;
-  Name?: string;
+  Label?: string;
   latitude?: number;
   longitude?: number;
 }

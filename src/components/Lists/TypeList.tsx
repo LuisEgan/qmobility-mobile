@@ -1,7 +1,9 @@
+import { TIcon } from "../svg/icons/TypeIcons";
+
 export interface IRoute {
-  date?: string;
-  from?: string;
-  to?: string;
+  icon?: TIcon;
+  title?: string;
+  details?: string;
 }
 
 interface IRoutesArray extends Array<IRoute> {}

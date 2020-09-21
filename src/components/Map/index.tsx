@@ -28,7 +28,7 @@ const getAltitude = (origin: LatLng, destination: LatLng) => {
 
 interface IMap {
   routeCoords?: LatLng[];
-  chargers?: Array<IChargers>;
+  chargers?: Array<IChargers[] | []>;
   initialMain?: boolean;
   initialLat?: number;
   initialLon?: number;
@@ -65,17 +65,42 @@ const Map = (props: IMap) => {
     longitudeDelta: 0.008,
   };
 
-  if (routeCoords) {
-    const altitude = getAltitude(
-      routeCoords[routeCoords.length - 1],
-      routeCoords[0],
-    );
+  if (
+    markeeSelect.latitude
+    && markeeSelect.longitude
+    && initialLat
+    && initialLon
+  ) {
+    const mediumLat = (markeeSelect.latitude + initialLat) / 2;
+    const mediumLng = (initialLon + markeeSelect.longitude) / 2;
 
-    const mediumLat = (routeCoords[routeCoords.length - 1].latitude + routeCoords[0].latitude)
-      / 2;
-    const mediumLng = (routeCoords[0].longitude
-        + routeCoords[routeCoords.length - 1].longitude)
-      / 2;
+    const start = {
+      latitude: markeeSelect.latitude,
+      longitude: markeeSelect.longitude,
+    };
+    const end = {
+      latitude: initialLat,
+      longitude: initialLon,
+    };
+
+    const altitude = getAltitude(start, end);
+
+    region = {
+      latitude: mediumLat || 0,
+      longitude: mediumLng || 0,
+      latitudeDelta: altitude,
+      longitudeDelta: altitude,
+    };
+  }
+
+  if (routeCoords) {
+    const start = routeCoords[routeCoords.length - 1];
+    const end = routeCoords[0];
+
+    const altitude = getAltitude(start, end);
+
+    const mediumLat = (start.latitude + end.latitude) / 2;
+    const mediumLng = (end.longitude + start.longitude) / 2;
 
     region = {
       latitude: mediumLat,
@@ -84,6 +109,26 @@ const Map = (props: IMap) => {
       longitudeDelta: altitude,
     };
   }
+
+  const MarkerChanger = () => {
+    if (!chargers?.length) return <></>;
+
+    return (
+      <>
+        {chargers[0].map((charger) => (
+          <Marker
+            key={Math.random()}
+            coordinate={{
+              latitude: charger.latitude ? charger.latitude : 0,
+              longitude: charger.longitude ? charger.longitude : 0,
+            }}
+          >
+            <Icons icon="Room" fill="#76ff" />
+          </Marker>
+        ))}
+      </>
+    );
+  };
 
   return (
     <MapView
@@ -107,24 +152,22 @@ const Map = (props: IMap) => {
             strokeWidth={10}
             strokeColor="#00D6FD"
           />
-          <Marker pinColor="#002060" coordinate={routeCoords[0]} />
-          <Marker
-            pinColor="#002060"
-            coordinate={routeCoords[routeCoords.length - 1]}
-          />
+          <Marker coordinate={routeCoords[0]}>
+            <Icons icon="Room" fill="#002060" />
+          </Marker>
+          <Marker coordinate={routeCoords[routeCoords.length - 1]}>
+            <Icons icon="Room" fill="#002060" />
+          </Marker>
         </>
       )}
 
       {markeeSelect.latitude !== 0 && initialMain && (
-        <Marker coordinate={markeeSelect} />
+        <Marker coordinate={markeeSelect}>
+          <Icons icon="Room" fill="#002060" />
+        </Marker>
       )}
 
-      {chargers
-        && chargers[0].map((charger) => (
-          <Marker key={Math.random()} pinColor="#76ff03" coordinate={charger}>
-            <Icons icon="ArrowDown" />
-          </Marker>
-        ))}
+      <MarkerChanger />
     </MapView>
   );
 };

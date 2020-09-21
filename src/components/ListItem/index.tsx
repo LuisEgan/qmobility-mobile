@@ -34,7 +34,7 @@ const ListItem = (props: IListItem) => {
     >
       {icon && (
         <View style={styles.viewLeft}>
-          <Icons icon={icon} fill={theme.colors.primary} size={20} />
+          <Icons icon={icon} fill={theme.colors.primary} size={30} />
         </View>
       )}
       <View style={styles.textContent}>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   viewLeft: {
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
   textContent: {
     alignItems: "flex-start",

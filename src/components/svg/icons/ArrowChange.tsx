@@ -16,7 +16,7 @@ const ArrowChange = (props: ISVG) => {
       stroke-linejoin="round"
     >
       <Path
-        d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"
+        d="M7.5,2.5l3.32,3.32H8.32V11.68H6.68V5.82H4.18Zm5.82,11.68h2.5L12.5,17.5,9.18,14.18h2.5V8.32H13.32Z"
         fill={fill}
         stroke={stroke}
       />

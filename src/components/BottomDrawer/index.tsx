@@ -86,10 +86,11 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
           ]}
         />
       </TouchableOpacity>
-
-      <View style={styles.content}>
-        {scrollable ? <ScrollView>{children}</ScrollView> : children}
-      </View>
+      <ScrollView>
+        <View style={styles.content}>
+          {scrollable ? <ScrollView>{children}</ScrollView> : children}
+        </View>
+      </ScrollView>
     </Animated.View>
   );
 };
@@ -121,6 +122,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: width * 0.1,
-    paddingVertical: "5%",
+    paddingTop: "5%",
   },
 });

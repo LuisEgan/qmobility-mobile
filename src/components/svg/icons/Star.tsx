@@ -2,7 +2,7 @@ import React from "react";
 import Svg, { Path } from "react-native-svg";
 import { ISVG } from "./TypeIcons";
 
-const Delete = (props: ISVG) => {
+const Star = (props: ISVG) => {
   const { fill, stroke } = props;
 
   return (
@@ -16,7 +16,7 @@ const Delete = (props: ISVG) => {
       stroke-linejoin="round"
     >
       <Path
-        d="M15.82,3.32V5H4.18V3.32H7.07L7.93,2.5H12.07l.8594.82ZM5,15.82v-10H15v10a1.7368,1.7368,0,0,1-1.68,1.68H6.68a1.6062,1.6062,0,0,1-1.1719-.5078A1.6062,1.6062,0,0,1,5,15.82Z"
+        d="M10,14.375,4.8438,17.5l1.3671-5.8594L1.68,7.6953l5.9765-.5078L10,1.68l2.3438,5.5078,5.9765.5078-4.5312,3.9453L15.1562,17.5Z"
         fill={fill}
         stroke={stroke}
       />
@@ -24,9 +24,9 @@ const Delete = (props: ISVG) => {
   );
 };
 
-Delete.defaultProps = {
-  fill: "white",
-  stroke: "white",
+Star.defaultProps = {
+  fill: "red",
+  stroke: "red",
 };
 
-export default Delete;
+export default Star;

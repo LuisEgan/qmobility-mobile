@@ -1,87 +1,81 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Dimensions } from "react-native";
 import useTheme from "@shopify/restyle/dist/hooks/useTheme";
-import { TIcon } from "../../svg/icons/TypeIcons";
 import { Theme, Text } from "../../../config/Theme";
 import Icons from "../../svg";
 import { IRoute } from "../TypeList";
 
-interface IDetail {
-  title: string;
-  detail?: string;
-  icon?: TIcon;
-}
-
 const RouteListItem = (props: IRoute) => {
-  const { date, from, to } = props;
+  const { title, details, icon } = props;
 
   const theme = useTheme<Theme>();
 
-  const Detail = ({ title, detail, icon }: IDetail) => (
-    <View style={styles.detailContainer}>
-      {icon && (
-        <View style={styles.detailContent}>
-          <Icons icon={icon} fill={theme.colors.primary} size={18} />
-        </View>
-      )}
-      <View>
-        <Text variant="bodyHighlight">{title}</Text>
-        {detail && <Text variant="heading2">{detail}</Text>}
-      </View>
-    </View>
-  );
-
   return (
-    <TouchableOpacity
-      style={[
-        styles.container,
-        {
-          backgroundColor: theme.colors.grayLighter,
-        },
-      ]}
-    >
-      <View style={styles.textContent}>
-        <Text variant="body">{"Today "}</Text>
-        <Text variant="bodyHighlight">{date}</Text>
-      </View>
-      <View style={styles.content}>
-        <View>
-          <Detail title="From" detail={from} icon="Circle" />
-          <Detail title="To" detail={to} icon="Market" />
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={[
+          styles.containerButton,
+          {
+            backgroundColor: theme.colors.grayLighter,
+          },
+        ]}
+      >
+        <View style={styles.content}>
+          {icon && (
+            <View style={styles.detailContent}>
+              <Icons icon={icon} fill={theme.colors.primary} size={22} />
+            </View>
+          )}
+          <View style={styles.detailContainer}>
+            <View>
+              <Text variant="heading2">{title}</Text>
+              {details && <Text variant="body">{details}</Text>}
+            </View>
+          </View>
+          <View style={styles.iconRight}>
+            <Icons icon="ArrowRightLight" fill={theme.colors.primary} />
+          </View>
         </View>
-        <View>
-          <Icons icon="ArrowRightLight" fill={theme.colors.primary} />
-        </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 export default RouteListItem;
 
+const { width } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
   container: {
-    height: 140,
-    marginHorizontal: "5%",
+    justifyContent: "center",
     marginVertical: "2%",
+    width,
+  },
+
+  containerButton: {
+    height: 110,
+    marginHorizontal: "5%",
     borderRadius: 10,
   },
-  textContent: {
-    position: "absolute",
-    flexDirection: "row",
-    right: 15,
-    top: 15,
-  },
+
   content: {
-    flexDirection: "row",
-    marginLeft: "3%",
-    height: 140,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  detailContainer: {
+    flex: 1,
     flexDirection: "row",
   },
   detailContent: {
-    marginRight: "3%",
+    flex: 0.1,
+    height: "100%",
+    paddingTop: 15,
+    alignItems: "center",
+  },
+  detailContainer: {
+    height: "100%",
+    paddingTop: 10,
+    flex: 0.8,
+  },
+  iconRight: {
+    height: "100%",
+    flex: 0.1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
