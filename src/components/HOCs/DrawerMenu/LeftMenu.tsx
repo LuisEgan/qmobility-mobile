@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import useTheme from "@shopify/restyle/dist/hooks/useTheme";
 import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Text, Theme } from "../../../config/Theme";
 import { ImageProfile } from "../..";
 import IconsList from "../../Lists/IconsList";
@@ -85,11 +86,15 @@ const LeftMenu = (props: ILeftMenu) => {
   return (
     <View style={styles.container}>
       <View style={styles.info}>
-        <ImageProfile
-          label="JD"
-          color={theme.colors.primary}
-          changePhotoOption={false}
-        />
+        <TouchableOpacity
+          onPress={() => navigate(APP_STACK_SCREENS_NAMES.Profile)}
+        >
+          <ImageProfile
+            label="JD"
+            color={theme.colors.primary}
+            changePhotoOption={false}
+          />
+        </TouchableOpacity>
         <Text variant="heading1" color="white">
           Jon Doe
         </Text>

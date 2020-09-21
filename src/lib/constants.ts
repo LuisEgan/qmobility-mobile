@@ -8,6 +8,7 @@ export const ERRORS = {
   LOGIN_FAILED: "Login failed",
   EMPTY_EMAIL: "Please enter your email",
   EMPTY_PASSWORD: "Please enter your password",
+  BAD_PIN: "Incorrect PIN",
 };
 
 export const AUTH_REDUCER_TYPES = {

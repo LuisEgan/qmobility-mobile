@@ -1,21 +1,19 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
 import { Text } from "../../config/Theme";
 
 interface IFooter {
   title?: string;
   subTitle?: string;
   color?: string;
+  onPressSubtitle?: () => void;
 }
 
 const { width, height } = Dimensions.get("window");
 
 const Footer = (props: IFooter) => {
-  const { title, subTitle, color } = props;
-
-  const { canGoBack } = useNavigation();
+  const { title, subTitle, color, onPressSubtitle } = props;
 
   return (
     <View
@@ -34,7 +32,7 @@ const Footer = (props: IFooter) => {
             </Text>
           )}
           {subTitle && (
-            <TouchableOpacity onPress={() => canGoBack()}>
+            <TouchableOpacity onPress={onPressSubtitle}>
               <Text variant="bodyHighlight" style={styles.textStyle}>
                 {subTitle}
               </Text>

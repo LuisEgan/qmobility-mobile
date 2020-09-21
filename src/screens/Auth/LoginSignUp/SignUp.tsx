@@ -40,7 +40,9 @@ const SignUp = () => {
   >(User.mutations.signUp);
 
   const [userEmail, setUserEmail] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
+  // * Redirect on SignUp
   useEffect(() => {
     if (signUpData) {
       const redirect = async () => {
@@ -49,8 +51,8 @@ const SignUp = () => {
             userToken: signUpData.signup.accessToken,
             userEmail,
           });
-        } catch (error) {
-          console.error("error: ", error);
+        } catch (e) {
+          setError(e.message || e);
         }
       };
 
@@ -58,9 +60,13 @@ const SignUp = () => {
     }
   }, [signUpData]);
 
-  const submitSignUp = (values: IFormValues): void => {
-    setUserEmail(values.email);
-    signUp({ variables: { ...values } });
+  const submitSignUp = async (values: IFormValues): Promise<void> => {
+    try {
+      setUserEmail(values.email);
+      await signUp({ variables: { ...values } });
+    } catch (e) {
+      setError(e.message);
+    }
   };
 
   const Form = (params: FormikProps<IFormValues>) => {
@@ -88,6 +94,12 @@ const SignUp = () => {
             touched={touched.password}
           />
         </View>
+
+        {!!error && (
+          <Text variant="error" style={styles.error}>
+            {error}
+          </Text>
+        )}
         <Button
           variant="primary"
           onPress={handleSubmit}
@@ -142,6 +154,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginVertical: height * 0.05,
   },
+
+  error: { textAlign: "center", marginBottom: 10 },
 
   or: {
     textAlign: "center",

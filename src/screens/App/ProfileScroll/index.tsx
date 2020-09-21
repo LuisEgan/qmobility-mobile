@@ -11,7 +11,7 @@ const { height, width } = Dimensions.get("window");
 
 type TAnswer = string;
 
-interface IAnswers {
+export interface IAnswers {
   // * question: answer
   [key: string]: TAnswer;
 }
@@ -62,7 +62,7 @@ const ProfileScroll = () => {
 
   useEffect(() => {
     if (Object.keys(answers).length === slides.length) {
-      navigate(APP_STACK_SCREENS_NAMES.CheckCar);
+      navigate(APP_STACK_SCREENS_NAMES.CheckCar, { answers });
     }
   }, [answers]);
 

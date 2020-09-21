@@ -5,6 +5,7 @@ import { ASYNC_STORAGE_ITEMS } from "../lib/constants";
 
 const httpLink = new HttpLink({
   uri: "https://backend-qmobility.azurewebsites.net/graphql/",
+  // uri: "https://5caa5656abec.ngrok.io/graphql",
 });
 
 const authLink = setContext(async (_, { headers }) => {

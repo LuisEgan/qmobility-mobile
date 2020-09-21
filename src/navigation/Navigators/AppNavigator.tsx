@@ -68,7 +68,7 @@ export const APP_STACK_SCREENS: IScreens = [
 const { Navigator, Screen } = createStackNavigator();
 
 const AppNavigator = () => (
-  <Navigator>
+  <Navigator headerMode="none">
     {APP_STACK_SCREENS.map(({ name, component, headerShown }) => {
       const options = { headerShown: headerShown || false };
       return <Screen key={name} {...{ name, component, options }} />;

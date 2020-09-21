@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import { useTheme } from "@shopify/restyle";
+import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
 import { Text, Theme } from "../../config/Theme";
 import Modal from "../Modal";
 
@@ -11,18 +12,30 @@ interface IImageProfile {
   label: string;
   color: string;
   changePhotoOption?: boolean;
+  onLoadPhoto?: (photo: any) => void;
+  avatarUrl?: string;
 }
 
 const ImageProfile = (props: IImageProfile) => {
-  const { label, color, changePhotoOption } = props;
+  const { label, color, changePhotoOption, onLoadPhoto, avatarUrl } = props;
 
   const [stateModal, setStateModal] = useState<boolean>(false);
+  const [photo, setPhoto] = useState<ImageInfo>();
 
   const theme = useTheme<Theme>();
 
+  // * Get camera permissions
   useEffect(() => {
     getPermissionAsync();
-  });
+  }, []);
+
+  // * On update photo
+  useEffect(() => {
+    if (photo) {
+      if (onLoadPhoto) onLoadPhoto(`data:image/jpeg;base64,${photo.base64?.toString()}`);
+      setStateModal(false);
+    }
+  }, [photo]);
 
   const ModalSelect = () => (
     <Modal
@@ -73,9 +86,11 @@ const ImageProfile = (props: IImageProfile) => {
       allowsEditing: true,
       aspect: [3, 3],
       quality: 0.2,
+      base64: true,
     });
-    if (!result.cancelled) {
-      setStateModal(false);
+
+    if (result.cancelled === false) {
+      setPhoto(result);
     }
   };
 
@@ -85,9 +100,11 @@ const ImageProfile = (props: IImageProfile) => {
       allowsEditing: true,
       aspect: [3, 3],
       quality: 1,
+      base64: true,
     });
-    if (!result.cancelled) {
-      setStateModal(false);
+
+    if (result.cancelled === false) {
+      setPhoto(result);
     }
   };
 
@@ -103,16 +120,30 @@ const ImageProfile = (props: IImageProfile) => {
             },
           ]}
         >
-          <Text
-            style={[
-              styles.textStyle,
-              {
-                color: theme.colors.secondaryLight,
-              },
-            ]}
-          >
-            {label}
-          </Text>
+          {photo || avatarUrl ? (
+            <Image
+              // TODO loading img feedback
+              // onLoadStart={() => console.log("start")}
+              // onLoadEnd={() => console.log("end")}
+              style={styles.image}
+              source={{
+                uri: photo
+                  ? `data:image/jpeg;base64,${photo.base64?.toString()}`
+                  : avatarUrl,
+              }}
+            />
+          ) : (
+            <Text
+              style={[
+                styles.textStyle,
+                {
+                  color: theme.colors.secondaryLight,
+                },
+              ]}
+            >
+              {label}
+            </Text>
+          )}
         </View>
 
         {changePhotoOption && (
@@ -143,6 +174,7 @@ const styles = StyleSheet.create({
     borderRadius: 80,
     justifyContent: "center",
     alignItems: "center",
+    overflow: "hidden",
   },
   textStyle: {
     fontSize: 30,
@@ -173,4 +205,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginHorizontal: "5%",
   },
+  image: { height: "100%", width: "100%" },
 });
