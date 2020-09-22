@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import MapView, {
   PROVIDER_GOOGLE,
@@ -6,7 +6,10 @@ import MapView, {
   Polyline,
   LatLng,
   MapEvent,
+  Region,
 } from "react-native-maps";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
 import { IChargers } from "../../gql/Route/queries";
 import Icons from "../svg";
 
@@ -35,19 +38,80 @@ interface IMap {
 }
 
 const Map = (props: IMap) => {
-  const { routeCoords, chargers, initialMain, initialLat, initialLon } = props;
+  const { routeCoords, chargers, initialMain } = props;
 
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
     longitude: 0,
   });
 
+  const [region] = useState<Region>({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 70,
+    longitudeDelta: 70,
+  });
+
+  const mapAnimation = useRef(null);
+
+  useEffect(() => {
+    if (initialMain) {
+      LocationAnimation();
+    }
+    if (routeCoords) {
+      routeAnimation();
+    }
+  }, []);
+
+  const LocationAnimation = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === "granted") {
+      const location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+
+      mapAnimation.current.animateToRegion(
+        {
+          latitude,
+          longitude,
+          latitudeDelta: 0.007,
+          longitudeDelta: 0.007,
+        },
+        500,
+      );
+    }
+  };
+
+  const routeAnimation = (): void => {
+    if (routeCoords) {
+      const start = routeCoords[routeCoords.length - 1];
+      const end = routeCoords[0];
+
+      const altitude = getAltitude(start, end);
+
+      const mediumLat = (start.latitude + end.latitude) / 2;
+      const mediumLng = (end.longitude + start.longitude) / 2;
+
+      mapAnimation.current.animateToRegion({
+        latitude: mediumLat,
+        longitude: mediumLng,
+        latitudeDelta: altitude,
+        longitudeDelta: altitude,
+      });
+    }
+  };
+
   const newMarker = (event: MapEvent<{}>) => {
     let marker;
+
     if (markeeSelect.latitude === 0) {
+      const end = {
+        latitude: event.nativeEvent.coordinate.latitude,
+        longitude: event.nativeEvent.coordinate.longitude,
+      };
+
       marker = {
-        latitude: event?.nativeEvent?.coordinate?.latitude,
-        longitude: event?.nativeEvent?.coordinate?.longitude,
+        latitude: end.latitude,
+        longitude: end.longitude,
       };
     } else {
       marker = {
@@ -57,58 +121,6 @@ const Map = (props: IMap) => {
     }
     setMarkeeSelect(marker);
   };
-
-  let region = {
-    latitude: initialLat || 0,
-    longitude: initialLon || 0,
-    latitudeDelta: 0.008,
-    longitudeDelta: 0.008,
-  };
-
-  if (
-    markeeSelect.latitude
-    && markeeSelect.longitude
-    && initialLat
-    && initialLon
-  ) {
-    const mediumLat = (markeeSelect.latitude + initialLat) / 2;
-    const mediumLng = (initialLon + markeeSelect.longitude) / 2;
-
-    const start = {
-      latitude: markeeSelect.latitude,
-      longitude: markeeSelect.longitude,
-    };
-    const end = {
-      latitude: initialLat,
-      longitude: initialLon,
-    };
-
-    const altitude = getAltitude(start, end);
-
-    region = {
-      latitude: mediumLat || 0,
-      longitude: mediumLng || 0,
-      latitudeDelta: altitude,
-      longitudeDelta: altitude,
-    };
-  }
-
-  if (routeCoords) {
-    const start = routeCoords[routeCoords.length - 1];
-    const end = routeCoords[0];
-
-    const altitude = getAltitude(start, end);
-
-    const mediumLat = (start.latitude + end.latitude) / 2;
-    const mediumLng = (end.longitude + start.longitude) / 2;
-
-    region = {
-      latitude: mediumLat,
-      longitude: mediumLng,
-      latitudeDelta: altitude,
-      longitudeDelta: altitude,
-    };
-  }
 
   const MarkerChanger = () => {
     if (!chargers?.length) return <></>;
@@ -132,10 +144,15 @@ const Map = (props: IMap) => {
 
   return (
     <MapView
-      showsUserLocation={initialMain}
+      ref={mapAnimation}
+      showsUserLocation
       showsMyLocationButton={initialMain}
       provider={PROVIDER_GOOGLE}
       loadingEnabled
+      showsBuildings={false}
+      showsTraffic={false}
+      showsIndoors={false}
+      showsIndoorLevelPicker
       loadingIndicatorColor="#11041A"
       loadingBackgroundColor="#F6F6F5"
       style={styles.map}
@@ -143,7 +160,7 @@ const Map = (props: IMap) => {
       onLongPress={(ev) => {
         if (initialMain) newMarker(ev);
       }}
-      region={region}
+      initialRegion={region}
     >
       {routeCoords && (
         <>

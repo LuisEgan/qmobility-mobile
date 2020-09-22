@@ -13,8 +13,8 @@ export interface IRoute {
 export interface IChargers {
   Id?: string;
   Label?: string;
-  latitude?: number;
-  longitude?: number;
+  Latitude?: number;
+  Longitude?: number;
 }
 
 export interface IGetRouter {
@@ -26,9 +26,9 @@ export interface IGetRouter {
 }
 
 export interface IGetRouterVar {
-  origin?: string;
-  destination?: string;
-  car_id?: string;
+  origin: string;
+  destination: string;
+  car_id: string;
   car_charge?: number;
   chargers_limit?: number;
   charger_distance?: number;
@@ -41,10 +41,10 @@ const getRoutes = gql`
     $origin: String!
     $destination: String!
     $car_id: String!
-    $car_charge: Float!
-    $chargers_limit: Float!
-    $charger_distance: Float!
-    $car_tolerance: Float!
+    $car_charge: Float
+    $chargers_limit: Float
+    $charger_distance: Float
+    $car_tolerance: Float
   ) {
     getRoutes(
       getRouteInput: {

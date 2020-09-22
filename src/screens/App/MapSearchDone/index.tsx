@@ -50,13 +50,13 @@ const MapSearchDone = (props: IMapSearchDone) => {
     IGetRouterVar
   >(Route.queries.getRoutes, {
     variables: {
-      origin: route?.params?.origin,
-      destination: route?.params?.destination,
+      origin: route.params.origin,
+      destination: route.params.destination,
       car_id: "1107",
       car_charge: 50,
       chargers_limit: 10,
-      charger_distance: 10,
       car_tolerance: 10,
+      charger_distance: 10,
     },
   });
 
@@ -71,12 +71,8 @@ const MapSearchDone = (props: IMapSearchDone) => {
   const translateY = mix(transition, 0, -200);
 
   const onChangeRoute = () => {
-    const start = !stateChange
-      ? route?.params?.origin
-      : route?.params?.destination;
-    const end = !stateChange
-      ? route?.params?.destination
-      : route?.params?.origin;
+    const start = !stateChange ? route.params.origin : route.params.destination;
+    const end = !stateChange ? route.params.destination : route.params.origin;
 
     setEndDirection(start || "");
     setStartDirection(end || "");
@@ -89,13 +85,13 @@ const MapSearchDone = (props: IMapSearchDone) => {
       car_id: "1107",
       car_charge: 50,
       chargers_limit: 10,
-      charger_distance: 10,
       car_tolerance: 10,
+      charger_distance: 10,
     });
   };
 
-  const locationStart = startDirection || route?.params?.origin;
-  const locationEnd = endDirection || route?.params?.destination;
+  const locationStart = startDirection || route.params.origin;
+  const locationEnd = endDirection || route.params.destination;
 
   const RouteActions = () => (
     <>

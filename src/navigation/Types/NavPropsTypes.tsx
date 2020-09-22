@@ -26,8 +26,8 @@ type StackParamsList = {
   Details: {};
   MapSearchDone: {
     location?: LatLng;
-    origin?: string;
-    destination?: string;
+    origin: string;
+    destination: string;
   };
 };
 
