@@ -12,6 +12,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { IChargers } from "../../gql/Route/queries";
 import Icons from "../svg";
+import MarkerChanger from "./MarkerChanger";
 
 const getAltitude = (origin: LatLng, destination: LatLng) => {
   const k = Math.PI / 180;
@@ -31,10 +32,8 @@ const getAltitude = (origin: LatLng, destination: LatLng) => {
 
 interface IMap {
   routeCoords?: LatLng[];
-  chargers?: Array<IChargers[] | []>;
+  chargers?: IChargers[] | [];
   initialMain?: boolean;
-  initialLat?: number;
-  initialLon?: number;
 }
 
 const Map = (props: IMap) => {
@@ -68,15 +67,21 @@ const Map = (props: IMap) => {
     if (status === "granted") {
       const location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
+      // animateToCamera
+      // {center: temp_cordinate,pitch: 2, heading: 20,altitude: 200, zoom: 40},duration
+      mapAnimation.current?.animateToCoordinate({
+        latitude,
+        longitude,
+      });
 
-      mapAnimation.current.animateToRegion(
+      mapAnimation.current?.animateToRegion(
         {
           latitude,
           longitude,
           latitudeDelta: 0.007,
           longitudeDelta: 0.007,
         },
-        500,
+        1000,
       );
     }
   };
@@ -91,12 +96,15 @@ const Map = (props: IMap) => {
       const mediumLat = (start.latitude + end.latitude) / 2;
       const mediumLng = (end.longitude + start.longitude) / 2;
 
-      mapAnimation.current.animateToRegion({
-        latitude: mediumLat,
-        longitude: mediumLng,
-        latitudeDelta: altitude,
-        longitudeDelta: altitude,
-      });
+      mapAnimation.current.animateToRegion(
+        {
+          latitude: mediumLat,
+          longitude: mediumLng,
+          latitudeDelta: altitude,
+          longitudeDelta: altitude,
+        },
+        350,
+      );
     }
   };
 
@@ -120,26 +128,6 @@ const Map = (props: IMap) => {
       };
     }
     setMarkeeSelect(marker);
-  };
-
-  const MarkerChanger = () => {
-    if (!chargers?.length) return <></>;
-
-    return (
-      <>
-        {chargers[0].map((charger) => (
-          <Marker
-            key={Math.random()}
-            coordinate={{
-              latitude: charger.latitude ? charger.latitude : 0,
-              longitude: charger.longitude ? charger.longitude : 0,
-            }}
-          >
-            <Icons icon="Room" fill="#76ff" />
-          </Marker>
-        ))}
-      </>
-    );
   };
 
   return (
@@ -184,7 +172,7 @@ const Map = (props: IMap) => {
         </Marker>
       )}
 
-      <MarkerChanger />
+      <MarkerChanger chargers={chargers} />
     </MapView>
   );
 };

@@ -1,31 +1,18 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, Dimensions, ActivityIndicator } from "react-native";
 import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
 import { useTheme } from "@shopify/restyle";
 import { useQuery } from "@apollo/client";
 import RouteDestination from "./RouteDestination";
-import {
-  BottomDrawer,
-  Icons,
-  Button,
-  Card,
-  Map,
-  Modal,
-  Select,
-} from "../../../components";
+import { BottomDrawer, Icons, Button, Card, Map } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { RoutePointsList } from "../../../components/Lists";
 import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 import { Route } from "../../../gql";
 import { IGetRouter, IGetRouterVar } from "../../../gql/Route/queries";
+import ModalSaveRoute from "./ModalSaveRoute";
 
 const { height, width } = Dimensions.get("window");
 
@@ -102,13 +89,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
           }}
         >
           <ActivityIndicator color={theme.colors.primary} />
-          <Text
-            variant="bodyHighlight"
-            style={{
-              textAlign: "center",
-              marginVertical: "5%",
-            }}
-          >
+          <Text variant="bodyHighlight" style={styles.textLoading}>
             Loading...
           </Text>
         </View>
@@ -156,87 +137,14 @@ const MapSearchDone = (props: IMapSearchDone) => {
     </>
   );
 
-  const ModalSaveRoute = () => (
-    <Modal state={stateModal} onClosed={() => setStateModal(!stateModal)}>
-      <View style={styles.containerModal}>
-        <TouchableOpacity
-          activeOpacity={1}
-          style={[
-            styles.contentModal,
-            {
-              backgroundColor: theme.colors.secondaryDark,
-            },
-          ]}
-        >
-          <View>
-            <Text
-              variant="heading2"
-              style={[
-                {
-                  color: theme.colors.white,
-                },
-                styles.titleModal,
-              ]}
-            >
-              Save your route
-            </Text>
-          </View>
-          <View style={styles.bodyModal}>
-            <Select
-              list={["CAR"]}
-              value="a"
-              onPress={(str) => console.warn(str)}
-              containerStyle={{
-                backgroundColor: theme.colors.white,
-                borderRadius: 10,
-              }}
-            />
-
-            <Select
-              placeholder="Category"
-              list={["CAR"]}
-              value=""
-              onPress={(str) => console.warn(str)}
-              containerStyle={{
-                backgroundColor: theme.colors.white,
-                borderRadius: 10,
-              }}
-            />
-
-            <Select
-              placeholder="Frequency"
-              list={["CAR"]}
-              value=""
-              onPress={(str) => console.warn(str)}
-              containerStyle={{
-                backgroundColor: theme.colors.white,
-                borderRadius: 10,
-              }}
-            />
-          </View>
-          <View style={styles.contentButtonModal}>
-            <TouchableOpacity onPress={() => setStateModal(!stateModal)}>
-              <Text variant="bodyBold">CANCEL</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text
-                variant="bodyBold"
-                style={{
-                  color: theme.colors.white,
-                }}
-              >
-                CONTINUE
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      </View>
-    </Modal>
-  );
-
   return (
     <>
-      <ModalSaveRoute />
+      <ModalSaveRoute
+        stateModal={stateModal}
+        startLocation={locationStart}
+        endLocation={locationEnd}
+        onClosed={() => setStateModal(!stateModal)}
+      />
       <View style={styles.container}>
         <Animated.View
           style={[
@@ -327,7 +235,6 @@ const styles = StyleSheet.create({
   container: {
     height,
   },
-
   contentLoading: {
     height: 250,
     justifyContent: "center",
@@ -335,17 +242,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
   },
-
   row: {
     flexDirection: "row",
     width: "70%",
     marginVertical: 10,
   },
-
   icon: { marginRight: 10 },
-
   button: { width: width * 0.3 },
-
   headerContainer: {
     position: "relative",
     top: 0,
@@ -373,25 +276,8 @@ const styles = StyleSheet.create({
   lastCard: {
     paddingRight: 0,
   },
-  containerModal: {
-    marginVertical: height * 0.25,
-  },
-  contentModal: {
-    height: height * 0.5,
-    width: width * 0.9,
-    borderRadius: 10,
-  },
-  titleModal: {
-    alignSelf: "center",
-    marginVertical: "5%",
-  },
-  bodyModal: {
-    paddingHorizontal: "5%",
-    flex: 1,
-  },
-  contentButtonModal: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+  textLoading: {
+    textAlign: "center",
     marginVertical: "5%",
   },
 });
