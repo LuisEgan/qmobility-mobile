@@ -5,7 +5,6 @@ import {
   Dimensions,
   Platform,
   StyleProp,
-  ViewStyle,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useTheme } from "@shopify/restyle";
@@ -23,7 +22,7 @@ interface IHeader {
   iconRight?: TIcon;
   text?: string;
   textRight?: string;
-  containerStyle?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<View>;
   height?: number;
 }
 
@@ -60,10 +59,10 @@ const Header = (props: IHeader) => {
     >
       {(icon || text)
         && (onPress ? (
-          <View style={styles.iconStyle}>
+          <View style={styles.icon}>
             <TouchableOpacity
               onPress={() => onPress()}
-              style={styles.touchableOpacityStyle}
+              style={styles.touchableOpacity}
             >
               {icon && <Icons size={30} icon={icon} />}
               {text && (
@@ -74,7 +73,7 @@ const Header = (props: IHeader) => {
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={styles.iconStyle}>
+          <View style={styles.icon}>
             {text && (
               <Text variant="body" style={styles.text}>
                 {text}
@@ -83,8 +82,8 @@ const Header = (props: IHeader) => {
             {icon && <Icons size={30} icon={icon} />}
           </View>
         ))}
-      <View style={styles.contentStyle}>
-        <View style={styles.viewStyle}>
+      <View style={styles.content}>
+        <View style={styles.view}>
           {title && <Text variant="heading1">{title}</Text>}
           {subTitle && <Text variant="subheadingLight">{subTitle}</Text>}
         </View>
@@ -92,10 +91,10 @@ const Header = (props: IHeader) => {
 
       {(iconRight || textRight)
         && (onPressRight ? (
-          <View style={styles.iconRightStyle}>
+          <View style={styles.iconRight}>
             <TouchableOpacity
               onPress={() => onPressRight()}
-              style={styles.touchableOpacityStyle}
+              style={styles.touchableOpacity}
             >
               {iconRight && <Icons size={30} icon={iconRight} />}
               {textRight && (
@@ -106,7 +105,7 @@ const Header = (props: IHeader) => {
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={styles.iconRightStyle}>
+          <View style={styles.iconRight}>
             {iconRight && <Icons size={30} icon={iconRight} />}
             {textRight && (
               <Text variant="body" style={styles.text}>
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
     height: height * heightMultiplier,
     borderBottomWidth: 0.5,
   },
-  touchableOpacityStyle: {
+  touchableOpacity: {
     width: 70,
     justifyContent: "center",
     flexDirection: "row",
@@ -137,7 +136,7 @@ const styles = StyleSheet.create({
     height: 45,
     borderRadius: 30,
   },
-  iconStyle: {
+  icon: {
     flexDirection: "row",
     position: "absolute",
     elevation: 1,
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
     top: height * heightTopIcons,
     left: width * -0.02,
   },
-  iconRightStyle: {
+  iconRight: {
     flexDirection: "row",
     position: "absolute",
     elevation: 99,
@@ -153,21 +152,16 @@ const styles = StyleSheet.create({
     top: height * 0.05,
     right: width * 0.02,
   },
-  contentStyle: {
+  content: {
     width,
     height: height * 0.21,
     justifyContent: "center",
   },
-  viewStyle: {
+  view: {
     marginTop: width * 0.1,
     marginHorizontal: width * 0.05,
   },
-  btnStyle: {
-    width: "100%",
-    justifyContent: "center",
-    height: 50,
-    borderRadius: 25,
-  },
+
   text: {
     paddingHorizontal: 5,
     alignSelf: "center",

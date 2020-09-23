@@ -113,7 +113,7 @@ const SearchRouter = () => {
                   <ListItem
                     detail
                     key={`${item}_${index}`}
-                    icon="Circle"
+                    icon="Search"
                     title={item.origin || ""}
                     subTitle={item.destination}
                     onPress={onRoute}

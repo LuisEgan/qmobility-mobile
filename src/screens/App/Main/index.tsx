@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Dimensions, ImageBackground } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
 import { Map, InputSearch } from "../../../components";
 import { DrawerLeftMenu, DrawerRightMenu } from "../../../components/HOCs";
 
@@ -19,29 +17,12 @@ const Main = () => {
   const [isDrawerLeftOpen, setIsDrawerLeftOpen] = useState<boolean>(false);
   const [isDrawerRightOpen, setIsDrawerRightOpen] = useState<boolean>(false);
 
-  const [initialLat, setInitialLat] = useState<number>(0);
-  const [initialLon, setInitialLon] = useState<number>(0);
-
-  useEffect(() => {
-    getLocationAsync();
-  });
-
   const toggleDrawer = (drawer: EDrawer) => {
     if (drawer === EDrawer.LEFT) {
       setIsDrawerLeftOpen(!isDrawerLeftOpen);
       return;
     }
     setIsDrawerRightOpen(!isDrawerRightOpen);
-  };
-
-  const getLocationAsync = async () => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === "granted") {
-      const location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
-      setInitialLat(latitude);
-      setInitialLon(longitude);
-    }
   };
 
   return (
@@ -74,12 +55,7 @@ const Main = () => {
               <ImageBackground source={car} style={styles.imgBg} />
             </TouchableOpacity>
           </View>
-
-          {initialLat !== 0 && initialLon !== 0 ? (
-            <Map initialMain initialLat={initialLat} initialLon={initialLon} />
-          ) : (
-            <Map initialMain />
-          )}
+          <Map initialMain />
         </View>
       </DrawerLeftMenu>
     </>
@@ -92,7 +68,6 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
   },
-
   searchContainer: {
     flexDirection: "row",
     justifyContent: "center",
@@ -101,23 +76,19 @@ const styles = StyleSheet.create({
     margin: 35,
     zIndex: 1,
   },
-
   inputSearch: {
     elevation: 1,
     flex: 1,
   },
-
   separator: {
     flex: 0.05,
   },
-
   carImgContainer: {
     height: height * 0.08,
     width: height * 0.08,
     overflow: "hidden",
     borderRadius: 100,
   },
-
   imgBg: {
     flex: 1,
   },

@@ -8,7 +8,7 @@ import RouterPointListItem, {
 import { Theme } from "../../../config/Theme";
 
 interface IRoutePointsList extends IComponentsDefaults {
-  points: Array<IRouterPointsListItem>;
+  points?: Array<IRouterPointsListItem>;
   height?: number;
 }
 
@@ -25,20 +25,22 @@ const RoutePointsList = (props: IRoutePointsList) => {
         containerStyle,
       ]}
     >
-      <FlatList
-        style={styles.list}
-        data={points}
-        renderItem={({ item, index }) => (
-          <RouterPointListItem
-            key={`${item}_${index}`}
-            {...item}
-            isStartPoint={index === 0}
-            isEndPoint={index === points.length - 1}
-            isExtreme={index === 0 || index === points.length - 1}
-          />
-        )}
-        keyExtractor={(item, index) => `${item}_${index}`}
-      />
+      {points && (
+        <FlatList
+          style={styles.list}
+          data={points}
+          renderItem={({ item, index }) => (
+            <RouterPointListItem
+              key={`${item}_${index}`}
+              {...item}
+              isStartPoint={index === 0}
+              isEndPoint={index === points.length - 1}
+              isExtreme={index === 0 || index === points.length - 1}
+            />
+          )}
+          keyExtractor={(item, index) => `${item}_${index}`}
+        />
+      )}
     </View>
   );
 };

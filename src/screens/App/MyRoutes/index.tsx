@@ -5,34 +5,34 @@ import { Header } from "../../../components";
 import { Theme } from "../../../config/Theme";
 import { RouterList } from "../../../components/Lists";
 import { DrawerLeftMenu } from "../../../components/HOCs";
+import { TIcon } from "../../../components/svg/icons/TypeIcons";
 
 interface IListRoutes {
-  date?: string;
-  from?: string;
-  to?: string;
+  icon?: TIcon;
+  title?: string;
+  details?: string;
 }
 interface IListRoutesArray extends Array<IListRoutes> {}
 
 const listRoutes: IListRoutesArray = [
   {
-    date: "20:00",
-    from: "Nissan Leaf Acenta 40",
-    to: "Default eve",
+    icon: "Domain",
+    title: "My Cool Office",
+    details: "30 John Islip St, Westminster, London SW1P 4DD, United Kingdom",
   },
   {
-    date: "21:00",
-    from: "Nissan Leaf Acenta 40",
-    to: "Default eve",
+    icon: "Home",
+    title: "My Lovely Home",
+    details: "30 John Islip St, Westminster, London SW1P 4DD, United Kingdom",
   },
   {
-    date: "22:00",
-    from: "Nissan Leaf Acenta 40",
-    to: "Default eve",
+    icon: "Domain",
+    title: "Gym Time",
   },
   {
-    date: "23:00",
-    from: "Nissan Leaf Acenta 40",
-    to: "Default eve",
+    icon: "Home",
+    title: "Romantic Hideaway",
+    details: "30 John Islip St, Westminster, London SW1P 4DD, United Kingdom",
   },
 ];
 

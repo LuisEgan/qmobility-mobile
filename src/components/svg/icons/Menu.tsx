@@ -1,14 +1,8 @@
-/** @format */
-
 import React from "react";
 import Svg, { Path } from "react-native-svg";
+import { ISVG } from "./TypeIcons";
 
-interface IMenu {
-  fill: string | number;
-  stroke: string | number;
-}
-
-const Menu = (props: IMenu) => {
+const Menu = (props: ISVG) => {
   const { fill, stroke } = props;
 
   return (
@@ -22,7 +16,7 @@ const Menu = (props: IMenu) => {
       stroke-linejoin="round"
     >
       <Path
-        d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+        d="M2.5,5h15V6.68H2.5Zm0,5.82V9.18h15V10.82ZM2.5,15V13.32h15V15Z"
         fill={fill}
         stroke={stroke}
       />
@@ -31,7 +25,7 @@ const Menu = (props: IMenu) => {
 };
 
 Menu.defaultProps = {
-  fill: "white", // contenido
+  fill: "white",
   stroke: "white",
 };
 

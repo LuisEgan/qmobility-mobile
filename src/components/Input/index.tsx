@@ -5,6 +5,8 @@ import {
   TextInput,
   NativeSyntheticEvent,
   TextInputFocusEventData,
+  StyleProp,
+  ViewStyle,
 } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -22,6 +24,7 @@ interface IInput extends IComponentsDefaults {
   error?: string;
   touched?: boolean;
   disabled?: boolean;
+  inputStyle?: StyleProp<ViewStyle>;
 }
 
 const Input = (props: IInput) => {
@@ -35,8 +38,9 @@ const Input = (props: IInput) => {
     isSignUp,
     error,
     touched,
-    containerStyle,
     disabled,
+    containerStyle,
+    inputStyle,
   } = props;
 
   const theme = useTheme<Theme>();
@@ -49,6 +53,7 @@ const Input = (props: IInput) => {
           {
             borderBottomColor: theme.colors.defautlInput,
           },
+          inputStyle,
         ]}
         editable={!disabled}
         onChangeText={(str: string) => onChange(str)}
