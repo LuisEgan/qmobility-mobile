@@ -40,7 +40,6 @@ const CreateProfile = () => {
 
   const Create = async (values: IFormValues): Promise<void> => {
     const { ...newIceVehicle } = iceVehicle;
-    delete newIceVehicle.typename;
 
     const variables = iceVehicle
       ? { ...values, iceVehicle: newIceVehicle }

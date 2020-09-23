@@ -8,7 +8,7 @@ export interface IIceVehicle {
   Colour: string;
   VehicleClass: string;
   VehiclePlate: string;
-  typename?: string;
+  __typename?: string;
 }
 
 export interface IVehicle {

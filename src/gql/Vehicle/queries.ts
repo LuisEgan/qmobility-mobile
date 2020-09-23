@@ -43,7 +43,6 @@ const iceVehicle = gql`
       Colour
       VehicleClass
       VehiclePlate
-      typename: __typename
     }
   }
 `;
