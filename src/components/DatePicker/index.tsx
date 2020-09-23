@@ -6,18 +6,21 @@ import theme, { Text } from "../../config/Theme";
 
 interface IDatePicker {
   onChange?: (e: any) => void;
-  value?: string;
+  value?: string | Date;
+  label?: string;
 }
 
 const DatePicker = (props: IDatePicker) => {
-  const { onChange: onChangeProp, value } = props;
+  const { onChange: onChangeProp, value, label } = props;
 
   const [show, setShow] = useState<boolean>(false);
-  const [date, setDate] = useState<string>(value || "");
+  const [date, setDate] = useState<string | Date>(value || "");
+  const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
 
   useEffect(() => {
     if (value) {
       setDate(value);
+      setIsFirstTime(false);
     }
   }, [value]);
 
@@ -25,13 +28,14 @@ const DatePicker = (props: IDatePicker) => {
     const currentDate = selectedDate || date || event;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
+    setIsFirstTime(false);
 
     if (onChangeProp) onChangeProp(currentDate);
   };
 
-  const dateText = (text: string) => {
+  const dateText = (text: string | Date) => {
     const d = new Date(text);
-    return `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;
+    return `${d.getDate()} / ${d.getMonth() + 1} / ${d.getFullYear()}`;
   };
 
   return (
@@ -45,7 +49,9 @@ const DatePicker = (props: IDatePicker) => {
         ]}
         onPress={() => setShow(true)}
       >
-        {date ? (
+        <Text variant="bodySmall">{label}</Text>
+
+        {date && !isFirstTime ? (
           <Text style={styles.placeholder}>{dateText(date)}</Text>
         ) : (
           <Text style={styles.placeholder} color="defautlInput">

@@ -1,8 +1,17 @@
-import React from "react";
-import { View, StyleSheet, ImageBackground, Dimensions } from "react-native";
+import React, { useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  Dimensions,
+  AsyncStorage,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Button, Icons } from "../../../components";
-import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import {
+  ASYNC_STORAGE_ITEMS,
+  AUTH_STACK_SCREENS_NAMES,
+} from "../../../lib/constants";
 
 import bg from "../../../assets/png/accessBackgroundMedium.png";
 
@@ -10,6 +19,14 @@ const { height, width } = Dimensions.get("window");
 
 const Access = () => {
   const { navigate } = useNavigation();
+
+  useEffect(() => {
+    const setHasAcceptedTCs = async () => {
+      await AsyncStorage.setItem(ASYNC_STORAGE_ITEMS.HAS_ACCEPTED_TCS, "true");
+    };
+
+    setHasAcceptedTCs();
+  }, []);
 
   return (
     <ImageBackground source={bg} style={styles.image}>

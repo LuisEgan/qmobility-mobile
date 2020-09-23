@@ -5,3 +5,5 @@ export const getFirstDecimalNumber = (num: number): number => {
 
   return hasDecimals ? +dotSplit[1][0] : 0;
 };
+
+export const upperCaseFormatter = (str: string) => str.toUpperCase();

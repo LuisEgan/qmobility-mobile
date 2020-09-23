@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import { LinkedInToken } from "react-native-linkedin";
+import { IIceVehicle } from "../Vehicle/Types";
 
 export interface IAuthResponse {
   accessToken: string;
@@ -89,6 +90,7 @@ export interface IUpdateUser {
   email?: string;
   selectedVehicle?: string;
   avatarUrl?: string;
+  iceVehicle?: IIceVehicle;
 }
 
 const updateUser = gql`
@@ -99,7 +101,8 @@ const updateUser = gql`
     $username: String
     $avatarUrl: String
     $dateOfBirth: DateTime
-    $selectedVehicle: ID
+    $selectedVehicle: Float
+    $iceVehicle: IceVehicle
   ) {
     updateUser(
       updateProfileInput: {
@@ -110,6 +113,7 @@ const updateUser = gql`
         avatarUrl: $avatarUrl
         dateOfBirth: $dateOfBirth
         selectedVehicle: $selectedVehicle
+        iceVehicle: $iceVehicle
       }
     ) {
       id

@@ -1,94 +1,84 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useLazyQuery } from "@apollo/client";
 import { Header, Slider } from "../../../components";
 import slides from "./slides";
 import theme, { Text } from "../../../config/Theme";
 import { ESlide, ISlide } from "../../../components/Slider/Slide";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import {
+  IAnswers,
+  ECategory,
+  IOptionsSet,
+  allCardOptions,
+  getRecommendedCategory,
+} from "./options";
+import Vehicle from "../../../gql/Vehicle";
+import { FullScreenModal } from "../../Feedback";
+import { IVehicleRecommendation } from "../../../gql/Vehicle/queries";
 
 const { height, width } = Dimensions.get("window");
-
-type TAnswer = string;
-
-export interface IAnswers {
-  // * question: answer
-  [key: string]: TAnswer;
-}
-
-interface IOptionsSet {
-  question: string;
-  options: string[];
-}
-
-const allCardOptions = [
-  // * clothing
-  [
-    "Something that doesn’t stain",
-    "Designer stuff please",
-    "Comfy and sporty",
-    "I’m a City Gal/Pal",
-  ],
-
-  // * weekend
-  [
-    "Going to a Gig",
-    "Hitting the Hiking Trails",
-    "Fancy Spa Weekend Away",
-    "Adventures With Kids",
-  ],
-
-  // * hobby
-  [
-    "Sipping Grand Crus",
-    "Hitting the gym",
-    "Meeting Up with Friends",
-    "Always something to do at home",
-  ],
-
-  // * restaurant
-  [
-    "Anywhere with great cocktails",
-    "With a Decent Kid Menu",
-    "Best ribeye & wine in town with a view",
-    "BBQ on a beach",
-  ],
-];
 
 const ProfileScroll = () => {
   const { navigate } = useNavigation();
 
+  const [
+    vehicleRecommendation,
+    { data: vehicleRecommendationData, loading: vehicleRecommendationLoading },
+  ] = useLazyQuery<
+    { vehicleRecommendation: IVehicleRecommendation[] },
+    { category: string }
+  >(Vehicle.queries.vehicleRecommendation);
+
   const [answers, setAnswers] = useState<IAnswers>({});
 
+  // * Ask for recommended eVe with recommened categories from answers
   useEffect(() => {
     if (Object.keys(answers).length === slides.length) {
-      navigate(APP_STACK_SCREENS_NAMES.CheckCar, { answers });
+      vehicleRecommendation({
+        variables: { category: getRecommendedCategory(answers) },
+      });
     }
   }, [answers]);
 
+  // * Get recommened eVe and navigate to CheckCar passing it as route prop
+  useEffect(() => {
+    if (vehicleRecommendationData) {
+      const { vehicleRecommendation: vehicle } = vehicleRecommendationData;
+
+      navigate(APP_STACK_SCREENS_NAMES.CheckCar, {
+        vehicleRecommendation: vehicle[0],
+      });
+    }
+  }, [vehicleRecommendationData]);
+
   const OptionsSet = ({ question, options }: IOptionsSet) => {
-    const onOptionPress = (answer: string) => {
-      setAnswers({ ...answers, [question]: answer });
+    const onOptionPress = (category: ECategory) => {
+      setAnswers({
+        ...answers,
+        [question]: category,
+      });
     };
 
     return (
       <View style={styles.optionsContainer}>
-        {options.map((opt) => (
+        {options.map(({ answer, category }) => (
           <TouchableOpacity
-            key={opt}
-            onPress={() => onOptionPress(opt)}
+            key={answer}
+            onPress={() => onOptionPress(category)}
             style={[
               styles.option,
               {
                 backgroundColor:
-                  answers[question] === opt
+                  answers[question] === category
                     ? theme.colors.primary
                     : theme.colors.secondaryDark,
               },
             ]}
           >
             <Text color="white" style={{ textAlign: "center" }}>
-              {opt}
+              {answer}
             </Text>
           </TouchableOpacity>
         ))}
@@ -106,6 +96,8 @@ const ProfileScroll = () => {
         />
       ),
     }));
+
+  if (vehicleRecommendationLoading) return <FullScreenModal show />;
 
   return (
     <View style={styles.container}>

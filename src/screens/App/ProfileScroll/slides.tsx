@@ -8,30 +8,44 @@ import perfectWeekend from "../../../assets/png/perfectWeekend.png";
 
 interface ISlides extends Array<ISlide> {}
 
+export interface IQuestions {
+  // * question: multiplier
+  [question: string]: number;
+}
+
+export const questionsMultiplliers: IQuestions = {
+  "Favorite clothing style?": 5,
+  "Perfect weekend?": 4,
+  "Favourite hobby?": 1,
+  "Your next restaurant?": 3,
+};
+
+export const QUESTIONS = Object.keys(questionsMultiplliers);
+
 const slides: ISlides = [
   {
-    title: "Favorite clothing style?",
+    title: QUESTIONS[0],
     titleStyle: { textAlign: "center", marginVertical: 0 },
     imgSource: favClothingStyle,
     backgroundColor: theme.colors.primaryDark,
     contentStyle: { flex: 1 },
   },
   {
-    title: "Perfect weekend?",
+    title: QUESTIONS[1],
     titleStyle: { textAlign: "center", marginVertical: 0 },
     imgSource: favHobby,
     backgroundColor: theme.colors.primaryDark,
     contentStyle: { flex: 1 },
   },
   {
-    title: "Favourite hobby?",
+    title: QUESTIONS[2],
     titleStyle: { textAlign: "center", marginVertical: 0 },
     imgSource: nextRestaurant,
     backgroundColor: theme.colors.redLight,
     contentStyle: { flex: 1 },
   },
   {
-    title: "Your next restaurant?",
+    title: QUESTIONS[3],
     titleStyle: { textAlign: "center", marginVertical: 0 },
     imgSource: perfectWeekend,
     backgroundColor: theme.colors.yellow,
