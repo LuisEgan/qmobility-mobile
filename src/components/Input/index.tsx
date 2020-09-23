@@ -15,6 +15,7 @@ interface IInput extends IComponentsDefaults {
   onChange: (str: string) => void;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   onForgotPass?: () => void;
+  label?: string;
   placeholder?: string;
   defaultValue?: string;
   isPassword?: boolean;
@@ -22,13 +23,16 @@ interface IInput extends IComponentsDefaults {
   error?: string;
   touched?: boolean;
   disabled?: boolean;
+  formatter?: (str: string) => string;
 }
 
 const Input = (props: IInput) => {
   const {
-    onChange,
+    onChange: onChangeProp,
     onBlur,
     onForgotPass,
+    formatter,
+    label,
     placeholder,
     defaultValue,
     isPassword,
@@ -39,11 +43,23 @@ const Input = (props: IInput) => {
     disabled,
   } = props;
 
+  // const [value, setValue] = useState<string>("");
+
   const theme = useTheme<Theme>();
+
+  const onChange = (str: string) => {
+    // setValue(str);
+    if (onChangeProp) {
+      onChangeProp(str);
+    }
+  };
 
   return (
     <View style={[styles.container, containerStyle]}>
+      <Text variant="bodySmall">{label}</Text>
+
       <TextInput
+        // value={value}
         style={[
           styles.inputStyle,
           {
@@ -51,7 +67,14 @@ const Input = (props: IInput) => {
           },
         ]}
         editable={!disabled}
-        onChangeText={(str: string) => onChange(str)}
+        onChangeText={(str: string) => {
+          // str =
+          //   str.length > value?.length ? `${value}${str[str.length - 1]}` : str;
+
+          const newStr = formatter ? formatter(str) : str;
+
+          onChange(newStr);
+        }}
         placeholderTextColor={theme.colors.defautlInput}
         secureTextEntry={isPassword}
         {...{ defaultValue, placeholder, onBlur }}

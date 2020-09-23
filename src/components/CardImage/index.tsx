@@ -4,8 +4,8 @@ import {
   StyleSheet,
   Image,
   StyleProp,
-  ViewStyle,
   ImageSourcePropType,
+  TextStyle,
 } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { Text, Theme } from "../../config/Theme";
@@ -18,7 +18,7 @@ interface ICardImage extends IComponentsDefaults {
   name: string;
   title: string;
   subTitle: string;
-  textStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 const CardImage = (props: ICardImage) => {
@@ -43,7 +43,7 @@ const CardImage = (props: ICardImage) => {
         containerStyle,
       ]}
     >
-      <View style={styles.costent}>
+      <View style={styles.content}>
         <View style={styles.contentImage}>
           {imgUri || imgSource ? (
             <Image
@@ -58,14 +58,20 @@ const CardImage = (props: ICardImage) => {
             svgIcon
           )}
         </View>
-        <View>
-          <Text style={textStyle} variant="heading2">
+        <View style={styles.textContent}>
+          <Text
+            numberOfLines={1}
+            style={[textStyle, { paddingBottom: 10 }]}
+            variant="heading2"
+          >
             {name}
           </Text>
-          <Text style={textStyle} variant="body">
+          <Text numberOfLines={1} style={textStyle} variant="body">
             {title}
           </Text>
-          <Text variant="bodyHighlight">{subTitle}</Text>
+          <Text numberOfLines={1} variant="bodyHighlight">
+            {subTitle}
+          </Text>
         </View>
       </View>
     </View>
@@ -81,22 +87,30 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 10,
   },
-  costent: {
+  content: {
     flexDirection: "row",
     flex: 1,
     alignItems: "center",
+    paddingHorizontal: 20,
   },
   contentImage: {
-    width: 50,
-    height: 50,
+    width: 90,
+    height: 90,
     borderRadius: 50,
-    marginHorizontal: "5%",
     justifyContent: "center",
     alignItems: "center",
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: "100%",
+    height: "100%",
     borderRadius: 50,
+    borderWidth: 1,
+    borderColor: "white",
+  },
+
+  textContent: {
+    paddingHorizontal: 15,
+    flex: 1,
+    justifyContent: "space-between",
   },
 });

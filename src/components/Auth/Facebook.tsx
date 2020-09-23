@@ -55,6 +55,7 @@ const Facebook = () => {
         throw new Error(ERRORS.LOGIN_FAILED);
       }
     } catch ({ message }) {
+      setDisplayFeedbackScreen(false);
       alert(message);
     }
   };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -14,6 +14,7 @@ import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { IIceVehicle } from "../../../gql/Vehicle/Types";
 
 const SignupSchema = yup.object().shape({
   name: yup.string().required(),
@@ -33,12 +34,21 @@ const CreateProfile = () => {
     IUpdateUser
   >(User.mutations.updateUser);
 
+  const [iceVehicle, setIceVehicle] = useState<IIceVehicle>();
+
   const theme = useTheme<Theme>();
 
   const Create = async (values: IFormValues): Promise<void> => {
+    const { ...newIceVehicle } = iceVehicle;
+    delete newIceVehicle.typename;
+
+    const variables = iceVehicle
+      ? { ...values, iceVehicle: newIceVehicle }
+      : { ...values };
+
     try {
       await updateUser({
-        variables: { ...values },
+        variables,
         refetchQueries: [
           {
             query: User.queries.user,
@@ -48,7 +58,7 @@ const CreateProfile = () => {
       navigate(APP_STACK_SCREENS_NAMES.ProfileScroll);
     } catch (e) {
       // TODO e feedback display
-      console.warn("e: ", e.message);
+      console.warn("e: ", e);
     }
   };
 
@@ -74,7 +84,13 @@ const CreateProfile = () => {
         onSubmit={Create}
         validationSchema={SignupSchema}
       >
-        {(props) => <Form {...props} loading={loading || updateUserLoading} />}
+        {(props) => (
+          <Form
+            {...props}
+            loading={loading || updateUserLoading}
+            onIceVehicleChange={setIceVehicle}
+          />
+        )}
       </Formik>
     </View>
   );

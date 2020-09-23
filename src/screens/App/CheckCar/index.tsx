@@ -1,8 +1,8 @@
 import React from "react";
-import { View, StyleSheet, Image, ScrollView, Dimensions } from "react-native";
+import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { useTheme } from "@shopify/restyle";
 import { useNavigation } from "@react-navigation/native";
-import { Header, Icons, Button } from "../../../components";
+import { Header, Icons, Button, CardImage } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { TCheckCarNavProps } from "../../../navigation/Types/NavPropsTypes";
@@ -11,120 +11,15 @@ const { width } = Dimensions.get("window");
 
 interface ICheckCar extends TCheckCarNavProps {}
 
-interface IListCar {
-  img: string;
-  name: string;
-  title: string;
-  subTitle: string;
-  type: number;
-}
-
-interface IListCarArray extends Array<IListCar> {}
-
-const listMyCars: IListCarArray = [
-  {
-    img: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-    type: 1,
-  },
-];
-
-const ListAlternative: IListCarArray = [
-  {
-    img: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-    type: 0,
-  },
-  {
-    img: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-    type: 0,
-  },
-  {
-    img: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-    type: 0,
-  },
-  {
-    img: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-    type: 0,
-  },
-];
-
-const MyCars = (props: ICheckCar) => {
+const CheckCar = (props: ICheckCar) => {
   const {
     route: {
-      params: { answers },
+      params: { vehicleRecommendation },
     },
   } = props;
   const { navigate } = useNavigation();
 
   const theme = useTheme<Theme>();
-
-  const ListCar = ({ img, name, title, subTitle, type }: IListCar) => {
-    const colorType = type && answers ? theme.colors.white : theme.colors.black;
-
-    return (
-      <View
-        style={[
-          styles.cardCar,
-          {
-            backgroundColor: type
-              ? theme.colors.primary
-              : theme.colors.grayLighter,
-          },
-        ]}
-      >
-        <View style={styles.costentCar}>
-          <View
-            style={[
-              styles.contentImage,
-              {
-                backgroundColor: theme.colors.primaryLight,
-              },
-            ]}
-          >
-            <Image
-              style={styles.tinyLogo}
-              source={{
-                uri: img,
-              }}
-            />
-          </View>
-          <View>
-            <Text
-              style={{
-                color: colorType,
-              }}
-              variant="heading2"
-            >
-              {name}
-            </Text>
-            <Text
-              style={{
-                color: colorType,
-              }}
-              variant="body"
-            >
-              {title}
-            </Text>
-            <Text variant="bodyHighlight">{subTitle}</Text>
-          </View>
-        </View>
-      </View>
-    );
-  };
 
   return (
     <View style={styles.container}>
@@ -143,24 +38,21 @@ const MyCars = (props: ICheckCar) => {
           <Text variant="subheadingLight">This is your perfect match:</Text>
         </View>
 
-        {listMyCars
-          && listMyCars.map((car) => (
-            <ListCar key={`${car.name}_${Math.random()}`} {...car} />
-          ))}
-
-        {ListAlternative && (
-          <>
-            <View style={styles.containerTitleEdition}>
-              <Text variant="subheadingLight">Here’s an alternative:</Text>
-            </View>
-
-            {ListAlternative
-              && ListAlternative.map((car) => (
-                <ListCar key={`${car.name}_${Math.random()}`} {...car} />
-              ))}
-          </>
-        )}
+        <CardImage
+          containerStyle={[
+            styles.cardCar,
+            {
+              backgroundColor: theme.colors.secondaryDark,
+            },
+          ]}
+          textStyle={{ color: theme.colors.white }}
+          imgUri={vehicleRecommendation.vehicle.Images[0]}
+          name={`${vehicleRecommendation.make} ${vehicleRecommendation.makeModel}`}
+          title="Default eVe"
+          subTitle={`${vehicleRecommendation.category} eVe`}
+        />
       </ScrollView>
+
       <Button
         label="GO TO MAP"
         variant="primary"
@@ -170,7 +62,7 @@ const MyCars = (props: ICheckCar) => {
     </View>
   );
 };
-export default MyCars;
+export default CheckCar;
 
 const styles = StyleSheet.create({
   container: {

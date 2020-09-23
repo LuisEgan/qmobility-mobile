@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { IVehicle } from "./Types";
 
 const vehiclesMakes = gql`
   query VehiclesMakes {
@@ -26,7 +27,51 @@ const vehicleMakeModels = gql`
   }
 `;
 
+export interface IIceVehicleVars {
+  plate: string;
+}
+
+const iceVehicle = gql`
+  query SearchIceVehicle($plate: String!) {
+    searchIceVehicle(plate: $plate) {
+      Make
+      MakeModel
+      Co2Emissions
+      YearMonthFirstRegistered
+      FuelType
+      SeatingCapacity
+      Colour
+      VehicleClass
+      VehiclePlate
+      typename: __typename
+    }
+  }
+`;
+
+export interface IVehicleRecommendation {
+  category: string;
+  make: string;
+  makeModel: string;
+  vehicle: IVehicle;
+}
+
+const vehicleRecommendation = gql`
+  query VehicleRecommendation($category: String!) {
+    vehicleRecommendation(category: $category) {
+      category
+      make
+      makeModel
+      vehicle {
+        Images
+        Vehicle_ID
+      }
+    }
+  }
+`;
+
 export default {
   vehiclesMakes,
   vehicleMakeModels,
+  iceVehicle,
+  vehicleRecommendation,
 };

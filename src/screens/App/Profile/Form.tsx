@@ -1,16 +1,20 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { FormikProps } from "formik";
 import React, { useEffect } from "react";
-import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
-import { Button, ImageProfile, Input, Select } from "../../../components";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
+import { Button, ImageProfile, Input } from "../../../components";
 import DatePicker from "../../../components/DatePicker";
 import theme, { Text } from "../../../config/Theme";
 import Vehicle from "../../../gql/Vehicle";
-import {
-  IVehicleMakeModels,
-  IVehicleMakeModelsVars,
-} from "../../../gql/Vehicle/queries";
+import { IIceVehicle } from "../../../gql/Vehicle/Types";
 import { ERRORS } from "../../../lib/constants";
+import { upperCaseFormatter } from "../../../lib/strings";
 
 const { width, height } = Dimensions.get("window");
 
@@ -23,6 +27,7 @@ export interface IFormValues {
 
 interface IForm extends FormikProps<IFormValues> {
   loading?: boolean;
+  onIceVehicleChange: (vehicle: IIceVehicle) => void;
 }
 
 const Form = (props: IForm) => {
@@ -30,6 +35,7 @@ const Form = (props: IForm) => {
     handleChange,
     handleSubmit,
     handleBlur,
+    onIceVehicleChange,
     errors,
     touched,
     values,
@@ -37,31 +43,37 @@ const Form = (props: IForm) => {
     loading,
   } = props;
 
-  const { data: vehiclesMakesData } = useQuery<{
-    vehiclesMakes: string[];
-  }>(Vehicle.queries.vehiclesMakes);
+  const [
+    searchIceVehicle,
+    {
+      data: searchIceVehicleData,
+      loading: searchIceVehicleLoading,
+      called: searchIceVehicleCalled,
+      error: searchIceVehicleError,
+    },
+  ] = useLazyQuery<{ searchIceVehicle: IIceVehicle }>(
+    Vehicle.queries.iceVehicle,
+  );
 
-  const [vehicleMakeModels, { data: vehicleMakeModelsData }] = useLazyQuery<
-    { vehicleMakeModels: IVehicleMakeModels },
-    IVehicleMakeModelsVars
-  >(Vehicle.queries.vehicleMakeModels);
-
+  // * Update ICE Vehicle for parent
   useEffect(() => {
-    const getModels = async () => {
-      try {
-        await vehicleMakeModels();
-      } catch (error) {
-        console.warn("error: ", error);
-      }
-    };
-
-    if (vehiclesMakesData) {
-      getModels();
+    if (searchIceVehicleData) {
+      onIceVehicleChange(searchIceVehicleData.searchIceVehicle);
     }
-  }, [vehiclesMakesData]);
+  }, [searchIceVehicleData]);
 
   const onLoadPhoto = async (photoB64: string) => {
     handleChange("avatarUrl")(photoB64);
+  };
+
+  const onCarPlateChange = async (plate: string) => {
+    if (plate.length >= 5) {
+      searchIceVehicle({
+        variables: {
+          plate,
+        },
+      });
+    }
   };
 
   return (
@@ -81,6 +93,7 @@ const Form = (props: IForm) => {
 
         <View style={styles.contentViewIput}>
           <Input
+            label="First name"
             placeholder="First name"
             onChange={handleChange("name")}
             onBlur={handleBlur("name")}
@@ -90,6 +103,7 @@ const Form = (props: IForm) => {
           />
 
           <Input
+            label="Last name"
             placeholder="Last name"
             onChange={handleChange("lastname")}
             onBlur={handleBlur("lastname")}
@@ -99,33 +113,60 @@ const Form = (props: IForm) => {
           />
 
           <DatePicker
+            label="Date of birth"
             onChange={(e) => handleChange("dateOfBirth")(e.toString())}
             value={values.dateOfBirth || initialValues.dateOfBirth}
           />
 
-          <Text style={styles.textSelectStyle} variant="label">
-            Select Your Car
+          <Text style={styles.textSelectStyle} variant="bodyHighlight">
+            Enter your diesel / petrol car&apos;s plate
           </Text>
 
-          <Select
-            title="Vehicle Make"
-            iconTitle="Info"
-            list={vehiclesMakesData?.vehiclesMakes || []}
-            placeholder="Ex. Renault"
-            onPress={handleChange("car")}
-            value={values.car}
-            error={errors.car && ERRORS.REQUIRED}
-            touched={touched.car}
-          />
+          {searchIceVehicleCalled && (
+            <View>
+              {searchIceVehicleLoading ? (
+                <ActivityIndicator />
+              ) : (
+                <>
+                  {searchIceVehicleError ? (
+                    <Text variant="error">No vehicle found</Text>
+                  ) : (
+                    <>
+                      <View style={styles.carText}>
+                        <Text variant="bodyBold">Model: </Text>
+                        <Text>
+                          {searchIceVehicleData?.searchIceVehicle.MakeModel}
+                        </Text>
+                      </View>
 
-          <Select
-            title="Vehicle Model"
-            list={vehicleMakeModelsData?.vehicleMakeModels.Vehicle_Model || []}
-            placeholder="Model"
-            onPress={handleChange("modelCar")}
-            value={values.modelCar}
-            error={errors.modelCar && ERRORS.REQUIRED}
-            touched={touched.modelCar}
+                      <View style={styles.carText}>
+                        <Text variant="bodyBold">C02 Emissions: </Text>
+                        <Text>
+                          {searchIceVehicleData?.searchIceVehicle.Co2Emissions}
+                          {" "}
+                          gCO2/km
+                        </Text>
+                      </View>
+
+                      <View style={styles.carText}>
+                        <Text variant="bodyBold">Colour: </Text>
+                        <Text>
+                          {searchIceVehicleData?.searchIceVehicle.Colour}
+                        </Text>
+                      </View>
+                    </>
+                  )}
+                </>
+              )}
+            </View>
+          )}
+
+          <Input
+            label="Car plate"
+            placeholder="Y0UR PL4T3"
+            onChange={onCarPlateChange}
+            onBlur={handleBlur("carPlate")}
+            formatter={upperCaseFormatter}
           />
         </View>
       </ScrollView>
@@ -182,4 +223,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: { marginHorizontal: "10%", width: width * 0.8 },
+
+  carText: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });

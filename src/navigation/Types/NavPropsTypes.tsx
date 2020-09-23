@@ -2,7 +2,7 @@ import { StackScreenProps, StackNavigationProp } from "@react-navigation/stack";
 import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 import { RouteProp } from "@react-navigation/native";
 import { LatLng } from "react-native-maps";
-import { IAnswers } from "../../screens/App/ProfileScroll";
+import { IVehicleRecommendation } from "../../gql/Vehicle/queries";
 
 type LoginSignUpFrom = 0 | 1;
 
@@ -20,7 +20,7 @@ type StackParamsList = {
   MyCars: {};
   ProfileScroll: {};
   CheckCar: {
-    answers: IAnswers;
+    vehicleRecommendation: IVehicleRecommendation;
   };
   MyRoutes: {};
   Details: {};

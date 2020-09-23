@@ -1,4 +1,4 @@
-import { IVehicle } from "../Vehicle/Types";
+import { IceVehicle, IVehicle } from "../Vehicle/Types";
 
 enum UserRoleEnum {
   USER = "USER",
@@ -30,4 +30,5 @@ export interface IUser {
   vehicles?: IVehicle[];
   selectedVehicle?: IVehicle;
   random4digits?: number;
+  iceVehicle: IceVehicle;
 }
