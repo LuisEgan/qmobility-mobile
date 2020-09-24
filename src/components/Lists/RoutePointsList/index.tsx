@@ -17,7 +17,7 @@ interface IRoutePointsList extends IComponentsDefaults {
 const RoutePointsList = (props: IRoutePointsList) => {
   const {
     containerStyle,
-    points,
+    points = [],
     height = 250,
     startLocation,
     endLocation,
@@ -25,8 +25,7 @@ const RoutePointsList = (props: IRoutePointsList) => {
 
   const theme = useTheme<Theme>();
 
-  console.warn("RoutePointsList -> startLocation", startLocation);
-  console.warn("RoutePointsList -> endLocation", endLocation);
+  const data = [{ label: startLocation }, ...points, { label: endLocation }];
 
   return (
     <View
@@ -39,14 +38,14 @@ const RoutePointsList = (props: IRoutePointsList) => {
       {points && (
         <FlatList
           style={styles.list}
-          data={points}
+          data={data}
           renderItem={({ item, index }) => (
             <RouterPointListItem
               key={`${item}_${index}`}
               {...item}
               isStartPoint={index === 0}
-              isEndPoint={index === points.length - 1}
-              isExtreme={index === 0 || index === points.length - 1}
+              isEndPoint={index === data.length - 1}
+              isExtreme={index === 0 || index === data.length - 1}
             />
           )}
           keyExtractor={(item, index) => `${item}_${index}`}

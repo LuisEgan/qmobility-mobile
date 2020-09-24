@@ -39,13 +39,11 @@ const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
           style={styles.contentIconsLeft}
         >
           <View style={styles.viewLeft}>
-            <Icons icon={leftIcon} />
+            <Icons icon={leftIcon} size={30} />
           </View>
         </TouchableOpacity>
         {children || (
           <TouchableOpacity
-            // onChangeText={(str: string) => onChange && onChange(str)}
-            // placeholderTextColor={theme.colors.defautlInput}
             {...{ defaultValue, placeholder }}
             style={styles.inputStyle}
             onPress={() => navigate(APP_STACK_SCREENS_NAMES.SearchRouter)}
@@ -61,9 +59,6 @@ const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
           </TouchableOpacity>
         )}
       </View>
-      {/* <TouchableOpacity style={styles.contentIconsRight}>
-        <Icons icon="Mic" size={30} />
-      </TouchableOpacity> */}
     </View>
   );
 };
@@ -94,6 +89,7 @@ const styles = StyleSheet.create({
     borderRightColor: "#e0e0e0",
     paddingHorizontal: 5,
     alignItems: "center",
+    justifyContent: "center",
   },
   contentIconsRight: {
     justifyContent: "center",

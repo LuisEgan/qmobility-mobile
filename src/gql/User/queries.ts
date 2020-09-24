@@ -30,6 +30,14 @@ const allUserInfo = gql`
       }
       iceVehicle {
         Make
+        MakeModel
+        Co2Emissions
+        YearMonthFirstRegistered
+        FuelType
+        SeatingCapacity
+        Colour
+        VehicleClass
+        VehiclePlate
       }
     }
   }
