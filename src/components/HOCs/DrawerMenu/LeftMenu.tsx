@@ -1,15 +1,17 @@
 import React, { useContext } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import useTheme from "@shopify/restyle/dist/hooks/useTheme";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Text, Theme } from "../../../config/Theme";
+import { useQuery } from "@apollo/client";
+import theme, { Text } from "../../../config/Theme";
 import { ImageProfile } from "../..";
 import IconsList from "../../Lists/IconsList";
 import { IIconsListItem } from "../../Lists/IconsList/IconsListItem";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { IComponentsDefaults } from "../../../lib/Types";
 import { AuthContext } from "../../../navigation/AuthContext";
+import { User } from "../../../gql";
+import { IUser } from "../../../gql/User/Types";
 
 const { width, height } = Dimensions.get("window");
 
@@ -25,7 +27,9 @@ const LeftMenu = (props: ILeftMenu) => {
   const { signOut } = useContext(AuthContext);
   const { navigate } = useNavigation();
 
-  const theme = useTheme<Theme>();
+  const { data: userData } = useQuery<{ user: IUser }, IUser>(
+    User.queries.user,
+  );
 
   const onItemPress = (navigateTo: string) => {
     if (onItemPressProp) {
@@ -90,17 +94,16 @@ const LeftMenu = (props: ILeftMenu) => {
           onPress={() => navigate(APP_STACK_SCREENS_NAMES.Profile)}
         >
           <ImageProfile
-            label="JD"
             color={theme.colors.primary}
             changePhotoOption={false}
+            avatarUrl={userData?.user.avatarUrl}
           />
         </TouchableOpacity>
         <Text variant="heading1" color="white">
-          Jon Doe
+          {userData?.user.name}
         </Text>
-        <Text variant="bodyHighlight">JoDo</Text>
         <Text variant="body" color="bodySmall">
-          jondoe@gmail.com
+          {userData?.user.email}
         </Text>
       </View>
 

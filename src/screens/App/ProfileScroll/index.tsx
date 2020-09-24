@@ -51,10 +51,12 @@ const ProfileScroll = () => {
       selectedVehicle: IVehicleRecommendation,
     ) => {
       try {
+        const variables = {
+          selectedVehicle: selectedVehicle.vehicle.Vehicle_ID,
+        };
+
         await updateUser({
-          variables: {
-            selectedVehicle,
-          },
+          variables,
           refetchQueries: [
             {
               query: User.queries.user,
@@ -67,7 +69,6 @@ const ProfileScroll = () => {
         });
       } catch (e) {
         // TODO e feedback display
-        console.warn("e: ", e);
       }
     };
 

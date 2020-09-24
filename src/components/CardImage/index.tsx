@@ -94,8 +94,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   contentImage: {
-    width: 90,
-    height: 90,
+    width: 80,
+    height: 80,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
