@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import MapView, {
   PROVIDER_GOOGLE,
-  Marker,
-  Polyline,
   LatLng,
   MapEvent,
   Region,
@@ -11,10 +9,11 @@ import MapView, {
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { IChargers } from "../../gql/Route/queries";
-import Icons from "../svg";
+import theme from "../../config/Theme";
+
 import MarkerChanger from "./MarkerChanger";
 import MarkerSelect from "./MarkerSelect";
-import theme from "../../config/Theme";
+import Route from "./Route";
 
 const getAltitude = (origin: LatLng, destination: LatLng) => {
   const k = Math.PI / 180;
@@ -143,8 +142,8 @@ const Map = (props: IMap) => {
       showsTraffic={false}
       showsIndoors={false}
       showsIndoorLevelPicker
-      loadingIndicatorColor="#11041A"
-      loadingBackgroundColor="#F6F6F5"
+      loadingIndicatorColor={theme.colors.primary}
+      loadingBackgroundColor={theme.colors.white}
       style={styles.map}
       mapType="standard"
       onLongPress={(ev) => {
@@ -152,21 +151,8 @@ const Map = (props: IMap) => {
       }}
       initialRegion={region}
     >
-      {routeCoords && (
-        <>
-          <Polyline
-            coordinates={routeCoords}
-            strokeWidth={10}
-            strokeColor={theme.colors.primary}
-          />
-          <Marker coordinate={routeCoords[0]}>
-            <Icons icon="Room" fill={theme.colors.secondaryDark} />
-          </Marker>
-          <Marker coordinate={routeCoords[routeCoords.length - 1]}>
-            <Icons icon="Room" fill={theme.colors.secondaryDark} />
-          </Marker>
-        </>
-      )}
+      {routeCoords && <Route routeCoords={routeCoords} />}
+
       {markeeSelect.latitude !== 0 && (
         <MarkerSelect markeeSelect={markeeSelect} locationUser={userLocation} />
       )}
@@ -181,26 +167,6 @@ Map.defaultProps = {};
 const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
-  },
-  containerCollout: {
-    width: 170,
-    height: 30,
-    borderRadius: 5,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  titleCollout: {
-    fontWeight: "bold",
-    textAlign: "center",
-    flex: 0.7,
-  },
-  contentIconCollout: {
-    flex: 0.3,
-    height: "100%",
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
 
