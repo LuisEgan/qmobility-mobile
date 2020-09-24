@@ -13,6 +13,8 @@ import * as Permissions from "expo-permissions";
 import { IChargers } from "../../gql/Route/queries";
 import Icons from "../svg";
 import MarkerChanger from "./MarkerChanger";
+import MarkerSelect from "./MarkerSelect";
+import theme from "../../config/Theme";
 
 const getAltitude = (origin: LatLng, destination: LatLng) => {
   const k = Math.PI / 180;
@@ -44,6 +46,11 @@ const Map = (props: IMap) => {
     longitude: 0,
   });
 
+  const [userLocation, setUserLocation] = useState<LatLng>({
+    latitude: 0,
+    longitude: 0,
+  });
+
   const [region] = useState<Region>({
     latitude: 0,
     longitude: 0,
@@ -66,7 +73,7 @@ const Map = (props: IMap) => {
     if (status === "granted") {
       const location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
-
+      setUserLocation(location.coords);
       setTimeout(() => {
         mapAnimation.current?.animateToRegion(
           {
@@ -150,21 +157,18 @@ const Map = (props: IMap) => {
           <Polyline
             coordinates={routeCoords}
             strokeWidth={10}
-            strokeColor="#00D6FD"
+            strokeColor={theme.colors.primary}
           />
           <Marker coordinate={routeCoords[0]}>
-            <Icons icon="Room" fill="#002060" />
+            <Icons icon="Room" fill={theme.colors.secondaryDark} />
           </Marker>
           <Marker coordinate={routeCoords[routeCoords.length - 1]}>
-            <Icons icon="Room" fill="#002060" />
+            <Icons icon="Room" fill={theme.colors.secondaryDark} />
           </Marker>
         </>
       )}
-
-      {markeeSelect.latitude !== 0 && initialMain && (
-        <Marker coordinate={markeeSelect}>
-          <Icons icon="Room" fill="#002060" />
-        </Marker>
+      {markeeSelect.latitude !== 0 && (
+        <MarkerSelect markeeSelect={markeeSelect} locationUser={userLocation} />
       )}
 
       <MarkerChanger chargers={chargers} />
@@ -177,6 +181,26 @@ Map.defaultProps = {};
 const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
+  },
+  containerCollout: {
+    width: 170,
+    height: 30,
+    borderRadius: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  titleCollout: {
+    fontWeight: "bold",
+    textAlign: "center",
+    flex: 0.7,
+  },
+  contentIconCollout: {
+    flex: 0.3,
+    height: "100%",
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
