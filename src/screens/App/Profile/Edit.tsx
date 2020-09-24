@@ -31,7 +31,7 @@ const Edit = () => {
   const { navigate, goBack } = useNavigation();
 
   const { data: userData, loading } = useQuery<{ user: IUser }, IUser>(
-    User.queries.user,
+    User.queries.allUserInfo,
   );
 
   const [updateUser, { loading: updateUserLoading }] = useMutation<
@@ -81,8 +81,12 @@ const Edit = () => {
             <Header
               title="Edit my Profile"
               text="Cancel"
-              onPress={goBack}
-              textRight="Done"
+              onPress={() => {
+                if (!updateUserLoading) {
+                  goBack();
+                }
+              }}
+              textRight={`${updateUserLoading ? "Loading" : "Done"}`}
               onPressRight={props.handleSubmit}
               containerStyle={{
                 backgroundColor: theme.colors.secondaryLighter,
@@ -100,21 +104,19 @@ const Edit = () => {
                 </TouchableOpacity>
               </View>
 
-              <View>
-                <CardImage
-                  imgUri={userData.user.selectedVehicle?.Images[0]}
-                  name={userData.user.selectedVehicle?.Vehicle_Model}
-                  title="Defaul eVe"
-                  subTitle="userData"
-                  containerStyle={[
-                    styles.Card,
-                    {
-                      backgroundColor: theme.colors.white,
-                      borderColor: theme.colors.grayLight,
-                    },
-                  ]}
-                />
-              </View>
+              <CardImage
+                imgUri={userData.user.selectedVehicle?.Images[0]}
+                name={userData.user.selectedVehicle?.Vehicle_Model}
+                title="Defaul eVe"
+                subTitle={userData.user.selectedVehicle?.Vehicle_Make}
+                containerStyle={[
+                  styles.Card,
+                  {
+                    backgroundColor: theme.colors.white,
+                    borderColor: theme.colors.grayLighter,
+                  },
+                ]}
+              />
 
               <View>
                 <TouchableOpacity

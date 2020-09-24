@@ -9,7 +9,7 @@ import { Text, Theme } from "../../config/Theme";
 import Modal from "../Modal";
 
 interface IImageProfile {
-  label: string;
+  label?: string;
   color: string;
   changePhotoOption?: boolean;
   onLoadPhoto?: (photo: any) => void;

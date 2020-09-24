@@ -8,6 +8,7 @@ const user = gql`
       lastname
       dateOfBirth
       avatarUrl
+      email
     }
   }
 `;
@@ -16,24 +17,20 @@ const allUserInfo = gql`
   query AllUserInfo {
     user {
       id
-      updatedAt
-      createAt
-      deletedAt
       name
       lastname
-      email
-      password
-      username
       dateOfBirth
-      role
-      active
-      recoveryPasswordToken
-      networkType
       avatarUrl
-      vehicles
-      selectedVehicle
-      random4digits
-      iceVehicle
+      email
+      selectedVehicle {
+        Images
+        Vehicle_Make
+        Vehicle_Model
+        Vehicle_Model_Version
+      }
+      iceVehicle {
+        Make
+      }
     }
   }
 `;

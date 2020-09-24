@@ -15,7 +15,7 @@ const RootStack = createStackNavigator();
 
 const RootNavigator = () => {
   const [userToken, setUserToken] = useState<TUserToken>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [isKeyboardHidden, setIsKeyboardHidden] = useState<boolean>(true);
 
   // * Set user token from cached data

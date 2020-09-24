@@ -16,7 +16,6 @@ import {
   MapSearchDone,
 } from "../../screens/App";
 import { APP_STACK_SCREENS_NAMES } from "../../lib/constants";
-import { FullScreenModal } from "../../screens/Feedback";
 import { IUser } from "../../gql/User/Types";
 import { User } from "../../gql";
 import { AuthContext } from "../AuthContext";
@@ -77,9 +76,7 @@ const AppNavigator = () => {
 
   const { signOut } = useContext(AuthContext);
 
-  const { data, loading, error } = useQuery<{ user: IUser }, IUser>(
-    User.queries.user,
-  );
+  const { data, error } = useQuery<{ user: IUser }, IUser>(User.queries.user);
 
   // * Check if the user already created a profile or not
   useEffect(() => {
@@ -97,7 +94,7 @@ const AppNavigator = () => {
     }
   }, [data, error]);
 
-  if (!initialRouteName || loading) return <FullScreenModal show />;
+  // if (!initialRouteName || loading) return <FullScreenModal show />;
 
   return (
     <Navigator headerMode="none" initialRouteName={initialRouteName}>

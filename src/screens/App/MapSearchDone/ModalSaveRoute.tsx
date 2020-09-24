@@ -260,12 +260,12 @@ const styles = StyleSheet.create({
   },
   inputContent: {
     borderRadius: 10,
-    paddingTop: 5,
     paddingLeft: 5,
     height: 50,
   },
   input: {
     borderBottomWidth: 0,
+    marginTop: -8,
   },
   selectContent: {
     borderRadius: 10,
