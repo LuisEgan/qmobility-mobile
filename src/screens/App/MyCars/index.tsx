@@ -1,42 +1,27 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
-import { useTheme } from "@shopify/restyle";
+import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
+import { useQuery } from "@apollo/client";
 import { Header, Icons, Footer, CardImage } from "../../../components";
-import { Text, Theme } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { DrawerLeftMenu } from "../../../components/HOCs";
+import { User } from "../../../gql";
+import { IUser } from "../../../gql/User/Types";
+import { FullScreenModal } from "../../Feedback";
 
 const { height } = Dimensions.get("window");
 
-interface IListCar {
-  imgUri: string;
-  name: string;
-  title: string;
-  subTitle: string;
-}
-interface IListCarArray extends Array<IListCar> {}
-const listMyCars: IListCarArray = [
-  {
-    imgUri: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-  },
-  {
-    imgUri: "https://reactnative.dev/img/tiny_logo.png",
-    name: "Nissan Leaf Acenta 40",
-    title: "Default eve",
-    subTitle: "Default eve",
-  },
-];
-
 const MyCars = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const { data: userData, loading } = useQuery<{ user: IUser }, IUser>(
+    User.queries.allUserInfo,
+  );
 
-  const theme = useTheme<Theme>();
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
+
+  if (loading) return <FullScreenModal show />;
 
   return (
     <DrawerLeftMenu
@@ -61,29 +46,24 @@ const MyCars = () => {
             <Text variant="label">Your Comparison vehicles</Text>
             <Icons icon="Edit" fill="#ACACAC" size={15} />
           </View>
-          <View style={styles.cardMyCar}>
-            <View style={styles.costentCar}>
-              <View style={styles.contentImage}>
-                <Image
-                  style={styles.tinyLogo}
-                  source={{
-                    uri: "https://reactnative.dev/img/tiny_logo.png",
-                  }}
-                />
-              </View>
-              <View>
-                <Text variant="heading2">Jon´s Mercedes</Text>
-                <Text variant="bodyHighlight">Model s</Text>
-              </View>
-            </View>
-          </View>
+
+          <CardImage
+            name={userData?.user.iceVehicle.Make}
+            title="Default ICE"
+            subTitle={userData?.user.iceVehicle.MakeModel}
+            svgIcon={<Icons icon="Apple" />}
+          />
+
           <View style={styles.containerTtitleEdition}>
-            <Text variant="label">Virtual vehicles</Text>
+            <Text variant="label">Virtual vehicle</Text>
           </View>
 
-          {listMyCars.map((car) => (
-            <CardImage key={`${car.title}_${Math.random()}`} {...car} />
-          ))}
+          <CardImage
+            name={userData?.user.selectedVehicle?.Vehicle_Make}
+            title="Default eVe"
+            subTitle={userData?.user.selectedVehicle?.Vehicle_Model}
+            imgUri={userData?.user.selectedVehicle?.Images[0]}
+          />
         </ScrollView>
         <Footer
           title="Feeling a bit adventurous today?"
