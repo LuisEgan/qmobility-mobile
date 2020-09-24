@@ -31,6 +31,11 @@ const allUserInfo = gql`
         Battery_Capacity_Full
         Battery_Capacity_Estimate
         Range_Real
+        Availability_Status
+        Performance_Topspeed
+        Fastcharge_ChargeTime
+        Efficiency_Real
+        Price_From_UK
       }
       iceVehicle {
         Make
