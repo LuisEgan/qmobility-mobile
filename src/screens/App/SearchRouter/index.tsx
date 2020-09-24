@@ -141,19 +141,22 @@ const SearchRouter = () => {
     }
   };
 
+  const altitude = search.length <= 2 ? 0.2 : 1;
+  // const altitude = search.length <= 2 ? (Platform.OS === "ios" ? 0.1 : 0.2) : 1;
+
   return (
     <View style={styles.container}>
       <GoogleSearch
         placeholder="Where are you going?"
-        onChange={setSearch}
+        onChange={(str) => setSearch(str)}
         onPress={(details) => onGoogleReute(details)}
         containerStyle={{
           ...styles.googleSearch,
-          flex: search.length < 2 ? 0.2 : 1,
+          flex: altitude,
         }}
       />
 
-      {search.length < 2 && <History />}
+      {search.length <= 2 && <History />}
     </View>
   );
 };

@@ -34,7 +34,7 @@ const IconsListItem = (props: IIconsListItem) => {
       style={[styles.container, containerStyle]}
     >
       {typeof icon === "string" ? (
-        <Icons icon={icon} width={16} fill={svgFill || theme.colors.primary} />
+        <Icons icon={icon} width={25} fill={svgFill || theme.colors.primary} />
       ) : (
         icon
       )}

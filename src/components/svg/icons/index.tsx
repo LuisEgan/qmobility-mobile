@@ -53,3 +53,4 @@ export { default as Setting } from "./Setting";
 export { default as Spa } from "./Spa";
 export { default as Speed } from "./Speed";
 export { default as Star } from "./Star";
+export { default as Timeline } from "./Timeline";

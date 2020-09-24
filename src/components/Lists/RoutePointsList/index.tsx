@@ -10,12 +10,23 @@ import { Theme } from "../../../config/Theme";
 interface IRoutePointsList extends IComponentsDefaults {
   points?: Array<IRouterPointsListItem>;
   height?: number;
+  startLocation: string;
+  endLocation: string;
 }
 
 const RoutePointsList = (props: IRoutePointsList) => {
-  const { containerStyle, points, height = 250 } = props;
+  const {
+    containerStyle,
+    points,
+    height = 250,
+    startLocation,
+    endLocation,
+  } = props;
 
   const theme = useTheme<Theme>();
+
+  console.warn("RoutePointsList -> startLocation", startLocation);
+  console.warn("RoutePointsList -> endLocation", endLocation);
 
   return (
     <View

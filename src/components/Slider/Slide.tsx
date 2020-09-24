@@ -14,7 +14,7 @@ import Animated, { interpolate, Extrapolate } from "react-native-reanimated";
 import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 export enum ESlide {
   Default,
@@ -168,12 +168,12 @@ export default Slide;
 const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
-    height: width * 0.5,
-    width: width * 0.5,
+    height: height * 0.5,
+    width,
     justifyContent: "center",
     alignItems: "center",
   },
-  image: { width: width * 0.3, height: width * 0.3 },
+  image: { width, height: height * 0.4 },
 
   // * Default
   defaultContainer: {},

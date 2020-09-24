@@ -91,7 +91,7 @@ const Details = (props: IDetails) => {
         </View>
 
         <View style={styles.content}>
-          <Icons icon="Circle" fill={theme.colors.primary} size={28} />
+          <Icons icon="BatteryRight" fill={theme.colors.primary} size={28} />
           <Text
             variant="heading2"
             style={{
@@ -116,17 +116,17 @@ const Details = (props: IDetails) => {
 
         <View style={[styles.content]}>
           <IconText icon="Bubble" label="5" />
-          <IconText icon="Circle" label="0 g/km" />
+          <IconText icon="Spa" label="0 g/km" />
         </View>
 
         <View style={[styles.content]}>
-          <IconText icon="Bubble" label="Max 220 km" />
-          <IconText icon="Circle" label="16.4 kWh/100km" />
+          <IconText icon="Polymer" label="Max 220 km" />
+          <IconText icon="Nature" label="16.4 kWh/100km" />
         </View>
 
         <View style={[styles.content]}>
-          <IconText icon="Bubble" label="Max 144 km/h" />
-          <IconText icon="Circle" label="Time 0:40 h" />
+          <IconText icon="Speed" label="Max 144 km/h" />
+          <IconText icon="Flash" label="Time 0:40 h" />
         </View>
 
         <View style={[styles.content, { justifyContent: "space-between" }]}>
@@ -151,7 +151,7 @@ const Details = (props: IDetails) => {
           <View
             style={[styles.line, { borderColor: theme.colors.primaryLighter }]}
           />
-          <ContentView icon="Circle" subTitle="Travelled" type="km" />
+          <ContentView icon="Navigation" subTitle="Travelled" type="km" />
           <View
             style={[styles.line, { borderColor: theme.colors.primaryLighter }]}
           />

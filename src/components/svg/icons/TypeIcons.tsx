@@ -54,6 +54,7 @@ export type TIcon =
   | "Spa"
   | "Speed"
   | "Star"
+  | "Timeline"
   | "Error";
 
 export interface ISVG {
