@@ -20,11 +20,11 @@ const { height, width } = Dimensions.get("window");
 
 interface IDetails extends TDetailsNavProps {}
 
-interface IContentView {
-  icon?: TIcon;
-  subTitle?: string;
-  type?: string;
-}
+// interface IContentView {
+//   icon?: TIcon;
+//   subTitle?: string;
+//   type?: string;
+// }
 
 interface IIconText {
   icon?: TIcon;
@@ -59,22 +59,22 @@ const Details = (props: IDetails) => {
     </View>
   );
 
-  const ContentView = ({ icon, subTitle, type }: IContentView) => (
-    <View style={styles.cardContent}>
-      {icon && <Icons icon={icon} fill={theme.colors.primary} size={30} />}
-      <View style={styles.cardBody}>
-        <View style={styles.cardBodyContent}>
-          <Text variant="heading1">0</Text>
-          {type && (
-            <Text style={styles.cardType} variant="bodyBold">
-              {type}
-            </Text>
-          )}
-        </View>
-        {subTitle && <Text variant="body">{subTitle}</Text>}
-      </View>
-    </View>
-  );
+  // const ContentView = ({ icon, subTitle, type }: IContentView) => (
+  //   <View style={styles.cardContent}>
+  //     {icon && <Icons icon={icon} fill={theme.colors.primary} size={30} />}
+  //     <View style={styles.cardBody}>
+  //       <View style={styles.cardBodyContent}>
+  //         <Text variant="heading1">0</Text>
+  //         {type && (
+  //           <Text style={styles.cardType} variant="bodyBold">
+  //             {type}
+  //           </Text>
+  //         )}
+  //       </View>
+  //       {subTitle && <Text variant="body">{subTitle}</Text>}
+  //     </View>
+  //   </View>
+  // );
 
   if (loading) return <FullScreenModal show />;
 

@@ -97,7 +97,7 @@ const Input = (props: IInput) => {
         <View
           style={[
             styles.error,
-            { bottom: error.length >= 50 ? "-100%" : "-50%" },
+            { bottom: error.length >= 50 ? "-100%" : "-40%" },
           ]}
         >
           <Text variant="error">{error}</Text>

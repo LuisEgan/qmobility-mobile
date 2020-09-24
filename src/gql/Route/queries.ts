@@ -82,6 +82,23 @@ const getRoutes = gql`
   }
 `;
 
+export interface IGetMySaveRoute {
+  origin?: string;
+  destination?: string;
+  friendlyName?: string;
+}
+
+const getMySaveRoute = gql`
+  query GetMySaveRoute {
+    getMyRoutes {
+      origin
+      destination
+      friendlyName
+    }
+  }
+`;
+
 export default {
   getRoutes,
+  getMySaveRoute,
 };
