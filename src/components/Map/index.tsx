@@ -54,58 +54,53 @@ const Map = (props: IMap) => {
   const mapAnimation = useRef(null);
 
   useEffect(() => {
-    if (initialMain) {
-      LocationAnimation();
-    }
-    if (routeCoords) {
-      routeAnimation();
-    }
+    if (initialMain) LocationAnimation();
   }, []);
+
+  useEffect(() => {
+    if (routeCoords) routeAnimation(routeCoords);
+  }, [routeCoords]);
 
   const LocationAnimation = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
       const location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
-      // animateToCamera
-      // {center: temp_cordinate,pitch: 2, heading: 20,altitude: 200, zoom: 40},duration
-      mapAnimation.current?.animateToCoordinate({
-        latitude,
-        longitude,
-      });
 
-      mapAnimation.current?.animateToRegion(
-        {
-          latitude,
-          longitude,
-          latitudeDelta: 0.007,
-          longitudeDelta: 0.007,
-        },
-        1000,
-      );
+      setTimeout(() => {
+        mapAnimation.current?.animateToRegion(
+          {
+            latitude,
+            longitude,
+            latitudeDelta: 0.007,
+            longitudeDelta: 0.007,
+          },
+          1000,
+        );
+      }, 100);
     }
   };
 
-  const routeAnimation = (): void => {
-    if (routeCoords) {
-      const start = routeCoords[routeCoords.length - 1];
-      const end = routeCoords[0];
+  const routeAnimation = (coords: LatLng[]): void => {
+    const start = coords[coords.length - 1];
+    const end = coords[0];
 
-      const altitude = getAltitude(start, end);
+    const altitude = getAltitude(start, end);
 
-      const mediumLat = (start.latitude + end.latitude) / 2;
-      const mediumLng = (end.longitude + start.longitude) / 2;
+    const mediumLat = (start.latitude + end.latitude) / 2;
+    const mediumLng = (end.longitude + start.longitude) / 2;
 
-      mapAnimation.current.animateToRegion(
+    setTimeout(() => {
+      mapAnimation.current?.animateToRegion(
         {
           latitude: mediumLat,
           longitude: mediumLng,
           latitudeDelta: altitude,
           longitudeDelta: altitude,
         },
-        350,
+        500,
       );
-    }
+    }, 100);
   };
 
   const newMarker = (event: MapEvent<{}>) => {

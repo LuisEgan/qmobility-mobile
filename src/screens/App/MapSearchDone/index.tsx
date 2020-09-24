@@ -94,24 +94,36 @@ const MapSearchDone = (props: IMapSearchDone) => {
           </Text>
         </View>
       ) : (
-        <>
-          <Text variant="heading2">
+        <View>
+          <Text variant="heading2" numberOfLines={1}>
             {locationStart && editNameCity(locationStart)}
             ,
             {locationEnd && editNameCity(locationEnd)}
           </Text>
+
           <View style={styles.row}>
-            <Icons icon="Done" size={20} containerStyle={styles.icon} />
-            <Text variant="bodySmall">
+            <Icons
+              icon="Market"
+              size={20}
+              fill={theme.colors.grayLight}
+              containerStyle={styles.icon}
+            />
+            <Text variant="bodySmall" numberOfLines={1}>
               30 John Islip St, Westminster, London SW1P 4DD, United Kingdom
             </Text>
           </View>
           <View style={styles.row}>
-            <Icons icon="Done" size={20} containerStyle={styles.icon} />
+            <Icons
+              icon="DirectionsCar"
+              size={20}
+              fill={theme.colors.grayLight}
+              containerStyle={styles.icon}
+            />
             <Text variant="bodySmall">1 hr 29 min (200 km)</Text>
             <Icons
-              icon="Done"
+              icon="BatteryRight"
               size={20}
+              fill={theme.colors.grayLight}
               containerStyle={[styles.icon, { marginLeft: 10 }]}
             />
             <Text variant="bodySmall">100%</Text>
@@ -132,7 +144,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
               onPress={() => setStateModal(!stateModal)}
             />
           </View>
-        </>
+        </View>
       )}
     </>
   );
@@ -176,7 +188,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
           maxHeight={height * 0.9}
           closeOffset={height * 0.35}
           isOpen={isDrawerOpen}
-          scrollable={false}
+          scrollable
           disableToggler
           onOpen={() => {
             setTimeout(() => {
@@ -186,9 +198,13 @@ const MapSearchDone = (props: IMapSearchDone) => {
           onClose={() => setShowContent(false)}
         >
           <RouteActions />
-          {showContent ? (
+          {showContent && (
             <>
-              <RoutePointsList points={dataRoute?.getRoutes?.Chargers[0]} />
+              <RoutePointsList
+                startLocation={locationStart}
+                endLocation={locationEnd}
+                points={dataRoute?.getRoutes?.Chargers[0]}
+              />
 
               <View style={styles.cardsContainer}>
                 <Card
@@ -213,15 +229,6 @@ const MapSearchDone = (props: IMapSearchDone) => {
                 />
               </View>
             </>
-          ) : (
-            <View
-              style={[
-                styles.contentLoading,
-                { borderColor: theme.colors.borderColor },
-              ]}
-            >
-              <Text variant="bodyHighlight">Loading...</Text>
-            </View>
           )}
         </BottomDrawer>
       </View>
@@ -245,10 +252,10 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     width: "70%",
-    marginVertical: 10,
+    marginVertical: 2,
   },
   icon: { marginRight: 10 },
-  button: { width: width * 0.3 },
+  button: { width: width * 0.35, height: 34 },
   headerContainer: {
     position: "relative",
     top: 0,

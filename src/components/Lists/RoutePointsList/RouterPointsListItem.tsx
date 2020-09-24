@@ -17,6 +17,9 @@ export interface IRouterPointsListItem extends IComponentsDefaults {
   isChargingPoint?: boolean;
   isStartPoint?: boolean;
   isEndPoint?: boolean;
+  latitude?: number;
+  longitude?: number;
+  Id?: number;
 }
 
 const RouterPointListItem = (props: IRouterPointsListItem) => {
@@ -50,13 +53,13 @@ const RouterPointListItem = (props: IRouterPointsListItem) => {
       );
     }
 
-    if (isChargingPoint) return <Icons size={25} icon="Apple" />;
+    if (isChargingPoint) return <Icons size={25} icon="Market" />;
 
     if (isEndPoint) return <Icons size={25} icon="ArrowDown" />;
 
     if (isStartPoint) return <Icons size={25} icon="Clock" />;
 
-    return icon || <Icons size={25} icon="Dot" />;
+    return icon || <Icons size={25} icon="Market" />;
   };
 
   return (
@@ -66,7 +69,7 @@ const RouterPointListItem = (props: IRouterPointsListItem) => {
           {[...Array(10)].map(() => (
             <Icons
               key={Math.random()}
-              icon="Dot"
+              icon="Market"
               size={8}
               fill={theme.colors.borderColor}
               containerStyle={styles.dot}
@@ -80,10 +83,10 @@ const RouterPointListItem = (props: IRouterPointsListItem) => {
       </View>
 
       <View style={styles.textContainer}>
-        <Text variant={setLabelVariant()} style={{ marginTop: -5 }}>
+        <Text variant={setLabelVariant()} style={{}}>
           {label}
         </Text>
-        <Text variant="bodySmall">{description}</Text>
+        {description && <Text variant="bodySmall">{description}</Text>}
       </View>
     </View>
   );

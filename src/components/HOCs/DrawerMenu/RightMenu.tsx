@@ -35,12 +35,12 @@ const RightMenu = (props: IRightMenu) => {
   const listItems: ListItems = [
     {
       text: "Change Car",
-      icon: "Apple",
+      icon: "DirectionsCar",
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyCars),
     },
     {
       text: "Book test drive",
-      icon: "Apple",
+      icon: "History",
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Profile),
     },
   ];
@@ -58,7 +58,7 @@ const RightMenu = (props: IRightMenu) => {
         </View>
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Icons icon="Apple" fill="white" size={30} />
+          <Icons icon="BatteryRight" fill="white" size={30} />
           <Text variant="subheadingLight" color="white">
             100%
           </Text>

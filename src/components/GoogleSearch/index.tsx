@@ -31,13 +31,14 @@ const GoogleSearch = (props: IGoogleSearch) => {
   return (
     <GooglePlacesAutocomplete
       autoFocus
+      minLength={2}
       renderRow={(details) => (
         <View style={{ height: 80, flex: 1 }}>
           <ListItem
             onPress={() => {
               if (onPress && details) onPress(details);
             }}
-            icon="Dot"
+            icon="Search"
             title={details?.structured_formatting?.main_text}
             subTitle={details?.structured_formatting?.secondary_text}
           />
@@ -53,11 +54,11 @@ const GoogleSearch = (props: IGoogleSearch) => {
           <Icons icon="ArrowBackLight" />
         </TouchableOpacity>
       )}
-      renderRightButton={() => (
-        <TouchableOpacity style={styles.contentIconsRight}>
-          <Icons icon="Mic" size={30} />
-        </TouchableOpacity>
-      )}
+      // renderRightButton={() => (
+      //   <TouchableOpacity style={styles.contentIconsRight}>
+      //     <Icons icon="Mic" size={30} />
+      //   </TouchableOpacity>
+      // )}
       textInputProps={{}}
       styles={{
         container: {

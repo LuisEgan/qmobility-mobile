@@ -86,11 +86,10 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
           ]}
         />
       </TouchableOpacity>
-      <ScrollView>
-        <View style={styles.content}>
-          {scrollable ? <ScrollView>{children}</ScrollView> : children}
-        </View>
-      </ScrollView>
+
+      <View style={styles.content}>
+        {scrollable ? <ScrollView>{children}</ScrollView> : children}
+      </View>
     </Animated.View>
   );
 };

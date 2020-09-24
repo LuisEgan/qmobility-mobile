@@ -54,15 +54,16 @@ const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
               style={{
                 color: theme.colors.defautlInput,
               }}
+              numberOfLines={1}
             >
               {placeholder}
             </Text>
           </TouchableOpacity>
         )}
       </View>
-      <TouchableOpacity style={styles.contentIconsRight}>
+      {/* <TouchableOpacity style={styles.contentIconsRight}>
         <Icons icon="Mic" size={30} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

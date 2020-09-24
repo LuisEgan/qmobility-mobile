@@ -42,31 +42,31 @@ const LeftMenu = (props: ILeftMenu) => {
   const listItems: ListItems = [
     {
       text: "Create Route",
-      icon: "Apple",
+      icon: "Map",
       textColor: "white",
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Main),
     },
     {
       text: "My Routes",
-      icon: "Apple",
+      icon: "Timeline",
       textColor: "white",
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyRoutes),
     },
     {
       text: "My Vehicles",
-      icon: "Apple",
+      icon: "DirectionsCar",
       textColor: "white",
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyCars),
     },
     {
       text: "My Stats",
-      icon: "Apple",
+      icon: "AssessMent",
       textColor: "white",
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Main),
     },
     {
       text: "My Match",
-      icon: "Apple",
+      icon: "Star",
       textColor: "white",
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Details),
     },
@@ -75,13 +75,13 @@ const LeftMenu = (props: ILeftMenu) => {
   const optionsListItems: ListItems = [
     {
       text: "Account Settings",
-      icon: "Apple",
+      icon: "Setting",
       textColor: "white",
-      onPress: () => navigate(APP_STACK_SCREENS_NAMES.EditProfile),
+      onPress: () => navigate(APP_STACK_SCREENS_NAMES.CreateProfile),
     },
     {
       text: "Logout",
-      icon: "Apple",
+      icon: "ExitApp",
       textColor: "white",
       onPress: () => signOut(),
     },

@@ -56,6 +56,7 @@ import {
   Spa,
   Speed,
   Star,
+  Timeline,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -127,6 +128,7 @@ const icons = {
   Spa: (props: Iicons) => <Spa {...props} />,
   Speed: (props: Iicons) => <Speed {...props} />,
   Star: (props: Iicons) => <Star {...props} />,
+  Timeline: (props: Iicons) => <Timeline {...props} />,
 };
 
 const Icons = (props: Iicons) => {
