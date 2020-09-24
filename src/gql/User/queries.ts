@@ -27,6 +27,10 @@ const allUserInfo = gql`
         Vehicle_Make
         Vehicle_Model
         Vehicle_Model_Version
+        Battery_Capacity_Useable
+        Battery_Capacity_Full
+        Battery_Capacity_Estimate
+        Range_Real
       }
       iceVehicle {
         Make

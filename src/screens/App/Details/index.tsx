@@ -6,12 +6,15 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { useTheme } from "@shopify/restyle";
+import { useQuery } from "@apollo/client";
 import { Header, Icons, Button, Slider } from "../../../components";
 import { TDetailsNavProps } from "../../../navigation/Types/NavPropsTypes";
-import { Theme, Text } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
 import slides from "./slides";
+import { User } from "../../../gql";
+import { IUser } from "../../../gql/User/Types";
+import { FullScreenModal } from "../../Feedback";
 
 const { height, width } = Dimensions.get("window");
 
@@ -31,7 +34,9 @@ interface IIconText {
 const Details = (props: IDetails) => {
   const { navigation } = props;
 
-  const theme = useTheme<Theme>();
+  const { data: userData, loading } = useQuery<{ user: IUser }, IUser>(
+    User.queries.allUserInfo,
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -71,6 +76,8 @@ const Details = (props: IDetails) => {
     </View>
   );
 
+  if (loading) return <FullScreenModal show />;
+
   return (
     <View
       style={[
@@ -80,11 +87,16 @@ const Details = (props: IDetails) => {
         },
       ]}
     >
-      <Slider slides={slides} {...{ width, height: height * 0.4 }} />
+      <Slider
+        slides={slides(userData?.user.selectedVehicle?.Images || [])}
+        {...{ width, height: height * 0.4 }}
+      />
 
       <ScrollView style={styles.containerScroll}>
         <View style={styles.contentTitle}>
-          <Text variant="heading2">Nissan Leaf+</Text>
+          <Text variant="heading2">
+            {userData?.user.selectedVehicle?.Vehicle_Model}
+          </Text>
           <TouchableOpacity>
             <Icons icon="MoreVert" fill={theme.colors.primary} size={28} />
           </TouchableOpacity>
@@ -109,9 +121,19 @@ const Details = (props: IDetails) => {
               marginRight: 10,
             }}
           >
-            eV Battery 62 kWh
+            eV Battery
+            {" "}
+            {userData?.user.selectedVehicle?.Battery_Capacity_Full}
+            {" "}
+            kWh
           </Text>
-          <Text variant="bodyBold">Range 280 km</Text>
+          <Text variant="bodyBold">
+            Range
+            {" "}
+            {userData?.user.selectedVehicle?.Range_Real}
+            {" "}
+            km
+          </Text>
         </View>
 
         <View style={[styles.content]}>

@@ -14,7 +14,7 @@ import { Text, Theme } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface IInput extends IComponentsDefaults {
-  onChange: (str: string) => void;
+  onChange?: (str: string) => void;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   onForgotPass?: () => void;
   label?: string;

@@ -2,14 +2,16 @@ import React from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Animated from "react-native-reanimated";
-import { useTheme } from "@shopify/restyle";
-import { Text, Theme } from "../../../config/Theme";
+import { useQuery } from "@apollo/client";
+import theme, { Text } from "../../../config/Theme";
 import IconsList from "../../Lists/IconsList";
 import { IIconsListItem } from "../../Lists/IconsList/IconsListItem";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { IComponentsDefaults } from "../../../lib/Types";
 import car from "../../../assets/png/Nissan_Leaf_2018-02.png";
 import { Icons } from "../..";
+import { User } from "../../../gql";
+import { IUser } from "../../../gql/User/Types";
 
 interface ListItems extends Array<IIconsListItem> {}
 
@@ -20,7 +22,9 @@ interface IRightMenu extends IComponentsDefaults {
 const RightMenu = (props: IRightMenu) => {
   const { animContainerStyle, onItemPress: onItemPressProp } = props;
 
-  const theme = useTheme<Theme>();
+  const { data: userData } = useQuery<{ user: IUser }, IUser>(
+    User.queries.allUserInfo,
+  );
 
   const { navigate } = useNavigation();
 
@@ -50,10 +54,15 @@ const RightMenu = (props: IRightMenu) => {
       <View
         style={[styles.header, { borderBottomColor: theme.colors.primary }]}
       >
-        <ImageBackground source={car} style={styles.bgImg} />
+        <ImageBackground
+          source={
+            userData ? { uri: userData.user.selectedVehicle?.Images[0] } : car
+          }
+          style={styles.bgImg}
+        />
         <View>
           <Text variant="heading1" color="white">
-            Nissan Leaf
+            {userData?.user.selectedVehicle?.Vehicle_Model}
           </Text>
         </View>
 

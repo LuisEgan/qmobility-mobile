@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Dimensions, ImageBackground } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useQuery } from "@apollo/client";
 import { Map, InputSearch } from "../../../components";
 import { DrawerLeftMenu, DrawerRightMenu } from "../../../components/HOCs";
 
 import car from "../../../assets/png/Nissan_Leaf_2018-02.png";
+import { User } from "../../../gql";
+import { IUser } from "../../../gql/User/Types";
 
 const { height } = Dimensions.get("window");
 
@@ -14,6 +17,10 @@ enum EDrawer {
 }
 
 const Main = () => {
+  const { data: userData } = useQuery<{ user: IUser }, IUser>(
+    User.queries.allUserInfo,
+  );
+
   const [isDrawerLeftOpen, setIsDrawerLeftOpen] = useState<boolean>(false);
   const [isDrawerRightOpen, setIsDrawerRightOpen] = useState<boolean>(false);
 
@@ -52,7 +59,14 @@ const Main = () => {
               style={styles.carImgContainer}
               onPress={() => toggleDrawer(EDrawer.RIGHT)}
             >
-              <ImageBackground source={car} style={styles.imgBg} />
+              <ImageBackground
+                source={
+                  userData
+                    ? { uri: userData.user.selectedVehicle?.Images[0] }
+                    : car
+                }
+                style={styles.imgBg}
+              />
             </TouchableOpacity>
           </View>
           <Map initialMain />

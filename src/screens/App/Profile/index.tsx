@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "@shopify/restyle";
+import { useQuery } from "@apollo/client";
 import {
   Header,
   ImageProfile,
@@ -12,9 +13,17 @@ import {
 import { Text, Theme } from "../../../config/Theme";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { DrawerLeftMenu } from "../../../components/HOCs";
+import { User } from "../../../gql";
+import { IUser } from "../../../gql/User/Types";
+import { FullScreenModal } from "../../Feedback";
+import { dateToText } from "../../../lib/dates";
 
 const CreateProfile = () => {
   const { navigate } = useNavigation();
+
+  const { data: userData, loading } = useQuery<{ user: IUser }, IUser>(
+    User.queries.allUserInfo,
+  );
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
@@ -23,6 +32,8 @@ const CreateProfile = () => {
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
+
+  if (loading) return <FullScreenModal show />;
 
   return (
     <DrawerLeftMenu
@@ -45,15 +56,16 @@ const CreateProfile = () => {
         }}
       >
         <View style={[styles.container]}>
-          <ImageProfile label="JD" color={theme.colors.primary} />
-          <Text variant="heading1">Jon Doe</Text>
-          <Text variant="bodyHighlight">JoDo</Text>
-          <Text variant="subheadingLight">jondoe@gmail.com</Text>
-          <Input disabled defaultValue="18/08/1984" onChange={() => null} />
+          <ImageProfile
+            color={theme.colors.primary}
+            avatarUrl={userData?.user.avatarUrl}
+          />
+          <Text variant="heading1">{userData?.user.name}</Text>
+          <Text variant="bodyHighlight">{userData?.user.lastname}</Text>
+          <Text variant="subheadingLight">{userData?.user.email}</Text>
           <Input
             disabled
-            defaultValue="+44 123 456 789"
-            onChange={() => null}
+            defaultValue={dateToText(`${userData?.user.dateOfBirth}`)}
           />
           <View style={styles.containerTtitleEdition}>
             <Text variant="label">YOUR VIRTUAL EVE</Text>
@@ -65,10 +77,10 @@ const CreateProfile = () => {
           </View>
           <View>
             <CardImage
-              imgUri="https://reactnative.dev/img/tiny_logo.png"
-              name="Nissan Leaf Acenta 40"
+              name={userData?.user.selectedVehicle?.Vehicle_Make}
+              imgUri={userData?.user.selectedVehicle?.Images[0]}
               title="Defaul eVe"
-              subTitle="View Profile"
+              subTitle={userData?.user.selectedVehicle?.Vehicle_Model}
               containerStyle={[
                 styles.Card,
                 {

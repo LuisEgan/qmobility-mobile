@@ -14,6 +14,8 @@ import Animated, { interpolate, Extrapolate } from "react-native-reanimated";
 import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
+import placeholderImg from "../../assets/png/Nissan_Leaf_2018-02x2.png";
+
 const { width, height } = Dimensions.get("window");
 
 export enum ESlide {
@@ -28,6 +30,7 @@ export interface ISlide extends IComponentsDefaults {
   text?: string;
   type?: ESlide;
   imgSource?: ImageSourcePropType;
+  imgUri?: string;
   imgContainerStyle?: StyleProp<ViewStyle>;
   imgStyle?: ImageStyle;
   svgIcon?: JSX.Element;
@@ -52,6 +55,7 @@ const Slide = (props: ISLideProps) => {
     title,
     text,
     imgSource,
+    imgUri,
     imgContainerStyle,
     imgStyle,
     svgIcon,
@@ -136,9 +140,14 @@ const Slide = (props: ISLideProps) => {
           contentStyle,
         ]}
       >
-        {imgSource ? (
+        {imgSource || imgUri ? (
           <View style={[styles.imageContainer, imgContainerStyle]}>
-            <Image source={imgSource} style={[styles.image, imgStyle]} />
+            <Image
+              source={
+                imgUri ? { uri: imgUri || "" } : imgSource || placeholderImg
+              }
+              style={[styles.image, imgStyle]}
+            />
           </View>
         ) : (
           svgIcon
