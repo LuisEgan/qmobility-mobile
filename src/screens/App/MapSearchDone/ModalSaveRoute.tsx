@@ -6,15 +6,23 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { useTheme } from "@shopify/restyle";
 
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
+import { useMutation } from "@apollo/client";
 import { Modal, Select, Input, Icons } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
 import { ERRORS } from "../../../lib/constants";
+import {
+  ISaveMyRoutes,
+  ERouteCategory,
+  ISaveMyRoutesVar,
+} from "../../../gql/Route/mutations";
+import { Route } from "../../../gql";
 
 const { height, width } = Dimensions.get("window");
 
@@ -34,6 +42,17 @@ interface IFormValues {
 const ModalSaveRoute = (props: IModalSaveRoute) => {
   const { stateModal, onClosed, startLocation, endLocation } = props;
 
+  const [
+    upSaveMyRoutes,
+    {
+      // data: upSaveMyRouteData,
+      loading: upSaveMyRoutesLoading,
+      // error: uoSaveMyRoutesError,
+    },
+  ] = useMutation<{ upSaveMyRoutes: ISaveMyRoutes }, ISaveMyRoutesVar>(
+    Route.mutations.saveMyRoutes,
+  );
+
   const [statePhase, setStatePhase] = useState<boolean>(true);
   const [valueSave, setValueSave] = useState<IFormValues>({
     name: "",
@@ -47,6 +66,23 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
     setValueSave(values);
     setStatePhase(!statePhase);
   };
+
+  const onSaveMyRouter = async () => {
+    const { name } = valueSave;
+    try {
+      const variables = {
+        origin: startLocation || "",
+        destination: endLocation || "",
+        friendlyName: name,
+        category: ERouteCategory.COMMUTE,
+      };
+      await upSaveMyRoutes({ variables });
+    } catch (error) {
+      // console.log("onSaveMyRouter -> error", error);
+    }
+  };
+  // console.log("uoSaveMyRoutesError ----->", uoSaveMyRoutesError);
+  // console.log("upSaveMyRouteData ------->>>>>>", upSaveMyRouteData);
 
   const onCancel = () => {
     setStatePhase(true);
@@ -124,16 +160,22 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
           >
             <Text variant="bodyBold">{statePhase ? "CANCEL" : "BACK"}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleSubmit}>
-            <Text
-              variant="bodyBold"
-              style={{
-                color: theme.colors.white,
-              }}
+          {!upSaveMyRoutesLoading ? (
+            <TouchableOpacity
+              onPress={statePhase ? handleSubmit : onSaveMyRouter}
             >
-              {statePhase ? "CONTINUE" : "SAVE ROUTE"}
-            </Text>
-          </TouchableOpacity>
+              <Text
+                variant="bodyBold"
+                style={{
+                  color: theme.colors.white,
+                }}
+              >
+                {statePhase ? "CONTINUE" : "SAVE ROUTE"}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <ActivityIndicator />
+          )}
         </View>
       </>
     );

@@ -8,7 +8,7 @@ import RouterPointListItem, {
 import { Theme } from "../../../config/Theme";
 
 interface IRoutePointsList extends IComponentsDefaults {
-  points?: Array<IRouterPointsListItem>;
+  points?: Array<IRouterPointsListItem> | [];
   height?: number;
   startLocation: string;
   endLocation: string;

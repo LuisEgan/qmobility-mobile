@@ -7,7 +7,7 @@ export interface IRoute {
   Origin: string;
   Route_Coords: LatLng[];
   Time: number;
-  Total_kWh_Difference: number;
+  Total_kWh: number;
 }
 
 export interface IChargers {
@@ -62,7 +62,7 @@ const getRoutes = gql`
         longitude
       }
       Route {
-        Total_kWh_Difference
+        Total_kWh
         Time
         Origin
         Distance
