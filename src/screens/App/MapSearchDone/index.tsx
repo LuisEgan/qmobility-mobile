@@ -96,9 +96,9 @@ const MapSearchDone = (props: IMapSearchDone) => {
       ) : (
         <View>
           <Text variant="heading2" numberOfLines={1}>
-            {locationStart && editNameCity(locationStart)}
-            ,
-            {locationEnd && editNameCity(locationEnd)}
+            {`${locationStart && editNameCity(locationStart)}, ${
+              locationEnd && editNameCity(locationEnd)
+            }`}
           </Text>
 
           <View style={styles.row}>
@@ -109,7 +109,9 @@ const MapSearchDone = (props: IMapSearchDone) => {
               containerStyle={styles.icon}
             />
             <Text variant="bodySmall" numberOfLines={1}>
-              30 John Islip St, Westminster, London SW1P 4DD, United Kingdom
+              {`${locationStart && editNameCity(locationStart)}, ${
+                locationEnd && editNameCity(locationEnd)
+              }`}
             </Text>
           </View>
           <View style={styles.row}>
@@ -119,14 +121,22 @@ const MapSearchDone = (props: IMapSearchDone) => {
               fill={theme.colors.grayLight}
               containerStyle={styles.icon}
             />
-            <Text variant="bodySmall">1 hr 29 min (200 km)</Text>
+            <Text variant="bodySmall">
+              {`${new Date((dataRoute?.getRoutes?.Route?.Time || 0) * 1000)
+                .toISOString()
+                .substr(11, 5)} (${`${Math.ceil(
+                (dataRoute?.getRoutes?.Route?.Distance || 0) / 1000,
+              )}km`})`}
+            </Text>
             <Icons
               icon="BatteryRight"
               size={20}
               fill={theme.colors.grayLight}
               containerStyle={[styles.icon, { marginLeft: 10 }]}
             />
-            <Text variant="bodySmall">100%</Text>
+            <Text variant="bodySmall">
+              {`${Math.ceil(dataRoute?.getRoutes?.Route?.Total_kWh || 0)}%`}
+            </Text>
           </View>
 
           <View style={styles.row}>
@@ -208,18 +218,26 @@ const MapSearchDone = (props: IMapSearchDone) => {
 
               <View style={styles.cardsContainer}>
                 <Card
-                  title={`${dataRoute?.getRoutes?.Route?.Total_kWh_Difference}`}
-                  subTitle="Total distance"
+                  title={`${Math.ceil(
+                    dataRoute?.getRoutes?.Route?.Total_kWh || 0,
+                  )}%`}
+                  subTitle="Energy"
                   containerStyle={styles.card}
                 />
                 <Card
-                  title={`${dataRoute?.getRoutes?.Route?.Time}`}
+                  title={`${new Date(
+                    (dataRoute?.getRoutes?.Route?.Time || 0) * 1000,
+                  )
+                    .toISOString()
+                    .substr(11, 5)}`}
                   subTitle="Time"
                   containerStyle={[styles.card]}
                   contentStyle={{ backgroundColor: theme.colors.primary }}
                 />
                 <Card
-                  title={`${dataRoute?.getRoutes?.Route?.Distance}`}
+                  title={`${Math.ceil(
+                    (dataRoute?.getRoutes?.Route?.Distance || 0) / 1000,
+                  )}km`}
                   subTitle="Distance"
                   containerStyle={[styles.card, styles.lastCard]}
                   contentStyle={{
