@@ -58,12 +58,12 @@ const LeftMenu = (props: ILeftMenu) => {
       textColor: "white",
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyCars),
     },
-    {
-      text: "My Stats",
-      icon: "AssessMent",
-      textColor: "white",
-      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Main),
-    },
+    // {
+    //   text: "My Stats",
+    //   icon: "AssessMent",
+    //   textColor: "white",
+    //   onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Main),
+    // },
     {
       text: "My Match",
       icon: "Star",
@@ -77,7 +77,7 @@ const LeftMenu = (props: ILeftMenu) => {
       text: "Account Settings",
       icon: "Setting",
       textColor: "white",
-      onPress: () => navigate(APP_STACK_SCREENS_NAMES.CreateProfile),
+      onPress: () => navigate(APP_STACK_SCREENS_NAMES.Profile),
     },
     {
       text: "Logout",

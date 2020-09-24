@@ -3,6 +3,7 @@ import { Platform, StyleSheet } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import theme, { Text } from "../../config/Theme";
+import { dateToText } from "../../lib/dates";
 
 interface IDatePicker {
   onChange?: (e: any) => void;
@@ -33,11 +34,6 @@ const DatePicker = (props: IDatePicker) => {
     if (onChangeProp) onChangeProp(currentDate);
   };
 
-  const dateText = (text: string | Date) => {
-    const d = new Date(text);
-    return `${d.getDate()} / ${d.getMonth() + 1} / ${d.getFullYear()}`;
-  };
-
   return (
     <>
       <TouchableOpacity
@@ -52,7 +48,7 @@ const DatePicker = (props: IDatePicker) => {
         <Text variant="bodySmall">{label}</Text>
 
         {date && !isFirstTime ? (
-          <Text style={styles.placeholder}>{dateText(date)}</Text>
+          <Text style={styles.placeholder}>{dateToText(date)}</Text>
         ) : (
           <Text style={styles.placeholder} color="defautlInput">
             Date of birth

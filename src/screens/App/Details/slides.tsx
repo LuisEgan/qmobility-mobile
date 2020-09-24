@@ -1,22 +1,18 @@
 import { ISlide } from "../../../components/Slider/Slide";
 
-import imgSource from "../../../assets/png/Nissan_Leaf_2018-02x2.png";
-
 interface ISlides extends Array<ISlide> {}
 
-const slides: ISlides = [
-  {
-    imgSource,
-  },
-  {
-    imgSource,
-  },
-  {
-    imgSource,
-  },
-  {
-    imgSource,
-  },
-];
+const slides = (images: string[]): ISlides => {
+  const firstSlides: ISlides = [];
 
+  images.some((imgUri, index) => {
+    if (index >= 10) return true;
+
+    const slice: ISlide = { imgUri };
+    firstSlides.push(slice);
+    return false;
+  });
+
+  return firstSlides;
+};
 export default slides;
