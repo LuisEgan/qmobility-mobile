@@ -73,7 +73,7 @@ const LeftMenu = (props: ILeftMenu) => {
       text: "Account Settings",
       icon: "Apple",
       textColor: "white",
-      onPress: () => navigate(APP_STACK_SCREENS_NAMES.CreateProfile),
+      onPress: () => navigate(APP_STACK_SCREENS_NAMES.EditProfile),
     },
     {
       text: "Logout",

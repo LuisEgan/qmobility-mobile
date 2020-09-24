@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useTheme } from "@shopify/restyle";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery } from "@apollo/client";
 import { Header } from "../../../components";
 
-import { Theme } from "../../../config/Theme";
-import Form, { IFormValues } from "./Form";
+import theme from "../../../config/Theme";
+import CreateForm, { ICreateFormValues } from "./Forms/CreateForm";
 import { IUpdateUser } from "../../../gql/User/mutations";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
@@ -36,10 +35,10 @@ const CreateProfile = () => {
 
   const [iceVehicle, setIceVehicle] = useState<IIceVehicle>();
 
-  const theme = useTheme<Theme>();
-
-  const Create = async (values: IFormValues): Promise<void> => {
+  const create = async (values: ICreateFormValues): Promise<void> => {
     const { ...newIceVehicle } = iceVehicle;
+    /* eslint-disable-next-line */
+    delete newIceVehicle.__typename;
 
     const variables = iceVehicle
       ? { ...values, iceVehicle: newIceVehicle }
@@ -80,11 +79,11 @@ const CreateProfile = () => {
           dateOfBirth: userData.user?.dateOfBirth || new Date(),
           avatarUrl: userData.user?.avatarUrl || "",
         }}
-        onSubmit={Create}
+        onSubmit={create}
         validationSchema={SignupSchema}
       >
         {(props) => (
-          <Form
+          <CreateForm
             {...props}
             loading={loading || updateUserLoading}
             onIceVehicleChange={setIceVehicle}

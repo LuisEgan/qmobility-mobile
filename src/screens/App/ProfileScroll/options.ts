@@ -22,6 +22,8 @@ export interface IAnswers {
 export interface IOptionsSet {
   question: string;
   options: ICardOptions;
+  answers: IAnswers;
+  setAnswers: (answers: IAnswers) => void;
 }
 
 export const allCardOptions: ICardOptions[] = [

@@ -89,8 +89,7 @@ const AppNavigator = () => {
         return;
       }
 
-      // ! Change back
-      const iRoute = !data?.user.dateOfBirth
+      const iRoute = data?.user.dateOfBirth
         ? APP_STACK_SCREENS_NAMES.Main
         : APP_STACK_SCREENS_NAMES.CreateProfile;
 

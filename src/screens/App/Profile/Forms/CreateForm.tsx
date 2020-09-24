@@ -8,29 +8,29 @@ import {
   Dimensions,
   ActivityIndicator,
 } from "react-native";
-import { Button, ImageProfile, Input } from "../../../components";
-import DatePicker from "../../../components/DatePicker";
-import theme, { Text } from "../../../config/Theme";
-import Vehicle from "../../../gql/Vehicle";
-import { IIceVehicle } from "../../../gql/Vehicle/Types";
-import { ERRORS } from "../../../lib/constants";
-import { upperCaseFormatter } from "../../../lib/strings";
+import { Button, ImageProfile, Input } from "../../../../components";
+import DatePicker from "../../../../components/DatePicker";
+import theme, { Text } from "../../../../config/Theme";
+import Vehicle from "../../../../gql/Vehicle";
+import { IIceVehicle } from "../../../../gql/Vehicle/Types";
+import { ERRORS } from "../../../../lib/constants";
+import { upperCaseFormatter } from "../../../../lib/strings";
 
 const { width, height } = Dimensions.get("window");
 
-export interface IFormValues {
+export interface ICreateFormValues {
   name: string;
   lastname: string;
   dateOfBirth: Date;
   avatarUrl: string;
 }
 
-interface IForm extends FormikProps<IFormValues> {
+interface IForm extends FormikProps<ICreateFormValues> {
   loading?: boolean;
   onIceVehicleChange: (vehicle: IIceVehicle) => void;
 }
 
-const Form = (props: IForm) => {
+const CreateForm = (props: IForm) => {
   const {
     handleChange,
     handleSubmit,
@@ -189,7 +189,7 @@ const Form = (props: IForm) => {
   );
 };
 
-export default Form;
+export default CreateForm;
 
 const styles = StyleSheet.create({
   container: {

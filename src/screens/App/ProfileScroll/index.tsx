@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { Header, Slider } from "../../../components";
 import slides from "./slides";
-import theme, { Text } from "../../../config/Theme";
+import theme from "../../../config/Theme";
 import { ESlide, ISlide } from "../../../components/Slider/Slide";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
-import {
-  IAnswers,
-  ECategory,
-  IOptionsSet,
-  allCardOptions,
-  getRecommendedCategory,
-} from "./options";
+import { IAnswers, allCardOptions, getRecommendedCategory } from "./options";
 import Vehicle from "../../../gql/Vehicle";
 import { FullScreenModal } from "../../Feedback";
 import { IVehicleRecommendation } from "../../../gql/Vehicle/queries";
+import { User } from "../../../gql";
+import { IUpdateUser } from "../../../gql/User/mutations";
+import OptionsSet from "./OptionsSet";
 
 const { height, width } = Dimensions.get("window");
 
@@ -31,6 +28,11 @@ const ProfileScroll = () => {
     { category: string }
   >(Vehicle.queries.vehicleRecommendation);
 
+  const [updateUser, { loading: updateUserLoading }] = useMutation<
+    { updateUser: IUpdateUser },
+    IUpdateUser
+  >(User.mutations.updateUser);
+
   const [answers, setAnswers] = useState<IAnswers>({});
 
   // * Ask for recommended eVe with recommened categories from answers
@@ -42,49 +44,38 @@ const ProfileScroll = () => {
     }
   }, [answers]);
 
-  // * Get recommened eVe and navigate to CheckCar passing it as route prop
+  // * Get recommened eVe, update user's selectedVehicle,
+  // * and navigate to CheckCar passing it as route prop
   useEffect(() => {
-    if (vehicleRecommendationData) {
-      const { vehicleRecommendation: vehicle } = vehicleRecommendationData;
+    const setSelectedVehicle = async (
+      selectedVehicle: IVehicleRecommendation,
+    ) => {
+      try {
+        await updateUser({
+          variables: {
+            selectedVehicle,
+          },
+          refetchQueries: [
+            {
+              query: User.queries.user,
+            },
+          ],
+        });
 
-      navigate(APP_STACK_SCREENS_NAMES.CheckCar, {
-        vehicleRecommendation: vehicle[0],
-      });
-    }
-  }, [vehicleRecommendationData]);
-
-  const OptionsSet = ({ question, options }: IOptionsSet) => {
-    const onOptionPress = (category: ECategory) => {
-      setAnswers({
-        ...answers,
-        [question]: category,
-      });
+        navigate(APP_STACK_SCREENS_NAMES.CheckCar, {
+          vehicleRecommendation: selectedVehicle,
+        });
+      } catch (e) {
+        // TODO e feedback display
+        console.warn("e: ", e);
+      }
     };
 
-    return (
-      <View style={styles.optionsContainer}>
-        {options.map(({ answer, category }) => (
-          <TouchableOpacity
-            key={answer}
-            onPress={() => onOptionPress(category)}
-            style={[
-              styles.option,
-              {
-                backgroundColor:
-                  answers[question] === category
-                    ? theme.colors.primary
-                    : theme.colors.secondaryDark,
-              },
-            ]}
-          >
-            <Text color="white" style={{ textAlign: "center" }}>
-              {answer}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    );
-  };
+    if (vehicleRecommendationData) {
+      const { vehicleRecommendation: vehicle } = vehicleRecommendationData;
+      setSelectedVehicle(vehicle[0]);
+    }
+  }, [vehicleRecommendationData]);
 
   const setSlides = (): ISlide[] =>
     slides.map((slide, index) => ({
@@ -93,11 +84,12 @@ const ProfileScroll = () => {
         <OptionsSet
           question={slide.title || ""}
           options={allCardOptions[index]}
+          {...{ answers, setAnswers }}
         />
       ),
     }));
 
-  if (vehicleRecommendationLoading) return <FullScreenModal show />;
+  if (vehicleRecommendationLoading || updateUserLoading) return <FullScreenModal show />;
 
   return (
     <View style={styles.container}>
@@ -122,15 +114,5 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     flex: 1,
-  },
-
-  optionsContainer: {
-    flex: 0.7,
-    paddingVertical: 10,
-    justifyContent: "space-between",
-  },
-  option: {
-    borderRadius: 10,
-    padding: 10,
   },
 });

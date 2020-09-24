@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 import { LinkedInToken } from "react-native-linkedin";
-import { IIceVehicle } from "../Vehicle/Types";
+import { IVehicleRecommendation } from "../Vehicle/queries";
+import { IIceVehicle, IVehicle } from "../Vehicle/Types";
 
 export interface IAuthResponse {
   accessToken: string;
@@ -84,11 +85,11 @@ const resendEmailConfirmation = gql`
 `;
 
 export interface IUpdateUser {
-  name: string;
-  lastname: string;
-  dateOfBirth: Date;
+  name?: string;
+  lastname?: string;
+  dateOfBirth?: Date;
   email?: string;
-  selectedVehicle?: string;
+  selectedVehicle?: IVehicle | IVehicleRecommendation;
   avatarUrl?: string;
   iceVehicle?: IIceVehicle;
 }

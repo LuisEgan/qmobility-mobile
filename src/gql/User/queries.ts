@@ -12,6 +12,33 @@ const user = gql`
   }
 `;
 
+const allUserInfo = gql`
+  query AllUserInfo {
+    user {
+      id
+      updatedAt
+      createAt
+      deletedAt
+      name
+      lastname
+      email
+      password
+      username
+      dateOfBirth
+      role
+      active
+      recoveryPasswordToken
+      networkType
+      avatarUrl
+      vehicles
+      selectedVehicle
+      random4digits
+      iceVehicle
+    }
+  }
+`;
+
 export default {
   user,
+  allUserInfo,
 };

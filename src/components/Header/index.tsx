@@ -1,19 +1,14 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Platform,
-  StyleProp,
-} from "react-native";
+import { View, StyleSheet, Dimensions, Platform } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useTheme } from "@shopify/restyle";
 import { Text, Theme } from "../../config/Theme";
 import Icons from "../svg";
 
 import { TIcon } from "../svg/icons/TypeIcons";
+import { IComponentsDefaults } from "../../lib/Types";
 
-interface IHeader {
+interface IHeader extends IComponentsDefaults {
   onPress?: () => void;
   onPressRight?: () => void;
   title?: string;
@@ -22,7 +17,6 @@ interface IHeader {
   iconRight?: TIcon;
   text?: string;
   textRight?: string;
-  containerStyle?: StyleProp<View>;
   height?: number;
 }
 

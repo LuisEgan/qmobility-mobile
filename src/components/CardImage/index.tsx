@@ -15,9 +15,9 @@ interface ICardImage extends IComponentsDefaults {
   imgUri?: string;
   imgSource?: ImageSourcePropType;
   svgIcon?: JSX.Element;
-  name: string;
-  title: string;
-  subTitle: string;
+  name?: string;
+  title?: string;
+  subTitle?: string;
   textStyle?: StyleProp<TextStyle>;
 }
 

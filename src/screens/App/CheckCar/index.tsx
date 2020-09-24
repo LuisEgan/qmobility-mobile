@@ -1,9 +1,8 @@
 import React from "react";
 import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import { useNavigation } from "@react-navigation/native";
 import { Header, Icons, Button, CardImage } from "../../../components";
-import { Text, Theme } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { TCheckCarNavProps } from "../../../navigation/Types/NavPropsTypes";
 
@@ -18,8 +17,6 @@ const CheckCar = (props: ICheckCar) => {
     },
   } = props;
   const { navigate } = useNavigation();
-
-  const theme = useTheme<Theme>();
 
   return (
     <View style={styles.container}>
