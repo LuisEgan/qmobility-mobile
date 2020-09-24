@@ -7,6 +7,8 @@ import Icons from "../svg";
 import theme, { Text } from "../../config/Theme";
 import { APP_STACK_SCREENS_NAMES } from "../../lib/constants";
 
+const API_KEY = "AIzaSyDyz9GjDVV8RA5x5BSsXm_SzVtqc8F1QPU";
+
 interface IMarkerSelect {
   markeeSelect: LatLng;
   locationUser: LatLng;
@@ -17,10 +19,39 @@ const MarkerSelect = (props: IMarkerSelect) => {
 
   const { navigate } = useNavigation();
 
-  const onGoToMap = () => {
+  const onGoToMap = async () => {
+    let location = "";
+    let marker = "";
+
+    await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${
+        locationUser.latitude
+      },${
+        locationUser.longitude
+      }&key=${
+        API_KEY}`,
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        location = responseJson.results[0].formatted_address;
+      });
+
+    await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${
+        markeeSelect.latitude
+      },${
+        markeeSelect.longitude
+      }&key=${
+        API_KEY}`,
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        marker = responseJson.results[0].formatted_address;
+      });
+
     navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
-      origin: `${locationUser.latitude},${locationUser.longitude}`,
-      destination: `${markeeSelect.latitude},${markeeSelect.longitude}`,
+      origin: location,
+      destination: marker,
     });
   };
 

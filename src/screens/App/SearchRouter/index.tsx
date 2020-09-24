@@ -20,6 +20,8 @@ import {
 } from "../../../gql/RecentRoute/queries";
 import { RecentRoute } from "../../../gql";
 
+const API_KEY = "AIzaSyDyz9GjDVV8RA5x5BSsXm_SzVtqc8F1QPU";
+
 interface IDetails extends GooglePlaceDetail, DescriptionRow {}
 
 const SearchRouter = () => {
@@ -133,9 +135,22 @@ const SearchRouter = () => {
     if (status === "granted") {
       const location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
+      let route = "";
+      await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${
+          latitude
+        },${
+          longitude
+        }&key=${
+          API_KEY}`,
+      )
+        .then((response) => response.json())
+        .then((responseJson) => {
+          route = responseJson.results[0].formatted_address;
+        });
 
       navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
-        origin: `${latitude},${longitude}`,
+        origin: route,
         destination: details?.formatted_address || details?.description,
       });
     }
