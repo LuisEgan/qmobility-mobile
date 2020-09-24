@@ -7,7 +7,7 @@ import {
   Dimensions,
 } from "react-native";
 import { useQuery } from "@apollo/client";
-import { Header, Icons, Button, Slider } from "../../../components";
+import { Header, Icons, Slider } from "../../../components";
 import { TDetailsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import theme, { Text } from "../../../config/Theme";
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
@@ -95,6 +95,8 @@ const Details = (props: IDetails) => {
       <ScrollView style={styles.containerScroll}>
         <View style={styles.contentTitle}>
           <Text variant="heading2">
+            {userData?.user.selectedVehicle?.Vehicle_Make}
+            {" "}
             {userData?.user.selectedVehicle?.Vehicle_Model}
           </Text>
           <TouchableOpacity>
@@ -102,7 +104,7 @@ const Details = (props: IDetails) => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.content}>
+        {/* <View style={styles.content}>
           <Icons icon="BatteryRight" fill={theme.colors.primary} size={28} />
           <Text
             variant="heading2"
@@ -112,7 +114,7 @@ const Details = (props: IDetails) => {
           >
             100%
           </Text>
-        </View>
+        </View> */}
 
         <View style={styles.content}>
           <Text
@@ -121,7 +123,7 @@ const Details = (props: IDetails) => {
               marginRight: 10,
             }}
           >
-            eV Battery
+            eVe Battery
             {" "}
             {userData?.user.selectedVehicle?.Battery_Capacity_Full}
             {" "}
@@ -168,7 +170,7 @@ const Details = (props: IDetails) => {
           <Text variant="body">In production</Text>
         </View>
 
-        <View style={[styles.card, { borderColor: theme.colors.primary }]}>
+        {/* <View style={[styles.card, { borderColor: theme.colors.primary }]}>
           <ContentView icon="Bubble" subTitle="Trips" />
           <View
             style={[styles.line, { borderColor: theme.colors.primaryLighter }]}
@@ -178,16 +180,16 @@ const Details = (props: IDetails) => {
             style={[styles.line, { borderColor: theme.colors.primaryLighter }]}
           />
           <ContentView icon="Clock" subTitle="Driving" type="h" />
-        </View>
+        </View> */}
       </ScrollView>
 
-      <View style={styles.button}>
+      {/* <View style={styles.button}>
         <Button
           label="SET AS DEFAULT"
           variant="primary"
           onPress={() => console.warn("here")}
         />
-      </View>
+      </View> */}
     </View>
   );
 };
