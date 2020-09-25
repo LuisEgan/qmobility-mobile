@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@apollo/client";
 import {
@@ -60,41 +60,55 @@ const CreateProfile = () => {
             avatarUrl={userData?.user.avatarUrl}
             changePhotoOption={false}
           />
+
           <Text variant="heading1">{userData?.user.name}</Text>
+
           <Text variant="bodyHighlight">{userData?.user.lastname}</Text>
+
           <Text variant="subheadingLight">{userData?.user.email}</Text>
+
           <Input
             disabled
             defaultValue={dateToText(`${userData?.user.dateOfBirth}`)}
             label="Date of birth"
           />
+
           <PhoneInput
             defaultValue={`${cleanPhoneNumber(userData?.user.phone || "")}`}
             disabled
           />
+
           <View style={styles.containerTtitleEdition}>
             <Text variant="label">YOUR VIRTUAL EVE</Text>
-            <TouchableOpacity
-              onPress={() => navigate(APP_STACK_SCREENS_NAMES.MyCars)}
-            >
-              <Icons icon="Edit" fill={theme.colors.grayLight} size={15} />
-            </TouchableOpacity>
           </View>
-          <View>
+          <CardImage
+            name={userData?.user.selectedVehicle?.Vehicle_Make}
+            imgUri={userData?.user.selectedVehicle?.Images[0]}
+            title="Defaul eVe"
+            subTitle={userData?.user.selectedVehicle?.Vehicle_Model}
+            containerStyle={[
+              styles.Card,
+              {
+                backgroundColor: theme.colors.white,
+                borderColor: theme.colors.grayLight,
+              },
+            ]}
+          />
+
+          <View style={styles.containerTtitleEdition}>
+            <Text variant="label">YOUR ICE VEHICLE</Text>
+          </View>
+
+          {userData?.user.iceVehicle ? (
             <CardImage
-              name={userData?.user.selectedVehicle?.Vehicle_Make}
-              imgUri={userData?.user.selectedVehicle?.Images[0]}
-              title="Defaul eVe"
-              subTitle={userData?.user.selectedVehicle?.Vehicle_Model}
-              containerStyle={[
-                styles.Card,
-                {
-                  backgroundColor: theme.colors.white,
-                  borderColor: theme.colors.grayLight,
-                },
-              ]}
+              name={userData?.user.iceVehicle?.Make}
+              title="Default ICE"
+              subTitle={userData?.user.iceVehicle?.MakeModel}
+              svgIcon={<Icons icon="DirectionsCar" size={80} />}
             />
-          </View>
+          ) : (
+            <Text>You don&apos;t have a registered ICE vehicle.</Text>
+          )}
         </View>
       </ScrollView>
     </DrawerLeftMenu>

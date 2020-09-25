@@ -6,7 +6,7 @@ const slides = (images: string[]): ISlides => {
   const firstSlides: ISlides = [];
 
   images.some((imgUri, index) => {
-    if (index >= 10) return true;
+    if (index >= 5) return true;
 
     const slice: ISlide = { imgUri };
     firstSlides.push(slice);

@@ -28,8 +28,8 @@ interface IIconText {
 const Details = (props: IDetails) => {
   const { navigation } = props;
 
-  const { data: userData, loading } = useQuery<{ user: IUser }, IUser>(
-    User.queries.allUserInfo,
+  const { data: eVe, loading } = useQuery<{ user: IUser }, IUser>(
+    User.queries.getEve,
   );
 
   useLayoutEffect(() => {
@@ -65,16 +65,16 @@ const Details = (props: IDetails) => {
       ]}
     >
       <Slider
-        slides={slides(userData?.user.selectedVehicle?.Images || [])}
+        slides={slides(eVe?.user.selectedVehicle?.Images || [])}
         {...{ width, height: height * 0.4 }}
       />
 
       <ScrollView style={styles.containerScroll}>
         <View style={styles.contentTitle}>
           <Text variant="heading2">
-            {userData?.user.selectedVehicle?.Vehicle_Make}
+            {eVe?.user.selectedVehicle?.Vehicle_Make}
             {" "}
-            {userData?.user.selectedVehicle?.Vehicle_Model}
+            {eVe?.user.selectedVehicle?.Vehicle_Model}
           </Text>
           <TouchableOpacity>
             <Icons icon="MoreVert" fill={theme.colors.primary} size={28} />
@@ -90,37 +90,56 @@ const Details = (props: IDetails) => {
           >
             eVe Battery
             {" "}
-            {userData?.user.selectedVehicle?.Battery_Capacity_Full}
+            {eVe?.user.selectedVehicle?.Battery_Capacity_Full}
             {" "}
             kWh
           </Text>
           <Text variant="bodyBold">
             Range
             {" "}
-            {userData?.user.selectedVehicle?.Range_Real}
+            {eVe?.user.selectedVehicle?.Range_Real}
             {" "}
             km
           </Text>
         </View>
 
         <View style={[styles.content]}>
-          <IconText icon="Bubble" label="5" />
-          <IconText icon="Spa" label="0 g/km" />
+          <IconText
+            icon="Bubble"
+            label={`${eVe?.user.selectedVehicle?.Misc_Seats}`}
+          />
+          <IconText icon="Spa" label="0 C02g/km" />
         </View>
 
         <View style={[styles.content]}>
-          <IconText icon="Polymer" label="Max 220 km" />
-          <IconText icon="Nature" label="16.4 kWh/100km" />
+          <IconText
+            icon="Polymer"
+            label={`Max ${eVe?.user.selectedVehicle?.Range_Real} km`}
+          />
+          <IconText
+            icon="Nature"
+            label={`${eVe?.user.selectedVehicle?.Efficiency_Real} kWh/100km`}
+          />
         </View>
 
         <View style={[styles.content]}>
-          <IconText icon="Speed" label="Max 144 km/h" />
-          <IconText icon="Flash" label="Time 0:40 h" />
+          <IconText
+            icon="Speed"
+            label={`Max ${eVe?.user.selectedVehicle?.Performance_Topspeed}  km/h`}
+          />
+          <IconText
+            icon="Flash"
+            label={`Time ${eVe?.user.selectedVehicle?.Fastcharge_ChargeTime} mins`}
+          />
         </View>
 
         <View style={[styles.content, { justifyContent: "space-between" }]}>
           <Text variant="bodyBold">United Kingdom</Text>
-          <Text variant="bodyBold">£42,345</Text>
+          <Text variant="bodyBold">
+            £
+            {" "}
+            {eVe?.user.selectedVehicle?.Price_From_UK}
+          </Text>
         </View>
 
         <View style={[styles.content, { justifyContent: "space-between" }]}>
@@ -132,7 +151,9 @@ const Details = (props: IDetails) => {
           >
             Availability
           </Text>
-          <Text variant="body">In production</Text>
+          <Text variant="body">
+            {eVe?.user.selectedVehicle?.Availability_Status}
+          </Text>
         </View>
       </ScrollView>
     </View>

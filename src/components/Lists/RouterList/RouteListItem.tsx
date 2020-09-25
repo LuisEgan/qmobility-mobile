@@ -3,10 +3,10 @@ import { StyleSheet, TouchableOpacity, View, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import theme, { Text } from "../../../config/Theme";
 import Icons from "../../svg";
-import { IGetMySaveRoute } from "../../../gql/Route/queries";
+import { ISavedRoute } from "../../../gql/Route/queries";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
-const RouteListItem = (props: IGetMySaveRoute) => {
+const RouteListItem = (props: ISavedRoute) => {
   const { friendlyName, destination, origin } = props;
 
   const { navigate } = useNavigation();

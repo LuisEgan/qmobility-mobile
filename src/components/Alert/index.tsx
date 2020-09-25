@@ -12,10 +12,18 @@ interface IAlert {
   text?: string;
   onOk?: () => void;
   btnText?: string;
+  btnEnabled?: boolean;
 }
 
 const Alert = (props: IAlert) => {
-  const { show, onClose, text, onOk: onOkProp, btnText = "Ok" } = props;
+  const {
+    show,
+    onClose,
+    text,
+    onOk: onOkProp,
+    btnText = "Ok",
+    btnEnabled = true,
+  } = props;
 
   const onOk = () => {
     if (onOkProp) {
@@ -32,6 +40,7 @@ const Alert = (props: IAlert) => {
 
         <View>
           <Button
+            enabled={btnEnabled}
             variant="primary"
             label={btnText}
             containerStyle={{ width: width * 0.4 }}

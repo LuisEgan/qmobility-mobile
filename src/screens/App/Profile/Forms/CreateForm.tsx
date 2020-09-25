@@ -1,15 +1,10 @@
 import { useLazyQuery } from "@apollo/client";
 import { FormikProps } from "formik";
 import React, { useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-  ActivityIndicator,
-} from "react-native";
+import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Button, ImageProfile, Input } from "../../../../components";
 import DatePicker from "../../../../components/DatePicker";
+import ICEVehicle from "../../../../components/ICEVehicle";
 import theme, { Text } from "../../../../config/Theme";
 import Vehicle from "../../../../gql/Vehicle";
 import { IIceVehicle } from "../../../../gql/Vehicle/Types";
@@ -123,42 +118,11 @@ const CreateForm = (props: IForm) => {
           </Text>
 
           {searchIceVehicleCalled && (
-            <View>
-              {searchIceVehicleLoading ? (
-                <ActivityIndicator />
-              ) : (
-                <>
-                  {searchIceVehicleError ? (
-                    <Text variant="error">No vehicle found</Text>
-                  ) : (
-                    <>
-                      <View style={styles.carText}>
-                        <Text variant="bodyBold">Model: </Text>
-                        <Text>
-                          {searchIceVehicleData?.searchIceVehicle.MakeModel}
-                        </Text>
-                      </View>
-
-                      <View style={styles.carText}>
-                        <Text variant="bodyBold">C02 Emissions: </Text>
-                        <Text>
-                          {searchIceVehicleData?.searchIceVehicle.Co2Emissions}
-                          {" "}
-                          gCO2/km
-                        </Text>
-                      </View>
-
-                      <View style={styles.carText}>
-                        <Text variant="bodyBold">Colour: </Text>
-                        <Text>
-                          {searchIceVehicleData?.searchIceVehicle.Colour}
-                        </Text>
-                      </View>
-                    </>
-                  )}
-                </>
-              )}
-            </View>
+            <ICEVehicle
+              loading={searchIceVehicleLoading}
+              error={searchIceVehicleError}
+              data={searchIceVehicleData?.searchIceVehicle}
+            />
           )}
 
           <Input

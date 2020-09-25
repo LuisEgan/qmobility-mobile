@@ -1,10 +1,20 @@
+import { useLazyQuery } from "@apollo/client";
 import { FormikProps } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { ImageProfile, Input, PhoneInput } from "../../../../components";
+import {
+  ImageProfile,
+  Input,
+  PhoneInput,
+  Select,
+} from "../../../../components";
 import DatePicker from "../../../../components/DatePicker";
-import theme from "../../../../config/Theme";
+import ICEVehicle from "../../../../components/ICEVehicle";
+import theme, { Text } from "../../../../config/Theme";
+import Vehicle from "../../../../gql/Vehicle";
+import { IIceVehicle } from "../../../../gql/Vehicle/Types";
 import { ERRORS } from "../../../../lib/constants";
+import { upperCaseFormatter } from "../../../../lib/strings";
 
 export interface IEditFormValues {
   name: string;
@@ -12,10 +22,12 @@ export interface IEditFormValues {
   dateOfBirth: Date;
   avatarUrl: string;
   phone: string;
+  carPlate: string;
 }
 
 interface IForm extends FormikProps<IEditFormValues> {
   loading?: boolean;
+  onIceVehicleChange: (vehicle: IIceVehicle) => void;
 }
 
 const EditForm = (props: IForm) => {
@@ -23,14 +35,48 @@ const EditForm = (props: IForm) => {
     handleChange,
     handleBlur,
     setErrors,
+    onIceVehicleChange,
     errors,
     touched,
     values,
     initialValues,
   } = props;
 
+  const [
+    searchIceVehicle,
+    {
+      data: searchIceVehicleData,
+      loading: searchIceVehicleLoading,
+      called: searchIceVehicleCalled,
+      error: searchIceVehicleError,
+    },
+  ] = useLazyQuery<{ searchIceVehicle: IIceVehicle }>(
+    Vehicle.queries.iceVehicle,
+  );
+
+  // * Update ICE Vehicle for parent
+  useEffect(() => {
+    if (searchIceVehicleData) {
+      onIceVehicleChange(searchIceVehicleData.searchIceVehicle);
+    }
+  }, [searchIceVehicleData]);
+
   const onLoadPhoto = async (photoB64: string) => {
     handleChange("avatarUrl")(photoB64);
+  };
+
+  const [vehicleMake, setVehicleMake] = useState<string>("");
+  const [vehicleModel, setVehicleModel] = useState<string>("");
+
+  const onCarPlateChange = async (plate: string) => {
+    if (plate.length >= 5) {
+      searchIceVehicle({
+        variables: {
+          plate,
+        },
+      });
+      handleChange("carPlate")(plate);
+    }
   };
 
   return (
@@ -74,6 +120,50 @@ const EditForm = (props: IForm) => {
           error={errors.phone}
           onIsInvalid={() => setErrors({ ...errors, phone: "Invalid Phone" })}
         />
+
+        <View style={styles.containerTtitleEdition}>
+          <Text variant="label">YOUR VIRTUAL EVE</Text>
+        </View>
+
+        <Select
+          placeholder="Select vehicle make"
+          onPress={(e) => setVehicleMake(`${e}`)}
+          list={["Tesla", "BMW", "Audi", "Volswagen"]}
+          value={vehicleMake}
+        />
+
+        <Select
+          placeholder="Select vehicle model"
+          onPress={(e) => setVehicleModel(`${e}`)}
+          list={[
+            "Tesla Model 3",
+            "Tesla Model S",
+            "Tesla Model E",
+            "Tesla Model X",
+          ]}
+          value={vehicleModel}
+        />
+
+        <View style={styles.containerTtitleEdition}>
+          <Text variant="label">YOUR ICE EVE</Text>
+        </View>
+
+        {searchIceVehicleCalled && (
+          <ICEVehicle
+            loading={searchIceVehicleLoading}
+            error={searchIceVehicleError}
+            data={searchIceVehicleData?.searchIceVehicle}
+          />
+        )}
+
+        <Input
+          label="Car plate"
+          placeholder="Y0UR PL4T3"
+          onChange={onCarPlateChange}
+          onBlur={handleBlur("carPlate")}
+          formatter={upperCaseFormatter}
+          defaultValue={initialValues.carPlate}
+        />
       </View>
     </View>
   );
@@ -105,5 +195,10 @@ const styles = StyleSheet.create({
   textSelectStyle: {
     marginTop: 30,
     marginBottom: 10,
+  },
+  containerTtitleEdition: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: "5%",
   },
 });

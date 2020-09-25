@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Animated from "react-native-reanimated";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import theme, { Text } from "../../../config/Theme";
 import IconsList from "../../Lists/IconsList";
 import { IIconsListItem } from "../../Lists/IconsList/IconsListItem";
@@ -22,11 +22,15 @@ interface IRightMenu extends IComponentsDefaults {
 const RightMenu = (props: IRightMenu) => {
   const { animContainerStyle, onItemPress: onItemPressProp } = props;
 
+  const { navigate } = useNavigation();
+
   const { data: userData } = useQuery<{ user: IUser }, IUser>(
     User.queries.allUserInfo,
   );
 
-  const { navigate } = useNavigation();
+  const [bookTestDrive, { loading }] = useLazyQuery<{
+    bookTestDrive: boolean;
+  }>(User.queries.bookTestDrive);
 
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
 
@@ -39,7 +43,12 @@ const RightMenu = (props: IRightMenu) => {
   };
 
   const onBookTestDrive = async () => {
-    setShowFeedback(true);
+    try {
+      setShowFeedback(true);
+      bookTestDrive();
+    } catch (error) {
+      console.warn("error: ", error);
+    }
   };
 
   const listItems: ListItems = [
@@ -58,9 +67,10 @@ const RightMenu = (props: IRightMenu) => {
   return (
     <Animated.View style={[styles.container, animContainerStyle]}>
       <Alert
+        btnEnabled={!loading}
         show={showFeedback}
         onClose={() => setShowFeedback(false)}
-        text="Thanks! We'll contact you shortly."
+        text={loading ? "Loading..." : "Thanks! We'll contact you shortly."}
       />
 
       <View

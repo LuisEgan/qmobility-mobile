@@ -8,13 +8,12 @@ import {
   Platform,
   ActivityIndicator,
 } from "react-native";
-import { useTheme } from "@shopify/restyle";
 
 import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import { useMutation } from "@apollo/client";
 import { Modal, Select, Input, Icons } from "../../../components";
-import { Text, Theme } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 
 import { ERRORS } from "../../../lib/constants";
 import { ISaveMyRoutes, ISaveMyRoutesVar } from "../../../gql/Route/mutations";
@@ -52,8 +51,6 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
     frequency: "",
   });
 
-  const theme = useTheme<Theme>();
-
   const onSaveRoute = (values: IFormValues): void => {
     setValueSave(values);
     setStatePhase(!statePhase);
@@ -70,7 +67,14 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
         frequency,
       };
 
-      await upSaveMyRoutes({ variables });
+      await upSaveMyRoutes({
+        variables,
+        refetchQueries: [
+          {
+            query: Route.queries.getMySaveRoute,
+          },
+        ],
+      });
     } catch (error) {
       // console.log("onSaveMyRouter -> error", error)
     }

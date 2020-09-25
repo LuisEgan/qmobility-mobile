@@ -62,7 +62,6 @@ const MarkerSelect = (props: IMarkerSelect) => {
           ]}
         >
           <Text
-            numberOfLines={1}
             style={[
               styles.titleCollout,
               {
@@ -70,7 +69,7 @@ const MarkerSelect = (props: IMarkerSelect) => {
               },
             ]}
           >
-            GO LOCATION
+            GO TO LOCATION
           </Text>
         </View>
 

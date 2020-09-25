@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import { useQuery } from "@apollo/client";
 import { Header } from "../../../components";
-import { Theme, Text } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { RouterList } from "../../../components/Lists";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import { Route } from "../../../gql";
@@ -14,11 +13,9 @@ const MyRoutes = () => {
     loading: getMySaveRouteLoading,
     data: getMySaveRouteData,
     error: getMySaveRouteError,
-  } = useQuery<IGetMySaveRoute>(Route.queries.getMySaveRoute);
+  } = useQuery<{ getMyRoutes: IGetMySaveRoute }>(Route.queries.getMySaveRoute);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
-  const theme = useTheme<Theme>();
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -64,7 +61,7 @@ const MyRoutes = () => {
         ) : (
           <>
             {!getMySaveRouteError ? (
-              <RouterList ListArray={getMySaveRouteData?.getMyRoutes} />
+              <RouterList ListArray={getMySaveRouteData?.getMyRoutes || []} />
             ) : (
               <View>
                 <Text>{getMySaveRouteError.message}</Text>

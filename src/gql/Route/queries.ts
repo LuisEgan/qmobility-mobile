@@ -84,11 +84,12 @@ const getRoutes = gql`
   }
 `;
 
-export interface IGetMySaveRoute {
+export interface ISavedRoute {
   origin?: string;
   destination?: string;
   friendlyName?: string;
 }
+export interface IGetMySaveRoute extends Array<ISavedRoute> {}
 
 const getMySaveRoute = gql`
   query GetMySaveRoute {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -10,8 +10,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery } from "@apollo/client";
-import { Header, Icons, CardImage } from "../../../components";
-import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { Header, Icons } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
@@ -19,6 +18,7 @@ import { IUpdateUser } from "../../../gql/User/mutations";
 import EditForm, { IEditFormValues } from "./Forms/EditForm";
 import { FullScreenModal } from "../../Feedback";
 import { cleanPhoneNumber } from "../../../lib/strings";
+import { IIceVehicle } from "../../../gql/Vehicle/Types";
 
 const { height } = Dimensions.get("window");
 
@@ -28,11 +28,10 @@ const editSchema = yup.object().shape({
   name: yup.string().required(),
   lastname: yup.string().required(),
   dateOfBirth: yup.string().required(),
-  phone: yup.string().required(),
 });
 
 const Edit = () => {
-  const { navigate, goBack } = useNavigation();
+  const { goBack } = useNavigation();
 
   const { data: userData, loading } = useQuery<{ user: IUser }, IUser>(
     User.queries.allUserInfo,
@@ -43,10 +42,23 @@ const Edit = () => {
     IUpdateUser
   >(User.mutations.updateUser);
 
+  const [iceVehicle, setIceVehicle] = useState<IIceVehicle>();
+
   const edit = async (values: IEditFormValues): Promise<void> => {
+    const { ...newIceVehicle } = iceVehicle;
+    /* eslint-disable-next-line */
+    delete newIceVehicle.__typename;
+
+    /* eslint-disable-next-line */
+    const { carPlate, ...formValues } = values;
+
+    const variables = iceVehicle
+      ? { ...formValues, iceVehicle: newIceVehicle }
+      : { ...formValues };
+
     try {
       await updateUser({
-        variables: { ...values },
+        variables,
         refetchQueries: [
           {
             query: User.queries.allUserInfo,
@@ -76,6 +88,7 @@ const Edit = () => {
           dateOfBirth: userData.user?.dateOfBirth || new Date(),
           avatarUrl: userData.user?.avatarUrl || "",
           phone: cleanPhoneNumber(userData.user?.phone || ""),
+          carPlate: userData.user?.iceVehicle?.VehiclePlate,
         }}
         onSubmit={edit}
         validationSchema={editSchema}
@@ -97,29 +110,10 @@ const Edit = () => {
               }}
             />
             <ScrollView style={styles.scrollStyle}>
-              <EditForm {...props} loading={loading || updateUserLoading} />
-
-              <View style={styles.containerTtitleEdition}>
-                <Text variant="label">YOUR VIRTUAL EVE</Text>
-                <TouchableOpacity
-                  onPress={() => navigate(APP_STACK_SCREENS_NAMES.MyCars)}
-                >
-                  <Icons icon="Edit" fill={theme.colors.gray} size={15} />
-                </TouchableOpacity>
-              </View>
-
-              <CardImage
-                imgUri={userData.user.selectedVehicle?.Images[0]}
-                name={userData.user.selectedVehicle?.Vehicle_Model}
-                title="Defaul eVe"
-                subTitle={userData.user.selectedVehicle?.Vehicle_Make}
-                containerStyle={[
-                  styles.Card,
-                  {
-                    backgroundColor: theme.colors.white,
-                    borderColor: theme.colors.grayLighter,
-                  },
-                ]}
+              <EditForm
+                {...props}
+                loading={loading || updateUserLoading}
+                onIceVehicleChange={setIceVehicle}
               />
 
               <View>
@@ -167,11 +161,6 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginTop: 30,
     marginBottom: 10,
-  },
-  containerTtitleEdition: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: "5%",
   },
   Card: {
     borderWidth: 1,

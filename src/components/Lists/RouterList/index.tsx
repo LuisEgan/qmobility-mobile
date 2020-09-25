@@ -5,7 +5,7 @@ import RouteListItem from "./RouteListItem";
 import { IGetMySaveRoute } from "../../../gql/Route/queries";
 
 interface IList extends IComponentsDefaults {
-  ListArray: IGetMySaveRoute[];
+  ListArray: IGetMySaveRoute;
 }
 
 const RouterList = (props: IList) => {

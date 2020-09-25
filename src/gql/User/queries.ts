@@ -72,8 +72,15 @@ const getEve = gql`
         Fastcharge_ChargeTime
         Efficiency_Real
         Price_From_UK
+        Misc_Seats
       }
     }
+  }
+`;
+
+const bookTestDrive = gql`
+  query BookTestDrive {
+    bookTestDrive
   }
 `;
 
@@ -81,4 +88,5 @@ export default {
   user,
   allUserInfo,
   getEve,
+  bookTestDrive,
 };

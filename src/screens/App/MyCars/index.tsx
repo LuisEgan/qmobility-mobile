@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { useQuery } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
 import { Header, Icons, Footer, CardImage } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
+import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const { height } = Dimensions.get("window");
 
 const MyCars = () => {
+  const { navigate } = useNavigation();
+
   const { data: userData, loading } = useQuery<{ user: IUser }, IUser>(
     User.queries.allUserInfo,
   );
@@ -43,23 +47,13 @@ const MyCars = () => {
           ]}
         >
           <View style={styles.containerTtitleEdition}>
-            <Text variant="label">Your Comparison vehicles</Text>
-            <Icons icon="Edit" fill="#ACACAC" size={15} />
-          </View>
-
-          {userData?.user.iceVehicle ? (
-            <CardImage
-              name={userData?.user.iceVehicle?.Make}
-              title="Default ICE"
-              subTitle={userData?.user.iceVehicle?.MakeModel}
-              svgIcon={<Icons icon="Apple" />}
+            <Text variant="label">YOUR VIRTUAL EVE</Text>
+            <Icons
+              icon="Edit"
+              fill="#ACACAC"
+              size={15}
+              onPress={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
             />
-          ) : (
-            <Text>You don&apos;t have a registered ICE vehicle.</Text>
-          )}
-
-          <View style={styles.containerTtitleEdition}>
-            <Text variant="label">eVe</Text>
           </View>
 
           <CardImage
@@ -67,7 +61,30 @@ const MyCars = () => {
             title="Default eVe"
             subTitle={userData?.user.selectedVehicle?.Vehicle_Model}
             imgUri={userData?.user.selectedVehicle?.Images[0]}
+            containerStyle={{ backgroundColor: theme.colors.secondaryDark }}
+            textStyle={{ color: theme.colors.white }}
           />
+
+          <View style={styles.containerTtitleEdition}>
+            <Text variant="label">YOUR ICE VEHICLE</Text>
+            <Icons
+              icon="Edit"
+              fill="#ACACAC"
+              size={15}
+              onPress={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
+            />
+          </View>
+
+          {userData?.user.iceVehicle ? (
+            <CardImage
+              name={userData?.user.iceVehicle?.Make}
+              title="Default ICE"
+              subTitle={userData?.user.iceVehicle?.MakeModel}
+              svgIcon={<Icons icon="DirectionsCar" size={80} />}
+            />
+          ) : (
+            <Text>You don&apos;t have a registered ICE vehicle.</Text>
+          )}
         </ScrollView>
         <Footer
           title="Feeling a bit adventurous today?"
