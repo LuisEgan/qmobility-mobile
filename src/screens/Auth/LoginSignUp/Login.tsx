@@ -1,33 +1,50 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Formik, FormikProps } from "formik";
 import { ScrollView } from "react-native-gesture-handler";
 import * as yup from "yup";
 
+import { useMutation } from "@apollo/client";
 import { Button, Input } from "../../../components";
 import { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
 import Auth from "../../../components/Auth";
+import { User } from "../../../gql";
+import { IAuthResponse, ILoginVars } from "../../../gql/User/mutations";
+import { AuthContext } from "../../../navigation/AuthContext";
 
 const { width, height } = Dimensions.get("window");
 
 interface IFormValues {
-  emailAddress: string;
+  email: string;
   password: string;
 }
 
 const LoginSchema = yup.object().shape({
-  emailAddress: yup
-    .string()
-    .email(ERRORS.INVALID_EMAIL)
-    .required(ERRORS.EMPTY_EMAIL),
+  email: yup.string().email(ERRORS.INVALID_EMAIL).required(ERRORS.EMPTY_EMAIL),
   password: yup.string().required(ERRORS.EMPTY_PASSWORD),
 });
 
 const Login = () => {
+  const { signIn } = useContext(AuthContext);
+
+  const [login, { error, loading }] = useMutation<
+    { login: IAuthResponse },
+    ILoginVars
+  >(User.mutations.login);
+
   // * Form Login
-  // const formLogin = (values: IFormValues): void => {
-  const formLogin = (): null => null;
+  const formLogin = async (values: IFormValues): Promise<void> => {
+    try {
+      const { data } = await login({ variables: { ...values } });
+
+      if (data?.login.accessToken) {
+        await signIn(data?.login.accessToken);
+      }
+    } catch (e) {
+      console.warn("e: ", e);
+    }
+  };
 
   const Form = (params: FormikProps<IFormValues>) => {
     const { handleChange, handleSubmit, handleBlur, errors, touched } = params;
@@ -38,10 +55,10 @@ const Login = () => {
           <Input
             containerStyle={{ marginHorizontal: 0 }}
             placeholder="Email Address"
-            onChange={handleChange("emailAddress")}
-            onBlur={handleBlur("emailAddress")}
-            error={errors.emailAddress}
-            touched={touched.emailAddress}
+            onChange={handleChange("email")}
+            onBlur={handleBlur("email")}
+            error={errors.email}
+            touched={touched.email}
           />
           <Input
             containerStyle={{ marginHorizontal: 0 }}
@@ -54,7 +71,19 @@ const Login = () => {
             onForgotPass={() => console.warn("forgot")}
           />
         </View>
-        <Button variant="secondary" onPress={handleSubmit} label="LOG IN" />
+
+        {!!error && (
+          <Text variant="error" style={styles.error}>
+            {error.message}
+          </Text>
+        )}
+
+        <Button
+          enabled={!loading}
+          variant="secondary"
+          onPress={handleSubmit}
+          label={`${loading ? "LOADING..." : "LOG IN"}`}
+        />
       </View>
     );
   };
@@ -79,7 +108,7 @@ const Login = () => {
         </Text>
 
         <Formik
-          initialValues={{ emailAddress: "", password: "" }}
+          initialValues={{ email: "", password: "" }}
           onSubmit={formLogin}
           validationSchema={LoginSchema}
         >
@@ -105,6 +134,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginVertical: height * 0.05,
   },
+
+  error: { textAlign: "center", marginBottom: 10 },
 
   or: {
     textAlign: "center",

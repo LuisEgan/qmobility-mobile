@@ -56,7 +56,7 @@ const CreateProfile = () => {
       navigate(APP_STACK_SCREENS_NAMES.ProfileScroll);
     } catch (e) {
       // TODO e feedback display
-      console.warn("e: ", e);
+      console.warn("e: ", e.message || e);
     }
   };
 

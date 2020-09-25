@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useContext, useState, useLayoutEffect } from "react";
 import { View, StyleSheet, Dimensions, Keyboard } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useMutation } from "@apollo/client";
 import SmoothPinCodeInput from "react-native-smooth-pincode-input";
@@ -9,7 +8,6 @@ import { Header, Footer, Icons, Button } from "../../../components";
 import { TEmailConfirmNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Text } from "../../../config/Theme";
 import { AuthContext } from "../../../navigation/AuthContext";
-import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import {
   IEmailConfirmation,
   IEmailConfirmationVars,
@@ -23,6 +21,8 @@ interface IEmailConfirm extends TEmailConfirmNavProps {}
 
 const EmailConfirm = (props: IEmailConfirm) => {
   const { route, navigation } = props;
+
+  const { signIn } = useContext(AuthContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -42,9 +42,6 @@ const EmailConfirm = (props: IEmailConfirm) => {
     { resendEmailConfirmation: IEmailConfirmation },
     IResendEmailVars
   >(User.mutations.resendEmailConfirmation);
-
-  const { navigate } = useNavigation();
-  const { signIn } = useContext(AuthContext);
 
   const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
   const [goToCreateProfile, setGoToCreateProfile] = useState(false);
@@ -86,11 +83,6 @@ const EmailConfirm = (props: IEmailConfirm) => {
     const doSignIn = async () => {
       try {
         await signIn(route.params.userToken);
-
-        // * Gotta wait for the screens stacks navigator to change first
-        setTimeout(() => {
-          navigate(APP_STACK_SCREENS_NAMES.CreateProfile);
-        }, 0);
       } catch (e) {
         setError(e.message);
       }

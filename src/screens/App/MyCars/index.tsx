@@ -47,15 +47,19 @@ const MyCars = () => {
             <Icons icon="Edit" fill="#ACACAC" size={15} />
           </View>
 
-          <CardImage
-            name={userData?.user.iceVehicle.Make}
-            title="Default ICE"
-            subTitle={userData?.user.iceVehicle.MakeModel}
-            svgIcon={<Icons icon="Apple" />}
-          />
+          {userData?.user.iceVehicle ? (
+            <CardImage
+              name={userData?.user.iceVehicle?.Make}
+              title="Default ICE"
+              subTitle={userData?.user.iceVehicle?.MakeModel}
+              svgIcon={<Icons icon="Apple" />}
+            />
+          ) : (
+            <Text>You don&apos;t have a registered ICE vehicle.</Text>
+          )}
 
           <View style={styles.containerTtitleEdition}>
-            <Text variant="label">Virtual vehicle</Text>
+            <Text variant="label">eVe</Text>
           </View>
 
           <CardImage
