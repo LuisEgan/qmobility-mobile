@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   error: {
-    // position: "absolute",
     marginTop: 5,
   },
   forgotPass: {

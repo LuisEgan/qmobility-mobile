@@ -137,12 +137,7 @@ const SearchRouter = () => {
       const { latitude, longitude } = location.coords;
       let route = "";
       await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${
-          latitude
-        },${
-          longitude
-        }&key=${
-          API_KEY}`,
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude},${longitude}&key=${API_KEY}`,
       )
         .then((response) => response.json())
         .then((responseJson) => {

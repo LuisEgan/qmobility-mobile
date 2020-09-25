@@ -24,12 +24,7 @@ const MarkerSelect = (props: IMarkerSelect) => {
     let marker = "";
 
     await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${
-        locationUser.latitude
-      },${
-        locationUser.longitude
-      }&key=${
-        API_KEY}`,
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${locationUser.latitude},${locationUser.longitude}&key=${API_KEY}`,
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -37,12 +32,7 @@ const MarkerSelect = (props: IMarkerSelect) => {
       });
 
     await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${
-        markeeSelect.latitude
-      },${
-        markeeSelect.longitude
-      }&key=${
-        API_KEY}`,
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${markeeSelect.latitude},${markeeSelect.longitude}&key=${API_KEY}`,
     )
       .then((response) => response.json())
       .then((responseJson) => {
