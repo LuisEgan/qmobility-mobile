@@ -40,7 +40,6 @@ const RouteListItem = (props: IGetMySaveRoute) => {
                 <>
                   <Text numberOfLines={1} variant="body">
                     {origin}
-                    ,
                   </Text>
                   <Text numberOfLines={1} variant="body">
                     {destination}

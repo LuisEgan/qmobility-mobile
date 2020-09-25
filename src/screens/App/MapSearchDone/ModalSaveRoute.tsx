@@ -169,7 +169,14 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
             onPress={() =>
               (statePhase ? onCancel() : setStatePhase(!statePhase))}
           >
-            <Text variant="bodyBold">{statePhase ? "CANCEL" : "BACK"}</Text>
+            <Text
+              style={{
+                color: theme.colors.grayLight,
+              }}
+              variant="bodyBold"
+            >
+              {statePhase ? "CANCEL" : "BACK"}
+            </Text>
           </TouchableOpacity>
           {!upSaveMyRoutesLoading ? (
             <TouchableOpacity
