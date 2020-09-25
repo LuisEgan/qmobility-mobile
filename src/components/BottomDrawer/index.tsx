@@ -119,8 +119,7 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    flex: 1,
-    paddingHorizontal: width * 0.1,
     paddingTop: "5%",
+    marginHorizontal: 20,
   },
 });
