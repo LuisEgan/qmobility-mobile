@@ -19,6 +19,7 @@ import { APP_STACK_SCREENS_NAMES } from "../../lib/constants";
 import { IUser } from "../../gql/User/Types";
 import { User } from "../../gql";
 import { AuthContext } from "../AuthContext";
+import { FullScreenModal } from "../../screens/Feedback";
 
 interface IScreens extends Array<IScreen> {}
 export const APP_STACK_SCREENS: IScreens = [
@@ -94,7 +95,7 @@ const AppNavigator = () => {
     }
   }, [data, error]);
 
-  // if (!initialRouteName || loading) return <FullScreenModal show />;
+  if (!initialRouteName) return <FullScreenModal show />;
 
   return (
     <Navigator headerMode="none" initialRouteName={initialRouteName}>

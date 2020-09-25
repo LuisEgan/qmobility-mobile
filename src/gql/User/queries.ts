@@ -9,6 +9,7 @@ const user = gql`
       dateOfBirth
       avatarUrl
       email
+      createAt
     }
   }
 `;
@@ -52,7 +53,31 @@ const allUserInfo = gql`
   }
 `;
 
+const getEve = gql`
+  query GetEve {
+    user {
+      selectedVehicle {
+        Vehicle_ID
+        Images
+        Vehicle_Make
+        Vehicle_Model
+        Vehicle_Model_Version
+        Battery_Capacity_Useable
+        Battery_Capacity_Full
+        Battery_Capacity_Estimate
+        Range_Real
+        Availability_Status
+        Performance_Topspeed
+        Fastcharge_ChargeTime
+        Efficiency_Real
+        Price_From_UK
+      }
+    }
+  }
+`;
+
 export default {
   user,
   allUserInfo,
+  getEve,
 };

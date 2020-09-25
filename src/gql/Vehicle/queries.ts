@@ -43,6 +43,9 @@ const iceVehicle = gql`
       Colour
       VehicleClass
       VehiclePlate
+      DoorPlanLiteral
+      MaxSpeedKph
+      MaxSpeedMph
     }
   }
 `;

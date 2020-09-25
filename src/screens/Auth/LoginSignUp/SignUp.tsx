@@ -8,7 +8,11 @@ import { useNavigation } from "@react-navigation/native";
 import { Button, Input } from "../../../components";
 
 import { Text } from "../../../config/Theme";
-import { ERRORS, AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import {
+  ERRORS,
+  AUTH_STACK_SCREENS_NAMES,
+  REGEX,
+} from "../../../lib/constants";
 import Auth from "../../../components/Auth";
 import { User } from "../../../gql";
 import { IAuthResponse, IEmailSignUpVars } from "../../../gql/User/mutations";
@@ -25,10 +29,7 @@ const SignUpSchema = yup.object().shape({
   password: yup
     .string()
     .required(ERRORS.EMPTY_PASSWORD)
-    .matches(
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      ERRORS.INVALID_PASSWORD,
-    ),
+    .matches(REGEX.PASSWORD, ERRORS.INVALID_PASSWORD),
 });
 
 const SignUp = () => {

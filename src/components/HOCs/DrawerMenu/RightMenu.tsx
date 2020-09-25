@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Animated from "react-native-reanimated";
@@ -9,9 +9,9 @@ import { IIconsListItem } from "../../Lists/IconsList/IconsListItem";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { IComponentsDefaults } from "../../../lib/Types";
 import car from "../../../assets/png/Nissan_Leaf_2018-02.png";
-import { Icons } from "../..";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
+import Alert from "../../Alert";
 
 interface ListItems extends Array<IIconsListItem> {}
 
@@ -28,12 +28,18 @@ const RightMenu = (props: IRightMenu) => {
 
   const { navigate } = useNavigation();
 
+  const [showFeedback, setShowFeedback] = useState<boolean>(false);
+
   const onItemPress = (navigateTo: string) => {
     if (onItemPressProp) {
       onItemPressProp(navigateTo);
     }
 
     navigate(navigateTo);
+  };
+
+  const onBookTestDrive = async () => {
+    setShowFeedback(true);
   };
 
   const listItems: ListItems = [
@@ -45,12 +51,18 @@ const RightMenu = (props: IRightMenu) => {
     {
       text: "Book test drive",
       icon: "History",
-      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Profile),
+      onPress: onBookTestDrive,
     },
   ];
 
   return (
     <Animated.View style={[styles.container, animContainerStyle]}>
+      <Alert
+        show={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        text="Thanks! We'll contact you shortly."
+      />
+
       <View
         style={[styles.header, { borderBottomColor: theme.colors.primary }]}
       >
@@ -63,13 +75,6 @@ const RightMenu = (props: IRightMenu) => {
         <View>
           <Text variant="heading1" color="white">
             {userData?.user.selectedVehicle?.Vehicle_Model}
-          </Text>
-        </View>
-
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Icons icon="BatteryRight" fill="white" size={30} />
-          <Text variant="subheadingLight" color="white">
-            100%
           </Text>
         </View>
       </View>

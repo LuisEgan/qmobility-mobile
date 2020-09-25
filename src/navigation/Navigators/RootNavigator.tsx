@@ -8,7 +8,6 @@ import AppNavigator from "./AppNavigator";
 import AuthNavigator from "./AuthNavigator";
 import { TUserToken } from "../Types/AuthTypes";
 import { ASYNC_STORAGE_ITEMS } from "../../lib/constants";
-import { FullScreenModal } from "../../screens/Feedback";
 import { KeyboardContext } from "../../lib/Contexts/KeyboardContext";
 
 const RootStack = createStackNavigator();
@@ -92,7 +91,7 @@ const RootNavigator = () => {
   );
 
   // * Loading screen
-  const LoadingScreen = () => <FullScreenModal show />;
+  const LoadingScreen = () => null;
 
   return (
     <AuthContext.Provider value={authContext}>

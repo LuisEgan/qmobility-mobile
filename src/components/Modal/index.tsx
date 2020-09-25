@@ -4,21 +4,24 @@ import {
   StyleSheet,
   TouchableOpacity,
   Modal as ModalItem,
+  Dimensions,
+  ViewStyle,
+  StyleProp,
 } from "react-native";
-import { useTheme } from "@shopify/restyle";
-import { Theme } from "../../config/Theme";
+import theme from "../../config/Theme";
 
 import { IComponentsDefaults } from "../../lib/Types";
+
+const { height, width } = Dimensions.get("window");
 
 interface IModal extends IComponentsDefaults {
   state: boolean;
   onClosed: () => void;
+  contentStyle?: StyleProp<ViewStyle>;
 }
 
 const Modal = (props: PropsWithChildren<IModal>) => {
-  const { state, onClosed, children, containerStyle } = props;
-
-  const theme = useTheme<Theme>();
+  const { state, onClosed, children, containerStyle, contentStyle } = props;
 
   return (
     <ModalItem
@@ -39,7 +42,7 @@ const Modal = (props: PropsWithChildren<IModal>) => {
         onPress={onClosed}
       >
         <View style={{ flex: 1 }} />
-        <View style={styles.modalContent}>{children}</View>
+        <View style={[styles.modalContent, contentStyle]}>{children}</View>
       </TouchableOpacity>
     </ModalItem>
   );
@@ -49,8 +52,8 @@ export default Modal;
 
 const styles = StyleSheet.create({
   contentStyle: {
-    width: "100%",
-    height: "100%",
+    width,
+    height,
   },
   modalContent: {
     alignItems: "center",

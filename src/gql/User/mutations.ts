@@ -14,6 +14,20 @@ export interface IEmailSignUpVars {
   password: string;
 }
 
+export interface ILoginVars {
+  email: string;
+  password: string;
+}
+
+// * Login
+const login = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(loginInput: { email: $email, password: $password }) {
+      accessToken
+    }
+  }
+`;
+
 // * Facebook Login
 const loginWithFacebook = gql`
   mutation LoginWithFacebook($accessToken: String!) {
@@ -126,6 +140,7 @@ const updateUser = gql`
 `;
 
 export default {
+  login,
   loginWithFacebook,
   loginWithGoogle,
   loginWithLinkedIn,

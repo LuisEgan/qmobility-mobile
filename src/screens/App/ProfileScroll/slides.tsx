@@ -1,3 +1,4 @@
+import { Dimensions } from "react-native";
 import { ISlide } from "../../../components/Slider/Slide";
 import theme from "../../../config/Theme";
 
@@ -5,6 +6,8 @@ import favClothingStyle from "../../../assets/png/favClothingStyle.png";
 import favHobby from "../../../assets/png/favHobby.png";
 import nextRestaurant from "../../../assets/png/nextRestaurant.png";
 import perfectWeekend from "../../../assets/png/perfectWeekend.png";
+
+const { width } = Dimensions.get("window");
 
 interface ISlides extends Array<ISlide> {}
 
@@ -29,6 +32,7 @@ const slides: ISlides = [
     imgSource: favClothingStyle,
     backgroundColor: theme.colors.primaryDark,
     contentStyle: { flex: 1 },
+    imgStyle: { height: width * 0.3, width: width * 0.3 },
   },
   {
     title: QUESTIONS[1],
@@ -36,6 +40,7 @@ const slides: ISlides = [
     imgSource: favHobby,
     backgroundColor: theme.colors.primaryDark,
     contentStyle: { flex: 1 },
+    imgStyle: { height: width * 0.3, width: width * 0.3 },
   },
   {
     title: QUESTIONS[2],
@@ -43,6 +48,7 @@ const slides: ISlides = [
     imgSource: nextRestaurant,
     backgroundColor: theme.colors.redLight,
     contentStyle: { flex: 1 },
+    imgStyle: { height: width * 0.3, width: width * 0.3 },
   },
   {
     title: QUESTIONS[3],
@@ -50,6 +56,7 @@ const slides: ISlides = [
     imgSource: perfectWeekend,
     backgroundColor: theme.colors.yellow,
     contentStyle: { flex: 1 },
+    imgStyle: { height: width * 0.3, width: width * 0.3 },
   },
 ];
 
