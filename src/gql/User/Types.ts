@@ -19,6 +19,7 @@ export interface IUser {
   active: boolean;
   networkType: UserNetworkTypeEnum;
   createAt: Date;
+  phone?: string;
   dateOfBirth?: Date;
   lastname?: string;
   updatedAt?: Date;

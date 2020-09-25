@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTheme } from "@shopify/restyle";
 import { useQuery } from "@apollo/client";
 import {
   Header,
@@ -9,14 +8,16 @@ import {
   Input,
   Icons,
   CardImage,
+  PhoneInput,
 } from "../../../components";
-import { Text, Theme } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
 import { dateToText } from "../../../lib/dates";
+import { cleanPhoneNumber } from "../../../lib/strings";
 
 const CreateProfile = () => {
   const { navigate } = useNavigation();
@@ -26,8 +27,6 @@ const CreateProfile = () => {
   );
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
-  const theme = useTheme<Theme>();
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -59,6 +58,7 @@ const CreateProfile = () => {
           <ImageProfile
             color={theme.colors.primary}
             avatarUrl={userData?.user.avatarUrl}
+            changePhotoOption={false}
           />
           <Text variant="heading1">{userData?.user.name}</Text>
           <Text variant="bodyHighlight">{userData?.user.lastname}</Text>
@@ -66,6 +66,11 @@ const CreateProfile = () => {
           <Input
             disabled
             defaultValue={dateToText(`${userData?.user.dateOfBirth}`)}
+            label="Date of birth"
+          />
+          <PhoneInput
+            defaultValue={`${cleanPhoneNumber(userData?.user.phone || "")}`}
+            disabled
           />
           <View style={styles.containerTtitleEdition}>
             <Text variant="label">YOUR VIRTUAL EVE</Text>

@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add @types/react-native-smooth-pincode-input --dev
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add --dev @types/react-native-intl-phone-input
 
 PATH: 
   C:\dev\cmder\bin;C:\dev\cmder\vendor\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\LuisDaniel\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Users\LuisDaniel\.windows-build-tools\python27\;C:\Users\LuisDaniel\.windows-build-tools\python27\;C:\Users\LuisDaniel\AppData\Local\Microsoft\WindowsApps;C:\Users\LuisDaniel\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\LuisDaniel\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.1.1\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2020.1.1\bin;C:\adb\platform-tools;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\dev\cmder
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-native-smooth-pincode-input: Not found
+  Error: https://registry.yarnpkg.com/@types%2freact-native-intl-phone-input: Not found
       at Request.params.callback [as _callback] (C:\Users\LuisDaniel\AppData\Roaming\nvm\v12.16.3\node_modules\yarn\lib\cli.js:66987:18)
       at Request.self.callback (C:\Users\LuisDaniel\AppData\Roaming\nvm\v12.16.3\node_modules\yarn\lib\cli.js:140748:22)
       at Request.emit (events.js:310:20)
@@ -32,7 +32,7 @@ npm manifest:
     "private": true,
     "scripts": {
       "dev": "expo start",
-      "android": "expo start --android",
+      "and": "expo start --android",
       "ios": "expo start --ios",
       "web": "expo start --web",
       "eject": "expo eject",
@@ -43,6 +43,7 @@ npm manifest:
     "dependencies": {
       "@apollo/client": "^3.1.2",
       "@apollo/react-hooks": "^4.0.0",
+      "@react-native-community/datetimepicker": "2.4.0",
       "@react-native-community/masked-view": "0.1.10",
       "@react-navigation/material-top-tabs": "^5.2.16",
       "@react-navigation/native": "^5.7.2",
@@ -71,6 +72,7 @@ npm manifest:
       "react-native-base64": "^0.1.0",
       "react-native-gesture-handler": "~1.6.0",
       "react-native-google-places-autocomplete": "^1.8.1",
+      "react-native-intl-phone-input": "^1.2.26",
       "react-native-linkedin": "^2.1.1",
       "react-native-maps": "^0.27.1",
       "react-native-maps-directions": "^1.8.0",
@@ -1606,6 +1608,13 @@ Lockfile:
       strip-ansi "^5.2.0"
       sudo-prompt "^9.0.0"
       wcwidth "^1.0.1"
+  
+  "@react-native-community/datetimepicker@2.4.0":
+    version "2.4.0"
+    resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-2.4.0.tgz#6b3cf050f507f9b70d31d5a572e1153bb5bd50c9"
+    integrity sha512-ZXPwNAQt4T66PTL20l2nSEbtsn6vtsvFqdYWBfx8aaNKBoCPDygR6SsYzWcIoexKH5wmX0zctSzIsryl+Gtngg==
+    dependencies:
+      invariant "^2.2.4"
   
   "@react-native-community/masked-view@0.1.10":
     version "0.1.10"
@@ -7469,6 +7478,11 @@ Lockfile:
       lodash.debounce "^4.0.8"
       prop-types "^15.5.10"
       qs "~6.9.1"
+  
+  react-native-intl-phone-input@^1.2.26:
+    version "1.2.26"
+    resolved "https://registry.yarnpkg.com/react-native-intl-phone-input/-/react-native-intl-phone-input-1.2.26.tgz#8b53f90d9fc65dbccb16a9ca9b0ba875ba30daa5"
+    integrity sha512-Zi0zll4+oFdbFglXuWJkLKgk/fkAHzRGOaRiN4BwVfwZGws/SeobJ4+U1UZSD0U0sZLg3uCFguD9UCaduP7abg==
   
   react-native-iphone-x-helper@^1.2.1:
     version "1.2.1"

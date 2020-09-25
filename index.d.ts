@@ -13,3 +13,4 @@ declare module "react-native-google-places-autocomplete" {
 }
 
 declare module "react-native-smooth-pincode-input";
+declare module "react-native-intl-phone-input";
