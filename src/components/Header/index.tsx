@@ -1,8 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, Platform } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useTheme } from "@shopify/restyle";
-import { Text, Theme } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 import Icons from "../svg";
 
 import { TIcon } from "../svg/icons/TypeIcons";
@@ -38,8 +37,7 @@ const Header = (props: IHeader) => {
     containerStyle,
   } = props;
 
-  const theme = useTheme<Theme>();
-
+  // TODO redo everything
   return (
     <View
       style={[
@@ -60,7 +58,7 @@ const Header = (props: IHeader) => {
             >
               {icon && <Icons size={30} icon={icon} />}
               {text && (
-                <Text variant="body" style={styles.text}>
+                <Text variant="body" style={[styles.text, styles.leftText]}>
                   {text}
                 </Text>
               )}
@@ -69,7 +67,7 @@ const Header = (props: IHeader) => {
         ) : (
           <View style={styles.icon}>
             {text && (
-              <Text variant="body" style={styles.text}>
+              <Text variant="body" style={[styles.text, styles.leftText]}>
                 {text}
               </Text>
             )}
@@ -159,5 +157,10 @@ const styles = StyleSheet.create({
   text: {
     paddingHorizontal: 5,
     alignSelf: "center",
+  },
+  leftText: {
+    position: "absolute",
+    top: height * 0.035,
+    left: width * 0.05,
   },
 });

@@ -102,6 +102,7 @@ export interface IUpdateUser {
   lastname?: string;
   dateOfBirth?: Date;
   email?: string;
+  phone?: string;
   selectedVehicle?: number;
   avatarUrl?: string;
   iceVehicle?: IIceVehicle;
@@ -112,6 +113,7 @@ const updateUser = gql`
     $name: String
     $lastname: String
     $email: String
+    $phone: String
     $username: String
     $avatarUrl: String
     $dateOfBirth: DateTime
@@ -123,6 +125,7 @@ const updateUser = gql`
         name: $name
         lastname: $lastname
         email: $email
+        phone: $phone
         username: $username
         avatarUrl: $avatarUrl
         dateOfBirth: $dateOfBirth
@@ -135,6 +138,7 @@ const updateUser = gql`
       avatarUrl
       dateOfBirth
       lastname
+      phone
     }
   }
 `;

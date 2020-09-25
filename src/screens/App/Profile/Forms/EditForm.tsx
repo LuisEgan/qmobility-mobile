@@ -1,7 +1,7 @@
 import { FormikProps } from "formik";
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { ImageProfile, Input } from "../../../../components";
+import { ImageProfile, Input, PhoneInput } from "../../../../components";
 import DatePicker from "../../../../components/DatePicker";
 import theme from "../../../../config/Theme";
 import { ERRORS } from "../../../../lib/constants";
@@ -11,6 +11,7 @@ export interface IEditFormValues {
   lastname: string;
   dateOfBirth: Date;
   avatarUrl: string;
+  phone: string;
 }
 
 interface IForm extends FormikProps<IEditFormValues> {
@@ -21,6 +22,7 @@ const EditForm = (props: IForm) => {
   const {
     handleChange,
     handleBlur,
+    setErrors,
     errors,
     touched,
     values,
@@ -34,7 +36,6 @@ const EditForm = (props: IForm) => {
   return (
     <View style={styles.container}>
       <ImageProfile
-        label="JD"
         color={theme.colors.primary}
         onLoadPhoto={onLoadPhoto}
         avatarUrl={values.avatarUrl}
@@ -65,6 +66,13 @@ const EditForm = (props: IForm) => {
           label="Date of birth"
           onChange={(e) => handleChange("dateOfBirth")(e.toString())}
           value={values.dateOfBirth || initialValues.dateOfBirth}
+        />
+
+        <PhoneInput
+          defaultValue={initialValues.phone}
+          onChangeFormattedText={handleChange("phone")}
+          error={errors.phone}
+          onIsInvalid={() => setErrors({ ...errors, phone: "Invalid Phone" })}
         />
       </View>
     </View>

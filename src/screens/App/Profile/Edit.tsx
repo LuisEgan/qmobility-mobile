@@ -18,13 +18,17 @@ import { IUser } from "../../../gql/User/Types";
 import { IUpdateUser } from "../../../gql/User/mutations";
 import EditForm, { IEditFormValues } from "./Forms/EditForm";
 import { FullScreenModal } from "../../Feedback";
+import { cleanPhoneNumber } from "../../../lib/strings";
 
 const { height } = Dimensions.get("window");
 
+// TODO set phone validation schema moving formik component
+// TODO to the same component as the inputs
 const editSchema = yup.object().shape({
   name: yup.string().required(),
   lastname: yup.string().required(),
   dateOfBirth: yup.string().required(),
+  phone: yup.string().required(),
 });
 
 const Edit = () => {
@@ -45,13 +49,12 @@ const Edit = () => {
         variables: { ...values },
         refetchQueries: [
           {
-            query: User.queries.user,
+            query: User.queries.allUserInfo,
           },
         ],
       });
     } catch (e) {
       // TODO e feedback display
-      console.warn("e: ", e);
     }
   };
 
@@ -72,6 +75,7 @@ const Edit = () => {
           lastname: userData.user?.lastname || "",
           dateOfBirth: userData.user?.dateOfBirth || new Date(),
           avatarUrl: userData.user?.avatarUrl || "",
+          phone: cleanPhoneNumber(userData.user?.phone || ""),
         }}
         onSubmit={edit}
         validationSchema={editSchema}
@@ -80,13 +84,13 @@ const Edit = () => {
           <>
             <Header
               title="Edit my Profile"
-              text="Cancel"
+              text="Back"
               onPress={() => {
                 if (!updateUserLoading) {
                   goBack();
                 }
               }}
-              textRight={`${updateUserLoading ? "Loading" : "Done"}`}
+              textRight={`${updateUserLoading ? "Loading" : "Save"}`}
               onPressRight={props.handleSubmit}
               containerStyle={{
                 backgroundColor: theme.colors.secondaryLighter,

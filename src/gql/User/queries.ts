@@ -23,6 +23,7 @@ const allUserInfo = gql`
       dateOfBirth
       avatarUrl
       email
+      phone
       selectedVehicle {
         Images
         Vehicle_Make
