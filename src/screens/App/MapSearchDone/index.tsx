@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Dimensions, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  ActivityIndicator,
+  Platform,
+} from "react-native";
 import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
 import { useTheme } from "@shopify/restyle";
@@ -94,14 +100,35 @@ const MapSearchDone = (props: IMapSearchDone) => {
           </Text>
         </View>
       ) : (
-        <View>
-          <Text variant="heading2" numberOfLines={1}>
-            {`${locationStart && editNameCity(locationStart)}, ${
-              locationEnd && editNameCity(locationEnd)
-            }`}
-          </Text>
+        <View
+          style={{
+            height: height * 0.3,
+          }}
+        >
+          <View
+            style={{
+              flex: Platform.OS === "ios" ? 0.3 : 0.5,
 
-          <View style={styles.row}>
+              justifyContent: "center",
+            }}
+          >
+            <Text variant="heading2" numberOfLines={1}>
+              {`${locationStart && editNameCity(locationStart)}, ${
+                locationEnd && editNameCity(locationEnd)
+              }`}
+            </Text>
+          </View>
+
+          <View
+            style={[
+              styles.row,
+              {
+                flex: Platform.OS === "ios" ? 0.2 : 0.4,
+                width: "100%",
+                alignItems: "center",
+              },
+            ]}
+          >
             <Icons
               icon="Market"
               size={20}
@@ -114,7 +141,18 @@ const MapSearchDone = (props: IMapSearchDone) => {
               }`}
             </Text>
           </View>
-          <View style={styles.row}>
+
+          <View
+            style={[
+              styles.row,
+              {
+                flex: Platform.OS === "ios" ? 0.2 : 0.4,
+
+                width: "100%",
+                alignItems: "center",
+              },
+            ]}
+          >
             <Icons
               icon="DirectionsCar"
               size={20}
@@ -139,7 +177,18 @@ const MapSearchDone = (props: IMapSearchDone) => {
             </Text>
           </View>
 
-          <View style={styles.row}>
+          <View
+            style={[
+              styles.row,
+              {
+                flex: 1,
+
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            ]}
+          >
             <Button
               containerStyle={styles.button}
               variant="primary"
@@ -186,7 +235,6 @@ const MapSearchDone = (props: IMapSearchDone) => {
             onChangeRoute={onChangeRoute}
           />
         </Animated.View>
-
         <View style={styles.mapContainer}>
           <Map
             routeCoords={dataRoute?.getRoutes?.Route?.Route_Coords}
@@ -198,7 +246,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
           maxHeight={height * 0.9}
           closeOffset={height * 0.35}
           isOpen={isDrawerOpen}
-          scrollable
+          scrollable={false}
           disableToggler
           onOpen={() => {
             setTimeout(() => {
@@ -209,7 +257,11 @@ const MapSearchDone = (props: IMapSearchDone) => {
         >
           <RouteActions />
           {showContent && (
-            <>
+            <View
+              style={{
+                height: height * (Platform.OS === "ios" ? 0.55 : 0.54),
+              }}
+            >
               <RoutePointsList
                 startLocation={locationStart}
                 endLocation={locationEnd}
@@ -246,7 +298,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
                   textColor="heading2"
                 />
               </View>
-            </>
+            </View>
           )}
         </BottomDrawer>
       </View>
@@ -291,6 +343,7 @@ const styles = StyleSheet.create({
     flex: 0.54,
   },
   cardsContainer: {
+    flex: Platform.OS === "ios" ? 0.2 : 0.4,
     flexDirection: "row",
     marginVertical: "5%",
   },

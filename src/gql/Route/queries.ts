@@ -15,6 +15,7 @@ export interface IChargers {
   label?: string;
   latitude?: number;
   longitude?: number;
+  Distance?: number;
 }
 
 export interface IGetRouter {
@@ -77,6 +78,7 @@ const getRoutes = gql`
         label: Name
         latitude
         longitude
+        Distance
       }
     }
   }

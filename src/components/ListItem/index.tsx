@@ -45,11 +45,11 @@ const ListItem = (props: IListItem) => {
         </View>
       )}
       <View style={styles.textContent}>
-        <Text style={styles.text} variant="body">
+        <Text numberOfLines={1} style={styles.text} variant="body">
           {editNameCity(title)}
         </Text>
         {subTitle && (
-          <Text style={styles.text} variant="label">
+          <Text numberOfLines={1} style={styles.text} variant="label">
             {editNameCity(subTitle)}
           </Text>
         )}

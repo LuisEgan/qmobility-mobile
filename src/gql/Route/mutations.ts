@@ -1,17 +1,11 @@
 import { gql } from "@apollo/client";
 
-export enum ERouteCategory {
-  COMMUTE = "COMMUTE",
-  LOCAL_HOUSEHOLD_RUN = "LOCAL_HOUSEHOLD_RUN",
-  WEEKEND_AWAY = "WEEKEND_AWAY",
-  ANUAL_BREAK = "ANUAL_BREAK",
-}
-
 export interface ISaveMyRoutesVar {
   origin: string;
   destination: string;
   friendlyName: string;
-  category: ERouteCategory;
+  category: string;
+  frequency: string;
 }
 
 export interface ISaveMyRoutes {
@@ -20,19 +14,21 @@ export interface ISaveMyRoutes {
 }
 
 // * save routes
-const saveMyRoutes = gql`
+const saveMyRoute = gql`
   mutation saveMyRoute(
     $origin: String!
     $destination: String!
     $friendlyName: String!
-    $category: ERouteCategory!
+    $category: String!
+    $frequency: String!
   ) {
-    saveMyRoutes(
-      MyRoute: {
+    saveMyRoute(
+      saveMyRoute: {
         origin: $origin
         destination: $destination
         friendlyName: $friendlyName
         category: $category
+        frequency: $frequency
       }
     ) {
       userId
@@ -42,5 +38,5 @@ const saveMyRoutes = gql`
 `;
 
 export default {
-  saveMyRoutes,
+  saveMyRoute,
 };

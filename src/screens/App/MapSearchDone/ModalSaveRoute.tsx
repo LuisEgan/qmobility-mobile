@@ -17,11 +17,7 @@ import { Modal, Select, Input, Icons } from "../../../components";
 import { Text, Theme } from "../../../config/Theme";
 
 import { ERRORS } from "../../../lib/constants";
-import {
-  ISaveMyRoutes,
-  ERouteCategory,
-  ISaveMyRoutesVar,
-} from "../../../gql/Route/mutations";
+import { ISaveMyRoutes, ISaveMyRoutesVar } from "../../../gql/Route/mutations";
 import { Route } from "../../../gql";
 
 const { height, width } = Dimensions.get("window");
@@ -29,8 +25,8 @@ const { height, width } = Dimensions.get("window");
 interface IModalSaveRoute {
   stateModal: boolean;
   onClosed: () => void;
-  startLocation?: string;
-  endLocation?: string;
+  startLocation: string;
+  endLocation: string;
 }
 
 interface IFormValues {
@@ -44,13 +40,9 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
 
   const [
     upSaveMyRoutes,
-    {
-      // data: upSaveMyRouteData,
-      loading: upSaveMyRoutesLoading,
-      // error: uoSaveMyRoutesError,
-    },
+    { data: upSaveMyRouteData, loading: upSaveMyRoutesLoading },
   ] = useMutation<{ upSaveMyRoutes: ISaveMyRoutes }, ISaveMyRoutesVar>(
-    Route.mutations.saveMyRoutes,
+    Route.mutations.saveMyRoute,
   );
 
   const [statePhase, setStatePhase] = useState<boolean>(true);
@@ -68,21 +60,25 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
   };
 
   const onSaveMyRouter = async () => {
-    const { name } = valueSave;
+    const { name, category, frequency } = valueSave;
     try {
       const variables = {
-        origin: startLocation || "",
-        destination: endLocation || "",
+        origin: startLocation,
+        destination: endLocation,
         friendlyName: name,
-        category: ERouteCategory.COMMUTE,
+        category,
+        frequency,
       };
+
       await upSaveMyRoutes({ variables });
     } catch (error) {
-      // console.log("onSaveMyRouter -> error", error);
+      // console.log("onSaveMyRouter -> error", error)
+    }
+
+    if (upSaveMyRouteData) {
+      onCancel();
     }
   };
-  // console.log("uoSaveMyRoutesError ----->", uoSaveMyRoutesError);
-  // console.log("upSaveMyRouteData ------->>>>>>", upSaveMyRouteData);
 
   const onCancel = () => {
     setStatePhase(true);
@@ -145,9 +141,15 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
 
               <Select
                 placeholder="Frequency"
-                list={
-                  values.category === "Commute" ? ["week", "year"] : ["week"]
-                }
+                list={[
+                  "1 time per week",
+                  "2 times per week",
+                  "3 times per week",
+                  "4 times per week",
+                  "5 times per week",
+                  "6 times per week",
+                  "7 times per week",
+                ]}
                 value={values.frequency}
                 onPress={(str) => handleChange("frequency")(str.toString())}
                 containerStyle={[

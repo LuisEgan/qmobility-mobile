@@ -18,7 +18,7 @@ const RoutePointsList = (props: IRoutePointsList) => {
   const {
     containerStyle,
     points = [],
-    height = 250,
+
     startLocation,
     endLocation,
   } = props;
@@ -31,7 +31,7 @@ const RoutePointsList = (props: IRoutePointsList) => {
     <View
       style={[
         styles.container,
-        { borderColor: theme.colors.borderColor, height },
+        { borderColor: theme.colors.borderColor },
         containerStyle,
       ]}
     >
@@ -61,6 +61,8 @@ const LIST_PADDING = 10;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 0.9,
+    backgroundColor: "white",
     borderWidth: 1,
     borderRadius: 10,
     padding: LIST_PADDING,
