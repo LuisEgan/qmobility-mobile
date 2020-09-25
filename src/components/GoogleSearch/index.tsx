@@ -5,11 +5,10 @@ import {
   GooglePlaceDetail,
   DescriptionRow,
 } from "react-native-google-places-autocomplete";
-import useTheme from "@shopify/restyle/dist/hooks/useTheme";
 import { useNavigation } from "@react-navigation/native";
 import ListItem from "../ListItem/index";
 import Icons from "../svg/index";
-import { Theme } from "../../config/Theme";
+import theme from "../../config/Theme";
 
 export type TDetails = GooglePlaceDetail | DescriptionRow;
 
@@ -17,16 +16,21 @@ interface IGoogleSearch {
   placeholder?: string;
   onChange?: (str: string) => void;
   onPress?: (details: TDetails) => void;
+  onTypeCancel?: () => void;
   // TODO add proper type definition
   containerStyle?: Object;
 }
 
 const GoogleSearch = (props: IGoogleSearch) => {
-  const { containerStyle, placeholder, onChange, onPress } = props;
+  const {
+    containerStyle,
+    placeholder,
+    onChange,
+    onPress,
+    onTypeCancel,
+  } = props;
 
   const { goBack } = useNavigation();
-
-  const theme = useTheme<Theme>();
 
   return (
     <GooglePlacesAutocomplete
@@ -50,15 +54,13 @@ const GoogleSearch = (props: IGoogleSearch) => {
       }}
       onFail={(error) => console.warn(error)}
       renderLeftButton={() => (
-        <TouchableOpacity style={styles.contentIconsLeft} onPress={goBack}>
+        <TouchableOpacity
+          style={styles.contentIconsLeft}
+          onPress={onTypeCancel || goBack}
+        >
           <Icons icon="ArrowBackLight" />
         </TouchableOpacity>
       )}
-      // renderRightButton={() => (
-      //   <TouchableOpacity style={styles.contentIconsRight}>
-      //     <Icons icon="Mic" size={30} />
-      //   </TouchableOpacity>
-      // )}
       textInputProps={{}}
       styles={{
         container: {
@@ -82,7 +84,6 @@ const GoogleSearch = (props: IGoogleSearch) => {
       placeholder={placeholder}
       fetchDetails
       onPress={(data, details = null) => {
-        // console.log("details: ", details);
         if (onPress && details) onPress(details);
       }}
       query={{

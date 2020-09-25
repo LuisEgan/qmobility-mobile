@@ -19,6 +19,7 @@ import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes"
 import { Route } from "../../../gql";
 import { IGetRouter, IGetRouterVar } from "../../../gql/Route/queries";
 import ModalSaveRoute from "./ModalSaveRoute";
+import { IEditChangeRoute } from "../../../components/SearchEditRouter/index";
 
 const { height, width } = Dimensions.get("window");
 
@@ -72,6 +73,27 @@ const MapSearchDone = (props: IMapSearchDone) => {
     setStateChange(!stateChange);
 
     // TODO : FIX
+    refetch({
+      origin: start,
+      destination: end,
+      car_id: "1107",
+      car_charge: 50,
+      chargers_limit: 10,
+      car_tolerance: 10,
+      charger_distance: 10,
+    });
+  };
+
+  const onEditRoute = ({ str, type }: IEditChangeRoute) => {
+    const startTmp = startDirection || route.params.origin;
+    const endTmp = endDirection || route.params.destination;
+
+    if (type === "START") setStartDirection(str);
+    if (type === "END") setEndDirection(str);
+
+    const start = type === "START" ? str : startTmp;
+    const end = type === "END" ? str : endTmp;
+
     refetch({
       origin: start,
       destination: end,
@@ -233,6 +255,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
             endDireccion={(locationEnd && editNameCity(locationEnd)) || ""}
             containerStyle={styles.routeDestination}
             onChangeRoute={onChangeRoute}
+            onEditNewRoute={onEditRoute}
           />
         </Animated.View>
         <View style={styles.mapContainer}>

@@ -69,7 +69,7 @@ const RouterPointListItem = (props: IRouterPointsListItem) => {
           {[...Array(10)].map(() => (
             <Icons
               key={Math.random()}
-              icon="Market"
+              icon="Dot"
               size={8}
               fill={theme.colors.borderColor}
               containerStyle={styles.dot}

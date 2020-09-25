@@ -1,65 +1,120 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
-import { useTheme } from "@shopify/restyle";
-import { Icons } from "../../../components";
-import { Text, Theme } from "../../../config/Theme";
+import { Icons, Modal } from "../../../components";
+import theme, { Text } from "../../../config/Theme";
 import { IComponentsDefaults } from "../../../lib/Types";
+import SearchEditRouter, {
+  IChangeRoute,
+  IEditChangeRoute } from "../../../components/SearchEditRouter";
 
 const { width } = Dimensions.get("window");
 
 interface IRouteDestination extends IComponentsDefaults {
-  startDireccion?: string;
-  endDireccion?: string;
-  onChangeRoute?: () => void;
+  startDireccion: string;
+  endDireccion: string;
+  onChangeRoute: () => void;
+  onEditNewRoute: (value: IEditChangeRoute) => void;
 }
 
 const RouteDestination = (props: IRouteDestination) => {
-  const { startDireccion, endDireccion, containerStyle, onChangeRoute } = props;
+  const {
+    startDireccion = "Loading...",
+    endDireccion = "Loading...",
+    containerStyle,
+    onChangeRoute,
+    onEditNewRoute,
+  } = props;
 
-  const theme = useTheme<Theme>();
+  const [stateModal, setStateModal] = useState<boolean>(false);
+  const [typeEdit, setTypeEdit] = useState<IChangeRoute>("START");
+
+  const onEditRoute = (value: IChangeRoute) => {
+    setTypeEdit(value);
+    setStateModal(!stateModal);
+  };
+
+  const onChangeNewRoute = (value: IEditChangeRoute) => {
+    onEditNewRoute(value);
+    setStateModal(!stateModal);
+  };
 
   return (
     <View style={[styles.container, containerStyle]}>
+      <Modal state={stateModal} onClosed={() => setStateModal(!stateModal)}>
+        <View
+          style={{
+            backgroundColor: "#e0e0e0",
+          }}
+        >
+          <SearchEditRouter
+            onCancel={() => setStateModal(!stateModal)}
+            typeEdit={typeEdit}
+            onChange={(value) => onChangeNewRoute(value)}
+          />
+        </View>
+      </Modal>
       <Icons
         icon="MoreVert"
         size={20}
+        fill={theme.colors.bodySmall}
         containerStyle={styles.edit}
         onPress={() => null}
       />
 
       <View style={styles.icons}>
-        <Icons icon="ArrowDown" size={20} />
+        <Icons
+          icon="Gps"
+          size={20}
+          fill={theme.colors.primary}
+          containerStyle={{
+            marginLeft: 3,
+          }}
+        />
+        {[...Array(3)].map(() => (
+          <Icons
+            key={Math.random()}
+            icon="Dot"
+            size={5}
+            fill={theme.colors.borderColor}
+          />
+        ))}
+        <Icons
+          icon="Market"
+          size={20}
+          containerStyle={{
+            marginLeft: 1,
+          }}
+        />
       </View>
+
       <View style={[styles.destinations]}>
         <View
           style={[styles.from, { borderBottomColor: theme.colors.borderColor }]}
         >
-          <Text variant="label">Start</Text>
-          <Text variant="bodyBold" numberOfLines={1}>
-            {startDireccion}
-          </Text>
+          <TouchableOpacity onPress={() => onEditRoute("START")}>
+            <Text variant="label">Start</Text>
+            <Text variant="bodyBold" numberOfLines={1}>
+              {startDireccion}
+            </Text>
+          </TouchableOpacity>
         </View>
-
         <View style={styles.to}>
-          <Text variant="label">End</Text>
-          <Text variant="bodyBold" numberOfLines={1}>
-            {endDireccion}
-          </Text>
+          <TouchableOpacity onPress={() => onEditRoute("END")}>
+            <Text variant="label">End</Text>
+            <Text variant="bodyBold" numberOfLines={1}>
+              {endDireccion}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
       <TouchableOpacity
         onPress={() => onChangeRoute && onChangeRoute()}
         style={styles.reverse}
       >
-        <Icons icon="ArrowChange" size={20} />
+        <Icons icon="ArrowChange" size={20} fill={theme.colors.bodySmall} />
       </TouchableOpacity>
     </View>
   );
-};
-
-RouteDestination.defaultProps = {
-  startDireccion: "startDireccion",
-  endDireccion: "endDireccion",
 };
 
 export default RouteDestination;
@@ -82,8 +137,11 @@ const styles = StyleSheet.create({
 
   icons: {
     flex: 0.05,
-    marginHorizontal: 15,
-    justifyContent: "center",
+    paddingLeft: 5,
+    paddingRight: 15,
+    marginTop: 5,
+    paddingBottom: 20,
+    justifyContent: "space-between",
     alignItems: "center",
   },
 

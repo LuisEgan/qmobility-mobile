@@ -15,5 +15,6 @@ export { default as Modal } from "./Modal";
 export { default as BottomDrawer } from "./BottomDrawer";
 export { default as SpeechToText } from "./SpeechToText";
 export { default as GoogleSearch } from "./GoogleSearch";
+export { default as SearchEditRouter } from "./SearchEditRouter";
 export { default as Alert } from "./Alert";
 export { default as PhoneInput } from "./PhoneInput";
