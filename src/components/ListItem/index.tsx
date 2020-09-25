@@ -6,6 +6,13 @@ import { Text, Theme } from "../../config/Theme";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
 
+const editNameCity = (nameCity: string): string => {
+  if (nameCity.includes(".")) {
+    return "Current location";
+  }
+  return nameCity;
+};
+
 interface IListItem extends IComponentsDefaults {
   icon?: TIcon;
   title: string;
@@ -39,11 +46,11 @@ const ListItem = (props: IListItem) => {
       )}
       <View style={styles.textContent}>
         <Text style={styles.text} variant="body">
-          {title}
+          {editNameCity(title)}
         </Text>
         {subTitle && (
           <Text style={styles.text} variant="label">
-            {subTitle}
+            {editNameCity(subTitle)}
           </Text>
         )}
       </View>

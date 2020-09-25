@@ -87,12 +87,7 @@ const Input = (props: IInput) => {
       )}
 
       {error && touched && (
-        <View
-          style={[
-            styles.error,
-            // { bottom: error.length >= 50 ? "-100%" : "-50%" },
-          ]}
-        >
+        <View style={[styles.error]}>
           <Text variant="error">{error}</Text>
         </View>
       )}
@@ -119,7 +114,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   error: {
-    // position: "absolute",
     marginTop: 5,
   },
   forgotPass: {

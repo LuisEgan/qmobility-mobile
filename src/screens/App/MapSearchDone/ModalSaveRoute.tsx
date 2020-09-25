@@ -103,7 +103,11 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
       <>
         <View style={styles.bodyModal}>
           {statePhase ? (
-            <ScrollView>
+            <ScrollView
+              contentContainerStyle={{
+                flex: 1,
+              }}
+            >
               <Input
                 placeholder="Name"
                 onChange={(str) => handleChange("name")(str.toString())}
@@ -121,7 +125,12 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
 
               <Select
                 placeholder="Category"
-                list={["CAR"]}
+                list={[
+                  "Commute",
+                  "Local household",
+                  "Weekend Away",
+                  "Annual Break",
+                ]}
                 value={values.category}
                 onPress={(str) => handleChange("category")(str.toString())}
                 containerStyle={[
@@ -136,7 +145,9 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
 
               <Select
                 placeholder="Frequency"
-                list={["CAR"]}
+                list={
+                  values.category === "Commute" ? ["week", "year"] : ["week"]
+                }
                 value={values.frequency}
                 onPress={(str) => handleChange("frequency")(str.toString())}
                 containerStyle={[
@@ -158,7 +169,14 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
             onPress={() =>
               (statePhase ? onCancel() : setStatePhase(!statePhase))}
           >
-            <Text variant="bodyBold">{statePhase ? "CANCEL" : "BACK"}</Text>
+            <Text
+              style={{
+                color: theme.colors.grayLight,
+              }}
+              variant="bodyBold"
+            >
+              {statePhase ? "CANCEL" : "BACK"}
+            </Text>
           </TouchableOpacity>
           {!upSaveMyRoutesLoading ? (
             <TouchableOpacity
@@ -283,7 +301,7 @@ const styles = StyleSheet.create({
     marginVertical: height * (Platform.OS === "ios" ? 0.3 : 0.2),
   },
   contentModal: {
-    height: 334,
+    height: 400,
     width: width * 0.9,
     borderRadius: 10,
   },

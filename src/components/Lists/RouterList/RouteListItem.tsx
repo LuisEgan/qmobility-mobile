@@ -1,14 +1,22 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View, Dimensions } from "react-native";
-import useTheme from "@shopify/restyle/dist/hooks/useTheme";
-import { Theme, Text } from "../../../config/Theme";
+import { useNavigation } from "@react-navigation/native";
+import theme, { Text } from "../../../config/Theme";
 import Icons from "../../svg";
-import { IRoute } from "../TypeList";
+import { IGetMySaveRoute } from "../../../gql/Route/queries";
+import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
-const RouteListItem = (props: IRoute) => {
-  const { title, details, icon } = props;
+const RouteListItem = (props: IGetMySaveRoute) => {
+  const { friendlyName, destination, origin } = props;
 
-  const theme = useTheme<Theme>();
+  const { navigate } = useNavigation();
+
+  const onNavigarionRoute = () => {
+    navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
+      origin,
+      destination,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -19,17 +27,25 @@ const RouteListItem = (props: IRoute) => {
             backgroundColor: theme.colors.grayLighter,
           },
         ]}
+        onPress={() => onNavigarionRoute()}
       >
         <View style={styles.content}>
-          {icon && (
-            <View style={styles.detailContent}>
-              <Icons icon={icon} fill={theme.colors.primary} size={22} />
-            </View>
-          )}
+          <View style={styles.detailContent}>
+            <Icons icon="Done" fill={theme.colors.primary} size={22} />
+          </View>
           <View style={styles.detailContainer}>
             <View>
-              <Text variant="heading2">{title}</Text>
-              {details && <Text variant="body">{details}</Text>}
+              <Text variant="heading2">{friendlyName}</Text>
+              {origin && destination && (
+                <>
+                  <Text numberOfLines={1} variant="body">
+                    {origin}
+                  </Text>
+                  <Text numberOfLines={1} variant="body">
+                    {destination}
+                  </Text>
+                </>
+              )}
             </View>
           </View>
           <View style={styles.iconRight}>

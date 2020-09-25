@@ -81,18 +81,6 @@ const Details = (props: IDetails) => {
           </TouchableOpacity>
         </View>
 
-        {/* <View style={styles.content}>
-          <Icons icon="BatteryRight" fill={theme.colors.primary} size={28} />
-          <Text
-            variant="heading2"
-            style={{
-              color: theme.colors.primary,
-            }}
-          >
-            100%
-          </Text>
-        </View> */}
-
         <View style={styles.content}>
           <Text
             variant="bodyHighlightBold"
@@ -146,27 +134,7 @@ const Details = (props: IDetails) => {
           </Text>
           <Text variant="body">In production</Text>
         </View>
-
-        {/* <View style={[styles.card, { borderColor: theme.colors.primary }]}>
-          <ContentView icon="Bubble" subTitle="Trips" />
-          <View
-            style={[styles.line, { borderColor: theme.colors.primaryLighter }]}
-          />
-          <ContentView icon="Navigation" subTitle="Travelled" type="km" />
-          <View
-            style={[styles.line, { borderColor: theme.colors.primaryLighter }]}
-          />
-          <ContentView icon="Clock" subTitle="Driving" type="h" />
-        </View> */}
       </ScrollView>
-
-      {/* <View style={styles.button}>
-        <Button
-          label="SET AS DEFAULT"
-          variant="primary"
-          onPress={() => console.warn("here")}
-        />
-      </View> */}
     </View>
   );
 };
