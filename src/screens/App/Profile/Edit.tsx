@@ -45,14 +45,17 @@ const Edit = () => {
   const [iceVehicle, setIceVehicle] = useState<IIceVehicle>();
 
   const edit = async (values: IEditFormValues): Promise<void> => {
-    const { ...newIceVehicle } = iceVehicle;
-    /* eslint-disable-next-line */
-    delete newIceVehicle.__typename;
+    const newIceVehicle = iceVehicle ? { ...iceVehicle } : null;
+
+    if (newIceVehicle) {
+      /* eslint-disable-next-line */
+      delete newIceVehicle.__typename;
+    }
 
     /* eslint-disable-next-line */
     const { carPlate, ...formValues } = values;
 
-    const variables = iceVehicle
+    const variables = iceVehicle !== undefined
       ? { ...formValues, iceVehicle: newIceVehicle }
       : { ...formValues };
 

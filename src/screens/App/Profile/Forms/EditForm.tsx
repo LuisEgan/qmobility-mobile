@@ -37,7 +37,7 @@ interface IVehicleModelsListOptions {
 
 interface IForm extends FormikProps<IEditFormValues> {
   loading?: boolean;
-  onIceVehicleChange: (vehicle: IIceVehicle) => void;
+  onIceVehicleChange: (vehicle: IIceVehicle | undefined | null) => void;
   selectedVehicle?: IVehicle;
 }
 
@@ -98,10 +98,10 @@ const EditForm = (props: IForm) => {
 
   // * Update ICE Vehicle for parent
   useEffect(() => {
-    if (searchIceVehicleData) {
-      onIceVehicleChange(searchIceVehicleData.searchIceVehicle);
+    if (searchIceVehicleCalled) {
+      onIceVehicleChange(searchIceVehicleData?.searchIceVehicle || null);
     }
-  }, [searchIceVehicleData]);
+  }, [searchIceVehicleData, searchIceVehicleCalled]);
 
   // * Update Vehicle Models list
   useEffect(() => {

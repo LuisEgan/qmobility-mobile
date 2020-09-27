@@ -80,7 +80,7 @@ const getEve = gql`
 `;
 
 const getICEVehicle = gql`
-  query GetEve {
+  query GetICEVehicle {
     user {
       iceVehicle {
         Make
@@ -92,6 +92,11 @@ const getICEVehicle = gql`
         Colour
         VehicleClass
         VehiclePlate
+        DoorPlanLiteral
+        MaxSpeedKph
+        MaxSpeedMph
+        ModelVariant
+        EngineCapacity
       }
     }
   }

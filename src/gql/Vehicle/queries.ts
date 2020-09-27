@@ -44,6 +44,8 @@ const iceVehicle = gql`
       DoorPlanLiteral
       MaxSpeedKph
       MaxSpeedMph
+      ModelVariant
+      EngineCapacity
     }
   }
 `;

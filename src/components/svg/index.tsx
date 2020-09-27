@@ -57,6 +57,7 @@ import {
   Speed,
   Star,
   Timeline,
+  Calendar,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -102,7 +103,6 @@ const icons = {
   Bubble: (props: Iicons) => <Bubble {...props} />,
   Dot: (props: Iicons) => <Dot {...props} />,
   FavClothingStyle: (props: Iicons) => <FavClothingStyle {...props} />,
-
   AssessMent: (props: Iicons) => <AssessMent {...props} />,
   BatteryRight: (props: Iicons) => <BatteryRight {...props} />,
   BookMark: (props: Iicons) => <BookMark {...props} />,
@@ -129,6 +129,7 @@ const icons = {
   Speed: (props: Iicons) => <Speed {...props} />,
   Star: (props: Iicons) => <Star {...props} />,
   Timeline: (props: Iicons) => <Timeline {...props} />,
+  Calendar: (props: Iicons) => <Calendar {...props} />,
 };
 
 const Icons = (props: Iicons) => {

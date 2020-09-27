@@ -14,13 +14,14 @@ import { TIcon } from "../../../components/svg/icons/TypeIcons";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
-import { numberWithDots } from "../../../lib/strings";
 
 const { height, width } = Dimensions.get("window");
 
 interface IIconText {
   icon?: TIcon;
   label?: string;
+  stroke?: string;
+  fill?: string;
 }
 
 const DetailsICE = () => {
@@ -30,7 +31,7 @@ const DetailsICE = () => {
     User.queries.getICEVehicle,
   );
 
-  const IconText = ({ icon, label }: IIconText) => (
+  const IconText = ({ icon, label, stroke, fill }: IIconText) => (
     <View style={styles.iconTextContent}>
       {icon && (
         <View
@@ -38,7 +39,12 @@ const DetailsICE = () => {
             marginRight: 5,
           }}
         >
-          <Icons icon={icon} fill={theme.colors.grayLight} size={17} />
+          <Icons
+            icon={icon}
+            fill={fill || theme.colors.grayLight}
+            stroke={stroke}
+            size={17}
+          />
         </View>
       )}
       {label && <Text variant="label">{label}</Text>}
@@ -70,26 +76,32 @@ const DetailsICE = () => {
         <View style={[styles.content]}>
           <IconText icon="Bubble" label={`${vehicle?.SeatingCapacity}`} />
           <IconText icon="Spa" label={`${vehicle?.Co2Emissions} C02g/km`} />
+          <IconText
+            icon="Calendar"
+            label={`${vehicle?.YearMonthFirstRegistered}`}
+            stroke="white"
+          />
         </View>
 
-        <View style={[styles.content, { justifyContent: "space-between" }]}>
-          <Text variant="bodyBold">United Kingdom</Text>
-          <Text variant="bodyBold">
-            £
-            {numberWithDots("0")}
-          </Text>
+        <View style={[styles.content]}>
+          <IconText icon="Bubble" label={`${vehicle?.FuelType}`} />
+          <IconText icon="Spa" label={`${vehicle?.Colour}`} />
+          <IconText
+            icon="Calendar"
+            label={`${vehicle?.VehicleClass}`}
+            stroke="white"
+          />
         </View>
 
-        <View style={[styles.content, { justifyContent: "space-between" }]}>
-          <Text
-            variant="body"
-            style={{
-              color: theme.colors.gray,
-            }}
-          >
-            Availability
-          </Text>
-          <Text variant="body" />
+        <View style={[styles.content]}>
+          <IconText icon="Bubble" label={`${vehicle?.VehiclePlate}`} />
+          <IconText icon="Spa" label={`${vehicle?.DoorPlanLiteral}`} />
+          <IconText icon="Speed" label={`${vehicle?.MaxSpeedMph} mph`} />
+        </View>
+
+        <View style={[styles.content]}>
+          <IconText icon="Bubble" label={`${vehicle?.EngineCapacity}`} />
+          <IconText icon="Spa" label={`${vehicle?.ModelVariant}`} />
         </View>
       </ScrollView>
     </View>

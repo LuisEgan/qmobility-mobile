@@ -27,7 +27,6 @@ export { default as Bubble } from "./Bubble";
 export { default as Eve } from "./Eve";
 export { default as Dot } from "./Dot";
 export { default as FavClothingStyle } from "./FavClothingStyle";
-
 export { default as AssessMent } from "./AssessMent";
 export { default as BatteryRight } from "./BatteryRight";
 export { default as BookMark } from "./BookMark";
@@ -54,3 +53,4 @@ export { default as Spa } from "./Spa";
 export { default as Speed } from "./Speed";
 export { default as Star } from "./Star";
 export { default as Timeline } from "./Timeline";
+export { default as Calendar } from "./Calendar";

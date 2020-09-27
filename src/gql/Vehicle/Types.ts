@@ -1,4 +1,5 @@
 export interface IIceVehicle {
+  __typename?: string;
   Make: string;
   MakeModel: string;
   Co2Emissions: number;
@@ -8,7 +9,11 @@ export interface IIceVehicle {
   Colour: string;
   VehicleClass: string;
   VehiclePlate: string;
-  __typename?: string;
+  DoorPlanLiteral: string;
+  MaxSpeedKph: number;
+  MaxSpeedMph: number;
+  ModelVariant: string;
+  EngineCapacity: string;
 }
 
 export interface IVehicle {

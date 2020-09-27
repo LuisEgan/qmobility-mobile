@@ -105,7 +105,7 @@ export interface IUpdateUser {
   phone?: string;
   selectedVehicle?: number;
   avatarUrl?: string;
-  iceVehicle?: IIceVehicle;
+  iceVehicle?: IIceVehicle | null;
 }
 
 const updateUser = gql`
