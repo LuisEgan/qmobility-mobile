@@ -238,7 +238,6 @@ const MapSearchDone = (props: IMapSearchDone) => {
           style={[
             styles.headerContainer,
             {
-              backgroundColor: theme.colors.headerBackground,
               transform: [{ translateY }],
             },
           ]}
@@ -352,6 +351,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     elevation: 1,
+    backgroundColor: theme.colors.headerBackground,
   },
   routeDestination: {
     marginTop: 20,

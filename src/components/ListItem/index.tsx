@@ -31,11 +31,7 @@ const ListItem = (props: IListItem) => {
           origin: title,
           destination: subTitle,
         })}
-      style={[
-        styles.container,
-        containerStyle,
-        { borderBottomColor: theme.colors.grayLighter },
-      ]}
+      style={[styles.container, containerStyle]}
     >
       {icon && (
         <View style={styles.viewLeft}>
@@ -66,6 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    borderBottomColor: theme.colors.grayLighter,
   },
   viewLeft: {
     justifyContent: "center",

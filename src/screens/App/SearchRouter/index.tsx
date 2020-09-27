@@ -10,7 +10,7 @@ import {
   DescriptionRow,
 } from "react-native-google-places-autocomplete";
 import { Card, ListItem, GoogleSearch } from "../../../components";
-import { Text, Theme } from "../../../config/Theme";
+import theme, { Text, Theme } from "../../../config/Theme";
 
 import ListTest from "./ListTest";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
@@ -27,7 +27,6 @@ interface IDetails extends GooglePlaceDetail, DescriptionRow {}
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
 
-  const theme = useTheme<Theme>();
   const { navigate } = useNavigation();
 
   useEffect(() => {
@@ -73,12 +72,7 @@ const SearchRouter = () => {
         </Text>
       </View>
 
-      <View
-        style={[
-          styles.containerScroll,
-          { backgroundColor: theme.colors.white },
-        ]}
-      >
+      <View style={styles.containerScroll}>
         {loading ? (
           <View
             style={{
@@ -180,13 +174,12 @@ const styles = StyleSheet.create({
   },
   googleSearch: {
     marginTop: 60,
-    // flex: .1
   },
   containerScroll: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     flex: 1,
-    backgroundColor: "red",
+    backgroundColor: theme.colors.white,
   },
   contentCard: {
     flexDirection: "row",

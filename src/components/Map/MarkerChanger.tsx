@@ -2,6 +2,7 @@ import React from "react";
 import { Marker } from "react-native-maps";
 import { IChargers } from "../../gql/Route/queries";
 import Icons from "../svg";
+import theme from "../../config/Theme";
 
 interface IMarkerChanger {
   chargers?: IChargers[] | [];
@@ -22,7 +23,7 @@ const MarkerChanger = (props: IMarkerChanger) => {
             longitude: charger.longitude ? charger.longitude : 0,
           }}
         >
-          <Icons icon="Room" fill="#76ff" />
+          <Icons icon="Room" fill={theme.colors.purple} />
         </Marker>
       ))}
     </>

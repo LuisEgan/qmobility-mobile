@@ -33,14 +33,7 @@ const MyRoutes = () => {
         onPress={toggleDrawer}
       />
 
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: theme.colors.white,
-          },
-        ]}
-      >
+      <View style={styles.container}>
         {getMySaveRouteLoading ? (
           <View
             style={{
@@ -78,5 +71,6 @@ export default MyRoutes;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: theme.colors.white,
   },
 });

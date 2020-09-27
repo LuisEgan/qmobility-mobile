@@ -73,9 +73,7 @@ const RightMenu = (props: IRightMenu) => {
         text={loading ? "Loading..." : "Thanks! We'll contact you shortly."}
       />
 
-      <View
-        style={[styles.header, { borderBottomColor: theme.colors.primary }]}
-      >
+      <View style={styles.header}>
         <ImageBackground
           source={
             userData ? { uri: userData.user.selectedVehicle?.Images[0] } : car
@@ -106,6 +104,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 8,
     justifyContent: "flex-end",
     padding: 20,
+    borderBottomColor: theme.colors.primary,
   },
   bgImg: {
     ...StyleSheet.absoluteFillObject,

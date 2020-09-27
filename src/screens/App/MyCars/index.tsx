@@ -50,7 +50,7 @@ const MyCars = () => {
             <Text variant="label">YOUR VIRTUAL EVE</Text>
             <Icons
               icon="Edit"
-              fill="#ACACAC"
+              fill={theme.colors.grayLight}
               size={15}
               onPress={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
             />
@@ -70,7 +70,7 @@ const MyCars = () => {
             <Text variant="label">YOUR ICE VEHICLE</Text>
             <Icons
               icon="Edit"
-              fill="#ACACAC"
+              fill={theme.colors.grayLight}
               size={15}
               onPress={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
             />
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: "#ACACAC",
+    borderColor: theme.colors.grayLight,
   },
   costentCar: {
     flexDirection: "row",
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 50,
     marginHorizontal: "5%",
-    backgroundColor: "#00D6FD",
+    backgroundColor: theme.colors.primary,
   },
   tinyLogo: {
     width: 50,

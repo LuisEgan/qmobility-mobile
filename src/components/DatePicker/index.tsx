@@ -36,15 +36,7 @@ const DatePicker = (props: IDatePicker) => {
 
   return (
     <>
-      <TouchableOpacity
-        style={[
-          styles.container,
-          {
-            borderBottomColor: theme.colors.defautlInput,
-          },
-        ]}
-        onPress={() => setShow(true)}
-      >
+      <TouchableOpacity style={styles.container} onPress={() => setShow(true)}>
         <Text variant="bodySmall">{label}</Text>
 
         {date && !isFirstTime ? (
@@ -76,6 +68,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: "100%",
     marginVertical: "5%",
+    borderBottomColor: theme.colors.defautlInput,
   },
   placeholder: {
     fontSize: 16,

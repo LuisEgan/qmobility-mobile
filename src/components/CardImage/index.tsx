@@ -36,13 +36,7 @@ const CardImage = (props: ICardImage) => {
   } = props;
 
   const Card = () => (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: theme.colors.cardsBackground },
-        containerStyle,
-      ]}
-    >
+    <View style={[styles.container, containerStyle]}>
       <View style={styles.content}>
         <View style={styles.contentImage}>
           {imgUri || imgSource ? (
@@ -94,6 +88,7 @@ const styles = StyleSheet.create({
     marginVertical: "1%",
     height: 100,
     borderRadius: 10,
+    backgroundColor: theme.colors.cardsBackground,
   },
   content: {
     flexDirection: "row",
@@ -113,7 +108,7 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 50,
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: theme.colors.white,
   },
 
   textContent: {

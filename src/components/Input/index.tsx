@@ -41,7 +41,7 @@ const Input = (props: IInput) => {
     isSignUp,
     error,
     touched,
-    disabled,
+    disabled = false,
     containerStyle,
     inputStyle,
   } = props;
@@ -57,13 +57,7 @@ const Input = (props: IInput) => {
       <Text variant="bodySmall">{label}</Text>
 
       <TextInput
-        style={[
-          styles.inputStyle,
-          {
-            borderBottomColor: theme.colors.defautlInput,
-          },
-          inputStyle,
-        ]}
+        style={[styles.inputStyle, inputStyle]}
         editable={!disabled}
         onChangeText={(str: string) => {
           const newStr = formatter ? formatter(str) : str;
@@ -92,10 +86,6 @@ const Input = (props: IInput) => {
   );
 };
 
-Input.defaultProps = {
-  disabled: false,
-};
-
 export default Input;
 
 const styles = StyleSheet.create({
@@ -109,6 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     height: 40,
     padding: 10,
+    borderBottomColor: theme.colors.defautlInput,
   },
   error: {
     marginTop: 5,
@@ -119,7 +110,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     height: "80%",
     paddingHorizontal: 5,
   },

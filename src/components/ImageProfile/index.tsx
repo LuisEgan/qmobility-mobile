@@ -41,23 +41,16 @@ const ImageProfile = (props: IImageProfile) => {
         setStateModal(!stateModal);
       }}
     >
-      <View
-        style={[
-          styles.modalViewStyle,
-          {
-            backgroundColor: theme.colors.white,
-          },
-        ]}
-      >
-        <TouchableOpacity onPress={searchAlbum} style={styles.modalTouchStyle}>
+      <View style={styles.modalView}>
+        <TouchableOpacity onPress={searchAlbum} style={styles.modalTouch}>
           <Text variant="body">Select album</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={takePhoto} style={styles.modalTouchStyle}>
+        <TouchableOpacity onPress={takePhoto} style={styles.modalTouch}>
           <Text variant="body">Take a photo</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setStateModal(false)}
-          style={styles.modalTouchStyle}
+          style={styles.modalTouch}
         >
           <Text variant="body">Cancel</Text>
         </TouchableOpacity>
@@ -130,23 +123,14 @@ const ImageProfile = (props: IImageProfile) => {
               }}
             />
           ) : (
-            <Text
-              style={[
-                styles.textStyle,
-                {
-                  color: theme.colors.secondaryLight,
-                },
-              ]}
-            >
-              {label}
-            </Text>
+            <Text style={styles.text}>{label}</Text>
           )}
         </View>
 
         {changePhotoOption && (
-          <View style={styles.viewContentStyle}>
+          <View style={styles.viewContent}>
             <TouchableOpacity onPress={loadingPhoto}>
-              <Text style={styles.textContentStyle}>Change Photo</Text>
+              <Text style={styles.textContent}>Change Photo</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -173,31 +157,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
   },
-  textStyle: {
+  text: {
     fontSize: 30,
     fontWeight: "bold",
+    color: theme.colors.secondaryLight,
   },
-  viewContentStyle: {
+  viewContent: {
     marginTop: "2%",
   },
-  textContentStyle: {
+  textContent: {
     fontSize: 12,
-    color: "#00B0F0",
-  },
-  contentStyle: {
-    width: "100%",
-    height: "100%",
+    color: theme.colors.primary,
   },
   modalContent: {
     alignItems: "center",
   },
-  modalViewStyle: {
+  modalView: {
     width: "90%",
     height: 180,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
+    backgroundColor: theme.colors.white,
   },
-  modalTouchStyle: {
+  modalTouch: {
     height: 50,
     justifyContent: "center",
     marginHorizontal: "5%",

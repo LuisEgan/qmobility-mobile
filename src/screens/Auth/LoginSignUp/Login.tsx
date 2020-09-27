@@ -6,7 +6,7 @@ import * as yup from "yup";
 
 import { useMutation } from "@apollo/client";
 import { Button, Input } from "../../../components";
-import { Text } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { ERRORS } from "../../../lib/constants";
 import Auth from "../../../components/Auth";
 import { User } from "../../../gql";
@@ -125,13 +125,13 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     flex: 1,
     paddingHorizontal: width * 0.1,
   },
 
   content: {
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     marginVertical: height * 0.05,
   },
 

@@ -45,12 +45,7 @@ const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
             style={styles.inputStyle}
             onPress={() => navigate(APP_STACK_SCREENS_NAMES.SearchRouter)}
           >
-            <Text
-              style={{
-                color: theme.colors.defautlInput,
-              }}
-              numberOfLines={1}
-            >
+            <Text style={styles.text} numberOfLines={1}>
               {placeholder}
             </Text>
           </TouchableOpacity>
@@ -70,12 +65,15 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderRadius: 10,
-    backgroundColor: "#fff",
-    borderColor: "#fff",
+    backgroundColor: theme.colors.white,
+    borderColor: theme.colors.white,
     fontSize: 16,
     height: 50,
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  text: {
+    color: theme.colors.defautlInput,
   },
   contentIconsLeft: {
     marginVertical: 10,
@@ -83,7 +81,7 @@ const styles = StyleSheet.create({
   },
   viewLeft: {
     borderRightWidth: 1,
-    borderRightColor: "#e0e0e0",
+    borderRightColor: theme.colors.grayLighter,
     paddingHorizontal: 5,
     alignItems: "center",
     justifyContent: "center",

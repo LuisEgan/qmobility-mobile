@@ -43,19 +43,19 @@ const LeftMenu = (props: ILeftMenu) => {
     {
       text: "Create Route",
       icon: "Map",
-      textColor: "white",
+      textColor: theme.colors.white,
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Main),
     },
     {
       text: "My Routes",
       icon: "Timeline",
-      textColor: "white",
+      textColor: theme.colors.white,
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyRoutes),
     },
     {
       text: "My Vehicles",
       icon: "DirectionsCar",
-      textColor: "white",
+      textColor: theme.colors.white,
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyCars),
     },
     // {
@@ -67,7 +67,7 @@ const LeftMenu = (props: ILeftMenu) => {
     {
       text: "My Match",
       icon: "Star",
-      textColor: "white",
+      textColor: theme.colors.white,
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Details),
     },
   ];
@@ -76,13 +76,13 @@ const LeftMenu = (props: ILeftMenu) => {
     {
       text: "Account Settings",
       icon: "Setting",
-      textColor: "white",
+      textColor: theme.colors.white,
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Profile),
     },
     {
       text: "Logout",
       icon: "ExitApp",
-      textColor: "white",
+      textColor: theme.colors.white,
       onPress: () => signOut(),
     },
   ];
@@ -99,7 +99,7 @@ const LeftMenu = (props: ILeftMenu) => {
             avatarUrl={userData?.user.avatarUrl}
           />
         </TouchableOpacity>
-        <Text variant="heading1" color="white">
+        <Text variant="heading1" color={theme.colors.white}>
           {userData?.user.name}
         </Text>
         <Text variant="body" color="bodySmall">

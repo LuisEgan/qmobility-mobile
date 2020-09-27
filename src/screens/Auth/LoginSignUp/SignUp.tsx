@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { Button, Input } from "../../../components";
 
-import { Text } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import {
   ERRORS,
   AUTH_STACK_SCREENS_NAMES,
@@ -147,12 +147,12 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     paddingHorizontal: width * 0.1,
   },
 
   content: {
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     marginVertical: height * 0.05,
   },
 

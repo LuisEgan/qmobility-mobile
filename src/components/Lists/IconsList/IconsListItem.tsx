@@ -1,9 +1,8 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import Icons from "../../svg";
 import { IComponentsDefaults } from "../../../lib/Types";
-import { Text, Theme } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { TIcon } from "../../svg/icons/TypeIcons";
 
 export interface IIconsListItem extends IComponentsDefaults {
@@ -25,8 +24,6 @@ const IconsListItem = (props: IIconsListItem) => {
     containerStyle,
     svgFill,
   } = props;
-
-  const theme = useTheme<Theme>();
 
   return (
     <TouchableOpacity

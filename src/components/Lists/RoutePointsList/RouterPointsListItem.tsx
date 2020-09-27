@@ -1,10 +1,9 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import { TIcon } from "../../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../../lib/Types";
 import { Icons } from "../..";
-import { Theme, Text } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 
 export const ROUTER_POINTS_LIST_ITEM_ICONS_COL_WIDTH = 25;
 
@@ -34,7 +33,6 @@ const RouterPointListItem = (props: IRouterPointsListItem) => {
     isEndPoint = false,
     isStartPoint = false,
   } = props;
-  const theme = useTheme<Theme>();
 
   const endPointStyle = isEndPoint ? { marginBottom: 0 } : {};
 
@@ -83,9 +81,7 @@ const RouterPointListItem = (props: IRouterPointsListItem) => {
       </View>
 
       <View style={styles.textContainer}>
-        <Text variant={setLabelVariant()} style={{}}>
-          {label}
-        </Text>
+        <Text variant={setLabelVariant()}>{label}</Text>
         {description && <Text variant="bodySmall">{description}</Text>}
       </View>
     </View>

@@ -32,13 +32,7 @@ const Modal = (props: PropsWithChildren<IModal>) => {
     >
       <TouchableOpacity
         activeOpacity={1}
-        style={[
-          styles.contentStyle,
-          {
-            backgroundColor: theme.colors.blackTransparent,
-          },
-          containerStyle,
-        ]}
+        style={[styles.contentStyle, containerStyle]}
         onPress={onClosed}
       >
         <View style={{ flex: 1 }} />
@@ -54,6 +48,7 @@ const styles = StyleSheet.create({
   contentStyle: {
     width,
     height,
+    backgroundColor: theme.colors.blackTransparent,
   },
   modalContent: {
     alignItems: "center",

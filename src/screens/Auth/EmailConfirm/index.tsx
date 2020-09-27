@@ -6,7 +6,7 @@ import { useMutation } from "@apollo/client";
 import SmoothPinCodeInput from "react-native-smooth-pincode-input";
 import { Header, Footer, Icons, Button } from "../../../components";
 import { TEmailConfirmNavProps } from "../../../navigation/Types/NavPropsTypes";
-import { Text } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { AuthContext } from "../../../navigation/AuthContext";
 import {
   IEmailConfirmation,
@@ -125,7 +125,9 @@ const EmailConfirm = (props: IEmailConfirm) => {
               </Text>
 
               <View style={styles.viewStyle}>
-                {isEmailConfirmed && <Icons icon="Done" fill="#00B0F0" />}
+                {isEmailConfirmed && (
+                  <Icons icon="Done" fill={theme.colors.primary} />
+                )}
               </View>
 
               <Text variant="body">{route.params.userEmail}</Text>
