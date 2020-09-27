@@ -57,6 +57,7 @@ const MyCars = () => {
           </View>
 
           <CardImage
+            onPress={() => navigate(APP_STACK_SCREENS_NAMES.Details)}
             name={userData?.user.selectedVehicle?.Vehicle_Make}
             title="Default eVe"
             subTitle={userData?.user.selectedVehicle?.Vehicle_Model}
@@ -77,6 +78,7 @@ const MyCars = () => {
 
           {userData?.user.iceVehicle ? (
             <CardImage
+              onPress={() => navigate(APP_STACK_SCREENS_NAMES.DetailsICE)}
               name={userData?.user.iceVehicle?.Make}
               title="Default ICE"
               subTitle={userData?.user.iceVehicle?.MakeModel}

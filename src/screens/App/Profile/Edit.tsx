@@ -56,6 +56,8 @@ const Edit = () => {
       ? { ...formValues, iceVehicle: newIceVehicle }
       : { ...formValues };
 
+    variables.selectedVehicle = +values.selectedVehicle;
+
     try {
       await updateUser({
         variables,
@@ -83,12 +85,13 @@ const Edit = () => {
     >
       <Formik
         initialValues={{
-          name: userData.user?.name,
-          lastname: userData.user?.lastname || "",
-          dateOfBirth: userData.user?.dateOfBirth || new Date(),
-          avatarUrl: userData.user?.avatarUrl || "",
-          phone: cleanPhoneNumber(userData.user?.phone || ""),
-          carPlate: userData.user?.iceVehicle?.VehiclePlate,
+          name: userData.user.name,
+          lastname: userData.user.lastname || "",
+          dateOfBirth: userData.user.dateOfBirth || new Date(),
+          avatarUrl: userData.user.avatarUrl || "",
+          phone: cleanPhoneNumber(userData.user.phone || ""),
+          carPlate: userData.user.iceVehicle?.VehiclePlate,
+          selectedVehicle: userData.user.selectedVehicle?.Vehicle_ID || 0,
         }}
         onSubmit={edit}
         validationSchema={editSchema}
@@ -114,6 +117,7 @@ const Edit = () => {
                 {...props}
                 loading={loading || updateUserLoading}
                 onIceVehicleChange={setIceVehicle}
+                selectedVehicle={userData.user.selectedVehicle}
               />
 
               <View>

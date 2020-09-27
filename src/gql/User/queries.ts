@@ -25,6 +25,7 @@ const allUserInfo = gql`
       email
       phone
       selectedVehicle {
+        Vehicle_ID
         Images
         Vehicle_Make
         Vehicle_Model
@@ -78,6 +79,24 @@ const getEve = gql`
   }
 `;
 
+const getICEVehicle = gql`
+  query GetEve {
+    user {
+      iceVehicle {
+        Make
+        MakeModel
+        Co2Emissions
+        YearMonthFirstRegistered
+        FuelType
+        SeatingCapacity
+        Colour
+        VehicleClass
+        VehiclePlate
+      }
+    }
+  }
+`;
+
 const bookTestDrive = gql`
   query BookTestDrive {
     bookTestDrive
@@ -89,4 +108,5 @@ export default {
   allUserInfo,
   getEve,
   bookTestDrive,
+  getICEVehicle,
 };

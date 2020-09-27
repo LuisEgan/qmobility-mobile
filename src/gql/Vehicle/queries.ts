@@ -3,25 +3,23 @@ import { IVehicle } from "./Types";
 
 const vehiclesMakes = gql`
   query VehiclesMakes {
-    vehiclesMakes
+    vehicleMakes
   }
 `;
 
-export interface IVehicleMakeModels {
-  Vehicle_Model: string[];
-}
 export interface IVehicleMakeModelsVars {
   Vehicle_Make: string;
 }
 
+export interface IVehicleMakeModels {
+  Vehicle_ID: string;
+  Vehicle_Model: string;
+}
+
 const vehicleMakeModels = gql`
   query VehicleMakeModels($Vehicle_Make: String) {
-    vehicles(
-      vehicleSearchInput: {
-        Vehicle_Make: $Vehicle_Make
-        Vehicle_Model: $Vehicle_Model
-      }
-    ) {
+    vehicles(vehicleSearchInput: { Vehicle_Make: $Vehicle_Make }) {
+      Vehicle_ID
       Vehicle_Model
     }
   }

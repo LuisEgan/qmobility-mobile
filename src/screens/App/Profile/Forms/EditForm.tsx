@@ -1,7 +1,7 @@
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { FormikProps } from "formik";
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import {
   ImageProfile,
   Input,
@@ -12,7 +12,11 @@ import DatePicker from "../../../../components/DatePicker";
 import ICEVehicle from "../../../../components/ICEVehicle";
 import theme, { Text } from "../../../../config/Theme";
 import Vehicle from "../../../../gql/Vehicle";
-import { IIceVehicle } from "../../../../gql/Vehicle/Types";
+import {
+  IVehicleMakeModels,
+  IVehicleMakeModelsVars,
+} from "../../../../gql/Vehicle/queries";
+import { IIceVehicle, IVehicle } from "../../../../gql/Vehicle/Types";
 import { ERRORS } from "../../../../lib/constants";
 import { upperCaseFormatter } from "../../../../lib/strings";
 
@@ -23,11 +27,18 @@ export interface IEditFormValues {
   avatarUrl: string;
   phone: string;
   carPlate: string;
+  selectedVehicle: number;
+}
+
+type TVehicleID = string;
+interface IVehicleModelsListOptions {
+  [model: string]: TVehicleID;
 }
 
 interface IForm extends FormikProps<IEditFormValues> {
   loading?: boolean;
   onIceVehicleChange: (vehicle: IIceVehicle) => void;
+  selectedVehicle?: IVehicle;
 }
 
 const EditForm = (props: IForm) => {
@@ -40,6 +51,7 @@ const EditForm = (props: IForm) => {
     touched,
     values,
     initialValues,
+    selectedVehicle,
   } = props;
 
   const [
@@ -54,6 +66,36 @@ const EditForm = (props: IForm) => {
     Vehicle.queries.iceVehicle,
   );
 
+  const {
+    data: vehicleMakeModelsData,
+    loading: vehicleMakeModelsLoading,
+    refetch: vehicleMakeModels,
+  } = useQuery<
+    {
+      vehicles: IVehicleMakeModels[];
+    },
+    IVehicleMakeModelsVars
+  >(Vehicle.queries.vehicleMakeModels, {
+    variables: {
+      Vehicle_Make: selectedVehicle?.Vehicle_Make || "",
+    },
+  });
+
+  const { data: vehicleMakes } = useQuery<{ vehicleMakes: [string] }>(
+    Vehicle.queries.vehiclesMakes,
+  );
+
+  const [vehicleMake, setVehicleMake] = useState<string>(
+    selectedVehicle?.Vehicle_Make || "",
+  );
+
+  const [vehicleModels, setVehicleModels] = useState<IVehicleModelsListOptions>(
+    {},
+  );
+  const [vehicleModel, setVehicleModel] = useState<string>(
+    selectedVehicle?.Vehicle_Model || "",
+  );
+
   // * Update ICE Vehicle for parent
   useEffect(() => {
     if (searchIceVehicleData) {
@@ -61,13 +103,24 @@ const EditForm = (props: IForm) => {
     }
   }, [searchIceVehicleData]);
 
+  // * Update Vehicle Models list
+  useEffect(() => {
+    if (vehicleMakeModelsData) {
+      const models: IVehicleModelsListOptions = {};
+      vehicleMakeModelsData?.vehicles?.forEach((v) => {
+        if (!models[v.Vehicle_Model]) {
+          models[v.Vehicle_Model] = v.Vehicle_ID;
+        }
+      });
+      setVehicleModels(models);
+    }
+  }, [vehicleMakeModelsData]);
+
   const onLoadPhoto = async (photoB64: string) => {
     handleChange("avatarUrl")(photoB64);
   };
 
-  const [vehicleMake, setVehicleMake] = useState<string>("");
-  const [vehicleModel, setVehicleModel] = useState<string>("");
-
+  // * Vehicles handlers
   const onCarPlateChange = async (plate: string) => {
     if (plate.length >= 5) {
       searchIceVehicle({
@@ -77,6 +130,19 @@ const EditForm = (props: IForm) => {
       });
       handleChange("carPlate")(plate);
     }
+  };
+
+  const onVehicleMakeChange = (make: string) => {
+    setVehicleMake(make);
+    setVehicleModel("");
+    vehicleMakeModels({
+      Vehicle_Make: make,
+    });
+  };
+
+  const onVehicleModelChange = (model: string) => {
+    setVehicleModel(model);
+    handleChange("selectedVehicle")(`${vehicleModels[model]}`);
   };
 
   return (
@@ -127,22 +193,21 @@ const EditForm = (props: IForm) => {
 
         <Select
           placeholder="Select vehicle make"
-          onPress={(e) => setVehicleMake(`${e}`)}
-          list={["Tesla", "BMW", "Audi", "Volswagen"]}
+          onPress={(e) => onVehicleMakeChange(`${e}`)}
+          list={vehicleMakes?.vehicleMakes || []}
           value={vehicleMake}
         />
 
-        <Select
-          placeholder="Select vehicle model"
-          onPress={(e) => setVehicleModel(`${e}`)}
-          list={[
-            "Tesla Model 3",
-            "Tesla Model S",
-            "Tesla Model E",
-            "Tesla Model X",
-          ]}
-          value={vehicleModel}
-        />
+        {vehicleMakeModelsLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <Select
+            placeholder="Select vehicle model"
+            onPress={(e) => onVehicleModelChange(`${e}`)}
+            list={Object.keys(vehicleModels)}
+            value={vehicleModel}
+          />
+        )}
 
         <View style={styles.containerTtitleEdition}>
           <Text variant="label">YOUR ICE EVE</Text>
