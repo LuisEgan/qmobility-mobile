@@ -8,11 +8,10 @@ import {
 } from "react-native";
 import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
-import { useTheme } from "@shopify/restyle";
 import { useQuery } from "@apollo/client";
 import RouteDestination from "./RouteDestination";
 import { BottomDrawer, Icons, Button, Card, Map } from "../../../components";
-import { Text, Theme } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { RoutePointsList } from "../../../components/Lists";
 import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes";
 
@@ -35,10 +34,6 @@ const editNameCity = (nameCity: string): string => {
 const MapSearchDone = (props: IMapSearchDone) => {
   const { route } = props;
 
-  const [startDirection, setStartDirection] = useState<string>("");
-  const [endDirection, setEndDirection] = useState<string>("");
-  const [stateChange, setStateChange] = useState<boolean>(false);
-
   const { loading: loadingRoute, data: dataRoute, refetch } = useQuery<
     IGetRouter,
     IGetRouterVar
@@ -54,17 +49,22 @@ const MapSearchDone = (props: IMapSearchDone) => {
     },
   });
 
+  const [startDirection, setStartDirection] = useState<string>("");
+  const [endDirection, setEndDirection] = useState<string>("");
+  const [stateChange, setStateChange] = useState<boolean>(false);
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
 
   const [stateModal, setStateModal] = useState<boolean>(false);
 
-  const theme = useTheme<Theme>();
-
   const transition = useTransition(isDrawerOpen, { duration: 100 });
   const translateY = mix(transition, 0, -200);
 
-  const onChangeRoute = () => {
+  const locationStart = startDirection || route.params.origin;
+  const locationEnd = endDirection || route.params.destination;
+
+  const onChangeRoute = async () => {
     const start = !stateChange ? route.params.origin : route.params.destination;
     const end = !stateChange ? route.params.destination : route.params.origin;
 
@@ -72,8 +72,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
     setStartDirection(end || "");
     setStateChange(!stateChange);
 
-    // TODO : FIX
-    refetch({
+    await refetch({
       origin: start,
       destination: end,
       car_id: "1107",
@@ -105,9 +104,6 @@ const MapSearchDone = (props: IMapSearchDone) => {
     });
   };
 
-  const locationStart = startDirection || route.params.origin;
-  const locationEnd = endDirection || route.params.destination;
-
   const RouteActions = () => (
     <>
       {loadingRoute ? (
@@ -130,7 +126,6 @@ const MapSearchDone = (props: IMapSearchDone) => {
           <View
             style={{
               flex: Platform.OS === "ios" ? 0.3 : 0.5,
-
               justifyContent: "center",
             }}
           >
