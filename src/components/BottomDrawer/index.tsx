@@ -1,11 +1,10 @@
 import React, { FC, useState, useEffect } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import { useTransition, mix } from "react-native-redash";
 import { IComponentsDefaults } from "../../lib/Types";
-import { Theme } from "../../config/Theme";
+import theme from "../../config/Theme";
 
 const { width, height } = Dimensions.get("window");
 
@@ -33,8 +32,6 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
     onClose,
     onToggle,
   } = props;
-
-  const theme = useTheme<Theme>();
 
   const [isOpen, setIsDrawerOpen] = useState<boolean>(isOpenProp);
 
@@ -79,12 +76,7 @@ const BottomDrawer: FC<IBottomDrawer> = (props) => {
         style={styles.handle}
         disabled={disableToggler}
       >
-        <View
-          style={[
-            styles.handleIcon,
-            { borderColor: theme.colors.drawerHandle },
-          ]}
-        />
+        <View style={styles.handleIcon} />
       </TouchableOpacity>
 
       <View style={styles.content}>
@@ -101,7 +93,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width,
     elevation: 1,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     bottom: 0,
   },
 
@@ -116,6 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     marginTop: 15,
+    borderColor: theme.colors.drawerHandle,
   },
 
   content: {

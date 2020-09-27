@@ -49,14 +49,7 @@ const Details = () => {
   if (loading) return <FullScreenModal show />;
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor: theme.colors.white,
-        },
-      ]}
-    >
+    <View style={styles.container}>
       <View style={styles.goBack}>
         <Icons icon="ArrowBack" fill="white" onPress={goBack} />
       </View>
@@ -161,12 +154,13 @@ export default Details;
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
+    backgroundColor: theme.colors.white,
   },
   containerScroll: {
     paddingHorizontal: "5%",
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     marginTop: -height * 0.01,
   },
   contentTitle: {

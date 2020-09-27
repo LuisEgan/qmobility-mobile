@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { StyleSheet, Dimensions } from "react-native";
 import Animated from "react-native-reanimated";
 import { useTransition, mix } from "react-native-redash";
-import { Text } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { IComponentsDefaults } from "../../../lib/Types";
 
 const { height } = Dimensions.get("window");
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     justifyContent: "center",
     alignItems: "center",
   },

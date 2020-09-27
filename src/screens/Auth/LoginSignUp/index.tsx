@@ -1,13 +1,12 @@
 import React, { useLayoutEffect, useState } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useTheme } from "@shopify/restyle";
 import { Dimensions } from "react-native";
 import { IAuthScreens } from "../../../navigation/Navigators/AuthNavigator";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import { TLoginSignUpNavProps } from "../../../navigation/Types/NavPropsTypes";
 import Header from "../../../components/Header";
-import { Theme } from "../../../config/Theme";
+import theme from "../../../config/Theme";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import FullScreenModal from "../../Feedback/FullScreenModal";
 import { LoginSignUpLoadingContext } from "./LoginSignUpLoadingContext";
@@ -43,8 +42,6 @@ const LoginSignUp = (props: ILoginSignUp) => {
   const { from } = route.params;
   const activeScreen = route.state ? route.state.index : from;
 
-  const { colors } = useTheme<Theme>();
-
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () => null,
@@ -72,14 +69,16 @@ const LoginSignUp = (props: ILoginSignUp) => {
         tabBarOptions={{
           indicatorStyle: {
             backgroundColor:
-              activeScreen === 0 ? colors.secondaryDark : colors.primary,
+              activeScreen === 0
+                ? theme.colors.secondaryDark
+                : theme.colors.primary,
             height: 7,
           },
           labelStyle: { fontWeight: "bold" },
           tabStyle: {
             borderTopWidth: 1,
             borderBottomWidth: 1,
-            borderColor: colors.borderColor,
+            borderColor: theme.colors.borderColor,
           },
         }}
       >

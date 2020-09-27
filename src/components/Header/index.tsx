@@ -39,16 +39,7 @@ const Header = (props: IHeader) => {
 
   // TODO redo everything
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor: theme.colors.white,
-          borderBottomColor: theme.colors.grayLight,
-        },
-        containerStyle,
-      ]}
-    >
+    <View style={[styles.container, containerStyle]}>
       {(icon || text)
         && (onPress ? (
           <View style={styles.icon}>
@@ -119,6 +110,8 @@ const styles = StyleSheet.create({
   container: {
     height: height * heightMultiplier,
     borderBottomWidth: 0.5,
+    backgroundColor: theme.colors.white,
+    borderBottomColor: theme.colors.grayLight,
   },
   touchableOpacity: {
     width: 70,

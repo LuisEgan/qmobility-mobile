@@ -36,12 +36,7 @@ const CheckCar = (props: ICheckCar) => {
         </View>
 
         <CardImage
-          containerStyle={[
-            styles.cardCar,
-            {
-              backgroundColor: theme.colors.secondaryDark,
-            },
-          ]}
+          containerStyle={styles.cardCar}
           textStyle={{ color: theme.colors.white }}
           imgUri={vehicleRecommendation.vehicle.Images[0]}
           name={`${vehicleRecommendation.make} ${vehicleRecommendation.makeModel}`}
@@ -64,7 +59,7 @@ export default CheckCar;
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
   },
   content: {
     paddingHorizontal: "5%",
@@ -96,6 +91,7 @@ const styles = StyleSheet.create({
     marginVertical: "1%",
     height: 120,
     borderRadius: 10,
+    backgroundColor: theme.colors.secondaryDark,
   },
 
   buttonStyle: {

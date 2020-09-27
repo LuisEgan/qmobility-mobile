@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Text } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 
 interface IFooter {
   title?: string;
@@ -53,7 +53,7 @@ export default Footer;
 const styles = StyleSheet.create({
   container: {
     height: height * 0.09,
-    backgroundColor: "#f11",
+    backgroundColor: theme.colors.red,
     justifyContent: "center",
     position: "relative",
     bottom: 0,

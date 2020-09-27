@@ -114,12 +114,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
                 onBlur={() => handleBlur("name")}
                 error={errors.name && ERRORS.REQUIRED}
                 touched={touched.name}
-                containerStyle={[
-                  styles.inputContent,
-                  {
-                    backgroundColor: theme.colors.white,
-                  },
-                ]}
+                containerStyle={styles.inputContent}
                 inputStyle={styles.input}
               />
 
@@ -133,12 +128,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
                 ]}
                 value={values.category}
                 onPress={(str) => handleChange("category")(str.toString())}
-                containerStyle={[
-                  styles.selectContent,
-                  {
-                    backgroundColor: theme.colors.white,
-                  },
-                ]}
+                containerStyle={styles.selectContent}
                 error={errors.category && ERRORS.REQUIRED}
                 touched={touched.category}
               />
@@ -156,12 +146,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
                 ]}
                 value={values.frequency}
                 onPress={(str) => handleChange("frequency")(str.toString())}
-                containerStyle={[
-                  styles.selectContent,
-                  {
-                    backgroundColor: theme.colors.white,
-                  },
-                ]}
+                containerStyle={styles.selectContent}
                 error={errors.frequency && ERRORS.REQUIRED}
                 touched={touched.frequency}
               />
@@ -328,6 +313,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 5,
     height: 50,
+    backgroundColor: theme.colors.white,
   },
   input: {
     borderBottomWidth: 0,
@@ -335,6 +321,7 @@ const styles = StyleSheet.create({
   },
   selectContent: {
     borderRadius: 10,
+    backgroundColor: theme.colors.white,
   },
   containerPhaseTwo: {
     flexDirection: "row",
@@ -345,6 +332,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textColor: {
-    color: "white",
+    color: theme.colors.white,
   },
 });

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { Text } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 import Button from "../Button";
 import Modal from "../Modal";
 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     height: height * 0.4,
     width: width * 0.8,
     borderRadius: 10,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     alignItems: "center",
     justifyContent: "space-evenly",
   },

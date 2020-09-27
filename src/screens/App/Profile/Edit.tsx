@@ -75,14 +75,7 @@ const Edit = () => {
   if (!userData) return <FullScreenModal show />;
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor: theme.colors.white,
-        },
-      ]}
-    >
+    <View style={styles.container}>
       <Formik
         initialValues={{
           name: userData.user.name,
@@ -121,14 +114,7 @@ const Edit = () => {
               />
 
               <View>
-                <TouchableOpacity
-                  style={[
-                    styles.deleteContainer,
-                    {
-                      borderTopColor: theme.colors.grayLighter,
-                    },
-                  ]}
-                >
+                <TouchableOpacity style={styles.deleteContainer}>
                   <View style={styles.deleteContent}>
                     <Icons icon="Delete" fill={theme.colors.red} size={20} />
                   </View>
@@ -150,6 +136,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
+    backgroundColor: theme.colors.white,
   },
   contentViewIput: {
     marginBottom: "10%",
@@ -171,10 +158,10 @@ const styles = StyleSheet.create({
   },
   deleteContainer: {
     borderTopWidth: 1,
-
     flexDirection: "row",
     paddingVertical: 20,
     marginVertical: "5%",
+    borderTopColor: theme.colors.grayLighter,
   },
   deleteContent: {
     marginRight: 10,

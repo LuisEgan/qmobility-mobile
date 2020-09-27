@@ -1,8 +1,7 @@
 import React from "react";
 import Animated, { interpolate, Extrapolate } from "react-native-reanimated";
-import { useTheme } from "@shopify/restyle";
 import { StyleSheet } from "react-native";
-import { Theme } from "../../config/Theme";
+import theme from "../../config/Theme";
 
 interface IPaginationDot {
   index: number;
@@ -11,7 +10,6 @@ interface IPaginationDot {
 
 const PaginationDot = (props: IPaginationDot) => {
   const { index, currentIndex } = props;
-  const theme = useTheme<Theme>();
 
   const opacity = interpolate(currentIndex, {
     inputRange: [index - 1, index, index + 1],
@@ -32,7 +30,6 @@ const PaginationDot = (props: IPaginationDot) => {
         {
           transform: [{ scale }],
           opacity,
-          backgroundColor: theme.colors.primary,
         },
       ]}
     />
@@ -47,5 +44,6 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     margin: 5,
+    backgroundColor: theme.colors.primary,
   },
 });

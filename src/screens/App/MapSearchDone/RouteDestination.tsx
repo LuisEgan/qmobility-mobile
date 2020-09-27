@@ -5,7 +5,8 @@ import theme, { Text } from "../../../config/Theme";
 import { IComponentsDefaults } from "../../../lib/Types";
 import SearchEditRouter, {
   IChangeRoute,
-  IEditChangeRoute } from "../../../components/SearchEditRouter";
+  IEditChangeRoute,
+} from "../../../components/SearchEditRouter";
 
 const { width } = Dimensions.get("window");
 
@@ -43,7 +44,7 @@ const RouteDestination = (props: IRouteDestination) => {
       <Modal state={stateModal} onClosed={() => setStateModal(!stateModal)}>
         <View
           style={{
-            backgroundColor: "#e0e0e0",
+            backgroundColor: theme.colors.grayLighter,
           }}
         >
           <SearchEditRouter
@@ -87,10 +88,8 @@ const RouteDestination = (props: IRouteDestination) => {
         />
       </View>
 
-      <View style={[styles.destinations]}>
-        <View
-          style={[styles.from, { borderBottomColor: theme.colors.borderColor }]}
-        >
+      <View style={styles.destinations}>
+        <View style={styles.from}>
           <TouchableOpacity onPress={() => onEditRoute("START")}>
             <Text variant="label">Start</Text>
             <Text variant="bodyBold" numberOfLines={1}>
@@ -121,7 +120,7 @@ export default RouteDestination;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     height: 120,
     width: width * 0.8,
     borderRadius: 10,
@@ -156,6 +155,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     paddingVertical: 5,
+    borderBottomColor: theme.colors.borderColor,
   },
   to: {
     width: "100%",

@@ -4,6 +4,7 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 
 import { useTransition, mix } from "react-native-redash";
 import RightMenu from "./RightMenu";
+import theme from "../../../config/Theme";
 
 const { width, height } = Dimensions.get("window");
 const MENU_WIDTH = width * 0.6;
@@ -92,6 +93,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     height,
     right: 0,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
   },
 });

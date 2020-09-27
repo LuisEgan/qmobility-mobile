@@ -53,34 +53,11 @@ const MarkerSelect = (props: IMarkerSelect) => {
         style={styles.containerCollout}
         onPress={() => onGoToMap()}
       >
-        <View
-          style={[
-            styles.contantTitleCollout,
-            {
-              backgroundColor: theme.colors.primary,
-            },
-          ]}
-        >
-          <Text
-            style={[
-              styles.titleCollout,
-              {
-                color: theme.colors.white,
-              },
-            ]}
-          >
-            GO TO LOCATION
-          </Text>
+        <View style={styles.contantTitleCollout}>
+          <Text style={styles.titleCollout}>GO TO LOCATION</Text>
         </View>
 
-        <View
-          style={[
-            styles.contentIconCollout,
-            {
-              backgroundColor: theme.colors.secondaryDark,
-            },
-          ]}
-        >
+        <View style={styles.contentIconCollout}>
           <Icons icon="DirectionsCar" fill={theme.colors.white} size={25} />
         </View>
       </Callout>
@@ -89,6 +66,8 @@ const MarkerSelect = (props: IMarkerSelect) => {
 };
 
 MarkerSelect.defaultProps = {};
+
+export default MarkerSelect;
 
 const styles = StyleSheet.create({
   containerCollout: {
@@ -101,21 +80,22 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: theme.colors.primary,
   },
   titleCollout: {
     fontWeight: "bold",
     textAlign: "center",
     textAlignVertical: "center",
     marginHorizontal: 10,
+    color: theme.colors.white,
   },
   contentIconCollout: {
-    flex: 0.7,
+    flex: 1,
     height: "100%",
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: theme.colors.secondaryDark,
   },
 });
-
-export default MarkerSelect;

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Button, Icons } from "../../../components";
-import { Text } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Title, textBlack, StepText, textLight } from "./Texts";
 import Header from "../../../components/Header";
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 0.2,
     padding: "1%",
-    backgroundColor: "white",
+    backgroundColor: theme.colors.white,
     justifyContent: "center",
   },
 });

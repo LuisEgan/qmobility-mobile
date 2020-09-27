@@ -7,9 +7,8 @@ import {
   StyleProp,
   ViewStyle,
 } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import Icons from "../svg";
-import { Text, Theme } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
 
@@ -39,17 +38,11 @@ const Card = (props: ICard) => {
     onPress,
   } = props;
 
-  const theme = useTheme<Theme>();
-
   return (
     <View style={[styles.container, containerStyle]}>
       <TouchableOpacity
         disabled={!onPress}
-        style={[
-          styles.content,
-          { backgroundColor: theme.colors.secondaryDark },
-          contentStyle,
-        ]}
+        style={[styles.content, contentStyle]}
         onPress={onPress}
       >
         <View style={styles.favoriteContainer}>
@@ -90,6 +83,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 10,
     padding: 10,
+    backgroundColor: theme.colors.secondaryDark,
   },
   favoriteContainer: {
     flexDirection: "row",

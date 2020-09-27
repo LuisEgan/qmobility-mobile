@@ -1,8 +1,7 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import Icons from "../svg";
-import { Text, Theme } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
 
@@ -23,7 +22,6 @@ interface IListItem extends IComponentsDefaults {
 
 const ListItem = (props: IListItem) => {
   const { title, subTitle, icon, detail, containerStyle, onPress } = props;
-  const theme = useTheme<Theme>();
 
   return (
     <TouchableOpacity
@@ -33,11 +31,7 @@ const ListItem = (props: IListItem) => {
           origin: title,
           destination: subTitle,
         })}
-      style={[
-        styles.container,
-        containerStyle,
-        { borderBottomColor: theme.colors.grayLighter },
-      ]}
+      style={[styles.container, containerStyle]}
     >
       {icon && (
         <View style={styles.viewLeft}>
@@ -68,6 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    borderBottomColor: theme.colors.grayLighter,
   },
   viewLeft: {
     justifyContent: "center",

@@ -38,23 +38,11 @@ const Select = (props: ISelect) => {
 
   const ModalSelect = () => (
     <Modal state={stateModal} onClosed={() => setStateModal(!stateModal)}>
-      <View
-        style={[
-          styles.veiwStyleConten,
-          {
-            backgroundColor: theme.colors.grayLighter,
-          },
-        ]}
-      >
+      <View style={styles.veiwStyleConten}>
         <ScrollView style={styles.ScrollViewStyle}>
           {list.map((x) => (
             <TouchableOpacity
-              style={[
-                styles.touchSelectStyle,
-                {
-                  borderColor: theme.colors.grayLight,
-                },
-              ]}
+              style={styles.touchSelect}
               key={x}
               onPress={() => {
                 onPress(x);
@@ -62,16 +50,7 @@ const Select = (props: ISelect) => {
               }}
             >
               <View>
-                <Text
-                  style={[
-                    styles.textScrollViewStyle,
-                    {
-                      color: theme.colors.black,
-                    },
-                  ]}
-                >
-                  {x}
-                </Text>
+                <Text style={styles.textScrollView}>{x}</Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -96,39 +75,19 @@ const Select = (props: ISelect) => {
       <View style={[styles.content, containerStyle]}>
         {title && (
           <View style={styles.titleViewStyle}>
-            <Text style={styles.titleStyle}>
-              {title}
-              {"  "}
-            </Text>
-
+            <Text style={styles.titleStyle}>{title}</Text>
             {iconTitle && (
               <Icons icon={iconTitle} fill={theme.colors.gray} size={17} />
             )}
           </View>
         )}
-        <View
-          style={[
-            styles.viewSelectStyle,
-            {
-              borderColor: theme.colors.grayLighter,
-            },
-          ]}
-        >
+        <View style={styles.viewSelect}>
           <TouchableOpacity
             style={styles.itemSelectStyle}
             onPress={() => setStateModal(true)}
           >
             <View style={styles.rowStyle}>
-              <Text
-                style={[
-                  {
-                    color,
-                  },
-                  styles.textSelectStyle,
-                ]}
-              >
-                {text}
-              </Text>
+              <Text style={[{ color }, styles.textSelectStyle]}>{text}</Text>
 
               <Icons
                 icon={stateModal ? "ArrowDownLight" : "ArrowUpLight"}
@@ -160,12 +119,13 @@ const styles = StyleSheet.create({
     maxWidth: 370,
     borderRadius: 15,
     alignSelf: "center",
+    backgroundColor: theme.colors.grayLighter,
   },
-  touchSelectStyle: {
+  touchSelect: {
     height: 50,
     justifyContent: "center",
-
     borderBottomWidth: 1,
+    borderColor: theme.colors.grayLight,
   },
   titleViewStyle: {
     width: "100%",
@@ -186,10 +146,11 @@ const styles = StyleSheet.create({
     maxWidth: 370,
     paddingHorizontal: 10,
   },
-  textScrollViewStyle: {
+  textScrollView: {
     width: "100%",
     paddingLeft: 10,
     fontSize: 18,
+    color: theme.colors.black,
   },
   contentButton: {
     alignItems: "center",
@@ -206,13 +167,14 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
 
-  viewSelectStyle: {
+  viewSelect: {
     width: "100%",
     height: 50,
     justifyContent: "center",
     alignSelf: "center",
     borderWidth: 1,
     borderRadius: 10,
+    borderColor: theme.colors.grayLighter,
   },
   itemSelectStyle: {
     paddingLeft: 5,

@@ -25,6 +25,8 @@ const palette = {
   redLight: "#FF8077",
 
   yellow: "#FFB900",
+
+  purple: "#76ff",
 };
 
 const theme: BaseTheme = {
@@ -49,6 +51,7 @@ const theme: BaseTheme = {
 
     white: palette.white,
     yellow: palette.yellow,
+    purple: palette.purple,
     red: palette.red,
     redLight: palette.redLight,
     black: palette.black,

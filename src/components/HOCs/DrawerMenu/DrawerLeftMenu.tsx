@@ -4,8 +4,7 @@ import Animated from "react-native-reanimated";
 import { useTransition, mix } from "react-native-redash";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
-import { useTheme } from "@shopify/restyle";
-import { Theme } from "../../../config/Theme";
+import theme from "../../../config/Theme";
 import LeftMenu from "./LeftMenu";
 
 const { width, height } = Dimensions.get("window");
@@ -25,7 +24,6 @@ const DrawerLeftMenu: FC<IDrawerLeftMenu> = (props) => {
     onDrawerToggle,
     swippable,
   } = props;
-  const theme = useTheme<Theme>();
 
   const swipeRef = useRef<Swipeable>(null);
 
@@ -63,17 +61,9 @@ const DrawerLeftMenu: FC<IDrawerLeftMenu> = (props) => {
       ref={swipeRef}
       overshootLeft={false}
       leftThreshold={OPEN_THRESHOLD}
-      containerStyle={[
-        styles.swipeableContainer,
-        { backgroundColor: theme.colors.drawerBackground },
-      ]}
+      containerStyle={styles.swipeableContainer}
       renderLeftActions={() => (
-        <View
-          style={[
-            styles.menu,
-            { backgroundColor: theme.colors.drawerBackground },
-          ]}
-        >
+        <View style={styles.menu}>
           <Animated.View
             style={[
               styles.menuContent,
@@ -135,6 +125,7 @@ const styles = StyleSheet.create({
 
   menu: {
     height,
+    backgroundColor: theme.colors.drawerBackground,
   },
   menuContent: {
     width: width * 0.5,
@@ -144,11 +135,12 @@ const styles = StyleSheet.create({
   swipeableContainer: {
     ...StyleSheet.absoluteFillObject,
     height,
+    backgroundColor: theme.colors.drawerBackground,
   },
 
   content: {
     height,
-    backgroundColor: "white",
+    backgroundColor: theme.colorswhite,
     overflow: "hidden",
   },
 });
