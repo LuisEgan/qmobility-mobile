@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import Button from "../Button";
 import Icons from "../svg";
-import { Text, Theme } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 import Modal from "../Modal";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
@@ -31,8 +30,6 @@ const Select = (props: ISelect) => {
     touched,
     containerStyle,
   } = props;
-
-  const theme = useTheme<Theme>();
 
   const [stateModal, setStateModal] = useState<boolean>(false);
 

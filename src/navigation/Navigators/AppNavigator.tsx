@@ -14,6 +14,7 @@ import {
   MyRoutes,
   Details,
   MapSearchDone,
+  DetailsICE,
 } from "../../screens/App";
 import { APP_STACK_SCREENS_NAMES } from "../../lib/constants";
 import { IUser } from "../../gql/User/Types";
@@ -63,6 +64,10 @@ export const APP_STACK_SCREENS: IScreens = [
   {
     name: APP_STACK_SCREENS_NAMES.Details,
     component: Details,
+  },
+  {
+    name: APP_STACK_SCREENS_NAMES.DetailsICE,
+    component: DetailsICE,
   },
   {
     name: APP_STACK_SCREENS_NAMES.MapSearchDone,

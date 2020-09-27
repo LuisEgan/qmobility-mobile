@@ -6,11 +6,13 @@ import {
   StyleProp,
   ImageSourcePropType,
   TextStyle,
+  TouchableOpacity,
 } from "react-native";
 import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface ICardImage extends IComponentsDefaults {
+  onPress?: () => void;
   imgUri?: string;
   imgSource?: ImageSourcePropType;
   svgIcon?: JSX.Element;
@@ -22,6 +24,7 @@ interface ICardImage extends IComponentsDefaults {
 
 const CardImage = (props: ICardImage) => {
   const {
+    onPress,
     imgUri,
     imgSource,
     svgIcon,
@@ -32,7 +35,7 @@ const CardImage = (props: ICardImage) => {
     textStyle,
   } = props;
 
-  return (
+  const Card = () => (
     <View
       style={[
         styles.container,
@@ -72,6 +75,14 @@ const CardImage = (props: ICardImage) => {
         </View>
       </View>
     </View>
+  );
+
+  return onPress ? (
+    <TouchableOpacity {...{ onPress }}>
+      <Card />
+    </TouchableOpacity>
+  ) : (
+    <Card />
   );
 };
 

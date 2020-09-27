@@ -9,3 +9,4 @@ export { default as Profile } from "./Profile";
 export { default as MyRoutes } from "./MyRoutes";
 export { default as MapSearchDone } from "./MapSearchDone";
 export { default as Details } from "./Details";
+export { default as DetailsICE } from "./DetailsICE";

@@ -8,10 +8,9 @@ import {
 } from "react-native";
 import { useQuery } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
-import { Icons, Slider } from "../../../components";
+import { Icons } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
-import slides from "./slides";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
@@ -24,7 +23,7 @@ interface IIconText {
   label?: string;
 }
 
-const Details = () => {
+const DetailsICE = () => {
   const { goBack } = useNavigation();
 
   const { data: eVe, loading } = useQuery<{ user: IUser }, IUser>(
@@ -60,11 +59,6 @@ const Details = () => {
       <View style={styles.goBack}>
         <Icons icon="ArrowBack" fill="white" onPress={goBack} />
       </View>
-
-      <Slider
-        slides={slides(eVe?.user.selectedVehicle?.Images || [])}
-        {...{ width, height: height * 0.4 }}
-      />
 
       <ScrollView style={styles.containerScroll}>
         <View style={styles.contentTitle}>
@@ -156,7 +150,7 @@ const Details = () => {
     </View>
   );
 };
-export default Details;
+export default DetailsICE;
 
 const styles = StyleSheet.create({
   container: {
