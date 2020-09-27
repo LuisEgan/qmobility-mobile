@@ -8,9 +8,8 @@ import {
   StyleProp,
   ViewStyle,
 } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Text, Theme } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface IInput extends IComponentsDefaults {
@@ -46,8 +45,6 @@ const Input = (props: IInput) => {
     containerStyle,
     inputStyle,
   } = props;
-
-  const theme = useTheme<Theme>();
 
   const onChange = (str: string) => {
     if (onChangeProp) {

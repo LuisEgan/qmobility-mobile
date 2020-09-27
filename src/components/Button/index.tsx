@@ -1,8 +1,7 @@
 import React from "react";
 import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
-import { useTheme } from "@shopify/restyle";
-import { Text, Theme } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 import Icons from "../svg";
 
 import { TIcon } from "../svg/icons/TypeIcons";
@@ -31,8 +30,6 @@ const Button = (props: IButton) => {
     inverse,
     enabled = true,
   } = props;
-
-  const theme = useTheme<Theme>();
 
   const setRectButtonStyle = (): ViewStyle => {
     let backgroundColor = "";

@@ -3,9 +3,8 @@ import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
-import { useTheme } from "@shopify/restyle";
 import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
-import { Text, Theme } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 import Modal from "../Modal";
 
 interface IImageProfile {
@@ -21,8 +20,6 @@ const ImageProfile = (props: IImageProfile) => {
 
   const [stateModal, setStateModal] = useState<boolean>(false);
   const [photo, setPhoto] = useState<ImageInfo>();
-
-  const theme = useTheme<Theme>();
 
   // * Get camera permissions
   useEffect(() => {

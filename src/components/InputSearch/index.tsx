@@ -1,12 +1,11 @@
 import React, { PropsWithChildren } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import useTheme from "@shopify/restyle/dist/hooks/useTheme";
 import { IComponentsDefaults } from "../../lib/Types";
 import Icons from "../svg";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { APP_STACK_SCREENS_NAMES } from "../../lib/constants";
-import { Text, Theme } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 
 interface IInputSearch extends IComponentsDefaults {
   onChange?: (str: string) => void;
@@ -28,8 +27,6 @@ const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
   } = props;
 
   const { goBack, navigate } = useNavigation();
-
-  const theme = useTheme<Theme>();
 
   return (
     <View style={[styles.container, containerStyle]}>

@@ -1,8 +1,7 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import Icons from "../svg";
-import { Text, Theme } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
 
@@ -23,7 +22,6 @@ interface IListItem extends IComponentsDefaults {
 
 const ListItem = (props: IListItem) => {
   const { title, subTitle, icon, detail, containerStyle, onPress } = props;
-  const theme = useTheme<Theme>();
 
   return (
     <TouchableOpacity

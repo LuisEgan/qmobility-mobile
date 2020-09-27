@@ -7,8 +7,7 @@ import {
   ImageSourcePropType,
   TextStyle,
 } from "react-native";
-import { useTheme } from "@shopify/restyle";
-import { Text, Theme } from "../../config/Theme";
+import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface ICardImage extends IComponentsDefaults {
@@ -32,8 +31,6 @@ const CardImage = (props: ICardImage) => {
     containerStyle,
     textStyle,
   } = props;
-
-  const theme = useTheme<Theme>();
 
   return (
     <View
