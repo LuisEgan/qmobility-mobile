@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -17,7 +17,9 @@ import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes"
 
 import { Route } from "../../../gql";
 import { IGetRouter, IGetRouterVar } from "../../../gql/Route/queries";
+
 import ModalSaveRoute from "./ModalSaveRoute";
+import ModalChangeLoading from "./ModalChangeLoading";
 import { IEditChangeRoute } from "../../../components/SearchEditRouter/index";
 
 const { height, width } = Dimensions.get("window");
@@ -57,6 +59,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
   const [showContent, setShowContent] = useState<boolean>(false);
 
   const [stateModal, setStateModal] = useState<boolean>(false);
+  const [stateModalLoading, setStateModalLoading] = useState<boolean>(false);
 
   const transition = useTransition(isDrawerOpen, { duration: 100 });
   const translateY = mix(transition, 0, -200);
@@ -64,15 +67,18 @@ const MapSearchDone = (props: IMapSearchDone) => {
   const locationStart = startDirection || route.params.origin;
   const locationEnd = endDirection || route.params.destination;
 
-  const onChangeRoute = async () => {
-    const start = !stateChange ? route.params.origin : route.params.destination;
-    const end = !stateChange ? route.params.destination : route.params.origin;
+  useEffect(() => {
+    setStateModalLoading(false);
+  }, [dataRoute]);
 
+  const onChangeRoute = () => {
+    const start = !stateChange ? locationStart : locationEnd;
+    const end = !stateChange ? locationEnd : locationStart;
     setEndDirection(start || "");
     setStartDirection(end || "");
     setStateChange(!stateChange);
 
-    await refetch({
+    refetch({
       origin: start,
       destination: end,
       car_id: "1107",
@@ -84,6 +90,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
   };
 
   const onEditRoute = ({ str, type }: IEditChangeRoute) => {
+    setStateModalLoading(true);
     const startTmp = startDirection || route.params.origin;
     const endTmp = endDirection || route.params.destination;
 
@@ -233,6 +240,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
         endLocation={locationEnd}
         onClosed={() => setStateModal(!stateModal)}
       />
+      <ModalChangeLoading stateModal={stateModalLoading} />
       <View style={styles.container}>
         <Animated.View
           style={[
@@ -248,7 +256,10 @@ const MapSearchDone = (props: IMapSearchDone) => {
             }
             endDireccion={(locationEnd && editNameCity(locationEnd)) || ""}
             containerStyle={styles.routeDestination}
-            onChangeRoute={onChangeRoute}
+            onChangeRoute={() => {
+              setStateModalLoading(true);
+              onChangeRoute();
+            }}
             onEditNewRoute={onEditRoute}
           />
         </Animated.View>
