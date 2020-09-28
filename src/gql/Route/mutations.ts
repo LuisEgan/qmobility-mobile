@@ -23,7 +23,7 @@ const saveMyRoute = gql`
     $frequency: String!
   ) {
     saveMyRoute(
-      saveMyRoute: {
+      saveMyRouteInput: {
         origin: $origin
         destination: $destination
         friendlyName: $friendlyName

@@ -256,15 +256,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
   return (
     <Modal state={stateModal} onClosed={() => onCancel()}>
       <View style={styles.containerModal}>
-        <TouchableOpacity
-          activeOpacity={1}
-          style={[
-            styles.contentModal,
-            {
-              backgroundColor: theme.colors.secondaryDark,
-            },
-          ]}
-        >
+        <TouchableOpacity activeOpacity={1} style={styles.contentModal}>
           <View>
             <Text
               variant="heading2"
@@ -295,6 +287,7 @@ const styles = StyleSheet.create({
     height: 400,
     width: width * 0.9,
     borderRadius: 10,
+    backgroundColor: theme.colors.secondaryDark,
   },
   titleModal: {
     alignSelf: "center",

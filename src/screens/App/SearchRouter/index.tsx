@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
-import { useTheme } from "@shopify/restyle";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
@@ -10,7 +9,7 @@ import {
   DescriptionRow,
 } from "react-native-google-places-autocomplete";
 import { Card, ListItem, GoogleSearch } from "../../../components";
-import theme, { Text, Theme } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 
 import ListTest from "./ListTest";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
