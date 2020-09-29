@@ -210,7 +210,7 @@ const EditForm = (props: IForm) => {
         )}
 
         <View style={styles.containerTtitleEdition}>
-          <Text variant="label">YOUR ICE EVE</Text>
+          <Text variant="label">YOUR ICE VEHICLE</Text>
         </View>
 
         {searchIceVehicleCalled && (
