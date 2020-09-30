@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
@@ -28,10 +28,6 @@ const SearchRouter = () => {
 
   const { navigate } = useNavigation();
 
-  useEffect(() => {
-    getPermissionAsync();
-  });
-
   const { loading, data: dataRecent, error: errorLoading } = useQuery<
     IGetRouterRecent,
     IGetRouterRecentVar
@@ -40,14 +36,6 @@ const SearchRouter = () => {
       limit: 20,
     },
   });
-
-  const getPermissionAsync = async () => {
-    try {
-      await Permissions.askAsync(Permissions.AUDIO_RECORDING);
-    } catch (error) {
-      console.warn("TCL: getPermissionAsync -> error", error);
-    }
-  };
 
   const onRoute = (details: { origin?: string; destination?: string }) => {
     navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
