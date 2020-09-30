@@ -21,6 +21,7 @@ import { IGetRouter, IGetRouterVar } from "../../../gql/Route/queries";
 import ModalSaveRoute from "./ModalSaveRoute";
 import ModalChangeLoading from "./ModalChangeLoading";
 import { IEditChangeRoute } from "../../../components/SearchEditRouter/index";
+import { kmToMiles } from "../../../lib/numbers";
 
 const { height, width } = Dimensions.get("window");
 
@@ -88,6 +89,10 @@ const MapSearchDone = (props: IMapSearchDone) => {
       charger_distance: 10,
     });
   };
+
+  const routeDistance = kmToMiles(
+    Math.ceil((dataRoute?.getRoutes?.Route?.Distance || 0) / 1000),
+  );
 
   const onEditRoute = ({ str, type }: IEditChangeRoute) => {
     setStateModalLoading(true);
@@ -186,9 +191,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
             <Text variant="bodySmall">
               {`${new Date((dataRoute?.getRoutes?.Route?.Time || 0) * 1000)
                 .toISOString()
-                .substr(11, 5)} (${`${Math.ceil(
-                (dataRoute?.getRoutes?.Route?.Distance || 0) / 1000,
-              )}km`})`}
+                .substr(11, 5)} (${routeDistance} mi)`}
             </Text>
             <Icons
               icon="BatteryRight"
@@ -315,9 +318,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
                   contentStyle={{ backgroundColor: theme.colors.primary }}
                 />
                 <Card
-                  title={`${Math.ceil(
-                    (dataRoute?.getRoutes?.Route?.Distance || 0) / 1000,
-                  )}km`}
+                  title={`${routeDistance} mi`}
                   subTitle="Distance"
                   containerStyle={[styles.card, styles.lastCard]}
                   contentStyle={{

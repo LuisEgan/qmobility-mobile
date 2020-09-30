@@ -69,6 +69,7 @@ const getEve = gql`
         Battery_Capacity_Estimate
         Range_Real
         Availability_Status
+        Availability_Date_From
         Performance_Topspeed
         Fastcharge_ChargeTime
         Efficiency_Real

@@ -16,6 +16,7 @@ import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
 import { numberWithDots } from "../../../lib/strings";
+import { kmToMiles } from "../../../lib/numbers";
 
 const { height, width } = Dimensions.get("window");
 
@@ -87,9 +88,9 @@ const Details = () => {
           <Text variant="bodyBold">
             Range
             {" "}
-            {eVe?.user.selectedVehicle?.Range_Real}
+            {kmToMiles(eVe?.user.selectedVehicle?.Range_Real)}
             {" "}
-            km
+            mi
           </Text>
         </View>
 
@@ -98,24 +99,28 @@ const Details = () => {
             icon="Bubble"
             label={`${eVe?.user.selectedVehicle?.Misc_Seats}`}
           />
-          <IconText icon="Spa" label="0 C02g/km" />
+          <IconText icon="Spa" label="0 C02g/mi" />
         </View>
 
         <View style={[styles.content]}>
           <IconText
             icon="Polymer"
-            label={`Max ${eVe?.user.selectedVehicle?.Range_Real} km`}
+            label={`Max ${kmToMiles(eVe?.user.selectedVehicle?.Range_Real)} mi`}
           />
           <IconText
             icon="Nature"
-            label={`${eVe?.user.selectedVehicle?.Efficiency_Real} kWh/100km`}
+            label={`${
+              eVe?.user.selectedVehicle?.Efficiency_Real
+            } kWh/${kmToMiles(100)} mi`}
           />
         </View>
 
         <View style={[styles.content]}>
           <IconText
             icon="Speed"
-            label={`Max ${eVe?.user.selectedVehicle?.Performance_Topspeed}  km/h`}
+            label={`Max ${kmToMiles(
+              eVe?.user.selectedVehicle?.Performance_Topspeed,
+            )} mph`}
           />
           <IconText
             icon="Flash"
@@ -139,10 +144,10 @@ const Details = () => {
               color: theme.colors.gray,
             }}
           >
-            Availability
+            Available since
           </Text>
           <Text variant="body">
-            {eVe?.user.selectedVehicle?.Availability_Status}
+            {eVe?.user.selectedVehicle?.Availability_Date_From}
           </Text>
         </View>
       </ScrollView>

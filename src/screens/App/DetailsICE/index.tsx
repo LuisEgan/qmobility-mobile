@@ -14,6 +14,7 @@ import { TIcon } from "../../../components/svg/icons/TypeIcons";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
+import { gramKmToGramMiles, kmToMiles } from "../../../lib/numbers";
 
 const { height, width } = Dimensions.get("window");
 
@@ -75,7 +76,10 @@ const DetailsICE = () => {
 
         <View style={[styles.content]}>
           <IconText icon="Bubble" label={`${vehicle?.SeatingCapacity}`} />
-          <IconText icon="Spa" label={`${vehicle?.Co2Emissions} C02g/km`} />
+          <IconText
+            icon="Spa"
+            label={`${gramKmToGramMiles(vehicle?.Co2Emissions)} C02g/mi`}
+          />
           <IconText
             icon="Calendar"
             label={`${vehicle?.YearMonthFirstRegistered}`}
@@ -96,7 +100,12 @@ const DetailsICE = () => {
         <View style={[styles.content]}>
           <IconText icon="Bubble" label={`${vehicle?.VehiclePlate}`} />
           <IconText icon="Spa" label={`${vehicle?.DoorPlanLiteral}`} />
-          <IconText icon="Speed" label={`${vehicle?.MaxSpeedMph} mph`} />
+          <IconText
+            icon="Speed"
+            label={`${
+              vehicle?.MaxSpeedMph || kmToMiles(vehicle?.MaxSpeedKph)
+            } mph`}
+          />
         </View>
 
         <View style={[styles.content]}>
