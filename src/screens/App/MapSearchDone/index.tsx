@@ -8,20 +8,21 @@ import {
 } from "react-native";
 import { useTransition, mix } from "react-native-redash";
 import Animated from "react-native-reanimated";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import RouteDestination from "./RouteDestination";
 import { BottomDrawer, Icons, Button, Card, Map } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
 import { RoutePointsList } from "../../../components/Lists";
 import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes";
 
-import { Route } from "../../../gql";
+import { Route, User } from "../../../gql";
 import { IGetRouter, IGetRouterVar } from "../../../gql/Route/queries";
 
 import ModalSaveRoute from "./ModalSaveRoute";
 import ModalChangeLoading from "./ModalChangeLoading";
 import { IEditChangeRoute } from "../../../components/SearchEditRouter/index";
 import { kmToMiles } from "../../../lib/numbers";
+import { IUser } from "../../../gql/User/Types";
 
 const { height, width } = Dimensions.get("window");
 
@@ -37,24 +38,19 @@ const editNameCity = (nameCity: string): string => {
 const MapSearchDone = (props: IMapSearchDone) => {
   const { route } = props;
 
-  const { loading: loadingRoute, data: dataRoute, refetch } = useQuery<
-    IGetRouter,
+  const [getRoutes, { loading: loadingRoute, data: dataRoute }] = useLazyQuery<
+    IGetRouter | undefined,
     IGetRouterVar
-  >(Route.queries.getRoutes, {
-    variables: {
-      origin: route.params.origin,
-      destination: route.params.destination,
-      car_id: "1107",
-      car_charge: 50,
-      chargers_limit: 10,
-      car_tolerance: 10,
-      charger_distance: 10,
-    },
-  });
+  >(Route.queries.getRoutes);
 
-  const [startDirection, setStartDirection] = useState<string>("");
-  const [endDirection, setEndDirection] = useState<string>("");
-  const [stateChange, setStateChange] = useState<boolean>(false);
+  const { data: eVe } = useQuery<{ user: IUser }, IUser>(User.queries.getEve);
+
+  const [startDirection, setStartDirection] = useState<string>(
+    route.params.origin,
+  );
+  const [endDirection, setEndDirection] = useState<string>(
+    route.params.destination,
+  );
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
@@ -65,34 +61,42 @@ const MapSearchDone = (props: IMapSearchDone) => {
   const transition = useTransition(isDrawerOpen, { duration: 100 });
   const translateY = mix(transition, 0, -200);
 
-  const locationStart = startDirection || route.params.origin;
-  const locationEnd = endDirection || route.params.destination;
+  // * Get route with Car ID
+  useEffect(() => {
+    if (eVe) {
+      getRoutes({
+        variables: {
+          origin: route.params.origin,
+          destination: route.params.destination,
+          // car_id: `${eVe.user?.selectedVehicle?.Vehicle_ID}`,
+          car_id: "1107",
+        },
+      });
+    }
+  }, [eVe]);
 
+  // * Update Modal
   useEffect(() => {
     setStateModalLoading(false);
   }, [dataRoute]);
 
   const onChangeRoute = () => {
-    const start = !stateChange ? locationStart : locationEnd;
-    const end = !stateChange ? locationEnd : locationStart;
-    setEndDirection(start || "");
-    setStartDirection(end || "");
-    setStateChange(!stateChange);
+    const origin = endDirection;
+    const destination = startDirection;
 
-    refetch({
-      origin: start,
-      destination: end,
-      car_id: "1107",
-      car_charge: 50,
-      chargers_limit: 10,
-      car_tolerance: 10,
-      charger_distance: 10,
+    setStateModalLoading(true);
+    setEndDirection(destination || "");
+    setStartDirection(origin || "");
+
+    getRoutes({
+      variables: {
+        origin,
+        destination,
+        car_id: "1107",
+        // car_id: `${eVe?.user.selectedVehicle?.Vehicle_ID}`,
+      },
     });
   };
-
-  const routeDistance = kmToMiles(
-    Math.ceil((dataRoute?.getRoutes?.Route?.Distance || 0) / 1000),
-  );
 
   const onEditRoute = ({ str, type }: IEditChangeRoute) => {
     setStateModalLoading(true);
@@ -105,14 +109,13 @@ const MapSearchDone = (props: IMapSearchDone) => {
     const start = type === "START" ? str : startTmp;
     const end = type === "END" ? str : endTmp;
 
-    refetch({
-      origin: start,
-      destination: end,
-      car_id: "1107",
-      car_charge: 50,
-      chargers_limit: 10,
-      car_tolerance: 10,
-      charger_distance: 10,
+    getRoutes({
+      variables: {
+        origin: start,
+        destination: end,
+        car_id: "1107",
+        // car_id: `${eVe?.user.selectedVehicle?.Vehicle_ID}`,
+      },
     });
   };
 
@@ -142,8 +145,8 @@ const MapSearchDone = (props: IMapSearchDone) => {
             }}
           >
             <Text variant="heading2" numberOfLines={1}>
-              {`${locationStart && editNameCity(locationStart)}, ${
-                locationEnd && editNameCity(locationEnd)
+              {`${startDirection && editNameCity(startDirection)}, ${
+                endDirection && editNameCity(endDirection)
               }`}
             </Text>
           </View>
@@ -165,8 +168,8 @@ const MapSearchDone = (props: IMapSearchDone) => {
               containerStyle={styles.icon}
             />
             <Text variant="bodySmall" numberOfLines={1}>
-              {`${locationStart && editNameCity(locationStart)}, ${
-                locationEnd && editNameCity(locationEnd)
+              {`${startDirection && editNameCity(startDirection)}, ${
+                endDirection && editNameCity(endDirection)
               }`}
             </Text>
           </View>
@@ -235,12 +238,16 @@ const MapSearchDone = (props: IMapSearchDone) => {
     </>
   );
 
+  const routeDistance = kmToMiles(
+    Math.ceil((dataRoute?.getRoutes?.Route?.Distance || 0) / 1000),
+  );
+
   return (
     <>
       <ModalSaveRoute
         stateModal={stateModal}
-        startLocation={locationStart}
-        endLocation={locationEnd}
+        startLocation={startDirection}
+        endLocation={endDirection}
         onClosed={() => setStateModal(!stateModal)}
       />
       <ModalChangeLoading stateModal={stateModalLoading} />
@@ -255,14 +262,11 @@ const MapSearchDone = (props: IMapSearchDone) => {
         >
           <RouteDestination
             startDireccion={
-              (locationStart && editNameCity(locationStart)) || ""
+              (startDirection && editNameCity(startDirection)) || ""
             }
-            endDireccion={(locationEnd && editNameCity(locationEnd)) || ""}
+            endDireccion={(endDirection && editNameCity(endDirection)) || ""}
             containerStyle={styles.routeDestination}
-            onChangeRoute={() => {
-              setStateModalLoading(true);
-              onChangeRoute();
-            }}
+            onChangeRoute={onChangeRoute}
             onEditNewRoute={onEditRoute}
           />
         </Animated.View>
@@ -294,8 +298,8 @@ const MapSearchDone = (props: IMapSearchDone) => {
               }}
             >
               <RoutePointsList
-                startLocation={locationStart}
-                endLocation={locationEnd}
+                startLocation={startDirection}
+                endLocation={endDirection}
                 points={dataRoute?.getRoutes?.Chargers[0]}
               />
 

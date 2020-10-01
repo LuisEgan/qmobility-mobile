@@ -42,7 +42,7 @@ const Edit = () => {
     IUpdateUser
   >(User.mutations.updateUser);
 
-  const [iceVehicle, setIceVehicle] = useState<IIceVehicle>();
+  const [iceVehicle, setIceVehicle] = useState<IIceVehicle | null>();
 
   const edit = async (values: IEditFormValues): Promise<void> => {
     const newIceVehicle = iceVehicle ? { ...iceVehicle } : null;
@@ -112,7 +112,7 @@ const Edit = () => {
               <EditForm
                 {...props}
                 loading={loading || updateUserLoading}
-                onIceVehicleChange={setIceVehicle}
+                onIceVehicleChange={(v) => setIceVehicle(v)}
                 selectedVehicle={userData.user.selectedVehicle}
               />
 

@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,7 +11,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Button, Icons } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
-import { TTCsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { Title, textBlack, StepText, textLight } from "./Texts";
 import Header from "../../../components/Header";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
@@ -25,23 +24,8 @@ const isCloseToBottom = ({
 }: NativeScrollEvent) =>
   layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
 
-interface ITCs extends TTCsNavProps {}
-
-const TCs = (props: ITCs) => {
-  const { navigation } = props;
+const TCs = () => {
   const { navigate, goBack } = useNavigation();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      header: () => (
-        <Header
-          title="Terms & Conditions"
-          icon="ArrowBack"
-          onPress={() => goBack()}
-        />
-      ),
-    });
-  }, [navigation]);
 
   const [endScroll, setEndScroll] = useState<boolean>(false);
 
@@ -51,6 +35,12 @@ const TCs = (props: ITCs) => {
 
   return (
     <View style={styles.container}>
+      <Header
+        title="Terms & Conditions"
+        icon="ArrowBack"
+        onPress={() => goBack()}
+      />
+
       <ScrollView
         onScroll={({
           nativeEvent,

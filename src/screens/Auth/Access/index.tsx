@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -14,10 +14,14 @@ import {
 } from "../../../lib/constants";
 
 import bg from "../../../assets/png/accessBackgroundMedium.png";
+import { TAccessNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 const { height, width } = Dimensions.get("window");
 
-const Access = () => {
+interface IAccess extends TAccessNavProps {}
+
+const Access = (props: IAccess) => {
+  const { navigation } = props;
   const { navigate } = useNavigation();
 
   useEffect(() => {
@@ -27,6 +31,12 @@ const Access = () => {
 
     setHasAcceptedTCs();
   }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      header: () => null,
+    });
+  }, [navigation]);
 
   return (
     <ImageBackground source={bg} style={styles.image}>

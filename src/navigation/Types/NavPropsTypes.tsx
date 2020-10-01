@@ -16,6 +16,7 @@ type StackParamsList = {
     userToken: string;
     userEmail: string;
   };
+  Access: {};
   Login: {};
   MyCars: {};
   ProfileScroll: {};
@@ -36,6 +37,9 @@ export type TTCsNavProps = StackScreenProps<
   StackParamsList,
   "Terms and conditions"
 >;
+
+// * Terms and conditions props
+export type TAccessNavProps = StackScreenProps<StackParamsList, "Access">;
 
 // * LoginSignUp Navigator props
 type MaterialTopTabScreenState = {
@@ -93,6 +97,7 @@ export type TMapSearchDoneNavProps = StackScreenProps<
 
 // * Export all types as one type
 export type TAllNavProps = TTCsNavProps &
+  TAccessNavProps &
   TLoginSignUpNavProps &
   TMyCarsNavProps &
   TDetailsNavProps &

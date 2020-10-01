@@ -25,7 +25,6 @@ export const AUTH_STACK_SCREENS: IScreens = [
   {
     name: AUTH_STACK_SCREENS_NAMES.TCs,
     component: TCs,
-    headerShown: true,
   },
   {
     name: AUTH_STACK_SCREENS_NAMES.Access,

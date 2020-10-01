@@ -74,6 +74,7 @@ const RootNavigator = () => {
       signOut: () => {
         const doSignOut = async () => {
           await AsyncStorage.removeItem(ASYNC_STORAGE_ITEMS.USER_TOKEN);
+          await AsyncStorage.removeItem(ASYNC_STORAGE_ITEMS.HAS_ACCEPTED_TCS);
           setUserToken(null);
         };
 
