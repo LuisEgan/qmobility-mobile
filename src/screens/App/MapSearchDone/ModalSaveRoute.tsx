@@ -37,14 +37,13 @@ interface IFormValues {
 const ModalSaveRoute = (props: IModalSaveRoute) => {
   const { stateModal, onClosed, startLocation, endLocation } = props;
 
-  const [
-    upSaveMyRoutes,
-    { data: upSaveMyRouteData, loading: upSaveMyRoutesLoading },
-  ] = useMutation<{ upSaveMyRoutes: ISaveMyRoutes }, ISaveMyRoutesVar>(
-    Route.mutations.saveMyRoute,
-  );
+  const [upSaveMyRoutes, { loading: upSaveMyRoutesLoading }] = useMutation<
+    { upSaveMyRoutes: ISaveMyRoutes },
+    ISaveMyRoutesVar
+  >(Route.mutations.saveMyRoute);
 
   const [statePhase, setStatePhase] = useState<boolean>(true);
+  const [isSavedRoute, setIsSavedRoute] = useState<boolean>(false);
   const [valueSave, setValueSave] = useState<IFormValues>({
     name: "",
     category: "",
@@ -67,7 +66,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
         frequency,
       };
 
-      await upSaveMyRoutes({
+      const upSaveMyRouteData = await upSaveMyRoutes({
         variables,
         refetchQueries: [
           {
@@ -75,17 +74,21 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
           },
         ],
       });
+
+      setIsSavedRoute(true);
+      if (upSaveMyRouteData) {
+        setTimeout(() => {
+          onCancel();
+        }, 1500);
+      }
     } catch (error) {
       // console.log("onSaveMyRouter -> error", error)
-    }
-
-    if (upSaveMyRouteData) {
-      onCancel();
     }
   };
 
   const onCancel = () => {
     setStatePhase(true);
+    setIsSavedRoute(false);
     onClosed();
   };
 
@@ -98,6 +101,12 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
       touched,
       values,
     } = params;
+
+    let nextText = "CONTINUE";
+
+    if (!statePhase) {
+      nextText = isSavedRoute ? "SAVED!" : "SAVE ROUTE";
+    }
 
     return (
       <>
@@ -179,7 +188,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
                   color: theme.colors.white,
                 }}
               >
-                {statePhase ? "CONTINUE" : "SAVE ROUTE"}
+                {nextText}
               </Text>
             </TouchableOpacity>
           ) : (
