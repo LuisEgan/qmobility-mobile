@@ -71,13 +71,14 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
 
   const onSaveMyRouter = async () => {
     const { name, category, frequency } = valueSave;
+    const newFrequecy = `${frequency} ${validationText(category)}`;
     try {
       const variables = {
         origin: startLocation,
         destination: endLocation,
         friendlyName: name,
         category,
-        frequency,
+        frequency: newFrequecy,
         kwh,
         totalDistance,
         totalTime,
@@ -253,7 +254,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
               </Text>
               <View>
                 <Text style={styles.textColor} variant="body" numberOfLines={3}>
-                  {frequency}
+                  {`${frequency} ${validationText(category)}`}
                 </Text>
               </View>
             </View>

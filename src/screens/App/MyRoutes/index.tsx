@@ -7,6 +7,7 @@ import { RouterList } from "../../../components/Lists";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import { Route } from "../../../gql";
 import { IGetMySaveRoute } from "../../../gql/Route/queries";
+import ScrollCategory from "./ScrollCategory";
 
 const MyRoutes = () => {
   const {
@@ -16,6 +17,7 @@ const MyRoutes = () => {
   } = useQuery<{ getMyRoutes: IGetMySaveRoute }>(Route.queries.getMySaveRoute);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [filter, setFilter] = useState<string>("All");
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -33,28 +35,26 @@ const MyRoutes = () => {
         onPress={toggleDrawer}
       />
 
+      <ScrollCategory
+        data={getMySaveRouteData?.getMyRoutes || []}
+        filter={filter}
+        onPress={(str) => setFilter(str)}
+      />
       <View style={styles.container}>
         {getMySaveRouteLoading ? (
-          <View
-            style={{
-              marginTop: "50%",
-            }}
-          >
+          <View style={styles.contentLoading}>
             <ActivityIndicator color={theme.colors.primary} />
-            <Text
-              variant="bodyHighlight"
-              style={{
-                textAlign: "center",
-                marginVertical: "5%",
-              }}
-            >
+            <Text variant="bodyHighlight" style={styles.textLoading}>
               Loading...
             </Text>
           </View>
         ) : (
           <>
             {!getMySaveRouteError ? (
-              <RouterList ListArray={getMySaveRouteData?.getMyRoutes || []} />
+              <RouterList
+                filter={filter}
+                ListArray={getMySaveRouteData?.getMyRoutes || []}
+              />
             ) : (
               <View>
                 <Text>{getMySaveRouteError.message}</Text>
@@ -72,5 +72,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.white,
+  },
+  contentLoading: {
+    marginTop: "50%",
+  },
+  textLoading: {
+    textAlign: "center",
+    marginVertical: "5%",
   },
 });

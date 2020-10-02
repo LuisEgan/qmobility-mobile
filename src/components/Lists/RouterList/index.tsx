@@ -6,14 +6,23 @@ import { IGetMySaveRoute } from "../../../gql/Route/queries";
 
 interface IList extends IComponentsDefaults {
   ListArray: IGetMySaveRoute;
+  filter: string;
 }
 
 const RouterList = (props: IList) => {
-  const { ListArray = [] } = props;
+  const { ListArray = [], filter } = props;
+
+  let newListArray = ListArray;
+
+  if (filter !== "All") {
+    newListArray = ListArray
+      ? ListArray.filter((item) => item.category === filter)
+      : [];
+  }
 
   return (
     <FlatList
-      data={ListArray}
+      data={newListArray}
       renderItem={({ item, index }) => (
         <RouteListItem key={`${item}_${index}`} {...item} />
       )}

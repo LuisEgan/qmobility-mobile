@@ -87,9 +87,12 @@ const getRoutes = gql`
 `;
 
 export interface ISavedRoute {
-  origin?: string;
-  destination?: string;
-  friendlyName?: string;
+  origin: string;
+  destination: string;
+  friendlyName: string;
+  frequency: string;
+  category: string;
+  id: string;
 }
 export interface IGetMySaveRoute extends Array<ISavedRoute> {}
 
@@ -99,6 +102,9 @@ const getMySaveRoute = gql`
       origin
       destination
       friendlyName
+      frequency
+      category
+      id
     }
   }
 `;

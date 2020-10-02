@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  Alert,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import theme, { Text } from "../../../config/Theme";
 import Icons from "../../svg";
@@ -7,7 +13,8 @@ import { ISavedRoute } from "../../../gql/Route/queries";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const RouteListItem = (props: ISavedRoute) => {
-  const { friendlyName, destination, origin } = props;
+  const { friendlyName, destination, origin, frequency, category, id } = props;
+  console.warn("RouteListItem -> id", id);
 
   const { navigate } = useNavigation();
 
@@ -16,6 +23,30 @@ const RouteListItem = (props: ISavedRoute) => {
       origin,
       destination,
     });
+  };
+
+  const onAlert = () => {
+    Alert.alert(
+      `${friendlyName}`,
+      `${category}`,
+      [
+        {
+          text: "Delete",
+          onPress: () => console.warn("Delete"),
+          style: "destructive",
+        },
+        {
+          text: "Edit",
+          onPress: () => console.warn("Edit"),
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.warn("Cancel"),
+          style: "cancel",
+        },
+      ],
+      { cancelable: false },
+    );
   };
 
   return (
@@ -36,21 +67,21 @@ const RouteListItem = (props: ISavedRoute) => {
           <View style={styles.detailContainer}>
             <View>
               <Text variant="heading2">{friendlyName}</Text>
-              {origin && destination && (
-                <>
-                  <Text numberOfLines={1} variant="body">
-                    {origin}
-                  </Text>
-                  <Text numberOfLines={1} variant="body">
-                    {destination}
-                  </Text>
-                </>
-              )}
+              <Text numberOfLines={1} variant="body">
+                {origin}
+              </Text>
+              <Text numberOfLines={1} variant="body">
+                {destination}
+              </Text>
+
+              <Text numberOfLines={1} variant="body">
+                {`Frequency: ${frequency}`}
+              </Text>
             </View>
           </View>
-          <View style={styles.iconRight}>
-            <Icons icon="ArrowRightLight" fill={theme.colors.primary} />
-          </View>
+          <TouchableOpacity style={styles.iconRight} onPress={() => onAlert()}>
+            <Icons icon="MoreVert" fill={theme.colors.primary} size={25} />
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     </View>
@@ -66,13 +97,11 @@ const styles = StyleSheet.create({
     marginVertical: "2%",
     width,
   },
-
   containerButton: {
     height: 110,
     marginHorizontal: "5%",
     borderRadius: 10,
   },
-
   content: {
     flex: 1,
     flexDirection: "row",
@@ -92,6 +121,7 @@ const styles = StyleSheet.create({
     height: "100%",
     flex: 0.1,
     alignItems: "center",
-    justifyContent: "center",
+    marginTop: 20,
+    justifyContent: "flex-start",
   },
 });
