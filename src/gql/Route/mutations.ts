@@ -6,6 +6,11 @@ export interface ISaveMyRoutesVar {
   friendlyName: string;
   category: string;
   frequency: string;
+  // new
+  kwh: number;
+  totalDistance: number;
+  totalTime: number;
+  carId: number;
 }
 
 export interface ISaveMyRoutes {
@@ -21,6 +26,10 @@ const saveMyRoute = gql`
     $friendlyName: String!
     $category: String!
     $frequency: String!
+    $kwh: Float
+    $totalDistance: Float
+    $totalTime: Float
+    $carId: Float
   ) {
     saveMyRoute(
       saveMyRouteInput: {
@@ -29,6 +38,10 @@ const saveMyRoute = gql`
         friendlyName: $friendlyName
         category: $category
         frequency: $frequency
+        kwh: $kwh
+        totalDistance: $totalDistance
+        totalTime: $totalTime
+        carId: $carId
       }
     ) {
       userId

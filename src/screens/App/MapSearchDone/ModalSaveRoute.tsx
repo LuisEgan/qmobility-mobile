@@ -26,6 +26,11 @@ interface IModalSaveRoute {
   onClosed: () => void;
   startLocation: string;
   endLocation: string;
+
+  kwh: number;
+  totalDistance: number;
+  totalTime: number;
+  carId: number;
 }
 
 interface IFormValues {
@@ -35,7 +40,16 @@ interface IFormValues {
 }
 
 const ModalSaveRoute = (props: IModalSaveRoute) => {
-  const { stateModal, onClosed, startLocation, endLocation } = props;
+  const {
+    stateModal,
+    onClosed,
+    startLocation,
+    endLocation,
+    kwh,
+    totalDistance,
+    totalTime,
+    carId,
+  } = props;
 
   const [upSaveMyRoutes, { loading: upSaveMyRoutesLoading }] = useMutation<
     { upSaveMyRoutes: ISaveMyRoutes },
@@ -64,6 +78,10 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
         friendlyName: name,
         category,
         frequency,
+        kwh,
+        totalDistance,
+        totalTime,
+        carId,
       };
 
       const upSaveMyRouteData = await upSaveMyRoutes({
@@ -90,6 +108,15 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
     setStatePhase(true);
     setIsSavedRoute(false);
     onClosed();
+  };
+
+  const validationText = (str: string): string => {
+    if (str === "") return " ";
+
+    if (str === "Commute" || str === "Local household") {
+      return "time per week";
+    }
+    return "time per year";
   };
 
   const Form = (params: FormikProps<IFormValues>) => {
@@ -142,22 +169,16 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
                 touched={touched.category}
               />
 
-              <Select
-                placeholder="Frequency"
-                list={[
-                  "1 time per week",
-                  "2 times per week",
-                  "3 times per week",
-                  "4 times per week",
-                  "5 times per week",
-                  "6 times per week",
-                  "7 times per week",
-                ]}
-                value={values.frequency}
-                onPress={(str) => handleChange("frequency")(str.toString())}
-                containerStyle={styles.selectContent}
-                error={errors.frequency && ERRORS.REQUIRED}
+              <Input
+                placeholder="frequency"
+                isNumber
+                onChange={(str) => handleChange("frequency")(str.toString())}
+                onBlur={() => handleBlur("frequency")}
+                error={errors.frequency && ERRORS.REQUIREDNUM}
                 touched={touched.frequency}
+                containerStyle={styles.inputContent}
+                inputStyle={[styles.input, { width: width * 0.5 }]}
+                text={validationText(values.category)}
               />
             </ScrollView>
           ) : (
@@ -245,7 +266,8 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
   const SignupSchema = yup.object().shape({
     name: yup.string().required("Required"),
     category: yup.string().required("Required"),
-    frequency: yup.string().required("Required"),
+    frequency: yup.number().required().min(0).integer()
+      .required("Required"),
   });
 
   const ContentBody = () => (
@@ -335,5 +357,16 @@ const styles = StyleSheet.create({
   },
   textColor: {
     color: theme.colors.white,
+  },
+  contentFrequency: {
+    flexDirection: "row",
+  },
+  contentText: {
+    flex: 0.5,
+    justifyContent: "center",
+  },
+  text: {
+    color: theme.colors.white,
+    textAlign: "center",
   },
 });

@@ -54,3 +54,4 @@ export { default as Speed } from "./Speed";
 export { default as Star } from "./Star";
 export { default as Timeline } from "./Timeline";
 export { default as Calendar } from "./Calendar";
+export { default as EvStation } from "./EvStation";

@@ -13,14 +13,17 @@ import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface IInput extends IComponentsDefaults {
-  onChange?: (str: string) => void;
+  onChange: (str: string) => void;
+  value?: string;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   onForgotPass?: () => void;
   label?: string;
+  text?: string | null;
   placeholder?: string;
   defaultValue?: string;
   isPassword?: boolean;
   isSignUp?: boolean;
+  isNumber?: boolean;
   error?: string;
   touched?: boolean;
   disabled?: boolean;
@@ -36,6 +39,7 @@ const Input = (props: IInput) => {
     formatter,
     label,
     placeholder,
+    value,
     defaultValue,
     isPassword,
     isSignUp,
@@ -44,12 +48,11 @@ const Input = (props: IInput) => {
     disabled = false,
     containerStyle,
     inputStyle,
+    text,
   } = props;
 
   const onChange = (str: string) => {
-    if (onChangeProp) {
-      onChangeProp(str);
-    }
+    onChangeProp(str);
   };
 
   return (
@@ -59,15 +62,32 @@ const Input = (props: IInput) => {
       <TextInput
         style={[styles.inputStyle, inputStyle]}
         editable={!disabled}
+        value={value}
         onChangeText={(str: string) => {
           const newStr = formatter ? formatter(str) : str;
-
           onChange(newStr);
         }}
         placeholderTextColor={theme.colors.defautlInput}
         secureTextEntry={isPassword}
         {...{ defaultValue, placeholder, onBlur }}
       />
+      {text && (
+        <View
+          style={{
+            position: "absolute",
+            right: 10,
+            top: 18,
+          }}
+        >
+          <Text
+            style={{
+              color: theme.colors.gray,
+            }}
+          >
+            {text}
+          </Text>
+        </View>
+      )}
 
       {isPassword && !isSignUp && (
         <View style={styles.forgotPass}>

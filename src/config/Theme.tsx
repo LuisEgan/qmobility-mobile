@@ -21,6 +21,7 @@ const palette = {
 
   white: "white",
 
+  green: "green",
   red: "red",
   redLight: "#FF8077",
 
@@ -50,6 +51,7 @@ const theme: BaseTheme = {
     drawerHandle: palette.gray,
 
     white: palette.white,
+    green: palette.green,
     yellow: palette.yellow,
     purple: palette.purple,
     red: palette.red,

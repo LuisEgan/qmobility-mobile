@@ -8,6 +8,7 @@ export interface IRoute {
   Route_Coords: LatLng[];
   Time: number;
   Total_kWh: number;
+  Time_Difference: number;
 }
 
 export interface IChargers {
@@ -29,7 +30,7 @@ export interface IGetRouter {
 export interface IGetRouterVar {
   origin: string;
   destination: string;
-  car_id: string;
+  car_id: number;
   car_charge?: number;
   chargers_limit?: number;
   charger_distance?: number;
@@ -41,7 +42,7 @@ const getRoutes = gql`
   query GetRoutes(
     $origin: String!
     $destination: String!
-    $car_id: String!
+    $car_id: Float!
     $car_charge: Float
     $chargers_limit: Float
     $charger_distance: Float
@@ -64,6 +65,7 @@ const getRoutes = gql`
       }
       Route {
         Total_kWh
+        Time_Difference
         Time
         Origin
         Distance

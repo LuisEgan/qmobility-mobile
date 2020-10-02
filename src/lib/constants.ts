@@ -9,6 +9,8 @@ export const ERRORS = {
   WRONG_PASSWORD: "Wrong password",
   USER_NOT_FOUND: "User not found",
   REQUIRED: "Mandatory field",
+  REQUIREDNUM: "Mandatory field or is not number",
+
   LOGIN_FAILED: "Login failed",
   EMPTY_EMAIL: "Please enter your email",
   EMPTY_PASSWORD: "Please enter your password",

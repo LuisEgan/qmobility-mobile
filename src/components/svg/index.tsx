@@ -58,6 +58,7 @@ import {
   Star,
   Timeline,
   Calendar,
+  EvStation,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -130,6 +131,7 @@ const icons = {
   Star: (props: Iicons) => <Star {...props} />,
   Timeline: (props: Iicons) => <Timeline {...props} />,
   Calendar: (props: Iicons) => <Calendar {...props} />,
+  EvStation: (props: Iicons) => <EvStation {...props} />,
 };
 
 const Icons = (props: Iicons) => {

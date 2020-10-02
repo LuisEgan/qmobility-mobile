@@ -68,8 +68,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
         variables: {
           origin: route.params.origin,
           destination: route.params.destination,
-          // car_id: `${eVe.user?.selectedVehicle?.Vehicle_ID}`,
-          car_id: "1107",
+          car_id: eVe.user?.selectedVehicle?.Vehicle_ID || 0,
         },
       });
     }
@@ -92,8 +91,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
       variables: {
         origin,
         destination,
-        car_id: "1107",
-        // car_id: `${eVe?.user.selectedVehicle?.Vehicle_ID}`,
+        car_id: eVe?.user?.selectedVehicle?.Vehicle_ID || 0,
       },
     });
   };
@@ -113,8 +111,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
       variables: {
         origin: start,
         destination: end,
-        car_id: "1107",
-        // car_id: `${eVe?.user.selectedVehicle?.Vehicle_ID}`,
+        car_id: eVe?.user?.selectedVehicle?.Vehicle_ID || 0,
       },
     });
   };
@@ -249,6 +246,10 @@ const MapSearchDone = (props: IMapSearchDone) => {
         startLocation={startDirection}
         endLocation={endDirection}
         onClosed={() => setStateModal(!stateModal)}
+        kwh={dataRoute?.getRoutes?.Route?.Total_kWh || 0}
+        totalDistance={dataRoute?.getRoutes?.Route?.Time_Difference || 0}
+        totalTime={dataRoute?.getRoutes?.Route?.Time || 0}
+        carId={eVe?.user?.selectedVehicle?.Vehicle_ID || 0}
       />
       <ModalChangeLoading stateModal={stateModalLoading} />
       <View style={styles.container}>
