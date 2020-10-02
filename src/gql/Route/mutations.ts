@@ -50,6 +50,22 @@ const saveMyRoute = gql`
   }
 `;
 
+export interface IDeleteMyRoute {
+  scala: string;
+}
+
+export interface IDeleteMyRouteVar {
+  myRouteId: string;
+}
+
+// * delete route
+const deleteMyRoute = gql`
+  mutation deleteMyRoute($myRouteId: String!) {
+    deleteMyRoute(myRouteId: $myRouteId)
+  }
+`;
+
 export default {
   saveMyRoute,
+  deleteMyRoute,
 };

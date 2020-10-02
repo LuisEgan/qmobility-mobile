@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
   View,
   Dimensions,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@apollo/client";
 import theme, { Text } from "../../../config/Theme";
 import Icons from "../../svg";
 import { ISavedRoute } from "../../../gql/Route/queries";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
+import { Route } from "../../../gql";
+import {
+  IDeleteMyRoute,
+  IDeleteMyRouteVar,
+} from "../../../gql/Route/mutations";
+
 const RouteListItem = (props: ISavedRoute) => {
   const { friendlyName, destination, origin, frequency, category, id } = props;
-  console.warn("RouteListItem -> id", id);
+
+  const [state, setState] = useState<boolean>(false);
 
   const { navigate } = useNavigation();
 
@@ -25,28 +34,59 @@ const RouteListItem = (props: ISavedRoute) => {
     });
   };
 
+  const [deleteMyRoutes] = useMutation<
+    { deleteMyRoutes: IDeleteMyRoute },
+    IDeleteMyRouteVar
+  >(Route.mutations.deleteMyRoute);
+
+  const onDelete = async () => {
+    try {
+      const variables = {
+        myRouteId: id,
+      };
+
+      const { data, errors } = await deleteMyRoutes({
+        variables,
+        refetchQueries: [
+          {
+            query: Route.queries.getMySaveRoute,
+          },
+        ],
+      });
+      if (errors) {
+        Alert.alert(`${errors}`, "", [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+        ]);
+      }
+      if (data?.deleteMyRoutes) {
+        setState(false);
+      }
+    } catch (error) {
+      // console.log("onSaveMyRouter -> error", error)
+    }
+  };
+
   const onAlert = () => {
-    Alert.alert(
-      `${friendlyName}`,
-      `${category}`,
-      [
-        {
-          text: "Delete",
-          onPress: () => console.warn("Delete"),
-          style: "destructive",
-        },
-        {
-          text: "Edit",
-          onPress: () => console.warn("Edit"),
-        },
-        {
-          text: "Cancel",
-          onPress: () => console.warn("Cancel"),
-          style: "cancel",
-        },
-      ],
-      { cancelable: false },
-    );
+    setState(true);
+    Alert.alert(`${friendlyName}`, `${category}`, [
+      {
+        text: "Delete",
+        onPress: () => onDelete(),
+        style: "destructive",
+      },
+      {
+        text: "Edit",
+        onPress: () => console.warn("Edit"),
+      },
+      {
+        text: "Cancel",
+        onPress: () => setState(false),
+        style: "cancel",
+      },
+    ]);
   };
 
   return (
@@ -58,7 +98,7 @@ const RouteListItem = (props: ISavedRoute) => {
             backgroundColor: theme.colors.grayLighter,
           },
         ]}
-        onPress={() => onNavigarionRoute()}
+        onPress={() => !state && onNavigarionRoute()}
       >
         <View style={styles.content}>
           <View style={styles.detailContent}>
@@ -79,9 +119,18 @@ const RouteListItem = (props: ISavedRoute) => {
               </Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.iconRight} onPress={() => onAlert()}>
-            <Icons icon="MoreVert" fill={theme.colors.primary} size={25} />
-          </TouchableOpacity>
+          {state ? (
+            <View style={styles.iconRight}>
+              <ActivityIndicator color={theme.colors.primary} />
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={styles.iconRight}
+              onPress={() => onAlert()}
+            >
+              <Icons icon="MoreVert" fill={theme.colors.primary} size={25} />
+            </TouchableOpacity>
+          )}
         </View>
       </TouchableOpacity>
     </View>

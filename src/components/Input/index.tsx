@@ -13,7 +13,7 @@ import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface IInput extends IComponentsDefaults {
-  onChange: (str: string) => void;
+  onChange?: (str: string) => void;
   value?: string;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   onForgotPass?: () => void;
@@ -52,7 +52,7 @@ const Input = (props: IInput) => {
   } = props;
 
   const onChange = (str: string) => {
-    onChangeProp(str);
+    if (onChangeProp) onChangeProp(str);
   };
 
   return (
