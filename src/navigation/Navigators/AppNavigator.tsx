@@ -15,6 +15,7 @@ import {
   Details,
   MapSearchDone,
   DetailsICE,
+  MyMatch,
 } from "../../screens/App";
 import { APP_STACK_SCREENS_NAMES } from "../../lib/constants";
 import { IUser } from "../../gql/User/Types";
@@ -22,7 +23,7 @@ import { User } from "../../gql";
 import { AuthContext } from "../AuthContext";
 import { FullScreenModal } from "../../screens/Feedback";
 
-interface IScreens extends Array<IScreen> {}
+type IScreens = Array<IScreen>;
 export const APP_STACK_SCREENS: IScreens = [
   {
     name: APP_STACK_SCREENS_NAMES.Main,
@@ -72,6 +73,10 @@ export const APP_STACK_SCREENS: IScreens = [
   {
     name: APP_STACK_SCREENS_NAMES.MapSearchDone,
     component: MapSearchDone,
+  },
+  {
+    name: APP_STACK_SCREENS_NAMES.MyMatch,
+    component: MyMatch,
   },
 ];
 

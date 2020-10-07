@@ -12,7 +12,7 @@ export interface IOption {
   category: ECategory;
 }
 
-export interface ICardOptions extends Array<IOption> {}
+export type ICardOptions = Array<IOption>;
 
 export interface IAnswers {
   // * question: category

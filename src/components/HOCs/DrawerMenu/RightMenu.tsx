@@ -13,7 +13,7 @@ import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 import Alert from "../../Alert";
 
-interface ListItems extends Array<IIconsListItem> {}
+type ListItems = Array<IIconsListItem>;
 
 interface IRightMenu extends IComponentsDefaults {
   onItemPress?: (navigateTo?: string) => void;

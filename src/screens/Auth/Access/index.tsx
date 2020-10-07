@@ -18,7 +18,7 @@ import { TAccessNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 const { height, width } = Dimensions.get("window");
 
-interface IAccess extends TAccessNavProps {}
+type IAccess = TAccessNavProps;
 
 const Access = (props: IAccess) => {
   const { navigation } = props;

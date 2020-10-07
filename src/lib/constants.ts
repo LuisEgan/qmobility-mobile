@@ -55,4 +55,5 @@ export const APP_STACK_SCREENS_NAMES = {
   Details: "Details",
   DetailsICE: "DetailsICE",
   MapSearchDone: "MapSearchDone",
+  MyMatch: "MyMatch",
 };

@@ -1,6 +1,6 @@
 import { ISlide } from "../../../components/Slider/Slide";
 
-interface ISlides extends Array<ISlide> {}
+type ISlides = Array<ISlide>;
 
 const slides = (images: string[]): ISlides => {
   const firstSlides: ISlides = [];

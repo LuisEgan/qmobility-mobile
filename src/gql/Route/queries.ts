@@ -94,7 +94,7 @@ export interface ISavedRoute {
   category: string;
   id: string;
 }
-export interface IGetMySaveRoute extends Array<ISavedRoute> {}
+export type IGetMySaveRoute = Array<ISavedRoute>;
 
 const getMySaveRoute = gql`
   query GetMySaveRoute {

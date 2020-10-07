@@ -4,9 +4,13 @@
     "browser": true,
     "es6": true
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    // Required for certain syntax usages
+    "ecmaVersion": 2020
+  },
   "extends": ["airbnb", "plugin:@typescript-eslint/recommended"],
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint", "@babel"],
   "settings": {
     "import/resolver": {
       "node": {
@@ -32,12 +36,14 @@
     "no-alert": "off",
     "react/prop-types": "off",
     "import/prefer-default-export": "off",
+    "react/require-default-props": "off",
+    "no-use-before-define": "off",
+    "react/no-unused-prop-types": "off",
+    "no-restricted-globals": "off",
+    "react/default-props-match-prop-types": "off",
+    "import/no-extraneous-dependencies": "off",
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "react/jsx-filename-extension": [2, { "extensions": [".ts", ".tsx"] }],
-    "no-use-before-define": [
-      "error",
-      { "functions": true, "classes": true, "variables": false }
-    ],
     "import/extensions": [
       "error",
       "ignorePackages",

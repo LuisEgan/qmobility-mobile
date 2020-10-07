@@ -13,8 +13,8 @@ import { TIcon } from "../svg/icons/TypeIcons";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface ICard extends IComponentsDefaults {
-  title: string;
-  subTitle?: string;
+  title: string | JSX.Element;
+  subTitle?: string | JSX.Element;
   icon?: TIcon;
   textColor?: string;
   contentStyle?: StyleProp<ViewStyle>;
@@ -51,23 +51,32 @@ const Card = (props: ICard) => {
               <Icons icon={icon} fill={theme.colors.primary} size={25} />
             </View>
           )}
-          <Text
-            variant="heading2"
-            style={[styles.text, titleStyle]}
-            color={textColor || theme.colors.white}
-          >
-            {title}
-          </Text>
+
+          {typeof title === "string" ? (
+            <Text
+              variant="heading2"
+              style={[styles.text, titleStyle]}
+              color={textColor || theme.colors.white}
+            >
+              {title}
+            </Text>
+          ) : (
+            title
+          )}
         </View>
-        {subTitle && (
-          <Text
-            variant="label"
-            style={[styles.text, subTitleStyle]}
-            color={textColor || theme.colors.white}
-          >
-            {subTitle}
-          </Text>
-        )}
+
+        {subTitle
+          && (typeof subTitle === "string" ? (
+            <Text
+              variant="label"
+              style={[styles.text, subTitleStyle]}
+              color={textColor || theme.colors.white}
+            >
+              {subTitle}
+            </Text>
+          ) : (
+            subTitle
+          ))}
       </TouchableOpacity>
     </View>
   );

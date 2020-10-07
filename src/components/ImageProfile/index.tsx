@@ -11,7 +11,7 @@ interface IImageProfile {
   label?: string;
   color: string;
   changePhotoOption?: boolean;
-  onLoadPhoto?: (photo: any) => void;
+  onLoadPhoto?: (photo: string) => void;
   avatarUrl?: string;
 }
 

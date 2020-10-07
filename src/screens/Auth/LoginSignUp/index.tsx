@@ -13,7 +13,7 @@ import { LoginSignUpLoadingContext } from "./LoginSignUpLoadingContext";
 
 const { height } = Dimensions.get("window");
 
-interface ILoginSignUp extends TLoginSignUpNavProps {}
+type ILoginSignUp = TLoginSignUpNavProps;
 
 const Tab = createMaterialTopTabNavigator();
 

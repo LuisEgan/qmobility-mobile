@@ -18,7 +18,7 @@ interface IGoogleSearch {
   onPress?: (details: TDetails) => void;
   onTypeCancel?: () => void;
   // TODO add proper type definition
-  containerStyle?: Object;
+  containerStyle?: Record<string, unknown>;
 }
 
 const GoogleSearch = (props: IGoogleSearch) => {

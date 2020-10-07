@@ -15,8 +15,8 @@ import {
 } from "../../lib/constants";
 import { FullScreenModal } from "../../screens/Feedback";
 
-interface IScreens extends Array<IScreen> {}
-export interface IAuthScreens extends Array<IScreen> {}
+type IScreens = Array<IScreen>;
+export type IAuthScreens = Array<IScreen>;
 export const AUTH_STACK_SCREENS: IScreens = [
   {
     name: AUTH_STACK_SCREENS_NAMES.Onboarding,

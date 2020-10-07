@@ -9,7 +9,7 @@ import perfectWeekend from "../../../assets/png/perfectWeekend.png";
 
 const { width } = Dimensions.get("window");
 
-interface ISlides extends Array<ISlide> {}
+type ISlides = Array<ISlide>;
 
 export interface IQuestions {
   // * question: multiplier
