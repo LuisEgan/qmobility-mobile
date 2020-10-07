@@ -92,17 +92,12 @@ const RouteListItem = (props: ISavedRoute) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={[
-          styles.containerButton,
-          {
-            backgroundColor: theme.colors.grayLighter,
-          },
-        ]}
+        style={styles.containerButton}
         onPress={() => !state && onNavigarionRoute()}
       >
         <View style={styles.content}>
           <View style={styles.detailContent}>
-            <Icons icon="Done" fill={theme.colors.primary} size={22} />
+            <Icons icon="Home" fill={theme.colors.primary} size={22} />
           </View>
           <View style={styles.detailContainer}>
             <View>
@@ -150,6 +145,7 @@ const styles = StyleSheet.create({
     height: 110,
     marginHorizontal: "5%",
     borderRadius: 10,
+    backgroundColor: theme.colors.grayLighter,
   },
   content: {
     flex: 1,
