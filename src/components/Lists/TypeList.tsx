@@ -6,6 +6,6 @@ export interface IRoute {
   details?: string;
 }
 
-interface IRoutesArray extends Array<IRoute> {}
+type IRoutesArray = Array<IRoute>;
 
 export type TList = IRoutesArray | undefined;

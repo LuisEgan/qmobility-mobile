@@ -109,7 +109,7 @@ const Map = (props: IMap) => {
     }, 100);
   };
 
-  const newMarker = (event: MapEvent<{}>) => {
+  const newMarker = (event: MapEvent<Record<string, unknown>>) => {
     let marker;
 
     if (markeeSelect.latitude === 0) {

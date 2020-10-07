@@ -18,3 +18,4 @@ export { default as GoogleSearch } from "./GoogleSearch";
 export { default as SearchEditRouter } from "./SearchEditRouter";
 export { default as Alert } from "./Alert";
 export { default as PhoneInput } from "./PhoneInput";
+export { default as CarCard } from "./CarCard";

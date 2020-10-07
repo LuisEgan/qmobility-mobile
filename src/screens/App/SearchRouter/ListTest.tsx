@@ -6,7 +6,7 @@ interface IList {
   subTitle?: string;
 }
 
-interface IListArray extends Array<IList> {}
+type IListArray = Array<IList>;
 
 const listFavorite: IListArray = [];
 

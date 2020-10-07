@@ -15,7 +15,7 @@ import { IUser } from "../../../gql/User/Types";
 
 const { width, height } = Dimensions.get("window");
 
-interface ListItems extends Array<IIconsListItem> {}
+type ListItems = Array<IIconsListItem>;
 
 interface ILeftMenu extends IComponentsDefaults {
   onItemPress?: (navigateTo?: string) => void;
@@ -58,12 +58,12 @@ const LeftMenu = (props: ILeftMenu) => {
       textColor: theme.colors.white,
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyCars),
     },
-    // {
-    //   text: "My Stats",
-    //   icon: "AssessMent",
-    //   textColor: "white",
-    //   onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Main),
-    // },
+    {
+      text: "My Stats",
+      icon: "AssessMent",
+      textColor: "white",
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyMatch),
+    },
     {
       text: "My Match",
       icon: "Star",

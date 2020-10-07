@@ -26,7 +26,7 @@ import { IUser } from "../../../gql/User/Types";
 
 const { height, width } = Dimensions.get("window");
 
-interface IMapSearchDone extends TMapSearchDoneNavProps {}
+type IMapSearchDone = TMapSearchDoneNavProps;
 
 const editNameCity = (nameCity: string): string => {
   if (nameCity.includes(".")) {

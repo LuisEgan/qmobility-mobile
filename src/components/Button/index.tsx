@@ -1,20 +1,20 @@
 import React from "react";
-import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { View, StyleSheet, ViewStyle } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import theme, { Text } from "../../config/Theme";
+import { IComponentsDefaults } from "../../lib/Types";
 import Icons from "../svg";
 
 import { TIcon } from "../svg/icons/TypeIcons";
 
 export type TVariant = "default" | "primary" | "secondary";
 
-interface IButton {
+interface IButton extends IComponentsDefaults {
   label: string;
   onPress: () => void;
   variant?: TVariant;
   iconRight?: TIcon;
   iconLeft?: TIcon;
-  containerStyle?: StyleProp<ViewStyle>;
   inverse?: boolean;
   enabled?: boolean;
 }

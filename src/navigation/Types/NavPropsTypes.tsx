@@ -8,7 +8,7 @@ type LoginSignUpFrom = 0 | 1;
 
 // * Screens Props Types
 type StackParamsList = {
-  "Terms and conditions": {};
+  "Terms and conditions": Record<string, unknown>;
   LoginSignUp: {
     from: LoginSignUpFrom;
   };
@@ -16,15 +16,15 @@ type StackParamsList = {
     userToken: string;
     userEmail: string;
   };
-  Access: {};
-  Login: {};
-  MyCars: {};
-  ProfileScroll: {};
+  Access: Record<string, unknown>;
+  Login: Record<string, unknown>;
+  MyCars: Record<string, unknown>;
+  ProfileScroll: Record<string, unknown>;
   CheckCar: {
     vehicleRecommendation: IVehicleRecommendation;
   };
-  MyRoutes: {};
-  Details: {};
+  MyRoutes: Record<string, unknown>;
+  Details: Record<string, unknown>;
   MapSearchDone: {
     location?: LatLng;
     origin: string;

@@ -64,7 +64,6 @@ const loginWithApple = gql`
   }
 `;
 
-export interface IEmailConfirmation {}
 export interface IEmailConfirmationVars {
   email: string;
   random4digits: number;

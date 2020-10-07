@@ -9,7 +9,6 @@ import { TEmailConfirmNavProps } from "../../../navigation/Types/NavPropsTypes";
 import theme, { Text } from "../../../config/Theme";
 import { AuthContext } from "../../../navigation/AuthContext";
 import {
-  IEmailConfirmation,
   IEmailConfirmationVars,
   IResendEmailVars,
 } from "../../../gql/User/mutations";
@@ -17,7 +16,7 @@ import { User } from "../../../gql";
 
 const { width } = Dimensions.get("window");
 
-interface IEmailConfirm extends TEmailConfirmNavProps {}
+type IEmailConfirm = TEmailConfirmNavProps;
 
 const EmailConfirm = (props: IEmailConfirm) => {
   const { route, navigation } = props;
@@ -31,7 +30,7 @@ const EmailConfirm = (props: IEmailConfirm) => {
   }, [navigation]);
 
   const [emailConfirmation, { data: emailConfirmationData }] = useMutation<
-    { emailConfirmation: IEmailConfirmation },
+    { emailConfirmation: Record<string, unknown> },
     IEmailConfirmationVars
   >(User.mutations.emailConfirmation);
 
@@ -39,7 +38,7 @@ const EmailConfirm = (props: IEmailConfirm) => {
     resendEmailConfirmation,
     { loading: resendLoading, called: resendCalled },
   ] = useMutation<
-    { resendEmailConfirmation: IEmailConfirmation },
+    { resendEmailConfirmation: Record<string, unknown> },
     IResendEmailVars
   >(User.mutations.resendEmailConfirmation);
 

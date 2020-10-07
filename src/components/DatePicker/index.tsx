@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Platform, StyleSheet } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker, { Event } from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import theme, { Text } from "../../config/Theme";
 import { dateToText } from "../../lib/dates";
 
 interface IDatePicker {
-  onChange?: (e: any) => void;
+  onChange?: (date: string | Date) => void;
   value?: string | Date;
   label?: string;
 }
@@ -25,13 +25,15 @@ const DatePicker = (props: IDatePicker) => {
     }
   }, [value]);
 
-  const onChange = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate || date || event;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
-    setIsFirstTime(false);
+  const onChange = (event: Event, selectedDate?: Date) => {
+    if (event) {
+      const currentDate = selectedDate || date;
+      setShow(Platform.OS === "ios");
+      setIsFirstTime(false);
 
-    if (onChangeProp) onChangeProp(currentDate);
+      setDate(currentDate);
+      if (onChangeProp) onChangeProp(currentDate);
+    }
   };
 
   return (

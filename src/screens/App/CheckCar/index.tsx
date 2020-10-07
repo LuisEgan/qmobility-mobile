@@ -8,7 +8,7 @@ import { TCheckCarNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 const { width } = Dimensions.get("window");
 
-interface ICheckCar extends TCheckCarNavProps {}
+type ICheckCar = TCheckCarNavProps;
 
 const CheckCar = (props: ICheckCar) => {
   const {
