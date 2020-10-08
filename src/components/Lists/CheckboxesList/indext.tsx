@@ -42,8 +42,8 @@ const CheckboxesList = (props: ICheckboxesList) => {
       {options.map((o) => (
         <View key={o} style={{ flexDirection: "row", alignItems: "center" }}>
           <CheckBox
-            value={selectedValues.includes(o)}
-            onValueChange={(v) => onValueChange(v, o)}
+            checked={selectedValues.includes(o)}
+            onPress={() => onValueChange(!selectedValues.includes(o), o)}
           />
           <Text>{o}</Text>
         </View>
