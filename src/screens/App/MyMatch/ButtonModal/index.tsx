@@ -13,11 +13,15 @@ const ButtonModal = (props: IButtonModal) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => onPressCancel && onPressCancel()}>
-        <Text color="primary">Cancel</Text>
+        <Text style={styles.text} color="primary">
+          Cancel
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => onPressDone && onPressDone()}>
-        <Text color="secondaryDark">Done</Text>
+        <Text style={styles.text} color="secondaryDark">
+          Done
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -29,5 +33,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  text: {
+    fontSize: 16,
   },
 });

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { CheckBox } from "react-native-elements";
-import { Text } from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 
 export type TCheckboxesOptions = Array<string | number>;
 
@@ -37,15 +37,16 @@ const CheckboxesList = (props: ICheckboxesList) => {
 
   return (
     <View style={styles.container}>
-      <Text>{label}</Text>
-
+      <Text style={styles.title}>{label}</Text>
       {options.map((o) => (
-        <View key={o} style={{ flexDirection: "row", alignItems: "center" }}>
+        <View key={o} style={styles.contentCheckBox}>
           <CheckBox
             checked={selectedValues.includes(o)}
             onPress={() => onValueChange(!selectedValues.includes(o), o)}
+            uncheckedColor={theme.colors.grayLight}
+            size={30}
           />
-          <Text>{o}</Text>
+          <Text style={styles.text}>{o}</Text>
         </View>
       ))}
     </View>
@@ -55,5 +56,19 @@ const CheckboxesList = (props: ICheckboxesList) => {
 export default CheckboxesList;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    marginTop: 10,
+  },
+  title: {
+    fontSize: 14,
+    color: "#707070",
+  },
+  contentCheckBox: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 16,
+    color: "#1D2226",
+  },
 });

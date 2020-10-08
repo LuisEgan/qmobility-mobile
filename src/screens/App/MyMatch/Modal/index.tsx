@@ -10,6 +10,7 @@ import { Icons, Input } from "../../../../components";
 import theme, { Text } from "../../../../config/Theme";
 import ButtonModal from "../ButtonModal";
 import Recomendation from "../Recomendation";
+import Price from "../Price";
 
 import CheckboxesList, {
   TCheckboxesOptions,
@@ -31,19 +32,13 @@ const Modal = (props: IModal) => {
   const [seats, setSeats] = useState<TCheckboxesOptions>([]);
 
   return (
-    <View style={styles.containerModal}>
+    <View style={styles.container}>
       <ScrollView style={styles.scroll}>
         <ButtonModal onPressCancel={() => onPressModal && onPressModal()} />
 
         <Recomendation />
 
-        <View>
-          <Text>Price</Text>
-          <View style={styles.modalContentInput}>
-            <Input placeholder="Min" containerStyle={styles.modalInputMin} />
-            <Input placeholder="Max" containerStyle={styles.modalInputMax} />
-          </View>
-        </View>
+        <Price />
 
         <View>
           <CheckboxesList
@@ -61,9 +56,13 @@ const Modal = (props: IModal) => {
           />
         </View>
 
-        <TouchableOpacity style={styles.modalResetContent}>
+        <View style={styles.line} />
+
+        <TouchableOpacity style={styles.contentReset}>
           <Icons icon="Cancel" size={20} fill="red" />
-          <Text variant="error">Reset filters</Text>
+          <Text variant="error" style={styles.text}>
+            Reset filters
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -73,9 +72,7 @@ const Modal = (props: IModal) => {
 export default Modal;
 
 const styles = StyleSheet.create({
-  container: {},
-  // MODAL
-  containerModal: {
+  container: {
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
@@ -87,30 +84,25 @@ const styles = StyleSheet.create({
   scroll: {
     marginTop: height * 0.05,
     height: height * 0.95,
-    width: width * 0.8,
+    width: width * 0.92,
     backgroundColor: theme.colors.white,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     paddingHorizontal: 25,
     paddingVertical: 15,
   },
-  modalContentInput: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  line: {
+    marginTop: 10,
+    borderTopWidth: 0.5,
+    borderTopColor: theme.colors.grayLight,
   },
-  modalInputMax: {
-    flex: 1,
-    marginVertical: 0,
-  },
-  modalInputMin: {
-    flex: 1,
-    marginRight: 15,
-    marginVertical: 0,
-  },
-
-  modalResetContent: {
+  contentReset: {
     flexDirection: "row",
     alignItems: "center",
-    paddingBottom: height * 0.1,
+    marginTop: height * 0.04,
+    paddingBottom: height * 0.06,
+  },
+  text: {
+    fontSize: 16,
   },
 });
