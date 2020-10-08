@@ -26,6 +26,7 @@ const Card = () => {
           style={styles.cardTitleText}
           color={theme.colors.white}
         >
+          {" "}
           Mi
         </Text>
       </View>
@@ -40,7 +41,7 @@ const Card = () => {
 
       <TouchableOpacity
         style={styles.cardSubContent}
-        onPress={() => navigate(APP_STACK_SCREENS_NAMES.MyRoutes)}
+        onPress={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
       >
         <Icons icon="Edit" size={15} fill={theme.colors.primary} />
 

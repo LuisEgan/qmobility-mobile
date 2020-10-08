@@ -101,7 +101,7 @@ const CarCard = (props: ICarCard) => {
               inverse
               containerStyle={[styles.button, { marginLeft: 10 }]}
               variant="primary"
-              label="CHOOSE CAR"
+              label="FILTER"
               onPress={onPressSecondary}
             />
           )}

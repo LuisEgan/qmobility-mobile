@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { CheckBox } from "react-native-elements";

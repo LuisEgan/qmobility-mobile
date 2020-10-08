@@ -12,7 +12,7 @@ const { height, width } = Dimensions.get("window");
 
 const MyMatch = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [showFilter, setShowFilter] = useState<boolean>(true);
+  const [showFilter, setShowFilter] = useState<boolean>(false);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -36,8 +36,6 @@ const MyMatch = () => {
         <View style={styles.content}>
           <Card />
 
-          <Button label="filter" onPress={() => setShowFilter(true)} />
-
           <ScrollView
             horizontal
             style={[styles.scrollViewContainer, styles.scrollView]}
@@ -47,21 +45,29 @@ const MyMatch = () => {
             showsHorizontalScrollIndicator={false}
           >
             <CarCard
+              onPressPrimary={() => console.warn("choose")}
+              onPressSecondary={() => setShowFilter(true)}
               containerStyle={[styles.scrollView, styles.card]}
               imgUri="https://i.ytimg.com/vi/YUs7CabKBkg/hqdefault.jpg"
               contentStyle={styles.cardContent}
             />
             <CarCard
+              onPressPrimary={() => console.warn("choose")}
+              onPressSecondary={() => setShowFilter(true)}
               containerStyle={[styles.scrollView, styles.card]}
               imgUri="https://i.ytimg.com/vi/YUs7CabKBkg/hqdefault.jpg"
               contentStyle={styles.cardContent}
             />
             <CarCard
+              onPressPrimary={() => console.warn("choose")}
+              onPressSecondary={() => setShowFilter(true)}
               containerStyle={[styles.scrollView, styles.card]}
               imgUri="https://i.ytimg.com/vi/YUs7CabKBkg/hqdefault.jpg"
               contentStyle={styles.cardContent}
             />
             <CarCard
+              onPressPrimary={() => console.warn("choose")}
+              onPressSecondary={() => setShowFilter(true)}
               containerStyle={[styles.scrollView, styles.card]}
               imgUri="https://i.ytimg.com/vi/YUs7CabKBkg/hqdefault.jpg"
               contentStyle={styles.cardContent}
