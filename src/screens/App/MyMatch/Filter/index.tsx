@@ -6,18 +6,19 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { Icons, Input } from "../../../../components";
+import { Icons } from "../../../../components";
 import theme, { Text } from "../../../../config/Theme";
-import ButtonModal from "../ButtonModal";
-import Recomendation from "../Recomendation";
-import Price from "../Price";
 
 import CheckboxesList, {
   TCheckboxesOptions,
 } from "../../../../components/Lists/CheckboxesList/indext";
+import Price from "./Price";
+import Recomendation from "./Recommendation";
+import ButtonsFilter from "./ButtonsFilter";
 
-interface IModal {
-  onPressModal?: () => void;
+interface IFilter {
+  onCancel?: () => void;
+  onDone?: () => void;
 }
 
 const bodyTypesOptions = ["Cabriolet", "Hatchback", "SUV", "Other"];
@@ -25,8 +26,8 @@ const seatsOptions = [2, 4, 5, 7];
 
 const { height, width } = Dimensions.get("window");
 
-const Modal = (props: IModal) => {
-  const { onPressModal } = props;
+const Filter = (props: IFilter) => {
+  const { onCancel } = props;
 
   const [bodyTypes, setBodyTypes] = useState<TCheckboxesOptions>([]);
   const [seats, setSeats] = useState<TCheckboxesOptions>([]);
@@ -34,7 +35,7 @@ const Modal = (props: IModal) => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
-        <ButtonModal onPressCancel={() => onPressModal && onPressModal()} />
+        <ButtonsFilter onPressCancel={() => onCancel && onCancel()} />
 
         <Recomendation />
 
@@ -69,7 +70,7 @@ const Modal = (props: IModal) => {
   );
 };
 
-export default Modal;
+export default Filter;
 
 const styles = StyleSheet.create({
   container: {

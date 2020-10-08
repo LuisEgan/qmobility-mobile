@@ -6,13 +6,13 @@ import { DrawerLeftMenu } from "../../../components/HOCs";
 import theme from "../../../config/Theme";
 
 import Card from "./Card";
-import Modal from "./Modal";
+import Filter from "./Filter";
 
 const { height, width } = Dimensions.get("window");
 
 const MyMatch = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [showModal, setShowModal] = useState<boolean>(true);
+  const [showFilter, setShowFilter] = useState<boolean>(true);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -23,7 +23,7 @@ const MyMatch = () => {
       isDrawerOpen={isDrawerOpen}
       onDrawerToggle={setIsDrawerOpen}
     >
-      {showModal && <Modal onPressModal={() => setShowModal(false)} />}
+      {showFilter && <Filter onCancel={() => setShowFilter(false)} />}
 
       <View style={styles.container}>
         <Header
@@ -36,7 +36,7 @@ const MyMatch = () => {
         <View style={styles.content}>
           <Card />
 
-          <Button label="filter" onPress={() => setShowModal(true)} />
+          <Button label="filter" onPress={() => setShowFilter(true)} />
 
           <ScrollView
             horizontal

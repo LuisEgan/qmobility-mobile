@@ -2,12 +2,12 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "../../../../config/Theme";
 
-interface IButtonModal {
+interface IButtonsFilter {
   onPressCancel?: () => void;
   onPressDone?: () => void;
 }
 
-const ButtonModal = (props: IButtonModal) => {
+const ButtonsFilter = (props: IButtonsFilter) => {
   const { onPressCancel, onPressDone } = props;
 
   return (
@@ -27,7 +27,7 @@ const ButtonModal = (props: IButtonModal) => {
   );
 };
 
-export default ButtonModal;
+export default ButtonsFilter;
 
 const styles = StyleSheet.create({
   container: {

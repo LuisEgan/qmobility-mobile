@@ -22,6 +22,8 @@ interface ICarCard extends IComponentsDefaults {
   imgUri: string;
   contentStyle?: StyleProp<ViewStyle>;
   imageStyle?: StyleProp<ViewStyle>;
+  onPressPrimary: () => void;
+  onPressSecondary?: () => void;
 }
 
 const CarCard = (props: ICarCard) => {
@@ -32,6 +34,8 @@ const CarCard = (props: ICarCard) => {
     imgUri,
     contentStyle,
     imageStyle,
+    onPressPrimary,
+    onPressSecondary,
   } = props;
 
   return (
@@ -89,16 +93,18 @@ const CarCard = (props: ICarCard) => {
             containerStyle={styles.button}
             variant="primary"
             label="CHOOSE CAR"
-            onPress={() => console.warn("Car")}
+            onPress={onPressPrimary}
           />
 
-          <Button
-            inverse
-            containerStyle={[styles.button, { marginLeft: 10 }]}
-            variant="primary"
-            label="CHOOSE CAR"
-            onPress={() => console.warn("Car")}
-          />
+          {onPressSecondary && (
+            <Button
+              inverse
+              containerStyle={[styles.button, { marginLeft: 10 }]}
+              variant="primary"
+              label="CHOOSE CAR"
+              onPress={onPressSecondary}
+            />
+          )}
         </View>
       </View>
     </View>
