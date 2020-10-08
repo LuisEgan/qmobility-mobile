@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from "react";
-import CheckBox from "@react-native-community/checkbox";
 import { View, StyleSheet } from "react-native";
+import { CheckBox } from "react-native-elements";
 import { Text } from "../../../config/Theme";
 
 export type TCheckboxesOptions = Array<string | number>;
