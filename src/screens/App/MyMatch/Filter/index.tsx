@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import { QueryLazyOptions } from "@apollo/client";
 import { Icons } from "../../../../components";
 import theme, { Text } from "../../../../config/Theme";
 
@@ -15,37 +16,106 @@ import CheckboxesList, {
 import Price from "./Price";
 import Recomendation from "./Recommendation";
 import ButtonsFilter from "./ButtonsFilter";
+import { IGetVehiclesVars } from "../../../../gql/Vehicle/queries";
 
 interface IFilter {
+  show: boolean;
+  getVehicles: (
+    options?: QueryLazyOptions<IGetVehiclesVars> | undefined,
+  ) => void;
   onCancel?: () => void;
   onDone?: () => void;
+  onRangeMinChange: (min: number) => void;
+  onRangeMaxChange: (min: number) => void;
+  setShowFilter: (show: boolean) => void;
+  initMin: number;
+  initMax: number;
 }
 
-const bodyTypesOptions = ["Cabriolet", "Hatchback", "SUV", "Other"];
+const bodyTypeOptions = ["Cabriolet", "Hatchback", "SUV", "Other"];
 const seatsOptions = [2, 4, 5, 7];
 
 const { height, width } = Dimensions.get("window");
 
 const Filter = (props: IFilter) => {
-  const { onCancel } = props;
+  const {
+    show,
+    setShowFilter,
+    onDone,
+    onCancel,
+    onRangeMinChange: onRangeMinChangeProp,
+    onRangeMaxChange: onRangeMaxChangeProp,
+    getVehicles,
+    initMin,
+    initMax,
+  } = props;
 
-  const [bodyTypes, setBodyTypes] = useState<TCheckboxesOptions>([]);
+  const [rangeMin, setRangeMin] = useState<number>(initMin);
+  const [rangeMax, setRangeMax] = useState<number>(initMax);
+  const [bodyType, setBodyType] = useState<TCheckboxesOptions>([]);
   const [seats, setSeats] = useState<TCheckboxesOptions>([]);
 
-  return (
-    <View style={styles.container}>
-      <ScrollView style={styles.scroll}>
-        <ButtonsFilter onPressCancel={() => onCancel && onCancel()} />
+  const getNewVehicles = () => {
+    const variables: IGetVehiclesVars = {
+      rangeMin,
+      rangeMax,
+      limit: 5,
+    };
 
-        <Recomendation />
+    if (bodyType.length) {
+      variables.bodyType = bodyType as string[];
+    }
+    if (seats.length) {
+      variables.seats = seats as number[];
+    }
+
+    getVehicles({
+      variables,
+    });
+
+    setShowFilter(false);
+  };
+
+  const onPressDone = () => {
+    if (onDone) onDone();
+    getNewVehicles();
+  };
+
+  const onRangeMinChange = (value: number) => {
+    onRangeMinChangeProp(value);
+    setRangeMin(value);
+  };
+
+  const onRangeMaxChange = (value: number) => {
+    onRangeMaxChangeProp(value);
+    setRangeMax(value);
+  };
+
+  const resetFilter = () => {
+    setBodyType([]);
+    setSeats([]);
+  };
+
+  return (
+    <View style={[styles.container, { opacity: show ? 1 : 0 }]}>
+      <ScrollView style={styles.scroll}>
+        <ButtonsFilter
+          onPressCancel={() => onCancel && onCancel()}
+          onPressDone={onPressDone}
+        />
+
+        <Recomendation
+          {...{ onRangeMinChange, onRangeMaxChange, initMin, initMax }}
+        />
 
         <Price />
 
         <View>
           <CheckboxesList
-            options={bodyTypesOptions}
-            onChange={setBodyTypes}
+            options={bodyTypeOptions}
+            onChange={setBodyType}
             label="Body Type"
+            values={bodyType}
           />
         </View>
 
@@ -54,12 +124,13 @@ const Filter = (props: IFilter) => {
             options={seatsOptions}
             onChange={setSeats}
             label="Minimum seats"
+            values={seats}
           />
         </View>
 
         <View style={styles.line} />
 
-        <TouchableOpacity style={styles.contentReset}>
+        <TouchableOpacity style={styles.contentReset} onPress={resetFilter}>
           <Icons icon="Cancel" size={20} fill="red" />
           <Text variant="error" style={styles.text}>
             Reset filters

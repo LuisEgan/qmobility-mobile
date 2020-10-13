@@ -7,10 +7,10 @@ import {
   StyleProp,
   ViewStyle,
 } from "react-native";
-import Icons from "../svg";
-import theme, { Text } from "../../config/Theme";
-import { TIcon } from "../svg/icons/TypeIcons";
-import { IComponentsDefaults } from "../../lib/Types";
+import Icons from "../../svg";
+import theme, { Text } from "../../../config/Theme";
+import { TIcon } from "../../svg/icons/TypeIcons";
+import { IComponentsDefaults } from "../../../lib/Types";
 
 interface ICard extends IComponentsDefaults {
   title: string | JSX.Element;

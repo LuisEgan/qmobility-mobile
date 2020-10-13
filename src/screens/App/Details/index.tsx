@@ -15,8 +15,8 @@ import slides from "./slides";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
-import { numberWithDots } from "../../../lib/strings";
 import { kmToMiles } from "../../../lib/numbers";
+import { numberWithDots } from "../../../lib/strings";
 
 const { height, width } = Dimensions.get("window");
 
@@ -188,38 +188,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: "1%",
     marginRight: 15,
-  },
-  line: {
-    borderLeftWidth: 1,
-    height: 60,
-    alignSelf: "flex-end",
-    marginBottom: 10,
-  },
-  card: {
-    marginVertical: "5%",
-    borderRadius: 10,
-    borderWidth: 1,
-    height: 122,
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-  cardContent: {
-    justifyContent: "center",
-    flex: 1,
-    alignItems: "center",
-  },
-  cardBody: {
-    width: "100%",
-    alignItems: "center",
-  },
-  cardBodyContent: {
-    flexDirection: "row",
-    marginTop: "10%",
-    justifyContent: "center",
-  },
-  cardType: {
-    alignSelf: "flex-end",
-    opacity: 0.25,
   },
   button: {
     marginHorizontal: "5%",

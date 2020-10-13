@@ -62,13 +62,13 @@ const LeftMenu = (props: ILeftMenu) => {
       text: "My Stats",
       icon: "AssessMent",
       textColor: "white",
-      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyMatch),
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Activty),
     },
     {
       text: "My Match",
       icon: "Star",
       textColor: theme.colors.white,
-      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.Details),
+      onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyMatch),
     },
   ];
 

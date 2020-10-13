@@ -8,11 +8,13 @@ const Price = () => (
     <Text style={styles.title}>Price</Text>
     <View style={styles.contentInput}>
       <Input
+        isNumber
         placeholder="Min"
         containerStyle={styles.inputMin}
         inputStyle={styles.input}
       />
       <Input
+        isNumber
         placeholder="Max"
         containerStyle={styles.inputMax}
         inputStyle={styles.input}

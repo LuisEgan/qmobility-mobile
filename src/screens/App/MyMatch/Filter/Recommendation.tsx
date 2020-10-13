@@ -5,15 +5,45 @@ import theme, { Text } from "../../../../config/Theme";
 
 const { width } = Dimensions.get("window");
 
-const Recomendation = () => {
-  const [fromValue, setFromValue] = useState(0);
-  const [toValue, setToValue] = useState(500);
+interface IRecommendation {
+  onRangeMinChange?: (min: number) => void;
+  onRangeMaxChange?: (min: number) => void;
+  initMin?: number;
+  initMax?: number;
+}
+
+const Recomendation = (props: IRecommendation) => {
+  const {
+    onRangeMinChange,
+    onRangeMaxChange,
+    initMin = 0,
+    initMax = 500,
+  } = props;
+
+  const [fromValue, setFromValue] = useState(initMin);
+  const [toValue, setToValue] = useState(initMax);
+
+  const fromValueOnChange = (value: number) => {
+    setFromValue(value);
+
+    if (onRangeMinChange) {
+      onRangeMinChange(value);
+    }
+  };
+
+  const toValueOnChange = (value: number) => {
+    setToValue(value);
+
+    if (onRangeMaxChange) {
+      onRangeMaxChange(value);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Text color={theme.colors.white}>eVe Recommendation</Text>
-        <Text color={theme.colors.white}>100 - 250 km</Text>
+        <Text color={theme.colors.white}>100 - 250 mi</Text>
       </View>
 
       <Text style={{ padding: 10, color: "#707070", fontSize: 14 }}>
@@ -21,22 +51,23 @@ const Recomendation = () => {
       </Text>
 
       <View style={styles.slider}>
-        <Text style={styles.text}>0 km</Text>
+        <Text style={styles.text}>0 mi</Text>
 
         <RangeSlider
           min={0}
           max={500}
+          initialToValue={initMax}
+          initialFromValue={initMin}
           inRangeBarColor={theme.colors.primary}
           rangeLabelsTextColor={theme.colors.primary}
           outOfRangeBarColor="#D2F6FD"
-          fromValueOnChange={(value) => setFromValue(value)}
-          toValueOnChange={(value) => setToValue(value)}
-          initialFromValue={7}
+          fromValueOnChange={fromValueOnChange}
+          toValueOnChange={toValueOnChange}
           styleSize="small"
           showRangeLabels={false}
         />
 
-        <Text style={styles.text}>500 km</Text>
+        <Text style={styles.text}>500 mi</Text>
       </View>
       <View
         style={{

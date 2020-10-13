@@ -71,9 +71,67 @@ const vehicleRecommendation = gql`
   }
 `;
 
+export interface IGetVehiclesVars {
+  rangeMin: number;
+  rangeMax: number;
+  Vehicle_Make?: string;
+  Vehicle_Model?: string;
+  skip?: number;
+  limit?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  seats?: number[];
+  bodyType?: string[];
+}
+
+const getVehicles = gql`
+  query getVehicles(
+    $Vehicle_Make: String
+    $Vehicle_Model: String
+    $skip: Float
+    $limit: Float
+    $minPrice: Float
+    $maxPrice: Float
+    $seats: [Float!]
+    $bodyType: [String!]
+    $rangeMin: Float
+    $rangeMax: Float
+  ) {
+    vehicles(
+      vehicleSearchInput: {
+        Vehicle_Make: $Vehicle_Make
+        Vehicle_Model: $Vehicle_Model
+        skip: $skip
+        limit: $limit
+        minPrice: $minPrice
+        maxPrice: $maxPrice
+        seats: $seats
+        bodyType: $bodyType
+        rangeMax: $rangeMax
+        rangeMin: $rangeMin
+      }
+    ) {
+      Vehicle_ID
+      Vehicle_Make
+      Vehicle_Model
+      Vehicle_Model_Version
+      Misc_Seats
+      Range_Real
+      Availability_Status
+      Availability_Date_From
+      id
+      Price_From_UK
+      Misc_Seats
+      Misc_Body
+      Images
+    }
+  }
+`;
+
 export default {
   vehiclesMakes,
   vehicleMakeModels,
   iceVehicle,
   vehicleRecommendation,
+  getVehicles,
 };

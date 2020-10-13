@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import theme, { Text } from "../../config/Theme";
+import { onlyNumbersFormatter } from "../../lib/strings";
 import { IComponentsDefaults } from "../../lib/Types";
 
 interface IInput extends IComponentsDefaults {
@@ -37,6 +38,7 @@ const Input = (props: IInput) => {
     onBlur,
     onForgotPass,
     formatter,
+    isNumber,
     label,
     placeholder,
     value,
@@ -62,9 +64,15 @@ const Input = (props: IInput) => {
       <TextInput
         style={[styles.inputStyle, inputStyle]}
         editable={!disabled}
+        keyboardType={isNumber ? "phone-pad" : "default"}
         value={value}
         onChangeText={(str: string) => {
-          const newStr = formatter ? formatter(str) : str;
+          let newStr = formatter ? formatter(str) : str;
+
+          if (isNumber) {
+            newStr = onlyNumbersFormatter(newStr);
+          }
+
           onChange(newStr);
         }}
         placeholderTextColor={theme.colors.defautlInput}

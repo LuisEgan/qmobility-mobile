@@ -8,8 +8,8 @@ import {
   TextStyle,
   TouchableOpacity,
 } from "react-native";
-import theme, { Text } from "../../config/Theme";
-import { IComponentsDefaults } from "../../lib/Types";
+import theme, { Text } from "../../../config/Theme";
+import { IComponentsDefaults } from "../../../lib/Types";
 
 interface ICardImage extends IComponentsDefaults {
   onPress?: () => void;

@@ -8,6 +8,8 @@ export const getFirstDecimalNumber = (num: number): number => {
 
 export const upperCaseFormatter = (str: string) => str.toUpperCase();
 
+export const onlyNumbersFormatter = (str: string) => str.replace(/[^0-9]/g, "");
+
 export const cleanPhoneNumber = (phone: string): string =>
   (phone.includes("+") ? phone.substring(3) : phone);
 

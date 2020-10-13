@@ -1,18 +1,44 @@
-import React, { useState } from "react";
+import { useLazyQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Button, CarCard, Header } from "../../../components";
+import { CarCard, Header } from "../../../components";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import theme from "../../../config/Theme";
+import Vehicle from "../../../gql/Vehicle";
+import { IGetVehiclesVars } from "../../../gql/Vehicle/queries";
+import { IVehicle } from "../../../gql/Vehicle/Types";
+import ModalChangeLoading from "../MapSearchDone/ModalChangeLoading";
 
 import Card from "./Card";
 import Filter from "./Filter";
 
 const { height, width } = Dimensions.get("window");
 
+const RANGE_MIN = 100;
+const RANGE_MAX = 250;
+
 const MyMatch = () => {
+  const [getVehicles, { data: eVes, loading }] = useLazyQuery<
+    { vehicles: IVehicle[] },
+    IGetVehiclesVars
+  >(Vehicle.queries.getVehicles);
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showFilter, setShowFilter] = useState<boolean>(false);
+
+  const [rangeMin, setRangeMin] = useState<number>(RANGE_MIN);
+  const [rangeMax, setRangeMax] = useState<number>(RANGE_MAX);
+
+  useEffect(() => {
+    getVehicles({
+      variables: {
+        rangeMin: RANGE_MIN,
+        rangeMax: RANGE_MAX,
+        limit: 5,
+      },
+    });
+  }, []);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -23,7 +49,18 @@ const MyMatch = () => {
       isDrawerOpen={isDrawerOpen}
       onDrawerToggle={setIsDrawerOpen}
     >
-      {showFilter && <Filter onCancel={() => setShowFilter(false)} />}
+      <ModalChangeLoading stateModal={loading} />
+
+      <Filter
+        show={showFilter}
+        setShowFilter={(show) => setShowFilter(show)}
+        getVehicles={getVehicles}
+        onCancel={() => setShowFilter(false)}
+        onRangeMinChange={setRangeMin}
+        onRangeMaxChange={setRangeMax}
+        initMin={RANGE_MIN}
+        initMax={RANGE_MAX}
+      />
 
       <View style={styles.container}>
         <Header
@@ -34,7 +71,7 @@ const MyMatch = () => {
         />
 
         <View style={styles.content}>
-          <Card />
+          <Card rangeMin={rangeMin} rangeMax={rangeMax} />
 
           <ScrollView
             horizontal
@@ -44,34 +81,16 @@ const MyMatch = () => {
             decelerationRate={0}
             showsHorizontalScrollIndicator={false}
           >
-            <CarCard
-              onPressPrimary={() => console.warn("choose")}
-              onPressSecondary={() => setShowFilter(true)}
-              containerStyle={[styles.scrollView, styles.card]}
-              imgUri="https://i.ytimg.com/vi/YUs7CabKBkg/hqdefault.jpg"
-              contentStyle={styles.cardContent}
-            />
-            <CarCard
-              onPressPrimary={() => console.warn("choose")}
-              onPressSecondary={() => setShowFilter(true)}
-              containerStyle={[styles.scrollView, styles.card]}
-              imgUri="https://i.ytimg.com/vi/YUs7CabKBkg/hqdefault.jpg"
-              contentStyle={styles.cardContent}
-            />
-            <CarCard
-              onPressPrimary={() => console.warn("choose")}
-              onPressSecondary={() => setShowFilter(true)}
-              containerStyle={[styles.scrollView, styles.card]}
-              imgUri="https://i.ytimg.com/vi/YUs7CabKBkg/hqdefault.jpg"
-              contentStyle={styles.cardContent}
-            />
-            <CarCard
-              onPressPrimary={() => console.warn("choose")}
-              onPressSecondary={() => setShowFilter(true)}
-              containerStyle={[styles.scrollView, styles.card]}
-              imgUri="https://i.ytimg.com/vi/YUs7CabKBkg/hqdefault.jpg"
-              contentStyle={styles.cardContent}
-            />
+            {eVes?.vehicles.map((e) => (
+              <CarCard
+                eVe={e}
+                key={e.Vehicle_ID}
+                onPressPrimary={() => console.warn("choose")}
+                onPressSecondary={() => setShowFilter(true)}
+                containerStyle={[styles.scrollView, styles.card]}
+                contentStyle={styles.cardContent}
+              />
+            ))}
           </ScrollView>
         </View>
       </View>
@@ -82,6 +101,9 @@ const MyMatch = () => {
 export default MyMatch;
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: theme.colors.white,
+  },
   container: {
     ...StyleSheet.absoluteFillObject,
     flex: 1,
@@ -102,8 +124,5 @@ const styles = StyleSheet.create({
   cardContent: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-  },
-  header: {
-    backgroundColor: theme.colors.white,
   },
 });

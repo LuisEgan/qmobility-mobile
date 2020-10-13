@@ -43,6 +43,7 @@ export const AUTH_STACK_SCREENS_NAMES = {
 };
 
 export const APP_STACK_SCREENS_NAMES = {
+  Activty: "Activty",
   CreateProfile: "CreateProfile",
   MyCars: "MyCars",
   ProfileScroll: "ProfileScroll",

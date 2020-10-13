@@ -7,19 +7,20 @@ import {
   ViewStyle,
   Dimensions,
 } from "react-native";
-import theme, { Text } from "../../config/Theme";
-import { kmToMiles } from "../../lib/numbers";
-import { numberWithDots } from "../../lib/strings";
-import { IComponentsDefaults } from "../../lib/Types";
-import Button from "../Button";
-import Icons from "../svg";
+import theme, { Text } from "../../../config/Theme";
+import { IVehicle } from "../../../gql/Vehicle/Types";
+import { kmToMiles } from "../../../lib/numbers";
+import { numberWithDots } from "../../../lib/strings";
+import { IComponentsDefaults } from "../../../lib/Types";
+import Button from "../../Button";
+import Icons from "../../svg";
 
 const { width } = Dimensions.get("window");
 
 interface ICarCard extends IComponentsDefaults {
+  eVe: IVehicle;
   height?: number;
   width?: number;
-  imgUri: string;
   contentStyle?: StyleProp<ViewStyle>;
   imageStyle?: StyleProp<ViewStyle>;
   onPressPrimary: () => void;
@@ -28,10 +29,10 @@ interface ICarCard extends IComponentsDefaults {
 
 const CarCard = (props: ICarCard) => {
   const {
+    eVe,
     containerStyle,
     height: heightProp,
     width: widthProp,
-    imgUri,
     contentStyle,
     imageStyle,
     onPressPrimary,
@@ -50,14 +51,16 @@ const CarCard = (props: ICarCard) => {
         <ImageBackground
           style={styles.image}
           source={{
-            uri: imgUri,
+            uri: eVe?.Images ? eVe?.Images[0] : "",
           }}
         />
       </View>
 
       <View style={[styles.content, contentStyle]}>
         <Text variant="heading2" color="primaryDark">
-          Nissan Leaf
+          {eVe?.Vehicle_Make}
+          {" "}
+          {eVe?.Vehicle_Model}
         </Text>
 
         <Text>Full make information</Text>
@@ -67,21 +70,21 @@ const CarCard = (props: ICarCard) => {
           <View style={styles.textIcon}>
             <Icons icon="Person" size={15} />
             <Text color="primaryDark" style={styles.iconText}>
-              4
+              {eVe?.Misc_Seats}
             </Text>
           </View>
 
           <View style={styles.textIcon}>
             <Icons icon="Polymer" size={15} />
             <Text color="primaryDark" style={styles.iconText}>
-              {numberWithDots("30000")}
+              {numberWithDots(`${eVe?.Price_From_UK}`)}
             </Text>
           </View>
 
           <View style={styles.textIcon}>
             <Icons icon="Market" size={15} />
             <Text color="primaryDark" style={styles.iconText}>
-              {kmToMiles(250)}
+              {kmToMiles(eVe?.Range_Real)}
               {" "}
               Mi
             </Text>

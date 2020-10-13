@@ -139,6 +139,11 @@ const theme: BaseTheme = {
       fontSize: 12,
       color: "bodySmall",
     },
+    bodySmallBold: {
+      fontSize: 12,
+      color: "bodySmall",
+      fontWeight: "bold",
+    },
 
     button: {
       textAlign: "center",

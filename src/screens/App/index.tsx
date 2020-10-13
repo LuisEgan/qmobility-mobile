@@ -11,3 +11,4 @@ export { default as MapSearchDone } from "./MapSearchDone";
 export { default as Details } from "./Details";
 export { default as DetailsICE } from "./DetailsICE";
 export { default as MyMatch } from "./MyMatch";
+export { default as Activity } from "./Activity";

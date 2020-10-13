@@ -9,12 +9,24 @@ interface ICheckboxesList {
   options: TCheckboxesOptions;
   label?: string;
   onChange?: (selectedValues: TCheckboxesOptions) => void;
+  values?: TCheckboxesOptions;
 }
 
 const CheckboxesList = (props: ICheckboxesList) => {
-  const { options, label, onChange } = props;
+  const { options, label, onChange, values } = props;
 
   const [selectedValues, setSelectedValues] = useState<TCheckboxesOptions>([]);
+  const [initialized, setInitialized] = useState<boolean>(false);
+
+  useEffect(() => {
+    setInitialized(true);
+  }, []);
+
+  useEffect(() => {
+    if (values && initialized) {
+      setSelectedValues(values);
+    }
+  }, [values]);
 
   useEffect(() => {
     if (onChange) {

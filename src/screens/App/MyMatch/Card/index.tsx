@@ -1,13 +1,23 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Icons, Card as CardItem } from "../../../../components";
+import { Icons, Card as CardItem, TextWithUnit } from "../../../../components";
 import theme, { Text } from "../../../../config/Theme";
 import { APP_STACK_SCREENS_NAMES } from "../../../../lib/constants";
 
 const { height } = Dimensions.get("window");
 
-const Card = () => {
+const RANGE_MIN = 100;
+const RANGE_MAX = 250;
+
+interface ICard {
+  rangeMin: number;
+  rangeMax: number;
+}
+
+const Card = (props: ICard) => {
+  const { rangeMin = RANGE_MIN, rangeMax = RANGE_MAX } = props;
+
   const { navigate } = useNavigation();
 
   const CardTitle = () => (
@@ -16,20 +26,11 @@ const Card = () => {
         <Icons icon="Info" size={15} fill={theme.colors.primary} />
       </View>
 
-      <View style={styles.cardTitleContentText}>
-        <Text variant="heading1" color={theme.colors.white}>
-          100-250
-        </Text>
-
-        <Text
-          variant="heading1"
-          style={styles.cardTitleText}
-          color={theme.colors.white}
-        >
-          {" "}
-          Mi
-        </Text>
-      </View>
+      <TextWithUnit
+        text={`${rangeMin}-${rangeMax}`}
+        unitTextVariant="heading1"
+        unitTextStyle={{ marginBottom: 0 }}
+      />
     </View>
   );
 
@@ -44,9 +45,9 @@ const Card = () => {
         onPress={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
       >
         <Icons icon="Edit" size={15} fill={theme.colors.primary} />
-
         <Text variant="label" color="primary">
-          Edit eVe
+          {" "}
+          Edit Trips
         </Text>
       </TouchableOpacity>
     </View>

@@ -8,7 +8,7 @@ type LoginSignUpFrom = 0 | 1;
 
 // * Screens Props Types
 type StackParamsList = {
-  "Terms and conditions": Record<string, unknown>;
+  screen: Record<string, unknown>;
   LoginSignUp: {
     from: LoginSignUpFrom;
   };
@@ -16,15 +16,9 @@ type StackParamsList = {
     userToken: string;
     userEmail: string;
   };
-  Access: Record<string, unknown>;
-  Login: Record<string, unknown>;
-  MyCars: Record<string, unknown>;
-  ProfileScroll: Record<string, unknown>;
   CheckCar: {
     vehicleRecommendation: IVehicleRecommendation;
   };
-  MyRoutes: Record<string, unknown>;
-  Details: Record<string, unknown>;
   MapSearchDone: {
     location?: LatLng;
     origin: string;
@@ -33,13 +27,10 @@ type StackParamsList = {
 };
 
 // * Terms and conditions props
-export type TTCsNavProps = StackScreenProps<
-  StackParamsList,
-  "Terms and conditions"
->;
+export type TTCsNavProps = StackScreenProps<StackParamsList, "screen">;
 
 // * Terms and conditions props
-export type TAccessNavProps = StackScreenProps<StackParamsList, "Access">;
+export type TAccessNavProps = StackScreenProps<StackParamsList, "screen">;
 
 // * LoginSignUp Navigator props
 type MaterialTopTabScreenState = {
@@ -62,7 +53,7 @@ export type TLoginSignUpNavProps = {
 // * Login and Sign up screens props
 export type TLoginSignUpScreenProps = MaterialTopTabScreenProps<
   StackParamsList,
-  "Login"
+  "screen"
 >;
 
 // * Email Confirm screen props
@@ -72,22 +63,25 @@ export type TEmailConfirmNavProps = StackScreenProps<
 >;
 
 // * My Cars screen props
-export type TMyCarsNavProps = StackScreenProps<StackParamsList, "MyCars">;
+export type TMyCarsNavProps = StackScreenProps<StackParamsList, "screen">;
 
 // * Prodile Scroll sreen props
 export type TProfileScrollNavProps = StackScreenProps<
   StackParamsList,
-  "ProfileScroll"
+  "screen"
 >;
 
 // * Check Car sreen props
 export type TCheckCarNavProps = StackScreenProps<StackParamsList, "CheckCar">;
 
 // * My Routes sreen props
-export type TMyRoutesNavProps = StackScreenProps<StackParamsList, "MyRoutes">;
+export type TMyRoutesNavProps = StackScreenProps<StackParamsList, "screen">;
 
 // * Details screen props
-export type TDetailsNavProps = StackScreenProps<StackParamsList, "Details">;
+export type TDetailsNavProps = StackScreenProps<StackParamsList, "screen">;
+
+// * Activity - Stats screen props
+export type TStatsNavProps = StackScreenProps<StackParamsList, "screen">;
 
 // * MapSearchDone screen props
 export type TMapSearchDoneNavProps = StackScreenProps<
@@ -107,4 +101,5 @@ export type TAllNavProps = TTCsNavProps &
   TDetailsNavProps &
   TMapSearchDoneNavProps &
   TEmailConfirmNavProps &
+  TStatsNavProps &
   TLoginSignUpScreenProps;
