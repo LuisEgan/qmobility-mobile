@@ -95,7 +95,7 @@ const CarCard = (props: ICarCard) => {
           <Button
             containerStyle={styles.button}
             variant="primary"
-            label="CHOOSE CAR"
+            label="DETAILS"
             onPress={onPressPrimary}
           />
 

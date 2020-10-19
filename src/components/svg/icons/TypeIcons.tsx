@@ -57,6 +57,7 @@ export type TIcon =
   | "Timeline"
   | "Calendar"
   | "EvStation"
+  | "Filter"
   | "Error";
 
 export interface ISVG {

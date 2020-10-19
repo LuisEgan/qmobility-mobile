@@ -3,7 +3,7 @@ import { View, StyleSheet, StyleProp, TextStyle } from "react-native";
 import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
-type TUnits = "mi" | "km" | "kWh" | "h" | "mph" | "£";
+type TUnits = "mi" | "km" | "kWh" | "h" | "mph" | "£" | "gCO2/km";
 
 interface ITextWithUnit extends IComponentsDefaults {
   text: string;
@@ -25,7 +25,7 @@ const TextWithUnit = (props: ITextWithUnit) => {
     unit = "mi",
     textColor = theme.colors.white,
     textVariant = "heading1",
-    unitTextVariant = "body",
+    unitTextVariant = "bodySmall",
     unitTextColor = theme.colors.white,
   } = props;
 

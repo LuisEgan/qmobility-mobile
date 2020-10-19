@@ -24,6 +24,9 @@ type StackParamsList = {
     origin: string;
     destination: string;
   };
+  Details: {
+    vehicleID?: number;
+  };
 };
 
 // * Terms and conditions props
@@ -78,7 +81,7 @@ export type TCheckCarNavProps = StackScreenProps<StackParamsList, "CheckCar">;
 export type TMyRoutesNavProps = StackScreenProps<StackParamsList, "screen">;
 
 // * Details screen props
-export type TDetailsNavProps = StackScreenProps<StackParamsList, "screen">;
+export type TDetailsNavProps = StackScreenProps<StackParamsList, "Details">;
 
 // * Activity - Stats screen props
 export type TStatsNavProps = StackScreenProps<StackParamsList, "screen">;

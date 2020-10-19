@@ -13,10 +13,11 @@ const RANGE_MAX = 250;
 interface ICard {
   rangeMin: number;
   rangeMax: number;
+  setShowFilter: (show: boolean) => void;
 }
 
 const Card = (props: ICard) => {
-  const { rangeMin = RANGE_MIN, rangeMax = RANGE_MAX } = props;
+  const { rangeMin = RANGE_MIN, rangeMax = RANGE_MAX, setShowFilter } = props;
 
   const { navigate } = useNavigation();
 
@@ -40,26 +41,41 @@ const Card = (props: ICard) => {
         eVe Range
       </Text>
 
-      <TouchableOpacity
-        style={styles.cardSubContent}
-        onPress={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
-      >
-        <Icons icon="Edit" size={15} fill={theme.colors.primary} />
-        <Text variant="label" color="primary">
-          {" "}
-          Edit Trips
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.cardSubContent}>
+        <TouchableOpacity
+          style={styles.cardIcons}
+          onPress={() => setShowFilter(true)}
+        >
+          <Icons icon="Filter" size={15} fill={theme.colors.primary} />
+          <Text variant="label" color="primary">
+            {" "}
+            Adjust filter
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.cardIcons}
+          onPress={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
+        >
+          <Icons icon="Edit" size={15} fill={theme.colors.primary} />
+          <Text variant="label" color="primary">
+            {" "}
+            Edit Trips
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
   return (
-    <CardItem
-      title={<CardTitle />}
-      subTitle={<CardSubtitle />}
-      containerStyle={styles.cardContainer}
-      contentStyle={styles.contentCard}
-    />
+    <>
+      <CardItem
+        title={<CardTitle />}
+        subTitle={<CardSubtitle />}
+        containerStyle={styles.cardContainer}
+        contentStyle={styles.contentCard}
+      />
+    </>
   );
 };
 
@@ -67,6 +83,7 @@ export default Card;
 
 const styles = StyleSheet.create({
   container: {},
+
   // CARDTITLE
   cardTitleContent: {
     flexDirection: "row",
@@ -82,21 +99,23 @@ const styles = StyleSheet.create({
 
   // CARDSUB
   cardSubContainer: {
-    flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-  },
-  cardSubContent: {
     flexDirection: "row",
   },
+  cardIcons: {
+    flexDirection: "row",
+  },
+  cardSubContent: {},
+
   // CARD
   cardContainer: {
     width: "100%",
-    height: height * 0.15,
+    height: height * 0.17,
     marginBottom: height * 0.02,
   },
   contentCard: {
     paddingHorizontal: 25,
-    height: height * 0.15,
+    height: height * 0.17,
   },
 });

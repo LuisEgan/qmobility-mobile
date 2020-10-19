@@ -55,3 +55,4 @@ export { default as Star } from "./Star";
 export { default as Timeline } from "./Timeline";
 export { default as Calendar } from "./Calendar";
 export { default as EvStation } from "./EvStation";
+export { default as Filter } from "./Filter";

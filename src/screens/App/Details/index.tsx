@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,9 +6,9 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
-import { Icons, Slider } from "../../../components";
+import { Alert, Button, Icons, Slider } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
 import { TIcon } from "../../../components/svg/icons/TypeIcons";
 import slides from "./slides";
@@ -17,6 +17,10 @@ import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
 import { kmToMiles } from "../../../lib/numbers";
 import { numberWithDots } from "../../../lib/strings";
+import { TDetailsNavProps } from "../../../navigation/Types/NavPropsTypes";
+import { IVehicle } from "../../../gql/Vehicle/Types";
+import Vehicle from "../../../gql/Vehicle";
+import { IGetVehicleVars } from "../../../gql/Vehicle/queries";
 
 const { height, width } = Dimensions.get("window");
 
@@ -25,13 +29,53 @@ interface IIconText {
   label?: string;
 }
 
-const Details = () => {
+type IDetails = TDetailsNavProps;
+
+const Details = (props: IDetails) => {
+  const { route } = props;
+
   const { goBack } = useNavigation();
 
-  const { data: eVe, loading } = useQuery<{ user: IUser }, IUser>(
-    User.queries.getEve,
-  );
+  // * Queries
+  const [
+    getUserEve,
+    { data: getUserEveData, loading: getUserEveLoading },
+  ] = useLazyQuery<{ user: IUser }, IUser>(User.queries.getEve);
 
+  const [getEve, { data: getEveData, loading: getEveLoading }] = useLazyQuery<
+    { vehicle: IVehicle },
+    IGetVehicleVars
+  >(Vehicle.queries.getVehicle);
+
+  const [bookTestDrive, { loading }] = useLazyQuery<{
+    bookTestDrive: boolean;
+  }>(User.queries.bookTestDrive);
+
+  // * Fetch eVe
+  useEffect(() => {
+    if (route?.params?.vehicleID) {
+      getEve({
+        variables: {
+          id: route?.params?.vehicleID,
+        },
+      });
+    } else {
+      getUserEve();
+    }
+  }, []);
+
+  // * Set eVe
+  useEffect(() => {
+    if (getUserEveData || getEveData) {
+      setEve(getUserEveData?.user.selectedVehicle || getEveData?.vehicle);
+    }
+  }, [getUserEveData, getEveData]);
+
+  // * State
+  const [eVe, setEve] = useState<IVehicle>();
+  const [showFeedback, setShowFeedback] = useState<boolean>(false);
+
+  // * Components
   const IconText = ({ icon, label }: IIconText) => (
     <View style={styles.iconTextContent}>
       {icon && (
@@ -47,25 +91,42 @@ const Details = () => {
     </View>
   );
 
-  if (loading) return <FullScreenModal show />;
+  // * Handlers
+  const onBookTestDrive = async () => {
+    try {
+      setShowFeedback(true);
+      bookTestDrive();
+    } catch (error) {
+      console.warn("error: ", error);
+    }
+  };
+
+  if (getUserEveLoading || getEveLoading) return <FullScreenModal show />;
 
   return (
     <View style={styles.container}>
+      <Alert
+        btnEnabled={!loading}
+        show={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        text={loading ? "Loading..." : "Thanks! We'll contact you shortly."}
+      />
+
       <View style={styles.goBack}>
         <Icons icon="ArrowBack" fill="white" onPress={goBack} />
       </View>
 
       <Slider
-        slides={slides(eVe?.user.selectedVehicle?.Images || [])}
+        slides={slides(eVe?.Images || [])}
         {...{ width, height: height * 0.4 }}
       />
 
       <ScrollView style={styles.containerScroll}>
         <View style={styles.contentTitle}>
           <Text variant="heading2">
-            {eVe?.user.selectedVehicle?.Vehicle_Make}
+            {eVe?.Vehicle_Make}
             {" "}
-            {eVe?.user.selectedVehicle?.Vehicle_Model}
+            {eVe?.Vehicle_Model}
           </Text>
           <TouchableOpacity>
             <Icons icon="MoreVert" fill={theme.colors.primary} size={28} />
@@ -81,50 +142,42 @@ const Details = () => {
           >
             eVe Battery
             {" "}
-            {eVe?.user.selectedVehicle?.Battery_Capacity_Full}
+            {eVe?.Battery_Capacity_Full}
             {" "}
             kWh
           </Text>
           <Text variant="bodyBold">
             Range
-            {" "}
-            {kmToMiles(eVe?.user.selectedVehicle?.Range_Real)}
+            {kmToMiles(eVe?.Range_Real)}
             {" "}
             mi
           </Text>
         </View>
 
         <View style={[styles.content]}>
-          <IconText
-            icon="Bubble"
-            label={`${eVe?.user.selectedVehicle?.Misc_Seats}`}
-          />
+          <IconText icon="Bubble" label={`${eVe?.Misc_Seats}`} />
           <IconText icon="Spa" label="0 C02g/mi" />
         </View>
 
         <View style={[styles.content]}>
           <IconText
             icon="Polymer"
-            label={`Max ${kmToMiles(eVe?.user.selectedVehicle?.Range_Real)} mi`}
+            label={`Max ${kmToMiles(eVe?.Range_Real)} mi`}
           />
           <IconText
             icon="Nature"
-            label={`${
-              eVe?.user.selectedVehicle?.Efficiency_Real
-            } kWh/${kmToMiles(100)} mi`}
+            label={`${eVe?.Efficiency_Real} kWh/${kmToMiles(100)} mi`}
           />
         </View>
 
         <View style={[styles.content]}>
           <IconText
             icon="Speed"
-            label={`Max ${kmToMiles(
-              eVe?.user.selectedVehicle?.Performance_Topspeed,
-            )} mph`}
+            label={`Max ${kmToMiles(eVe?.Performance_Topspeed)} mph`}
           />
           <IconText
             icon="Flash"
-            label={`Time ${eVe?.user.selectedVehicle?.Fastcharge_ChargeTime} mins`}
+            label={`Time ${eVe?.Fastcharge_ChargeTime} mins`}
           />
         </View>
 
@@ -133,7 +186,7 @@ const Details = () => {
           <Text variant="bodyBold">
             £
             {" "}
-            {numberWithDots(`${eVe?.user.selectedVehicle?.Price_From_UK}`)}
+            {numberWithDots(`${eVe?.Price_From_UK}`)}
           </Text>
         </View>
 
@@ -146,9 +199,23 @@ const Details = () => {
           >
             Available since
           </Text>
-          <Text variant="body">
-            {eVe?.user.selectedVehicle?.Availability_Date_From}
-          </Text>
+          <Text variant="body">{eVe?.Availability_Date_From}</Text>
+        </View>
+
+        <View>
+          <Button
+            containerStyle={{ marginVertical: 5 }}
+            label="Set demo for me"
+            onPress={onBookTestDrive}
+            variant="primary"
+          />
+          <Button
+            containerStyle={{ marginVertical: 5 }}
+            label="Set as default"
+            onPress={() => console.warn("set as def")}
+            enabled={!!route?.params?.vehicleID}
+            variant={route?.params?.vehicleID ? "primary" : "default"}
+          />
         </View>
       </ScrollView>
     </View>

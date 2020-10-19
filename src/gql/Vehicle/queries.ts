@@ -1,6 +1,33 @@
 import { gql } from "@apollo/client";
 import { IVehicle } from "./Types";
 
+export interface IGetVehicleVars {
+  id: number;
+}
+
+const getVehicle = gql`
+  query GetVehicle($id: Float!) {
+    vehicle(id: $id) {
+      Vehicle_ID
+      Images
+      Vehicle_Make
+      Vehicle_Model
+      Vehicle_Model_Version
+      Battery_Capacity_Useable
+      Battery_Capacity_Full
+      Battery_Capacity_Estimate
+      Range_Real
+      Availability_Status
+      Availability_Date_From
+      Performance_Topspeed
+      Fastcharge_ChargeTime
+      Efficiency_Real
+      Price_From_UK
+      Misc_Seats
+    }
+  }
+`;
+
 const vehiclesMakes = gql`
   query VehiclesMakes {
     vehicleMakes
@@ -129,6 +156,7 @@ const getVehicles = gql`
 `;
 
 export default {
+  getVehicle,
   vehiclesMakes,
   vehicleMakeModels,
   iceVehicle,

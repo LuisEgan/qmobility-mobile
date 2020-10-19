@@ -38,46 +38,57 @@ const Card = (props: ICard) => {
     onPress,
   } = props;
 
+  const Content = () => (
+    <>
+      <View style={styles.favoriteContainer}>
+        {icon && (
+          <View style={styles.favoriteContent}>
+            <Icons icon={icon} fill={theme.colors.primary} size={25} />
+          </View>
+        )}
+
+        {typeof title === "string" ? (
+          <Text
+            variant="heading2"
+            style={[styles.text, titleStyle]}
+            color={textColor || theme.colors.white}
+          >
+            {title}
+          </Text>
+        ) : (
+          title
+        )}
+      </View>
+
+      {subTitle
+        && (typeof subTitle === "string" ? (
+          <Text
+            variant="label"
+            style={[styles.text, subTitleStyle]}
+            color={textColor || theme.colors.white}
+          >
+            {subTitle}
+          </Text>
+        ) : (
+          subTitle
+        ))}
+    </>
+  );
+
   return (
     <View style={[styles.container, containerStyle]}>
-      <TouchableOpacity
-        disabled={!onPress}
-        style={[styles.content, contentStyle]}
-        onPress={onPress}
-      >
-        <View style={styles.favoriteContainer}>
-          {icon && (
-            <View style={styles.favoriteContent}>
-              <Icons icon={icon} fill={theme.colors.primary} size={25} />
-            </View>
-          )}
-
-          {typeof title === "string" ? (
-            <Text
-              variant="heading2"
-              style={[styles.text, titleStyle]}
-              color={textColor || theme.colors.white}
-            >
-              {title}
-            </Text>
-          ) : (
-            title
-          )}
+      {onPress ? (
+        <TouchableOpacity
+          style={[styles.content, contentStyle]}
+          onPress={onPress}
+        >
+          <Content />
+        </TouchableOpacity>
+      ) : (
+        <View style={[styles.content, contentStyle]}>
+          <Content />
         </View>
-
-        {subTitle
-          && (typeof subTitle === "string" ? (
-            <Text
-              variant="label"
-              style={[styles.text, subTitleStyle]}
-              color={textColor || theme.colors.white}
-            >
-              {subTitle}
-            </Text>
-          ) : (
-            subTitle
-          ))}
-      </TouchableOpacity>
+      )}
     </View>
   );
 };

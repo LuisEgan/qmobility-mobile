@@ -6,17 +6,25 @@ import * as ImagePicker from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
 import theme, { Text } from "../../config/Theme";
 import Modal from "../Modal";
+import { IComponentsDefaults } from "../../lib/Types";
 
-interface IImageProfile {
+interface IImageProfile extends IComponentsDefaults {
   label?: string;
-  color: string;
+  color?: string;
   changePhotoOption?: boolean;
   onLoadPhoto?: (photo: string) => void;
   avatarUrl?: string;
 }
 
 const ImageProfile = (props: IImageProfile) => {
-  const { label, color, changePhotoOption, onLoadPhoto, avatarUrl } = props;
+  const {
+    containerStyle,
+    label,
+    color,
+    changePhotoOption,
+    onLoadPhoto,
+    avatarUrl,
+  } = props;
 
   const [stateModal, setStateModal] = useState<boolean>(false);
   const [photo, setPhoto] = useState<ImageInfo>();
@@ -101,7 +109,7 @@ const ImageProfile = (props: IImageProfile) => {
   return (
     <>
       <ModalSelect />
-      <View style={styles.container}>
+      <View style={[styles.container, containerStyle]}>
         <View
           style={[
             styles.content,

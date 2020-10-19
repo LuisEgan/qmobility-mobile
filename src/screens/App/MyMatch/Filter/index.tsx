@@ -97,7 +97,7 @@ const Filter = (props: IFilter) => {
   };
 
   return (
-    <View style={[styles.container, { opacity: show ? 1 : 0 }]}>
+    <View style={[styles.container, { zIndex: show ? 1 : -1 }]}>
       <ScrollView style={styles.scroll}>
         <ButtonsFilter
           onPressCancel={() => onCancel && onCancel()}

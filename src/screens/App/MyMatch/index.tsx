@@ -1,4 +1,5 @@
 import { useLazyQuery } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -8,6 +9,7 @@ import theme from "../../../config/Theme";
 import Vehicle from "../../../gql/Vehicle";
 import { IGetVehiclesVars } from "../../../gql/Vehicle/queries";
 import { IVehicle } from "../../../gql/Vehicle/Types";
+import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import ModalChangeLoading from "../MapSearchDone/ModalChangeLoading";
 
 import Card from "./Card";
@@ -19,6 +21,8 @@ const RANGE_MIN = 100;
 const RANGE_MAX = 250;
 
 const MyMatch = () => {
+  const { navigate } = useNavigation();
+
   const [getVehicles, { data: eVes, loading }] = useLazyQuery<
     { vehicles: IVehicle[] },
     IGetVehiclesVars
@@ -71,7 +75,7 @@ const MyMatch = () => {
         />
 
         <View style={styles.content}>
-          <Card rangeMin={rangeMin} rangeMax={rangeMax} />
+          <Card {...{ rangeMin, rangeMax, setShowFilter }} />
 
           <ScrollView
             horizontal
@@ -83,10 +87,12 @@ const MyMatch = () => {
           >
             {eVes?.vehicles.map((e) => (
               <CarCard
-                eVe={e}
                 key={e.Vehicle_ID}
-                onPressPrimary={() => console.warn("choose")}
-                onPressSecondary={() => setShowFilter(true)}
+                eVe={e}
+                onPressPrimary={() =>
+                  navigate(APP_STACK_SCREENS_NAMES.Details, {
+                    vehicleID: e.Vehicle_ID,
+                  })}
                 containerStyle={[styles.scrollView, styles.card]}
                 contentStyle={styles.cardContent}
               />
