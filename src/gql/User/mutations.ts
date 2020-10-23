@@ -96,6 +96,7 @@ const resendEmailConfirmation = gql`
   }
 `;
 
+// * Update User
 export interface IUpdateUser {
   name?: string;
   lastname?: string;
@@ -142,6 +143,46 @@ const updateUser = gql`
   }
 `;
 
+// * Password reset
+export interface IChangePasswordReset {
+  id: string;
+}
+export interface IChangePasswordResetVars {
+  email: string;
+}
+const changePasswordRequest = gql`
+  mutation ChangePasswordRequest($email: String!) {
+    changePasswordRequest(changePasswordRequestInput: { email: $email }) {
+      id
+    }
+  }
+`;
+
+export interface IValidateTokenVars {
+  userId: string;
+  token: string;
+}
+const validateToken = gql`
+  mutation ValidateToken($userId: String!, $token: String!) {
+    validateToken(validateTokenInput: { userId: $userId, token: $token })
+  }
+`;
+
+export interface IChangePasswordVars {
+  userId: string;
+  password: string;
+}
+
+const changePassword = gql`
+  mutation ChangePassword($userId: String!, $password: String!) {
+    changePassword(
+      changePasswordInput: { userId: $userId, password: $password }
+    ) {
+      id
+    }
+  }
+`;
+
 export default {
   login,
   loginWithFacebook,
@@ -152,4 +193,7 @@ export default {
   emailConfirmation,
   resendEmailConfirmation,
   updateUser,
+  changePasswordRequest,
+  validateToken,
+  changePassword,
 };

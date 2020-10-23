@@ -40,6 +40,8 @@ export const AUTH_STACK_SCREENS_NAMES = {
   SignUp: "SignUp",
   LoginSignUp: "LoginSignUp",
   EmailConfirm: "EmailConfirm",
+  EmailPrompt: "EmailPrompt",
+  NewPassword: "NewPassword",
 };
 
 export const APP_STACK_SCREENS_NAMES = {

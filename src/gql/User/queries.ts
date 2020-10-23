@@ -109,10 +109,46 @@ const bookTestDrive = gql`
   }
 `;
 
+export interface IMyStats {
+  anualTotalMilles: number;
+  averageTripLength: number;
+  maxTripLength: number;
+  minTripLength: number;
+  totalTimeInCar: number;
+  idleTimeOfCar: number;
+  idlePercentageOfCar: number;
+  weeklyAverageMiles: number;
+  dailyAverageMiles: number;
+  minRangeRequirement: number;
+  maxRangeRequirement: number;
+  totalCo2Saved: number;
+  treesSaved: number;
+}
+const getMyStats = gql`
+  query MyStats {
+    getMyStats {
+      anualTotalMilles
+      averageTripLength
+      maxTripLength
+      minTripLength
+      totalTimeInCar
+      idleTimeOfCar
+      idlePercentageOfCar
+      weeklyAverageMiles
+      dailyAverageMiles
+      minRangeRequirement
+      maxRangeRequirement
+      totalCo2Saved
+      treesSaved
+    }
+  }
+`;
+
 export default {
   user,
   allUserInfo,
   getEve,
   bookTestDrive,
   getICEVehicle,
+  getMyStats,
 };

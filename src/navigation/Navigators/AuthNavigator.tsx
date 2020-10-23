@@ -7,6 +7,8 @@ import {
   LoginSignUp,
   Access,
   EmailConfirm,
+  EmailPrompt,
+  NewPassword,
 } from "../../screens/Auth";
 import { IScreen } from "../Router";
 import {
@@ -38,6 +40,16 @@ export const AUTH_STACK_SCREENS: IScreens = [
   {
     name: AUTH_STACK_SCREENS_NAMES.EmailConfirm,
     component: EmailConfirm,
+    headerShown: true,
+  },
+  {
+    name: AUTH_STACK_SCREENS_NAMES.EmailPrompt,
+    component: EmailPrompt,
+    headerShown: true,
+  },
+  {
+    name: AUTH_STACK_SCREENS_NAMES.NewPassword,
+    component: NewPassword,
     headerShown: true,
   },
 ];

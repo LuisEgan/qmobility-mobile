@@ -5,9 +5,10 @@ import { ScrollView } from "react-native-gesture-handler";
 import * as yup from "yup";
 
 import { useMutation } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
 import { Button, Input } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
-import { ERRORS } from "../../../lib/constants";
+import { AUTH_STACK_SCREENS_NAMES, ERRORS } from "../../../lib/constants";
 import Auth from "../../../components/Auth";
 import { User } from "../../../gql";
 import { IAuthResponse, ILoginVars } from "../../../gql/User/mutations";
@@ -27,6 +28,8 @@ const LoginSchema = yup.object().shape({
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
+
+  const { navigate } = useNavigation();
 
   const [login, { error, loading }] = useMutation<
     { login: IAuthResponse },
@@ -68,7 +71,7 @@ const Login = () => {
             onBlur={handleBlur("password")}
             error={errors.password}
             touched={touched.password}
-            onForgotPass={() => console.warn("forgot")}
+            onForgotPass={() => navigate(AUTH_STACK_SCREENS_NAMES.EmailPrompt)}
           />
         </View>
 

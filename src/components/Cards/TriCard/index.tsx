@@ -6,15 +6,15 @@ import Icons from "../../svg";
 import { TIcon } from "../../svg/icons/TypeIcons";
 
 interface IColumn {
-  icon: TIcon | JSX.Element;
-  title: string | JSX.Element;
-  subTitle: string | JSX.Element;
+  icon?: TIcon | JSX.Element;
+  title?: string | JSX.Element | number;
+  subTitle?: string | JSX.Element | number;
 }
 
 interface ITriCard extends IComponentsDefaults {
-  col1: IColumn;
-  col2: IColumn;
-  col3: IColumn;
+  col1?: IColumn;
+  col2?: IColumn;
+  col3?: IColumn;
   onPress?: () => void;
   btnText?: string;
 }
@@ -31,27 +31,31 @@ const TriCard = (props: ITriCard) => {
 
   const ContentView = ({ icon, title, subTitle }: IColumn) => (
     <View style={styles.cardContent}>
-      {typeof icon === "string" ? (
-        <Icons icon={icon} fill={theme.colors.primary} size={30} />
-      ) : (
-        icon
-      )}
-
-      <View style={styles.cardBody}>
-        <View style={styles.cardBodyContent}>
-          {typeof title === "string" ? (
-            <Text variant="heading1">{title}</Text>
+      {icon && title && subTitle && (
+        <>
+          {typeof icon === "string" ? (
+            <Icons icon={icon} fill={theme.colors.primary} size={30} />
           ) : (
-            title
+            icon
           )}
-        </View>
 
-        {typeof subTitle === "string" ? (
-          <Text variant="bodySmallBold">{subTitle}</Text>
-        ) : (
-          subTitle
-        )}
-      </View>
+          <View style={styles.cardBody}>
+            <View style={styles.cardBodyContent}>
+              {typeof title === "string" ? (
+                <Text variant="heading1">{title}</Text>
+              ) : (
+                title
+              )}
+            </View>
+
+            {typeof subTitle === "string" ? (
+              <Text variant="bodySmallBold">{subTitle}</Text>
+            ) : (
+              subTitle
+            )}
+          </View>
+        </>
+      )}
     </View>
   );
 
@@ -60,21 +64,21 @@ const TriCard = (props: ITriCard) => {
     <View style={[styles.card, paddingBot, containerStyle]}>
       <View style={styles.colsContainer}>
         <ContentView
-          icon={col1.icon}
-          title={col1.title}
-          subTitle={col1.subTitle}
+          icon={col1?.icon}
+          title={col1?.title}
+          subTitle={col1?.subTitle}
         />
         <View style={[styles.line]} />
         <ContentView
-          icon={col2.icon}
-          title={col2.title}
-          subTitle={col2.subTitle}
+          icon={col2?.icon}
+          title={col2?.title}
+          subTitle={col2?.subTitle}
         />
         <View style={[styles.line]} />
         <ContentView
-          icon={col3.icon}
-          title={col3.title}
-          subTitle={col3.subTitle}
+          icon={col3?.icon}
+          title={col3?.title}
+          subTitle={col3?.subTitle}
         />
       </View>
 

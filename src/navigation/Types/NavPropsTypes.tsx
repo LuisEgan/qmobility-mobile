@@ -13,8 +13,12 @@ type StackParamsList = {
     from: LoginSignUpFrom;
   };
   EmailConfirm: {
-    userToken: string;
     userEmail: string;
+    userToken?: string;
+    userId?: string;
+  };
+  NewPassword: {
+    userId: string;
   };
   CheckCar: {
     vehicleRecommendation: IVehicleRecommendation;
@@ -65,6 +69,12 @@ export type TEmailConfirmNavProps = StackScreenProps<
   "EmailConfirm"
 >;
 
+// * New Password screen props
+export type TNewPasswordNavProps = StackScreenProps<
+  StackParamsList,
+  "NewPassword"
+>;
+
 // * My Cars screen props
 export type TMyCarsNavProps = StackScreenProps<StackParamsList, "screen">;
 
@@ -105,4 +115,5 @@ export type TAllNavProps = TTCsNavProps &
   TMapSearchDoneNavProps &
   TEmailConfirmNavProps &
   TStatsNavProps &
+  TNewPasswordNavProps &
   TLoginSignUpScreenProps;

@@ -3,7 +3,7 @@ import { View, StyleSheet, StyleProp, TextStyle } from "react-native";
 import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 
-type TUnits = "mi" | "km" | "kWh" | "h" | "mph" | "£" | "gCO2/km";
+type TUnits = "mi" | "km" | "kWh" | "h" | "mph" | "£" | "gCO2/km" | "%";
 
 interface ITextWithUnit extends IComponentsDefaults {
   text: string;

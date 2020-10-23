@@ -4,15 +4,20 @@ import { View, StyleSheet, Dimensions, Keyboard } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useMutation } from "@apollo/client";
 import SmoothPinCodeInput from "react-native-smooth-pincode-input";
+import { useNavigation } from "@react-navigation/native";
 import { Header, Footer, Icons, Button } from "../../../components";
 import { TEmailConfirmNavProps } from "../../../navigation/Types/NavPropsTypes";
 import theme, { Text } from "../../../config/Theme";
 import { AuthContext } from "../../../navigation/AuthContext";
 import {
+  IChangePasswordReset,
+  IChangePasswordResetVars,
   IEmailConfirmationVars,
   IResendEmailVars,
+  IValidateTokenVars,
 } from "../../../gql/User/mutations";
 import { User } from "../../../gql";
+import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const { width } = Dimensions.get("window");
 
@@ -23,17 +28,38 @@ const EmailConfirm = (props: IEmailConfirm) => {
 
   const { signIn } = useContext(AuthContext);
 
+  const { navigate } = useNavigation();
+
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () => null,
     });
   }, [navigation]);
 
+  // * Mutations
+
+  // * Validate token in case of forgotten pasword
+  const [validateToken, { data: validateTokenData }] = useMutation<
+    { validateToken: boolean },
+    IValidateTokenVars
+  >(User.mutations.validateToken);
+
+  // * Resend email
+  const [
+    changePasswordRequest,
+    { loading: changePasswordRequestLoading },
+  ] = useMutation<
+    { changePasswordRequest: IChangePasswordReset },
+    IChangePasswordResetVars
+  >(User.mutations.changePasswordRequest);
+
+  // * Confirm email in case of sign up
   const [emailConfirmation, { data: emailConfirmationData }] = useMutation<
     { emailConfirmation: Record<string, unknown> },
     IEmailConfirmationVars
   >(User.mutations.emailConfirmation);
 
+  // * Resend email if something went wrong on sign up
   const [
     resendEmailConfirmation,
     { loading: resendLoading, called: resendCalled },
@@ -42,6 +68,7 @@ const EmailConfirm = (props: IEmailConfirm) => {
     IResendEmailVars
   >(User.mutations.resendEmailConfirmation);
 
+  // * State
   const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
   const [goToCreateProfile, setGoToCreateProfile] = useState(false);
   const [pin, setPin] = useState<string>("");
@@ -51,12 +78,21 @@ const EmailConfirm = (props: IEmailConfirm) => {
   useEffect(() => {
     const confirmEmail = async () => {
       try {
-        await emailConfirmation({
-          variables: {
-            email: route.params.userEmail,
-            random4digits: +pin,
-          },
-        });
+        if (route?.params.userToken) {
+          await emailConfirmation({
+            variables: {
+              email: route?.params?.userEmail,
+              random4digits: +pin,
+            },
+          });
+        } else {
+          await validateToken({
+            variables: {
+              userId: route?.params.userId || "",
+              token: pin,
+            },
+          });
+        }
       } catch (e) {
         setError(e.message);
       }
@@ -81,7 +117,7 @@ const EmailConfirm = (props: IEmailConfirm) => {
   useEffect(() => {
     const doSignIn = async () => {
       try {
-        await signIn(route.params.userToken);
+        await signIn(route?.params.userToken);
       } catch (e) {
         setError(e.message);
       }
@@ -92,14 +128,33 @@ const EmailConfirm = (props: IEmailConfirm) => {
     }
   }, [goToCreateProfile]);
 
+  // * Redirect to change password screen
+  useEffect(() => {
+    if (validateTokenData) {
+      navigate(AUTH_STACK_SCREENS_NAMES.NewPassword, {
+        userId: route?.params.userId,
+      });
+    }
+  }, [validateTokenData]);
+
   // * Resend email
   const resendEmail = async () => {
+    const variables = {
+      email: route?.params?.userEmail,
+    };
+
     try {
-      await resendEmailConfirmation({
-        variables: {
-          email: route.params.userEmail,
-        },
-      });
+      if (route?.params.userToken) {
+        // * Signup
+        await resendEmailConfirmation({
+          variables,
+        });
+      } else {
+        // * Forgot password
+        await changePasswordRequest({
+          variables,
+        });
+      }
     } catch (e) {
       setError(e.message);
     }
@@ -129,7 +184,7 @@ const EmailConfirm = (props: IEmailConfirm) => {
                 )}
               </View>
 
-              <Text variant="body">{route.params.userEmail}</Text>
+              <Text variant="body">{route?.params?.userEmail}</Text>
 
               <View style={styles.viewStyle}>
                 <SmoothPinCodeInput
@@ -150,7 +205,7 @@ const EmailConfirm = (props: IEmailConfirm) => {
 
             {isEmailConfirmed && (
               <Button
-                label={`${isEmailConfirmed ? "GO TO PROFILE" : "GO TO INBOX"}`}
+                label="GO TO PROFILE"
                 iconRight="ArrowForward"
                 variant="primary"
                 onPress={() => setGoToCreateProfile(true)}
@@ -164,7 +219,7 @@ const EmailConfirm = (props: IEmailConfirm) => {
           <Footer
             title="Something went wrong?"
             subTitle={`${
-              resendLoading
+              resendLoading || changePasswordRequestLoading
                 ? "Sending..."
                 : resendCalled
                   ? "Sent!"

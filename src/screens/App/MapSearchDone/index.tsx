@@ -247,7 +247,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
         endLocation={endDirection}
         onClosed={() => setStateModal(!stateModal)}
         kwh={dataRoute?.getRoutes?.Route?.Total_kWh || 0}
-        totalDistance={dataRoute?.getRoutes?.Route?.Time_Difference || 0}
+        totalDistance={dataRoute?.getRoutes?.Route?.Distance || 0}
         totalTime={dataRoute?.getRoutes?.Route?.Time || 0}
         carId={eVe?.user?.selectedVehicle?.Vehicle_ID || 0}
       />

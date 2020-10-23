@@ -1,19 +1,22 @@
+import { useQuery } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import {
-  Button,
-  Header,
-  Icons,
-  TextWithUnit,
-  TriCard,
-} from "../../../components";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { Button, Header, Icons } from "../../../components";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import theme, { Text } from "../../../config/Theme";
+import { User } from "../../../gql";
+import { IMyStats } from "../../../gql/User/queries";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { FullScreenModal } from "../../Feedback";
+import Stats from "./Stats";
 
 const Activty = () => {
   const { navigate } = useNavigation();
+
+  const { data: getMyStatsData, loading: getMyStatsLoading } = useQuery<{
+    getMyStats: IMyStats;
+  }>(User.queries.getMyStats);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
@@ -39,7 +42,7 @@ const Activty = () => {
           color="white"
           style={{ marginVertical: 5 }}
         >
-          148 - 300 miles
+          {`${getMyStatsData?.getMyStats.minRangeRequirement} - ${getMyStatsData?.getMyStats.maxRangeRequirement} miles`}
         </Text>
 
         <TouchableOpacity
@@ -55,139 +58,7 @@ const Activty = () => {
     </View>
   );
 
-  const Stats = () => (
-    <ScrollView>
-      <TriCard
-        col1={{
-          icon: "ArrowUpLight",
-          subTitle: "Year Total",
-          title: (
-            <TextWithUnit
-              text="11598"
-              textColor="secondaryDark"
-              unitTextColor="secondaryDark"
-            />
-          ),
-        }}
-        col2={{
-          icon: "ArrowUpLight",
-          subTitle: "Avg. week",
-          title: (
-            <TextWithUnit
-              text="223"
-              textColor="secondaryDark"
-              unitTextColor="secondaryDark"
-            />
-          ),
-        }}
-        col3={{
-          icon: "Clock",
-          subTitle: "Avg. trip",
-          title: (
-            <TextWithUnit
-              text="18"
-              textColor="secondaryDark"
-              unitTextColor="secondaryDark"
-            />
-          ),
-        }}
-      />
-
-      <TriCard
-        col1={{
-          icon: "ArrowUpLight",
-          subTitle: "Max trip",
-          title: (
-            <TextWithUnit
-              text="0"
-              textColor="secondaryDark"
-              unitTextColor="secondaryDark"
-            />
-          ),
-        }}
-        col2={{
-          icon: "ArrowUpLight",
-          subTitle: "Min Trip",
-          title: (
-            <TextWithUnit
-              text="0"
-              textColor="secondaryDark"
-              unitTextColor="secondaryDark"
-            />
-          ),
-        }}
-        col3={{
-          icon: "Clock",
-          subTitle: "Driving",
-          title: (
-            <TextWithUnit
-              text="0"
-              textColor="secondaryDark"
-              unitTextColor="secondaryDark"
-              unit="h"
-            />
-          ),
-        }}
-      />
-
-      <TriCard
-        col1={{
-          icon: "ArrowUpLight",
-          subTitle: "Idle Time",
-          title: (
-            <TextWithUnit
-              text="0"
-              textColor="secondaryDark"
-              unitTextColor="secondaryDark"
-              unit="h"
-            />
-          ),
-        }}
-        col2={{
-          icon: "ArrowUpLight",
-          subTitle: "eFuel used",
-          title: (
-            <TextWithUnit
-              text="0"
-              textColor="secondaryDark"
-              unitTextColor="secondaryDark"
-              unit="kWh"
-            />
-          ),
-        }}
-        col3={{
-          icon: "Clock",
-          subTitle: "eFuel Cost",
-          title: (
-            <TextWithUnit
-              text="0"
-              textColor="secondaryDark"
-              unitTextColor="secondaryDark"
-              unit="£"
-            />
-          ),
-        }}
-      />
-
-      <TriCard
-        col1={{
-          icon: "ArrowUpLight",
-          subTitle: "enRoute Charges",
-          title: "0",
-        }}
-        col2={{
-          icon: "ArrowUpLight",
-          subTitle: "gCO2/km Saved",
-          title: "0",
-        }}
-        col3={{
-          icon: "Clock",
-          subTitle: "Trees Saved",
-          title: "0",
-        }}
-      />
-    </ScrollView>
-  );
+  if (getMyStatsLoading) return <FullScreenModal show />;
 
   return (
     <DrawerLeftMenu
@@ -205,7 +76,7 @@ const Activty = () => {
         <View style={styles.content}>
           <EveRecommendation />
 
-          <Stats />
+          <Stats stats={getMyStatsData?.getMyStats} />
 
           <View style={{ paddingVertical: 15 }}>
             <Button
