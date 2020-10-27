@@ -2,6 +2,8 @@ export const REGEX = {
   PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&"[\];',./{}|":?><`~°¬¡¿´]{8,}$/,
 };
 
+export const CATALOG_URI = "https://qmobility-catalog.vercel.app/";
+
 export const ERRORS = {
   INVALID_EMAIL: "Invalid email address",
   INVALID_PASSWORD:

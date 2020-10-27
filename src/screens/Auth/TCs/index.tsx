@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -26,11 +26,16 @@ const isCloseToBottom = ({
 
 const TCs = () => {
   const { navigate, goBack } = useNavigation();
+  const scroll = useRef<ScrollView>(null);
 
   const [endScroll, setEndScroll] = useState<boolean>(false);
 
   const confirmTermsConditions = (): void => {
     navigate(AUTH_STACK_SCREENS_NAMES.Access);
+  };
+
+  const scrollDown = () => {
+    scroll?.current?.scrollToEnd();
   };
 
   return (
@@ -42,6 +47,7 @@ const TCs = () => {
       />
 
       <ScrollView
+        ref={scroll}
         onScroll={({
           nativeEvent,
         }: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -65,6 +71,45 @@ const TCs = () => {
           "Our Privacy Policy describes how we handle the information you provide to us when you use our Services.",
         )}
 
+        {textBlack(
+          "IMPORTANT: BY USING YOUR iPHONE, iPAD OR iPOD TOUCH (“DEVICE”), YOU ARE AGREEING TO BE BOUND BY THE FOLLOWING TERMS:",
+        )}
+        {StepText(
+          1,
+          "You may use the Services only if you agree to form a binding contract with us and are not a person barred from receiving services under the laws of the applicable jurisdiction.",
+        )}
+
+        {StepText(
+          2,
+          "Our Privacy Policy describes how we handle the information you provide to us when you use our Services.",
+        )}
+
+        {textBlack(
+          "IMPORTANT: BY USING YOUR iPHONE, iPAD OR iPOD TOUCH (“DEVICE”), YOU ARE AGREEING TO BE BOUND BY THE FOLLOWING TERMS:",
+        )}
+        {StepText(
+          1,
+          "You may use the Services only if you agree to form a binding contract with us and are not a person barred from receiving services under the laws of the applicable jurisdiction.",
+        )}
+
+        {StepText(
+          2,
+          "Our Privacy Policy describes how we handle the information you provide to us when you use our Services.",
+        )}
+
+        {textBlack(
+          "IMPORTANT: BY USING YOUR iPHONE, iPAD OR iPOD TOUCH (“DEVICE”), YOU ARE AGREEING TO BE BOUND BY THE FOLLOWING TERMS:",
+        )}
+        {StepText(
+          1,
+          "You may use the Services only if you agree to form a binding contract with us and are not a person barred from receiving services under the laws of the applicable jurisdiction.",
+        )}
+
+        {StepText(
+          2,
+          "Our Privacy Policy describes how we handle the information you provide to us when you use our Services.",
+        )}
+
         {Title("Final Rules")}
 
         {textLight(
@@ -73,7 +118,7 @@ const TCs = () => {
       </ScrollView>
 
       {!endScroll ? (
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={scrollDown}>
           <View>
             <Text style={styles.textStyle}>
               scroll down to agree

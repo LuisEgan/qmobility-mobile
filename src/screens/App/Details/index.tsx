@@ -6,7 +6,7 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { Alert, Button, Icons, Slider } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
@@ -21,6 +21,8 @@ import { TDetailsNavProps } from "../../../navigation/Types/NavPropsTypes";
 import { IVehicle } from "../../../gql/Vehicle/Types";
 import Vehicle from "../../../gql/Vehicle";
 import { IGetVehicleVars } from "../../../gql/Vehicle/queries";
+import { IUpdateSelectedVehicleVars } from "../../../gql/User/mutations";
+import ModalChangeLoading from "../MapSearchDone/ModalChangeLoading";
 
 const { height, width } = Dimensions.get("window");
 
@@ -50,6 +52,33 @@ const Details = (props: IDetails) => {
   const [bookTestDrive, { loading }] = useLazyQuery<{
     bookTestDrive: boolean;
   }>(User.queries.bookTestDrive);
+
+  // * Mutations
+  const [
+    updateSelectedVehicle,
+    { data: updateSelectedVehicleData, loading: updateSelectedVehicleLoading },
+  ] = useMutation<{ updateUser: IUser }, IUpdateSelectedVehicleVars>(
+    User.mutations.updateSelectedVehicle,
+    {
+      update(cache, { data }) {
+        const allUserInfo = cache.readQuery<{ user: IUser }>({
+          query: User.queries.allUserInfo,
+        });
+
+        const updatedUser = {
+          ...allUserInfo?.user,
+          selectedVehicle: data?.updateUser.selectedVehicle,
+        };
+
+        cache.writeQuery({
+          query: User.queries.allUserInfo,
+          data: {
+            user: { ...updatedUser },
+          },
+        });
+      },
+    },
+  );
 
   // * Fetch eVe
   useEffect(() => {
@@ -101,10 +130,22 @@ const Details = (props: IDetails) => {
     }
   };
 
+  const onSetAsDefault = async () => {
+    try {
+      updateSelectedVehicle({
+        variables: { selectedVehicle: +(eVe?.Vehicle_ID || 0) },
+      });
+    } catch (error) {
+      console.error("error: ", error);
+    }
+  };
+
   if (getUserEveLoading || getEveLoading) return <FullScreenModal show />;
 
   return (
     <View style={styles.container}>
+      <ModalChangeLoading stateModal={updateSelectedVehicleLoading} />
+
       <Alert
         btnEnabled={!loading}
         show={showFeedback}
@@ -211,9 +252,15 @@ const Details = (props: IDetails) => {
           />
           <Button
             containerStyle={{ marginVertical: 5 }}
-            label="Set as default"
-            onPress={() => console.warn("set as def")}
-            enabled={!!route?.params?.vehicleID}
+            label={
+              updateSelectedVehicleData ? "eVe updated!" : "Set as default"
+            }
+            onPress={onSetAsDefault}
+            enabled={
+              !!route?.params?.vehicleID
+              || !updateSelectedVehicleLoading
+              || !updateSelectedVehicleData
+            }
             variant={route?.params?.vehicleID ? "primary" : "default"}
           />
         </View>

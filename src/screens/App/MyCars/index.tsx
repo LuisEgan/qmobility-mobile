@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  Linking,
+} from "react-native";
 import { useQuery } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { Header, Icons, Footer, CardImage } from "../../../components";
@@ -8,7 +14,7 @@ import { DrawerLeftMenu } from "../../../components/HOCs";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
-import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { APP_STACK_SCREENS_NAMES, CATALOG_URI } from "../../../lib/constants";
 
 const { height } = Dimensions.get("window");
 
@@ -23,6 +29,20 @@ const MyCars = () => {
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const openCatalog = async () => {
+    try {
+      const canOpen = await Linking.canOpenURL(CATALOG_URI);
+
+      if (canOpen) {
+        Linking.openURL(CATALOG_URI);
+      } else {
+        throw new Error("bad link");
+      }
+    } catch (error) {
+      console.error("error: ", error);
+    }
   };
 
   if (loading) return <FullScreenModal show />;
@@ -91,6 +111,7 @@ const MyCars = () => {
         <Footer
           title="Feeling a bit adventurous today?"
           subTitle="Check our catalogue"
+          onPressSubtitle={openCatalog}
         />
       </View>
     </DrawerLeftMenu>

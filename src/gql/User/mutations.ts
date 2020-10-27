@@ -183,6 +183,32 @@ const changePassword = gql`
   }
 `;
 
+export interface IUpdateSelectedVehicleVars {
+  selectedVehicle: number;
+}
+const updateSelectedVehicle = gql`
+  mutation UpdateSelectedVehicle($selectedVehicle: Float) {
+    updateUser(updateProfileInput: { selectedVehicle: $selectedVehicle }) {
+      selectedVehicle {
+        Vehicle_ID
+        Images
+        Vehicle_Make
+        Vehicle_Model
+        Vehicle_Model_Version
+        Battery_Capacity_Useable
+        Battery_Capacity_Full
+        Battery_Capacity_Estimate
+        Range_Real
+        Availability_Status
+        Performance_Topspeed
+        Fastcharge_ChargeTime
+        Efficiency_Real
+        Price_From_UK
+      }
+    }
+  }
+`;
+
 export default {
   login,
   loginWithFacebook,
@@ -196,4 +222,5 @@ export default {
   changePasswordRequest,
   validateToken,
   changePassword,
+  updateSelectedVehicle,
 };
