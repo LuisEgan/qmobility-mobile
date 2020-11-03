@@ -79,7 +79,10 @@ const RouteListItem = (props: ISavedRoute) => {
       },
       {
         text: "Edit",
-        onPress: () => console.warn("Edit"),
+        onPress: () => {
+          setState(false);
+          console.warn("Edit");
+        },
       },
       {
         text: "Cancel",

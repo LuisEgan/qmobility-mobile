@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { withTimingTransition } from "react-native-redash";
 import { CarCard, Header } from "../../../components";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import theme from "../../../config/Theme";
@@ -75,17 +76,23 @@ const MyMatch = () => {
         />
 
         <View style={styles.content}>
-          <Card {...{ rangeMin, rangeMax, setShowFilter }} />
+          <View
+            style={{
+              paddingHorizontal: "3%",
+            }}
+          >
+            <Card {...{ rangeMin, rangeMax, setShowFilter }} />
+          </View>
 
           <ScrollView
             horizontal
             style={[styles.scrollViewContainer, styles.scrollView]}
             snapToAlignment="center"
-            snapToInterval={width * 0.9}
+            snapToInterval={width}
             decelerationRate={0}
             showsHorizontalScrollIndicator={false}
           >
-            {eVes?.vehicles.map((e) => (
+            {eVes?.vehicles.map((e, index, array) => (
               <CarCard
                 key={e.Vehicle_ID}
                 eVe={e}
@@ -93,7 +100,14 @@ const MyMatch = () => {
                   navigate(APP_STACK_SCREENS_NAMES.Details, {
                     vehicleID: e.Vehicle_ID,
                   })}
-                containerStyle={[styles.scrollView, styles.card]}
+                containerStyle={[
+                  styles.scrollView,
+                  styles.card,
+                  {
+                    width,
+                    paddingHorizontal: width * 0.03,
+                  },
+                ]}
                 contentStyle={styles.cardContent}
               />
             ))}
@@ -116,16 +130,16 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
   },
   content: {
-    paddingHorizontal: width * 0.05,
+    // paddingHorizontal: width * 0.05,
     paddingVertical: "2.5%",
   },
   scrollViewContainer: {},
   scrollView: {
-    width: width * 0.9,
+    // width: width * 0.9,
     height: height * 0.55,
   },
   card: {
-    padding: 10,
+    // padding: 10,
   },
   cardContent: {
     paddingVertical: 10,

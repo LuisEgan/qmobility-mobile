@@ -1,6 +1,7 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Dimensions } from "react-native";
+import * as Permissions from "expo-permissions";
 import { IAuthScreens } from "../../../navigation/Navigators/AuthNavigator";
 import Login from "./Login";
 import SignUp from "./SignUp";
@@ -47,6 +48,18 @@ const LoginSignUp = (props: ILoginSignUp) => {
       header: () => null,
     });
   }, [navigation]);
+
+  useEffect(() => {
+    getPermissionCameraAsync();
+  }, []);
+
+  const getPermissionCameraAsync = async () => {
+    try {
+      await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
+    } catch (error) {
+      console.error("TCL: getPermissionCameraAsync -> error", error);
+    }
+  };
 
   const loadingContext = React.useMemo(
     () => ({
