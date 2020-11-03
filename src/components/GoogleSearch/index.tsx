@@ -10,6 +10,10 @@ import ListItem from "../ListItem/index";
 import Icons from "../svg/index";
 import theme from "../../config/Theme";
 
+import app from "../../../app.json";
+
+const API_KEY = app.expo.android.config.googleMaps.apiKey;
+
 export type TDetails = GooglePlaceDetail | DescriptionRow;
 
 interface IGoogleSearch {
@@ -87,7 +91,7 @@ const GoogleSearch = (props: IGoogleSearch) => {
         if (onPress && details) onPress(details);
       }}
       query={{
-        key: "AIzaSyDyz9GjDVV8RA5x5BSsXm_SzVtqc8F1QPU",
+        key: API_KEY,
         language: "en",
       }}
       filterReverseGeocodingByTypes={["geocode"]}

@@ -41,9 +41,9 @@ const Google = () => {
     try {
       const loginResult = await GoogleExpo.logInAsync({
         iosClientId:
-          "69703201369-6lqjlkadpv8hh2ji4rg53g8mnd4kk7df.apps.googleusercontent.com",
+          "576090021603-a139q50lke316eg6703o5kkde42rfu7k.apps.googleusercontent.com",
         androidClientId:
-          "69703201369-872et3pp11lgsomheffnskvmp2u8o24e.apps.googleusercontent.com",
+          "576090021603-9vhepsofn4bq9q9sd2mkc52971kfecdj.apps.googleusercontent.com",
 
         scopes: ["profile", "email"],
       });

@@ -7,7 +7,9 @@ import Icons from "../svg";
 import theme, { Text } from "../../config/Theme";
 import { APP_STACK_SCREENS_NAMES } from "../../lib/constants";
 
-const API_KEY = "AIzaSyDyz9GjDVV8RA5x5BSsXm_SzVtqc8F1QPU";
+import app from "../../../app.json";
+
+const API_KEY = app.expo.android.config.googleMaps.apiKey;
 
 interface IMarkerSelect {
   markeeSelect: LatLng;
