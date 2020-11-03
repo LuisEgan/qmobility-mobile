@@ -65,7 +65,48 @@ const deleteMyRoute = gql`
   }
 `;
 
+export interface IUpdateMyRoutesVar {
+  id: string;
+  origin: string;
+  destination: string;
+  userId: string;
+  friendlyName: string;
+  category: string;
+  frequency: string;
+}
+
+export interface IUpdataMyRoutes {
+  id: string;
+}
+
+const updateMyRoute = gql`
+  mutation updateMyRoute(
+    $id: String!
+    $origin: String!
+    $destination: String!
+    $userId: String!
+    $friendlyName: String!
+    $category: String!
+    $frequency: String!
+  ) {
+    updateMyRoute(
+      UpdateMyRouteInput: {
+        id: $id
+        origin: $origin
+        destination: $destination
+        userId: $userId
+        friendlyName: $friendlyName
+        category: $category
+        frequency: $frequency
+      }
+    ) {
+      id
+    }
+  }
+`;
+
 export default {
   saveMyRoute,
   deleteMyRoute,
+  updateMyRoute,
 };

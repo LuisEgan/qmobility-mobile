@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { withTimingTransition } from "react-native-redash";
 import { CarCard, Header } from "../../../components";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import theme from "../../../config/Theme";
@@ -92,7 +91,7 @@ const MyMatch = () => {
             decelerationRate={0}
             showsHorizontalScrollIndicator={false}
           >
-            {eVes?.vehicles.map((e, index, array) => (
+            {eVes?.vehicles.map((e) => (
               <CarCard
                 key={e.Vehicle_ID}
                 eVe={e}

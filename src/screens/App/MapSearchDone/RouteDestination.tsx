@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.white,
     height: 120,
-    width: width * 0.8,
+    width: width * 0.95,
     borderRadius: 10,
     flexDirection: "row",
     padding: 15,

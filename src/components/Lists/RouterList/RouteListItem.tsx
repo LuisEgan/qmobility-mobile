@@ -21,7 +21,15 @@ import {
 } from "../../../gql/Route/mutations";
 
 const RouteListItem = (props: ISavedRoute) => {
-  const { friendlyName, destination, origin, frequency, category, id } = props;
+  const {
+    friendlyName,
+    destination,
+    origin,
+    frequency,
+    category,
+    id,
+    onEdit,
+  } = props;
 
   const [state, setState] = useState<boolean>(false);
 
@@ -81,7 +89,7 @@ const RouteListItem = (props: ISavedRoute) => {
         text: "Edit",
         onPress: () => {
           setState(false);
-          console.warn("Edit");
+          isEdit();
         },
       },
       {
@@ -90,6 +98,10 @@ const RouteListItem = (props: ISavedRoute) => {
         style: "cancel",
       },
     ]);
+  };
+
+  const isEdit = () => {
+    if (onEdit) onEdit();
   };
 
   return (
