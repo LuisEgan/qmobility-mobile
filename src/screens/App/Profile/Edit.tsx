@@ -17,8 +17,10 @@ import { IUser } from "../../../gql/User/Types";
 import { IUpdateUser } from "../../../gql/User/mutations";
 import EditForm, { IEditFormValues } from "./Forms/EditForm";
 import { FullScreenModal } from "../../Feedback";
-import { cleanPhoneNumber } from "../../../lib/strings";
 import { IIceVehicle } from "../../../gql/Vehicle/Types";
+import { CountryApocope } from "../../../components/PhoneInput/Types";
+import { cleanPhoneNumber } from "../../../lib/strings";
+import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 const { height } = Dimensions.get("window");
 
@@ -31,7 +33,7 @@ const editSchema = yup.object().shape({
 });
 
 const Edit = () => {
-  const { goBack } = useNavigation();
+  const { navigate } = useNavigation();
 
   const { data: userData, loading } = useQuery<{ user: IUser }, IUser>(
     User.queries.allUserInfo,
@@ -85,7 +87,12 @@ const Edit = () => {
           lastname: userData.user.lastname || "",
           dateOfBirth: userData.user.dateOfBirth || new Date(),
           avatarUrl: userData.user.avatarUrl || "",
-          phone: cleanPhoneNumber(userData.user.phone || ""),
+          phone: cleanPhoneNumber(
+            userData.user.phone || "",
+            userData.user.phoneCountryCode,
+          ),
+          phoneCountryCode: userData.user.phoneCountryCode || "",
+          phoneCountry: (userData.user.phoneCountry || "") as CountryApocope,
           carPlate: userData.user.iceVehicle?.VehiclePlate,
           selectedVehicle: userData.user.selectedVehicle?.Vehicle_ID || 0,
         }}
@@ -99,7 +106,7 @@ const Edit = () => {
               text="Back"
               onPress={() => {
                 if (!updateUserLoading) {
-                  goBack();
+                  navigate(APP_STACK_SCREENS_NAMES.Profile);
                 }
               }}
               textRight={`${updateUserLoading ? "Loading" : "Save"}`}

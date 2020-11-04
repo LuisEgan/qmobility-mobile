@@ -20,6 +20,8 @@ export interface IUser {
   networkType: UserNetworkTypeEnum;
   createAt: Date;
   phone?: string;
+  phoneCountryCode?: string;
+  phoneCountry?: string;
   dateOfBirth?: Date;
   lastname?: string;
   updatedAt?: Date;

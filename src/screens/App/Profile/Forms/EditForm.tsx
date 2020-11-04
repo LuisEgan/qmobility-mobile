@@ -10,6 +10,7 @@ import {
 } from "../../../../components";
 import DatePicker from "../../../../components/DatePicker";
 import ICEVehicle from "../../../../components/ICEVehicle";
+import { CountryApocope } from "../../../../components/PhoneInput/Types";
 import theme, { Text } from "../../../../config/Theme";
 import Vehicle from "../../../../gql/Vehicle";
 import {
@@ -26,6 +27,8 @@ export interface IEditFormValues {
   dateOfBirth: Date;
   avatarUrl: string;
   phone: string;
+  phoneCountryCode: string;
+  phoneCountry: CountryApocope;
   carPlate: string;
   selectedVehicle: number;
 }
@@ -181,8 +184,18 @@ const EditForm = (props: IForm) => {
         />
 
         <PhoneInput
-          defaultValue={initialValues.phone}
-          onChangeFormattedText={handleChange("phone")}
+          phone={initialValues.phone}
+          phoneCountryCode={initialValues.phoneCountryCode}
+          phoneCountry={initialValues.phoneCountry}
+          onChangeFormattedText={({
+            phone,
+            phoneCountryCode,
+            phoneCountry,
+          }) => {
+            if (phone) handleChange("phone")(phone);
+            if (phoneCountryCode) handleChange("phoneCountryCode")(phoneCountryCode);
+            if (phoneCountry) handleChange("phoneCountry")(phoneCountry);
+          }}
           error={errors.phone}
           onIsInvalid={() => setErrors({ ...errors, phone: "Invalid Phone" })}
         />

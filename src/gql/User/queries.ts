@@ -24,6 +24,8 @@ const allUserInfo = gql`
       avatarUrl
       email
       phone
+      phoneCountryCode
+      phoneCountry
       selectedVehicle {
         Vehicle_ID
         Images

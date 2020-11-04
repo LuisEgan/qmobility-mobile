@@ -1,4 +1,4 @@
-export type CountryCode =
+export type CountryApocope =
   | "AF"
   | "AL"
   | "DZ"
