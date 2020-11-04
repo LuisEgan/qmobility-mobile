@@ -1,9 +1,11 @@
-import React, { FC } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { ReactNode, useEffect } from "react";
 import { StyleSheet, Dimensions } from "react-native";
 import Animated from "react-native-reanimated";
 import { useTransition, mix } from "react-native-redash";
 import theme, { Text } from "../../../config/Theme";
 import { IComponentsDefaults } from "../../../lib/Types";
+import { TLoadingNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 const { height } = Dimensions.get("window");
 
@@ -12,16 +14,35 @@ export interface IDisplayFeedbackScreen {
   setFeedbackMessage?: (mssg: string) => void;
 }
 
-interface IFullScreenModal extends IComponentsDefaults {
+export interface IFullScreenModal
+  extends IComponentsDefaults,
+    TLoadingNavProps {
+  children: ReactNode;
   show: boolean;
-  message?: string;
+  message: string;
 }
 
-const FullScreenModal: FC<IFullScreenModal> = (props) => {
-  const { children, containerStyle, show, message = "Loading..." } = props;
+const FullScreenModal = (props: Partial<IFullScreenModal>) => {
+  const {
+    route,
+    children,
+    containerStyle,
+    show,
+    message = "Loading...",
+  } = props;
 
-  const transition = useTransition(show, { duration: 100 });
+  const { navigate } = useNavigation();
+
+  const transition = useTransition(!!show, { duration: 100 });
   const translateY = mix(transition, height, 0);
+
+  useEffect(() => {
+    if (route?.params.redirectTo) {
+      setTimeout(() => {
+        navigate(route?.params.redirectTo);
+      }, 1000);
+    }
+  }, []);
 
   return (
     <Animated.View

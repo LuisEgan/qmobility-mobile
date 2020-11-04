@@ -9,6 +9,9 @@ type LoginSignUpFrom = 0 | 1;
 // * Screens Props Types
 type StackParamsList = {
   screen: Record<string, unknown>;
+  Loading: {
+    redirectTo: string;
+  };
   LoginSignUp: {
     from: LoginSignUpFrom;
   };
@@ -32,6 +35,9 @@ type StackParamsList = {
     vehicleID?: number;
   };
 };
+
+// * Loading props
+export type TLoadingNavProps = StackScreenProps<StackParamsList, "Loading">;
 
 // * Terms and conditions props
 export type TTCsNavProps = StackScreenProps<StackParamsList, "screen">;
@@ -103,7 +109,8 @@ export type TMapSearchDoneNavProps = StackScreenProps<
 >;
 
 // * Export all types as one type
-export type TAllNavProps = TTCsNavProps &
+export type TAllNavProps = TLoadingNavProps &
+  TTCsNavProps &
   TAccessNavProps &
   TLoginSignUpNavProps &
   TMyCarsNavProps &
