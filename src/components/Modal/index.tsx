@@ -17,23 +17,31 @@ const { height, width } = Dimensions.get("window");
 interface IModal extends IComponentsDefaults {
   state: boolean;
   onClosed: () => void;
+  notTouch?: boolean;
   contentStyle?: StyleProp<ViewStyle>;
 }
 
 const Modal = (props: PropsWithChildren<IModal>) => {
-  const { state, onClosed, children, containerStyle, contentStyle } = props;
+  const {
+    state,
+    onClosed,
+    children,
+    notTouch = false,
+    containerStyle,
+    contentStyle,
+  } = props;
 
   return (
     <ModalItem
       transparent
       animationType="fade"
       visible={state}
-      onRequestClose={onClosed}
+      onRequestClose={() => !notTouch && onClosed}
     >
       <TouchableOpacity
         activeOpacity={1}
         style={[styles.contentStyle, containerStyle]}
-        onPress={onClosed}
+        onPress={() => !notTouch && onClosed}
       >
         <View style={{ flex: 1 }} />
         <View style={[styles.modalContent, contentStyle]}>{children}</View>

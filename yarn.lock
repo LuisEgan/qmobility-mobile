@@ -1102,6 +1102,11 @@
     pouchdb-collections "^1.0.1"
     tiny-queue "^0.2.1"
 
+"@formidable-webview/webshell@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@formidable-webview/webshell/-/webshell-2.0.1.tgz#f3290c1ccc074c8d29c308150808c3b0b2eb3d59"
+  integrity sha512-oUYt9YYQi0QBAQGHXdjbcZTpLfekhzGPrhK54QNRcqWyUzSYmQIC+bg/YZ52vp+GTG0H0d1J9vcmipN49O5mLA==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

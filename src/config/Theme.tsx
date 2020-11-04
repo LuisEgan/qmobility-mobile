@@ -42,6 +42,8 @@ const theme: BaseTheme = {
     secondaryLight: palette.blueSecondaryLight,
     secondaryLighter: palette.blueSecondaryLighter,
 
+    grayDark: palette.grayDark,
+
     title: palette.grayDark,
     subTitle: palette.gray,
     background: palette.grayLight,

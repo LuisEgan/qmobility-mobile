@@ -60,6 +60,7 @@ import {
   Calendar,
   EvStation,
   Filter,
+  Clear,
 } from "./icons";
 
 import { TIcon } from "./icons/TypeIcons";
@@ -134,6 +135,7 @@ const icons = {
   Calendar: (props: Iicons) => <Calendar {...props} />,
   EvStation: (props: Iicons) => <EvStation {...props} />,
   Filter: (props: Iicons) => <Filter {...props} />,
+  Clear: (props: Iicons) => <Clear {...props} />,
 };
 
 const Icons = (props: Iicons) => {

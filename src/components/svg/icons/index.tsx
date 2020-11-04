@@ -56,3 +56,4 @@ export { default as Timeline } from "./Timeline";
 export { default as Calendar } from "./Calendar";
 export { default as EvStation } from "./EvStation";
 export { default as Filter } from "./Filter";
+export { default as Clear } from "./Clear";
