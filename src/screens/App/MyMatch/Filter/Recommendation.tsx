@@ -82,7 +82,7 @@ const Recomendation = (props: IRecommendation) => {
             color: theme.colors.primary,
           }}
         >
-          {`${fromValue} - ${toValue} km`}
+          {`${fromValue} - ${toValue} mi`}
         </Text>
       </View>
     </View>

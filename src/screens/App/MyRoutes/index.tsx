@@ -5,9 +5,13 @@ import { Header } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
 import { RouterList } from "../../../components/Lists";
 import { DrawerLeftMenu } from "../../../components/HOCs";
-import { Route } from "../../../gql";
-import { IGetMySaveRoute } from "../../../gql/Route/queries";
+import { Route, User } from "../../../gql";
+import { IGetMySaveRoute, ISavedRoute } from "../../../gql/Route/queries";
 import ScrollCategory from "./ScrollCategory";
+import ModalSaveRoute, {
+  IModalSaveRoute,
+} from "../MapSearchDone/ModalSaveRoute";
+import { IUser } from "../../../gql/User/Types";
 
 const MyRoutes = () => {
   const {
@@ -18,9 +22,38 @@ const MyRoutes = () => {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("All");
+  const { data: eVe } = useQuery<{ user: IUser }, IUser>(User.queries.getEve);
 
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
+  const [stateEdit, setStateEdit] = useState<boolean>(false);
+
+  const [propsModal, setPropsModal] = useState<IModalSaveRoute>({
+    categoryOld: "",
+    friendlyNameOld: "",
+    frequencyOld: "",
+    startLocation: "",
+    endLocation: "",
+    id: "",
+    kwh: 0,
+    totalDistance: 0,
+    totalTime: 0,
+  });
+
+  const EditRouter = (item: ISavedRoute) => {
+    const obj: IModalSaveRoute = {
+      categoryOld: item.category,
+      friendlyNameOld: item.friendlyName,
+      frequencyOld: item.frequency,
+      startLocation: item.origin,
+      endLocation: item.destination,
+      id: item.id,
+      kwh: item.kwh || 0,
+      totalDistance: item.totalDistance || 0,
+      totalTime: item.totalTime || 0,
+    };
+    setPropsModal(obj);
+    setTimeout(() => {
+      setStateEdit(!stateEdit);
+    }, 100);
   };
 
   return (
@@ -28,11 +61,22 @@ const MyRoutes = () => {
       isDrawerOpen={isDrawerOpen}
       onDrawerToggle={setIsDrawerOpen}
     >
+      {stateEdit && (
+        <ModalSaveRoute
+          stateModal={stateEdit}
+          isEdit
+          onClosed={() => setStateEdit(!stateEdit)}
+          {...propsModal}
+          carId={eVe?.user?.selectedVehicle?.Vehicle_ID || 0}
+          label="Edit your route"
+        />
+      )}
+
       <Header
         title="My Routes"
         subTitle="Here we store all your everyday routes"
         icon="Menu"
-        onPress={toggleDrawer}
+        onPress={() => setIsDrawerOpen(!isDrawerOpen)}
       />
 
       <ScrollCategory
@@ -53,6 +97,7 @@ const MyRoutes = () => {
             {!getMySaveRouteError ? (
               <RouterList
                 filter={filter}
+                onEdit={(item) => EditRouter(item)}
                 ListArray={getMySaveRouteData?.getMyRoutes || []}
               />
             ) : (

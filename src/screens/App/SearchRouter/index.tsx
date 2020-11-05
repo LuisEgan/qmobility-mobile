@@ -19,7 +19,9 @@ import {
 } from "../../../gql/RecentRoute/queries";
 import { RecentRoute } from "../../../gql";
 
-const API_KEY = "AIzaSyDyz9GjDVV8RA5x5BSsXm_SzVtqc8F1QPU";
+import app from "../../../../app.json";
+
+const API_KEY = app.expo.android.config.googleMaps.apiKey;
 
 interface IDetails extends GooglePlaceDetail, DescriptionRow {}
 

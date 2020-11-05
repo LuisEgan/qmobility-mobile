@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "relative",
     bottom: 0,
+    paddingBottom: 35,
   },
   contentStyle: {
     width,

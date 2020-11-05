@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-  Linking,
-} from "react-native";
+import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { useQuery } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
-import { Header, Icons, Footer, CardImage } from "../../../components";
+import {
+  Header,
+  Icons,
+  Footer,
+  CardImage,
+  Document,
+} from "../../../components";
 import theme, { Text } from "../../../config/Theme";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import { User } from "../../../gql";
@@ -26,23 +26,14 @@ const MyCars = () => {
   );
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [stateWeb, setStateWeb] = useState<boolean>(false);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
   const openCatalog = async () => {
-    try {
-      const canOpen = await Linking.canOpenURL(CATALOG_URI);
-
-      if (canOpen) {
-        Linking.openURL(CATALOG_URI);
-      } else {
-        throw new Error("bad link");
-      }
-    } catch (error) {
-      console.error("error: ", error);
-    }
+    setStateWeb(!stateWeb);
   };
 
   if (loading) return <FullScreenModal show />;
@@ -52,6 +43,13 @@ const MyCars = () => {
       isDrawerOpen={isDrawerOpen}
       onDrawerToggle={setIsDrawerOpen}
     >
+      {stateWeb && (
+        <Document
+          state={stateWeb}
+          onClosed={() => setStateWeb(!stateWeb)}
+          url={CATALOG_URI}
+        />
+      )}
       <View style={styles.container}>
         <Header
           title="My Vehicles"

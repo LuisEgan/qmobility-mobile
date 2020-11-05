@@ -21,7 +21,7 @@ const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
     placeholder,
     defaultValue,
     containerStyle,
-    leftIcon,
+    leftIcon = "ArrowBackLight",
     onLeftIconPress,
     children,
   } = props;
@@ -53,10 +53,6 @@ const InputSearch = (props: PropsWithChildren<IInputSearch>) => {
       </View>
     </View>
   );
-};
-
-InputSearch.defaultProps = {
-  leftIcon: "ArrowBackLight",
 };
 
 export default InputSearch;

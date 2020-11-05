@@ -93,6 +93,12 @@ export interface ISavedRoute {
   frequency: string;
   category: string;
   id: string;
+
+  kwh?: number;
+  totalDistance?: number;
+  totalTime?: number;
+
+  onEdit?: () => void;
 }
 export type IGetMySaveRoute = Array<ISavedRoute>;
 
@@ -105,6 +111,10 @@ const getMySaveRoute = gql`
       frequency
       category
       id
+
+      kwh
+      totalDistance
+      totalTime
     }
   }
 `;

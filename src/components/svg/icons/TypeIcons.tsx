@@ -58,6 +58,7 @@ export type TIcon =
   | "Calendar"
   | "EvStation"
   | "Filter"
+  | "Clear"
   | "Error";
 
 export interface ISVG {

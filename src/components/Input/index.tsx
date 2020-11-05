@@ -15,7 +15,7 @@ import { IComponentsDefaults } from "../../lib/Types";
 
 interface IInput extends IComponentsDefaults {
   onChange?: (str: string) => void;
-  value?: string;
+  value?: string | number;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   onForgotPass?: () => void;
   label?: string;

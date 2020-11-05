@@ -16,39 +16,79 @@ import { Modal, Select, Input, Icons } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
 
 import { ERRORS } from "../../../lib/constants";
-import { ISaveMyRoutes, ISaveMyRoutesVar } from "../../../gql/Route/mutations";
+import {
+  ISaveMyRoutes,
+  ISaveMyRoutesVar,
+  IUpdateMyRoutesVar,
+  IUpdataMyRoutes,
+} from "../../../gql/Route/mutations";
 import { Route } from "../../../gql";
 
 const { height, width } = Dimensions.get("window");
 
-interface IModalSaveRoute {
-  stateModal: boolean;
-  onClosed: () => void;
+export interface IModalSaveRoute {
+  stateModal?: boolean;
+  onClosed?: () => void;
+  isEdit?: boolean;
+
   startLocation: string;
   endLocation: string;
 
   kwh: number;
   totalDistance: number;
   totalTime: number;
-  carId: number;
+
+  carId?: number;
+
+  id?: string;
+  categoryOld?: string;
+  friendlyNameOld?: string;
+  frequencyOld?: string;
+
+  label?: string;
 }
 
-interface IFormValues {
+export interface IFormValuesModalSaveRoute {
   name: string;
   category: string;
   frequency: string;
 }
 
+const OPTIONCATEGORY: string[] = [
+  "Commute",
+  "Local household",
+  "Weekend Away",
+  "Annual Break",
+];
+
+const validationText = (str: string): string => {
+  if (str === "") return " ";
+
+  if (str === "Commute" || str === "Local household") {
+    return "time per week";
+  }
+  return "time per year";
+};
+
 const ModalSaveRoute = (props: IModalSaveRoute) => {
   const {
     stateModal,
     onClosed,
+    isEdit = false,
+
     startLocation,
     endLocation,
     kwh,
     totalDistance,
     totalTime,
     carId,
+
+    id,
+    categoryOld,
+    friendlyNameOld,
+    frequencyOld,
+
+    label = "Save your route",
   } = props;
 
   const [upSaveMyRoutes, { loading: upSaveMyRoutesLoading }] = useMutation<
@@ -56,37 +96,83 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
     ISaveMyRoutesVar
   >(Route.mutations.saveMyRoute);
 
+  const [updataMyRoutes, { loading: updataMyRoutesLoading }] = useMutation<
+    { updataMyRoutes: IUpdataMyRoutes },
+    IUpdateMyRoutesVar
+  >(Route.mutations.updateMyRoute);
+
   const [statePhase, setStatePhase] = useState<boolean>(true);
   const [isSavedRoute, setIsSavedRoute] = useState<boolean>(false);
-  const [valueSave, setValueSave] = useState<IFormValues>({
-    name: "",
-    category: "",
-    frequency: "",
+  const [valueSave, setValueSave] = useState<IFormValuesModalSaveRoute>({
+    name: friendlyNameOld || "",
+    category: categoryOld || "",
+    frequency: frequencyOld || "",
   });
 
-  const onSaveRoute = (values: IFormValues): void => {
+  const onSaveRoute = (values: IFormValuesModalSaveRoute): void => {
     setValueSave(values);
     setStatePhase(!statePhase);
+  };
+
+  const onValidationType = () => {
+    if (isEdit) {
+      onEditionRouter();
+    } else {
+      onSaveMyRouter();
+    }
+  };
+
+  const onEditionRouter = async () => {
+    const { name, category, frequency } = valueSave;
+    const obj: IUpdateMyRoutesVar = {
+      id: id || "",
+      origin: "",
+      destination: "",
+      userId: "",
+      friendlyName: name,
+      category,
+      frequency,
+    };
+
+    try {
+      const updataMyRouteData = await updataMyRoutes({
+        obj,
+        refetchQueries: [
+          {
+            query: Route.queries.getMySaveRoute,
+          },
+        ],
+      });
+
+      setIsSavedRoute(true);
+      if (updataMyRouteData) {
+        setTimeout(() => {
+          onCancel();
+        }, 1500);
+      }
+    } catch (error) {
+      console.warn("onEditionRouter -> error", error);
+    }
   };
 
   const onSaveMyRouter = async () => {
     const { name, category, frequency } = valueSave;
     const newFrequecy = `${frequency} ${validationText(category)}`;
     try {
-      const variables = {
+      const obj = {
         origin: startLocation,
         destination: endLocation,
         friendlyName: name,
         category,
         frequency: newFrequecy,
-        kwh,
-        totalDistance,
-        totalTime,
-        carId,
+        kwh: kwh.toString(),
+        totalDistance: totalDistance.toString(),
+        totalTime: totalTime.toString(),
+        carId: carId?.toString() || "",
       };
 
       const upSaveMyRouteData = await upSaveMyRoutes({
-        variables,
+        obj,
         refetchQueries: [
           {
             query: Route.queries.getMySaveRoute,
@@ -108,23 +194,14 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
   const onCancel = () => {
     setStatePhase(true);
     setIsSavedRoute(false);
-    onClosed();
+    if (onClosed) onClosed();
   };
 
-  const validationText = (str: string): string => {
-    if (str === "") return " ";
-
-    if (str === "Commute" || str === "Local household") {
-      return "time per week";
-    }
-    return "time per year";
-  };
-
-  const Form = (params: FormikProps<IFormValues>) => {
+  const Form = (params: FormikProps<IFormValuesModalSaveRoute>) => {
     const {
-      handleChange,
       handleSubmit,
       handleBlur,
+      setFieldValue,
       errors,
       touched,
       values,
@@ -147,7 +224,8 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
             >
               <Input
                 placeholder="Name"
-                onChange={(str) => handleChange("name")(str.toString())}
+                value={values.name}
+                onChange={(str) => setFieldValue("name", str.toString())}
                 onBlur={() => handleBlur("name")}
                 error={errors.name && ERRORS.REQUIRED}
                 touched={touched.name}
@@ -157,14 +235,9 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
 
               <Select
                 placeholder="Category"
-                list={[
-                  "Commute",
-                  "Local household",
-                  "Weekend Away",
-                  "Annual Break",
-                ]}
+                list={OPTIONCATEGORY}
                 value={values.category}
-                onPress={(str) => handleChange("category")(str.toString())}
+                onPress={(str) => setFieldValue("category", str.toString())}
                 containerStyle={styles.selectContent}
                 error={errors.category && ERRORS.REQUIRED}
                 touched={touched.category}
@@ -173,7 +246,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
               <Input
                 placeholder="frequency"
                 isNumber
-                onChange={(str) => handleChange("frequency")(str.toString())}
+                onChange={(str) => setFieldValue("frequency", str.toString())}
                 onBlur={() => handleBlur("frequency")}
                 error={errors.frequency && ERRORS.REQUIREDNUM}
                 touched={touched.frequency}
@@ -200,9 +273,9 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
               {statePhase ? "CANCEL" : "BACK"}
             </Text>
           </TouchableOpacity>
-          {!upSaveMyRoutesLoading ? (
+          {!upSaveMyRoutesLoading || updataMyRoutesLoading ? (
             <TouchableOpacity
-              onPress={statePhase ? handleSubmit : onSaveMyRouter}
+              onPress={statePhase ? handleSubmit : onValidationType}
             >
               <Text
                 variant="bodyBold"
@@ -273,11 +346,8 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
 
   const ContentBody = () => (
     <Formik
-      initialValues={{
-        name: "",
-        category: "",
-        frequency: "",
-      }}
+      enableReinitialize
+      initialValues={valueSave}
       onSubmit={onSaveRoute}
       validationSchema={SignupSchema}
     >
@@ -285,8 +355,12 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
     </Formik>
   );
 
+  const onClosedValidation = () => {
+    if (onClosed) onCancel();
+  };
+
   return (
-    <Modal state={stateModal} onClosed={() => onCancel()}>
+    <Modal state={stateModal || false} onClosed={() => onClosedValidation()}>
       <View style={styles.containerModal}>
         <TouchableOpacity activeOpacity={1} style={styles.contentModal}>
           <View>
@@ -299,7 +373,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
                 styles.titleModal,
               ]}
             >
-              Save your route
+              {label}
             </Text>
           </View>
           <ContentBody />

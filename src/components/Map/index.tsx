@@ -73,6 +73,19 @@ const Map = (props: IMap) => {
       const location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
       setUserLocation(location.coords);
+
+      setTimeout(() => {
+        mapAnimation.current?.animateToRegion(
+          {
+            latitude,
+            longitude,
+            latitudeDelta: 70,
+            longitudeDelta: 70,
+          },
+          1000,
+        );
+      }, 500);
+
       setTimeout(() => {
         mapAnimation.current?.animateToRegion(
           {
@@ -83,7 +96,7 @@ const Map = (props: IMap) => {
           },
           1000,
         );
-      }, 100);
+      }, 1500);
     }
   };
 

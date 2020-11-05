@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Dimensions, ImageBackground } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  ImageBackground,
+  Platform,
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useQuery } from "@apollo/client";
 import { Map, InputSearch } from "../../../components";
 import { DrawerLeftMenu, DrawerRightMenu } from "../../../components/HOCs";
-
-import car from "../../../assets/png/Nissan_Leaf_2018-02.png";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
+
+import CAR from "../../../assets/png/Nissan_Leaf_2018-02.png";
+
+// const CAR = require("../../../assets/png/Nissan_Leaf_2018-02.png");
 
 const { height } = Dimensions.get("window");
 
@@ -63,7 +71,7 @@ const Main = () => {
                 source={
                   userData
                     ? { uri: userData.user.selectedVehicle?.Images[0] }
-                    : car
+                    : CAR
                 }
                 style={styles.imgBg}
               />
@@ -77,6 +85,10 @@ const Main = () => {
 };
 
 export default Main;
+
+const C = Platform.OS === "ios" ? 0.06 : 0.07;
+
+const HEIGHTIMG = height * C;
 
 const styles = StyleSheet.create({
   container: {
@@ -98,12 +110,14 @@ const styles = StyleSheet.create({
     flex: 0.05,
   },
   carImgContainer: {
-    height: height * 0.08,
-    width: height * 0.08,
+    height: HEIGHTIMG,
+    width: HEIGHTIMG,
     overflow: "hidden",
     borderRadius: 100,
   },
   imgBg: {
     flex: 1,
+    height: HEIGHTIMG,
+    width: HEIGHTIMG,
   },
 });

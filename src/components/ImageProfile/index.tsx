@@ -31,7 +31,7 @@ const ImageProfile = (props: IImageProfile) => {
 
   // * Get camera permissions
   useEffect(() => {
-    getPermissionAsync();
+    getPermissionCameraAsync();
   }, []);
 
   // * On update photo
@@ -66,11 +66,11 @@ const ImageProfile = (props: IImageProfile) => {
     </Modal>
   );
 
-  const getPermissionAsync = async () => {
+  const getPermissionCameraAsync = async () => {
     try {
       await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
     } catch (error) {
-      console.error("TCL: getPermissionAsync -> error", error);
+      console.error("TCL: getPermissionCameraAsync -> error", error);
     }
   };
 

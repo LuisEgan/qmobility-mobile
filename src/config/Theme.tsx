@@ -59,6 +59,7 @@ const theme: BaseTheme = {
     black: palette.black,
     blackTransparent: palette.blackTransparent,
     gray: palette.gray,
+    grayDark: palette.grayDark,
     grayLight: palette.grayLight,
     grayLighter: palette.grayLighter,
 

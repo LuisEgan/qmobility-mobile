@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { AsyncStorage, Keyboard } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useApolloClient } from "@apollo/client";
 import { AuthContext } from "../AuthContext";
 import AppNavigator from "./AppNavigator";
 import AuthNavigator from "./AuthNavigator";
@@ -16,6 +17,7 @@ const RootNavigator = () => {
   const [userToken, setUserToken] = useState<TUserToken>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isKeyboardHidden, setIsKeyboardHidden] = useState<boolean>(true);
+  const client = useApolloClient();
 
   // * Set user token from cached data
   useEffect(() => {
@@ -75,6 +77,7 @@ const RootNavigator = () => {
         const doSignOut = async () => {
           await AsyncStorage.removeItem(ASYNC_STORAGE_ITEMS.USER_TOKEN);
           await AsyncStorage.removeItem(ASYNC_STORAGE_ITEMS.HAS_ACCEPTED_TCS);
+          client.resetStore();
           setUserToken(null);
         };
 
