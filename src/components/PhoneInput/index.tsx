@@ -3,15 +3,21 @@ import { View, StyleSheet } from "react-native";
 import Phone from "react-native-phone-number-input";
 import { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
-import { CountryCode } from "./Types";
+import { CountryApocope } from "./Types";
 
+interface IonChangeFormattedText {
+  phone?: string;
+  phoneCountryCode?: string;
+  phoneCountry?: CountryApocope;
+}
 interface IPhoneInput extends IComponentsDefaults {
-  defaultValue?: string;
+  phone?: string;
+  phoneCountry?: CountryApocope;
+  phoneCountryCode?: string;
   label?: string;
   value?: string;
   onChangeText?: (str: string) => void;
-  onChangeFormattedText?: (str: string) => void;
-  defaultCode?: CountryCode;
+  onChangeFormattedText?: (params: IonChangeFormattedText) => void;
   error?: string;
   onIsInvalid?: (phone: string | number) => void;
   disabled?: boolean;
@@ -20,30 +26,83 @@ interface IPhoneInput extends IComponentsDefaults {
 const PhoneInput = (props: IPhoneInput) => {
   const {
     containerStyle,
-    defaultValue,
+    phone: phoneProp,
+    phoneCountry: phoneCountryProp = "GB",
+    phoneCountryCode: phoneCountryCodeProp = "44",
     label = "Phone number",
     value,
     onChangeText: onChangeTextProp,
     onChangeFormattedText,
-    defaultCode = "GB",
     error,
     onIsInvalid,
     disabled,
   } = props;
 
   const phoneInput = useRef<Phone>(null);
-  const [phone, setPhone] = useState<string>(defaultValue || "");
+
+  const [phone, setPhone] = useState<string>(phoneProp || "");
+  const [phoneCountry, setPhoneCountry] = useState<CountryApocope>(
+    phoneCountryProp || "",
+  );
+  const [phoneCountryCode, setPhoneCountryCode] = useState<string>(
+    phoneCountryCodeProp || "",
+  );
 
   useEffect(() => {
-    if (defaultValue) {
-      setPhone(defaultValue);
-    }
-  }, [defaultValue]);
+    if (!phoneInput) return;
 
+    const updatePhoneData = async () => {
+      try {
+        // * There's a weird mix in naming with the Phone component in use
+        // * Country Code should be a NUMBER = +56, +58, etc
+        // * Calling Code is used as the country APOCOPE
+        // * The Phone component has it backwards.
+        const newPhoneCountryCode = phoneInput.current?.getCallingCode() || "";
+        const newPhoneCountry = phoneInput.current?.getCountryCode() as CountryApocope;
+
+        if (
+          newPhoneCountry !== phoneCountry
+          || newPhoneCountryCode !== phoneCountryCode
+        ) {
+          setPhoneCountry(newPhoneCountry);
+          setPhoneCountryCode(newPhoneCountryCode);
+
+          if (onChangeFormattedText) {
+            onChangeFormattedText({
+              phone,
+              phoneCountryCode: newPhoneCountryCode,
+              phoneCountry: newPhoneCountry,
+            });
+          }
+        }
+      } catch (e) {
+        console.error("e: ", e);
+      }
+    };
+
+    updatePhoneData();
+  });
+
+  // * Set initial phone value
+  useEffect(() => {
+    if (phoneProp) {
+      setPhone(phoneProp);
+    }
+
+    if (phoneCountryProp) {
+      setPhoneCountry(phoneCountryProp);
+    }
+  }, [phoneProp, phoneCountryProp]);
+
+  // * Trigger onchange callbacks on initial renders
   useEffect(() => {
     if (onChangeTextProp) onChangeTextProp(phone);
     if (onChangeFormattedText) {
-      onChangeFormattedText(phone);
+      onChangeFormattedText({
+        phone,
+        phoneCountryCode,
+        phoneCountry,
+      });
     }
   }, []);
 
@@ -56,7 +115,7 @@ const PhoneInput = (props: IPhoneInput) => {
   };
 
   const onChangePhone = (p: string) => {
-    if (onChangeFormattedText) onChangeFormattedText(p);
+    if (onChangeFormattedText) onChangeFormattedText({ phone: p });
 
     const isValid = phoneInput.current?.isValidNumber(+p);
     if (!isValid && onIsInvalid) {
@@ -74,7 +133,7 @@ const PhoneInput = (props: IPhoneInput) => {
         ref={phoneInput}
         onChangeText={onChangeText}
         onChangeFormattedText={onChangePhone}
-        defaultCode={defaultCode}
+        defaultCode={phoneCountry}
       />
       {!!error && <Text variant="error">{error}</Text>}
     </View>

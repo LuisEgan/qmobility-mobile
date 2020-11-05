@@ -103,6 +103,8 @@ export interface IUpdateUser {
   dateOfBirth?: Date;
   email?: string;
   phone?: string;
+  phoneCountryCode?: string;
+  phoneCountry?: string;
   selectedVehicle?: number;
   avatarUrl?: string;
   iceVehicle?: IIceVehicle | null;
@@ -114,6 +116,8 @@ const updateUser = gql`
     $lastname: String
     $email: String
     $phone: String
+    $phoneCountryCode: String
+    $phoneCountry: String
     $username: String
     $avatarUrl: String
     $dateOfBirth: DateTime
@@ -126,6 +130,8 @@ const updateUser = gql`
         lastname: $lastname
         email: $email
         phone: $phone
+        phoneCountryCode: $phoneCountryCode
+        phoneCountry: $phoneCountry
         username: $username
         avatarUrl: $avatarUrl
         dateOfBirth: $dateOfBirth
@@ -139,6 +145,8 @@ const updateUser = gql`
       dateOfBirth
       lastname
       phone
+      phoneCountryCode
+      phoneCountry
     }
   }
 `;

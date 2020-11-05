@@ -18,6 +18,7 @@ import { IUser } from "../../../gql/User/Types";
 import { FullScreenModal } from "../../Feedback";
 import { dateToText } from "../../../lib/dates";
 import { cleanPhoneNumber } from "../../../lib/strings";
+import { CountryApocope } from "../../../components/PhoneInput/Types";
 
 const CreateProfile = () => {
   const { navigate } = useNavigation();
@@ -45,7 +46,7 @@ const CreateProfile = () => {
         icon="Menu"
         iconRight="Edit"
         textRight="Edit"
-        onPressRight={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
+        onPressRight={() => navigate(APP_STACK_SCREENS_NAMES.Main)}
         onPress={toggleDrawer}
       />
       <ScrollView
@@ -74,8 +75,12 @@ const CreateProfile = () => {
           />
 
           <PhoneInput
-            defaultValue={`${cleanPhoneNumber(userData?.user.phone || "")}`}
+            phone={`${cleanPhoneNumber(
+              userData?.user.phone || "",
+              userData?.user.phoneCountryCode,
+            )}`}
             disabled
+            phoneCountry={userData?.user.phoneCountry as CountryApocope}
           />
 
           <View style={styles.containerTtitleEdition}>

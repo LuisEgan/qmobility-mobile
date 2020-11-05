@@ -10,8 +10,13 @@ export const upperCaseFormatter = (str: string) => str.toUpperCase();
 
 export const onlyNumbersFormatter = (str: string) => str.replace(/[^0-9]/g, "");
 
-export const cleanPhoneNumber = (phone: string): string =>
-  (phone.includes("+") ? phone.substring(3) : phone);
+export const cleanPhoneNumber = (phone: string, countryCode = ""): string => {
+  const cleanPhone = phone.includes("+")
+    ? phone.substring(countryCode.length + 1 || 3)
+    : phone;
+
+  return cleanPhone;
+};
 
 export const numberWithDots = (x = ""): string =>
   `${x}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
