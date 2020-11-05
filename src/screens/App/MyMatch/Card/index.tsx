@@ -105,9 +105,12 @@ const styles = StyleSheet.create({
   },
   cardIcons: {
     flexDirection: "row",
+    marginHorizontal: 5,
   },
   cardSubContent: {
     justifyContent: "flex-end",
+    alignItems: "flex-end",
+    flexDirection: "row",
   },
 
   // CARD

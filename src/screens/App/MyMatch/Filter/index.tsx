@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { QueryLazyOptions } from "@apollo/client";
-import { Icons } from "../../../../components";
+import { Icons, Input } from "../../../../components";
 import theme, { Text } from "../../../../config/Theme";
 
 import CheckboxesList, {
@@ -30,6 +30,7 @@ interface IFilter {
   setShowFilter: (show: boolean) => void;
   initMin: number;
   initMax: number;
+  limitMax: number;
 }
 
 const bodyTypeOptions = ["Cabriolet", "Hatchback", "SUV", "Other"];
@@ -48,18 +49,21 @@ const Filter = (props: IFilter) => {
     getVehicles,
     initMin,
     initMax,
+    limitMax = 5,
   } = props;
 
   const [rangeMin, setRangeMin] = useState<number>(initMin);
   const [rangeMax, setRangeMax] = useState<number>(initMax);
+  const [limit, setLimit] = useState<number>(limitMax || 5);
   const [bodyType, setBodyType] = useState<TCheckboxesOptions>([]);
   const [seats, setSeats] = useState<TCheckboxesOptions>([]);
 
   const getNewVehicles = () => {
+    const limitMin = limit <= 0 ? 1 : limit;
     const variables: IGetVehiclesVars = {
       rangeMin,
       rangeMax,
-      limit: 5,
+      limit: limitMin,
     };
 
     if (bodyType.length) {
@@ -96,6 +100,17 @@ const Filter = (props: IFilter) => {
     setSeats([]);
   };
 
+  const onChangeLimit = (str: string): void => {
+    let num: number;
+    if (str === "") {
+      num = 0;
+    } else {
+      /* eslint-disable-next-line */
+      num = parseInt(str);
+    }
+    setLimit(num);
+  };
+
   return (
     <View style={[styles.container, { zIndex: show ? 1 : -1 }]}>
       <ScrollView style={styles.scroll}>
@@ -109,6 +124,21 @@ const Filter = (props: IFilter) => {
         />
 
         <Price />
+
+        <View>
+          <Text>Max results</Text>
+          <Input
+            isNumber
+            placeholder="Max results"
+            onChange={(str) => onChangeLimit(str)}
+            value={limit.toString()}
+            inputStyle={styles.input}
+            containerStyle={{
+              flex: 1,
+              marginVertical: 0,
+            }}
+          />
+        </View>
 
         <View>
           <CheckboxesList
@@ -176,5 +206,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+  },
+  input: {
+    borderWidth: 0.5,
+    borderRadius: 10,
+    height: 50,
+    borderColor: theme.colors.gray,
   },
 });

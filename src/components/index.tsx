@@ -21,3 +21,4 @@ export { default as PhoneInput } from "./PhoneInput";
 export { default as CarCard } from "./Cards/CarCard";
 export { default as TriCard } from "./Cards/TriCard";
 export { default as TextWithUnit } from "./TextWithUnit";
+export { default as Document } from "./Document";

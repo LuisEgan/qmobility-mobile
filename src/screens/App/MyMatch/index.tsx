@@ -5,7 +5,7 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { CarCard, Header } from "../../../components";
 import { DrawerLeftMenu } from "../../../components/HOCs";
-import theme from "../../../config/Theme";
+import theme, { Text } from "../../../config/Theme";
 import Vehicle from "../../../gql/Vehicle";
 import { IGetVehiclesVars } from "../../../gql/Vehicle/queries";
 import { IVehicle } from "../../../gql/Vehicle/Types";
@@ -91,6 +91,11 @@ const MyMatch = () => {
             decelerationRate={0}
             showsHorizontalScrollIndicator={false}
           >
+            {eVes?.vehicles.length === 0 && (
+              <View style={styles.errorCard}>
+                <Text style={styles.errorText}>0 cars found</Text>
+              </View>
+            )}
             {eVes?.vehicles.map((e) => (
               <CarCard
                 key={e.Vehicle_ID}
@@ -143,5 +148,16 @@ const styles = StyleSheet.create({
   cardContent: {
     paddingVertical: 10,
     paddingHorizontal: 20,
+  },
+
+  errorCard: {
+    flex: 1,
+    width,
+    justifyContent: "center",
+  },
+  errorText: {
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
