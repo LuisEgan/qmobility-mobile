@@ -42,8 +42,6 @@ const theme: BaseTheme = {
     secondaryLight: palette.blueSecondaryLight,
     secondaryLighter: palette.blueSecondaryLighter,
 
-    grayDark: palette.grayDark,
-
     title: palette.grayDark,
     subTitle: palette.gray,
     background: palette.grayLight,
@@ -61,6 +59,7 @@ const theme: BaseTheme = {
     black: palette.black,
     blackTransparent: palette.blackTransparent,
     gray: palette.gray,
+    grayDark: palette.grayDark,
     grayLight: palette.grayLight,
     grayLighter: palette.grayLighter,
 

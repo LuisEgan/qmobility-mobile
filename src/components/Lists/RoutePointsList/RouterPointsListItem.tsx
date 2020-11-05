@@ -6,6 +6,7 @@ import { Icons } from "../..";
 import theme, { Text } from "../../../config/Theme";
 
 export const ROUTER_POINTS_LIST_ITEM_ICONS_COL_WIDTH = 25;
+const D = 26;
 
 export interface IRouterPointsListItem extends IComponentsDefaults {
   label: string;
@@ -44,20 +45,47 @@ const RouterPointListItem = (props: IRouterPointsListItem) => {
     return "body";
   };
 
-  const BulletIcon = (): JSX.Element => {
+  const BulletIcon = () => {
     if (typeof icon === "string") {
       return (
         <Icons icon={icon} size={25} fill={svgFill || theme.colors.primary} />
       );
     }
 
-    if (isChargingPoint) return <Icons size={25} icon="Market" />;
+    if (isStartPoint) {
+      return (
+        <View style={styles.constenIcons}>
+          <Icons size={23} icon="Circle" fill={theme.colors.primary} />
+        </View>
+      );
+    }
 
-    if (isEndPoint) return <Icons size={25} icon="ArrowDown" />;
+    if (isChargingPoint) {
+      return (
+        <View style={styles.constenIcons}>
+          <Icons size={23} icon="EvStation" />
+        </View>
+      );
+    }
 
-    if (isStartPoint) return <Icons size={25} icon="Clock" />;
+    if (isEndPoint) return <Icons size={33} icon="Market" />;
 
-    return icon || <Icons size={25} icon="Market" />;
+    return (
+      icon || (
+        <View
+          style={[
+            styles.constenIcons,
+            {
+              backgroundColor: theme.colors.primary,
+              paddingLeft: 5,
+              paddingTop: 2,
+            },
+          ]}
+        >
+          <Icons size={23} icon="EvStation" fill={theme.colors.white} />
+        </View>
+      )
+    );
   };
 
   return (
@@ -81,7 +109,14 @@ const RouterPointListItem = (props: IRouterPointsListItem) => {
       </View>
 
       <View style={styles.textContainer}>
-        <Text variant={setLabelVariant()}>{label}</Text>
+        <Text
+          style={{
+            paddingRight: 20,
+          }}
+          variant={setLabelVariant()}
+        >
+          {label}
+        </Text>
         {description && <Text variant="bodySmall">{description}</Text>}
       </View>
     </View>
@@ -112,9 +147,29 @@ const styles = StyleSheet.create({
 
   iconContainer: {
     marginRight: 10,
+    marginLeft: 2,
     width: ROUTER_POINTS_LIST_ITEM_ICONS_COL_WIDTH,
     alignItems: "center",
   },
 
-  textContainer: {},
+  textContainer: {
+    justifyContent: "center",
+  },
+
+  constenIcons: {
+    height: D,
+    width: D,
+    borderRadius: D,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: theme.colors.white,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 9,
+  },
 });
