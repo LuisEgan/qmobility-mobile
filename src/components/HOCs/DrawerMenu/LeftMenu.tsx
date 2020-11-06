@@ -102,7 +102,7 @@ const LeftMenu = (props: ILeftMenu) => {
         <Text variant="heading1" color={theme.colors.white}>
           {userData?.user.name}
         </Text>
-        <Text variant="body" color="bodySmall">
+        <Text variant="body" color="bodySmall" numberOfLines={1}>
           {userData?.user.email}
         </Text>
       </View>

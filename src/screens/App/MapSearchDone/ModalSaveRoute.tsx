@@ -151,7 +151,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
         }, 1500);
       }
     } catch (error) {
-      console.warn("onEditionRouter -> error", error);
+      console.error("error: ", error);
     }
   };
 
@@ -187,7 +187,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
         }, 1500);
       }
     } catch (error) {
-      // console.log("onSaveMyRouter -> error", error)
+      //
     }
   };
 
