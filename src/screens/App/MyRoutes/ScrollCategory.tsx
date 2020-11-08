@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,7 +11,7 @@ import { ISavedRoute } from "../../../gql/Route/queries";
 
 interface IScrollCategory {
   filter: string;
-  data: ISavedRoute[] | [];
+  data: ISavedRoute[];
   onPress: (str: string) => void;
 }
 
@@ -19,6 +19,14 @@ const { width } = Dimensions.get("window");
 
 const ScrollCategory = (props: IScrollCategory) => {
   const { filter, data, onPress } = props;
+  const [categories, setCategories] = useState<string[]>();
+
+  useEffect(() => {
+    if (!data) return;
+
+    const newCategories = new Set(data.map((route) => route.category));
+    setCategories([...newCategories]);
+  }, [data]);
 
   return (
     <View>
@@ -52,51 +60,41 @@ const ScrollCategory = (props: IScrollCategory) => {
             All
           </Text>
         </TouchableOpacity>
-        {data && (
-          <>
-            {data.map(
-              (
-                { category }: ISavedRoute,
-                index: number,
-                array: ISavedRoute[],
-              ) => (
-                <TouchableOpacity
-                  key={Math.random()}
-                  style={[
-                    styles.contentText,
-                    {
-                      marginRight:
-                        array.length - 1 === index ? width * 0.05 : 0,
-                      backgroundColor:
-                        filter === category
-                          ? theme.colors.primary
-                          : theme.colors.white,
-                      borderColor:
-                        filter === category
-                          ? theme.colors.primary
-                          : theme.colors.gray,
-                    },
-                  ]}
-                  onPress={() => onPress(category)}
-                >
-                  <Text
-                    style={[
-                      styles.text,
-                      {
-                        color:
-                          filter === category
-                            ? theme.colors.white
-                            : theme.colors.gray,
-                      },
-                    ]}
-                  >
-                    {category}
-                  </Text>
-                </TouchableOpacity>
-              ),
-            )}
-          </>
-        )}
+
+        {categories?.map((category, index: number, array) => (
+          <TouchableOpacity
+            key={Math.random()}
+            style={[
+              styles.contentText,
+              {
+                marginRight: array.length - 1 === index ? width * 0.05 : 0,
+                backgroundColor:
+                  filter === category
+                    ? theme.colors.primary
+                    : theme.colors.white,
+                borderColor:
+                  filter === category
+                    ? theme.colors.primary
+                    : theme.colors.gray,
+              },
+            ]}
+            onPress={() => onPress(category)}
+          >
+            <Text
+              style={[
+                styles.text,
+                {
+                  color:
+                    filter === category
+                      ? theme.colors.white
+                      : theme.colors.gray,
+                },
+              ]}
+            >
+              {category}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
     </View>
   );

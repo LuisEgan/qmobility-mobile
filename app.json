@@ -5,7 +5,7 @@
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/png/icon.png",
+    "icon": "./src/assets/png/isologo.png",
     "facebookScheme": "fb764850257614217",
     "facebookAppId": "764850257614217",
     "facebookAutoInitEnabled": true,
@@ -63,10 +63,11 @@
       ],
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyDyz9GjDVV8RA5x5BSsXm_SzVtqc8F1QPU"
+          "apiKey": "AIzaSyAxiZEv0TJ2YBnihi6nAi4tB3F0NZwcG5s"
         },
         "googleSignIn": {
-          "certificateHash": "F2014719A2BBDFA81730C381C8C6AC9157687CE1"
+          "certificateHash": "187BCE545C235D23F3F4FD8E70D36FDB65CBB155",
+          "apiKey": "AIzaSyAxiZEv0TJ2YBnihi6nAi4tB3F0NZwcG5s"
         }
       }
     },

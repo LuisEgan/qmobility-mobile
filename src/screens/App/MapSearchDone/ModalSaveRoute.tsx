@@ -26,6 +26,13 @@ import { Route } from "../../../gql";
 
 const { height, width } = Dimensions.get("window");
 
+const routeFormSchema = yup.object().shape({
+  name: yup.string().required("Required"),
+  category: yup.string().required("Required"),
+  frequency: yup.number().required().min(0).integer()
+    .required("Required"),
+});
+
 export interface IModalSaveRoute {
   stateModal?: boolean;
   onClosed?: () => void;
@@ -74,7 +81,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
   const {
     stateModal,
     onClosed,
-    isEdit = false,
+    isEdit,
 
     startLocation,
     endLocation,
@@ -96,8 +103,8 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
     ISaveMyRoutesVar
   >(Route.mutations.saveMyRoute);
 
-  const [updataMyRoutes, { loading: updataMyRoutesLoading }] = useMutation<
-    { updataMyRoutes: IUpdataMyRoutes },
+  const [updateMyRoutes, { loading: updateMyRoutesLoading }] = useMutation<
+    { updateMyRoutes: IUpdataMyRoutes },
     IUpdateMyRoutesVar
   >(Route.mutations.updateMyRoute);
 
@@ -125,18 +132,15 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
   const onEditionRouter = async () => {
     const { name, category, frequency } = valueSave;
     const obj: IUpdateMyRoutesVar = {
-      id: id || "",
-      origin: "",
-      destination: "",
-      userId: "",
+      myRouteId: id || "",
+      frequency,
       friendlyName: name,
       category,
-      frequency,
     };
 
     try {
-      const updataMyRouteData = await updataMyRoutes({
-        obj,
+      const updateMyRouteData = await updateMyRoutes({
+        variables: { ...obj },
         refetchQueries: [
           {
             query: Route.queries.getMySaveRoute,
@@ -145,13 +149,13 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
       });
 
       setIsSavedRoute(true);
-      if (updataMyRouteData) {
+      if (updateMyRouteData) {
         setTimeout(() => {
           onCancel();
         }, 1500);
       }
     } catch (error) {
-      console.error("error: ", error);
+      console.warn("onEditionRouter -> error", error);
     }
   };
 
@@ -165,14 +169,14 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
         friendlyName: name,
         category,
         frequency: newFrequecy,
-        kwh: kwh.toString(),
-        totalDistance: totalDistance.toString(),
-        totalTime: totalTime.toString(),
-        carId: carId?.toString() || "",
+        kwh: +kwh,
+        totalDistance: +totalDistance,
+        totalTime: +totalTime,
+        carId: +(carId || 0),
       };
 
       const upSaveMyRouteData = await upSaveMyRoutes({
-        obj,
+        variables: { ...obj },
         refetchQueries: [
           {
             query: Route.queries.getMySaveRoute,
@@ -187,7 +191,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
         }, 1500);
       }
     } catch (error) {
-      //
+      console.warn("onSaveMyRouter -> error", error);
     }
   };
 
@@ -196,6 +200,9 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
     setIsSavedRoute(false);
     if (onClosed) onClosed();
   };
+
+  const setFrequencyInputValue = (value: string) =>
+    (value.includes("time") ? +value.split("time")[0].trim() : +value.trim());
 
   const Form = (params: FormikProps<IFormValuesModalSaveRoute>) => {
     const {
@@ -246,6 +253,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
               <Input
                 placeholder="frequency"
                 isNumber
+                value={setFrequencyInputValue(values.frequency)}
                 onChange={(str) => setFieldValue("frequency", str.toString())}
                 onBlur={() => handleBlur("frequency")}
                 error={errors.frequency && ERRORS.REQUIREDNUM}
@@ -273,7 +281,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
               {statePhase ? "CANCEL" : "BACK"}
             </Text>
           </TouchableOpacity>
-          {!upSaveMyRoutesLoading || updataMyRoutesLoading ? (
+          {!upSaveMyRoutesLoading || updateMyRoutesLoading ? (
             <TouchableOpacity
               onPress={statePhase ? handleSubmit : onValidationType}
             >
@@ -337,19 +345,12 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
     );
   };
 
-  const SignupSchema = yup.object().shape({
-    name: yup.string().required("Required"),
-    category: yup.string().required("Required"),
-    frequency: yup.number().required().min(0).integer()
-      .required("Required"),
-  });
-
   const ContentBody = () => (
     <Formik
       enableReinitialize
       initialValues={valueSave}
       onSubmit={onSaveRoute}
-      validationSchema={SignupSchema}
+      validationSchema={routeFormSchema}
     >
       {Form}
     </Formik>

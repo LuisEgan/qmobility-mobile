@@ -116,7 +116,9 @@ const RouteListItem = (props: ISavedRoute) => {
           </View>
           <View style={styles.detailContainer}>
             <View>
-              <Text variant="heading2">{friendlyName}</Text>
+              <Text variant="heading2" numberOfLines={1}>
+                {friendlyName}
+              </Text>
               <Text numberOfLines={1} variant="body">
                 {origin}
               </Text>

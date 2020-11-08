@@ -6,7 +6,6 @@ export interface ISaveMyRoutesVar {
   friendlyName: string;
   category: string;
   frequency: string;
-  // new
   kwh: number;
   totalDistance: number;
   totalTime: number;
@@ -66,10 +65,7 @@ const deleteMyRoute = gql`
 `;
 
 export interface IUpdateMyRoutesVar {
-  id: string;
-  origin: string;
-  destination: string;
-  userId: string;
+  myRouteId: string;
   friendlyName: string;
   category: string;
   frequency: string;
@@ -81,20 +77,14 @@ export interface IUpdataMyRoutes {
 
 const updateMyRoute = gql`
   mutation updateMyRoute(
-    $id: String!
-    $origin: String!
-    $destination: String!
-    $userId: String!
-    $friendlyName: String!
-    $category: String!
-    $frequency: String!
+    $myRouteId: String!
+    $friendlyName: String
+    $category: String
+    $frequency: String
   ) {
     updateMyRoute(
-      UpdateMyRouteInput: {
-        id: $id
-        origin: $origin
-        destination: $destination
-        userId: $userId
+      updateMyRouteInput: {
+        myRouteId: $myRouteId
         friendlyName: $friendlyName
         category: $category
         frequency: $frequency

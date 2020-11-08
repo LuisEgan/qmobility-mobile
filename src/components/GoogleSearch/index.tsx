@@ -12,6 +12,8 @@ import theme from "../../config/Theme";
 
 import app from "../../../app.json";
 
+// TODO use independent GCP API KEY with
+// TODO "Application Restrictions" set to IP Addresses or HTTP Referers
 const API_KEY = app.expo.android.config.googleMaps.apiKey;
 
 export type TDetails = GooglePlaceDetail | DescriptionRow;

@@ -114,23 +114,28 @@ const SearchRouter = () => {
   );
 
   const onGoogleReute = async (details: IDetails) => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === "granted") {
-      const location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
-      let route = "";
-      await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude},${longitude}&key=${API_KEY}`,
-      )
-        .then((response) => response.json())
-        .then((responseJson) => {
-          route = responseJson.results[0].formatted_address;
-        });
+    try {
+      const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
-      navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
-        origin: route,
-        destination: details?.formatted_address || details?.description,
-      });
+      if (status === "granted") {
+        const location = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = location.coords;
+
+        const response = await (
+          await fetch(
+            `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude},${longitude}&key=${API_KEY}`,
+          )
+        ).json();
+
+        const route = response.results[0].formatted_address;
+
+        navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
+          origin: route,
+          destination: details?.formatted_address || details?.description,
+        });
+      }
+    } catch (error) {
+      console.error("error: ", error);
     }
   };
 
