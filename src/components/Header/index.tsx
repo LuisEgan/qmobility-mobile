@@ -103,8 +103,8 @@ const Header = (props: IHeader) => {
 
 export default Header;
 
-const heightMultiplier = Platform.OS === "ios" ? 0.21 : 0.23;
-const heightTopIcons = Platform.OS === "ios" ? 0.04 : 0.03;
+const heightMultiplier = Platform.OS === "ios" ? 0.21 : 0.24;
+const heightTopIcons = Platform.OS === "ios" ? 0.06 : 0.05;
 
 const styles = StyleSheet.create({
   container: {
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   view: {
-    marginTop: width * 0.1,
+    marginTop: width * 0.2,
     marginHorizontal: width * 0.05,
   },
 

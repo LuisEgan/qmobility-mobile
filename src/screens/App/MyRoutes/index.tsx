@@ -74,7 +74,7 @@ const MyRoutes = () => {
 
       <Header
         title="My Routes"
-        subTitle="Here we store all your everyday routes"
+        subTitle="All your everyday routes"
         icon="Menu"
         onPress={() => setIsDrawerOpen(!isDrawerOpen)}
       />
