@@ -27,6 +27,7 @@ interface IFilter {
   onDone?: () => void;
   onRangeMinChange: (min: number) => void;
   onRangeMaxChange: (min: number) => void;
+  onLimitChange: (num: number) => void;
   setShowFilter: (show: boolean) => void;
   initMin: number;
   initMax: number;
@@ -46,15 +47,16 @@ const Filter = (props: IFilter) => {
     onCancel,
     onRangeMinChange: onRangeMinChangeProp,
     onRangeMaxChange: onRangeMaxChangeProp,
+    onLimitChange,
     getVehicles,
     initMin,
     initMax,
-    limitMax = 5,
+    limitMax = 10,
   } = props;
 
   const [rangeMin, setRangeMin] = useState<number>(initMin);
   const [rangeMax, setRangeMax] = useState<number>(initMax);
-  const [limit, setLimit] = useState<number>(limitMax || 5);
+  const [limit, setLimit] = useState<number>(limitMax || 10);
   const [bodyType, setBodyType] = useState<TCheckboxesOptions>([]);
   const [seats, setSeats] = useState<TCheckboxesOptions>([]);
 
@@ -108,6 +110,7 @@ const Filter = (props: IFilter) => {
       /* eslint-disable-next-line */
       num = parseInt(str);
     }
+    onLimitChange(num);
     setLimit(num);
   };
 

@@ -25,12 +25,6 @@ const Alert = (props: IAlert) => {
     btnEnabled = true,
   } = props;
 
-  const onOk = () => {
-    if (onOkProp) {
-      onOkProp();
-    }
-  };
-
   return (
     <Modal state={show} onClosed={onClose} contentStyle={styles.modalContent}>
       <View style={styles.alert}>
@@ -44,7 +38,7 @@ const Alert = (props: IAlert) => {
             variant="primary"
             label={btnText}
             containerStyle={{ width: width * 0.4 }}
-            onPress={onOk}
+            onPress={onClose}
           />
         </View>
       </View>

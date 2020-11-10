@@ -153,8 +153,20 @@ const Details = (props: IDetails) => {
         text={loading ? "Loading..." : "Thanks! We'll contact you shortly."}
       />
 
-      <View style={styles.goBack}>
-        <Icons icon="ArrowBack" fill="white" onPress={goBack} />
+      <View
+        style={[
+          styles.goBack,
+          {
+            backgroundColor: theme.colors.blackTransparent,
+            justifyContent: "center",
+            alignItems: "center",
+            width: 30,
+            height: 30,
+            borderRadius: 30,
+          },
+        ]}
+      >
+        <Icons icon="ArrowBack" fill="white" size={20} onPress={goBack} />
       </View>
 
       <Slider

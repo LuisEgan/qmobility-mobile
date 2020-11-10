@@ -19,6 +19,7 @@ const { height, width } = Dimensions.get("window");
 
 const RANGE_MIN = 100;
 const RANGE_MAX = 250;
+const LIMIT_MAX = 10;
 
 const MyMatch = () => {
   const { navigate } = useNavigation();
@@ -33,13 +34,14 @@ const MyMatch = () => {
 
   const [rangeMin, setRangeMin] = useState<number>(RANGE_MIN);
   const [rangeMax, setRangeMax] = useState<number>(RANGE_MAX);
+  const [limitMax, setLimitMax] = useState<number>(LIMIT_MAX);
 
   useEffect(() => {
     getVehicles({
       variables: {
         rangeMin: RANGE_MIN,
         rangeMax: RANGE_MAX,
-        limit: 5,
+        limit: LIMIT_MAX,
       },
     });
   }, []);
@@ -62,8 +64,10 @@ const MyMatch = () => {
         onCancel={() => setShowFilter(false)}
         onRangeMinChange={setRangeMin}
         onRangeMaxChange={setRangeMax}
+        onLimitChange={setLimitMax}
         initMin={RANGE_MIN}
         initMax={RANGE_MAX}
+        limitMax={limitMax}
       />
 
       <View style={styles.container}>
