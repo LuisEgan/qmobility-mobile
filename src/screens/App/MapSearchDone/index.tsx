@@ -206,13 +206,11 @@ const MapSearchDone = (props: IMapSearchDone) => {
 
           <View
             style={[
-              styles.row,
               {
+                flexDirection: "row",
                 flex: 1,
-
-                width: "100%",
-                justifyContent: "center",
                 alignItems: "center",
+                justifyContent: "space-around",
               },
             ]}
           >
@@ -224,7 +222,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
               onPress={() => setIsDrawerOpen(!isDrawerOpen)}
             />
             <Button
-              containerStyle={[styles.button, { marginLeft: 25 }]}
+              containerStyle={styles.button}
               variant="primary"
               label="SAVE ROUTE"
               onPress={() => setStateModal(!stateModal)}
@@ -359,7 +357,7 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
   icon: { marginRight: 10 },
-  button: { width: width * 0.35, height: 34 },
+  button: { width: "45%", height: 40 },
   headerContainer: {
     position: "relative",
     top: 0,

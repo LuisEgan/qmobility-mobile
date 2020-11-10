@@ -46,7 +46,7 @@ const CreateProfile = () => {
         icon="Menu"
         iconRight="Edit"
         textRight="Edit"
-        onPressRight={() => navigate(APP_STACK_SCREENS_NAMES.Main)}
+        onPressRight={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
         onPress={toggleDrawer}
       />
       <ScrollView

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ViewStyle } from "react-native";
+import { View, StyleSheet, ViewStyle, TouchableOpacity } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
@@ -54,38 +54,30 @@ const Button = (props: IButton) => {
   };
 
   return (
-    <View
-      style={[
-        setRectButtonStyle(),
-        styles.button,
-        styles.buttonContainer,
-        containerStyle,
-      ]}
+    <TouchableOpacity
+      activeOpacity={0.9}
+      style={[setRectButtonStyle(), styles.button, containerStyle]}
+      onPress={onPress}
+      disabled={!enabled}
     >
-      <RectButton
-        style={[setRectButtonStyle(), styles.button]}
-        onPress={onPress}
-        enabled={enabled}
+      <View
+        style={{ flexDirection: "row", justifyContent: "center" }}
+        accessible
       >
-        <View
-          style={{ flexDirection: "row", justifyContent: "center" }}
-          accessible
+        {iconLeft && (
+          <Icons size={22} icon={iconLeft} fill={theme.colors.white} />
+        )}
+        <Text
+          variant="button"
+          color={inverse ? `${variant}Button` : theme.colors.white}
         >
-          {iconLeft && (
-            <Icons size={22} icon={iconLeft} fill={theme.colors.white} />
-          )}
-          <Text
-            variant="button"
-            color={inverse ? `${variant}Button` : theme.colors.white}
-          >
-            {label}
-          </Text>
-          {iconRight && (
-            <Icons size={22} icon={iconRight} fill={theme.colors.white} />
-          )}
-        </View>
-      </RectButton>
-    </View>
+          {label}
+        </Text>
+        {iconRight && (
+          <Icons size={22} icon={iconRight} fill={theme.colors.white} />
+        )}
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -99,8 +91,8 @@ const styles = StyleSheet.create({
   buttonContainer: { height: 50 },
 
   button: {
+    height: 50,
     width: "100%",
-    height: "100%",
     justifyContent: "center",
     borderRadius: 25,
   },
