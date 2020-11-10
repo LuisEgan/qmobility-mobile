@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useQuery } from "@apollo/client";
 import {
   Header,
@@ -22,6 +22,7 @@ import { CountryApocope } from "../../../components/PhoneInput/Types";
 
 const CreateProfile = () => {
   const { navigate } = useNavigation();
+  const isFocused = useIsFocused();
 
   const { data: userData, loading } = useQuery<{ user: IUser }, IUser>(
     User.queries.allUserInfo,
@@ -34,6 +35,7 @@ const CreateProfile = () => {
   };
 
   if (loading) return <FullScreenModal show />;
+  if (!isFocused) return null;
 
   return (
     <DrawerLeftMenu

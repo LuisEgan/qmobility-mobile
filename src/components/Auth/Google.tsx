@@ -8,6 +8,14 @@ import { ERRORS } from "../../lib/constants";
 import { AuthContext } from "../../navigation/AuthContext";
 import { LoginSignUpLoadingContext } from "../../screens/Auth/LoginSignUp/LoginSignUpLoadingContext";
 
+const CLIENT_ID_ANDROID_EXPO = "1099445813524-32mhfo1c3m6h07hko2vrsqu1m7onkrfh.apps.googleusercontent.com";
+
+const CLIENT_ID_ANDROID = "1099445813524-e3k26hfbitk15pqj329b95ui38thfurm.apps.googleusercontent.com";
+
+const androidClientId = process.env.NODE_ENV === "development"
+  ? CLIENT_ID_ANDROID_EXPO
+  : CLIENT_ID_ANDROID;
+
 const Google = () => {
   const { signIn } = useContext(AuthContext);
   const { setDisplayFeedbackScreen, setFeedbackMessage } = useContext(
@@ -42,9 +50,8 @@ const Google = () => {
       const loginResult = await GoogleExpo.logInAsync({
         iosClientId:
           "576090021603-a139q50lke316eg6703o5kkde42rfu7k.apps.googleusercontent.com",
-        androidClientId:
-          "576090021603-9vhepsofn4bq9q9sd2mkc52971kfecdj.apps.googleusercontent.com",
-
+        androidClientId,
+        androidStandaloneAppClientId: androidClientId,
         scopes: ["profile", "email"],
       });
 
@@ -64,7 +71,11 @@ const Google = () => {
     }
   };
 
-  return <Icons icon="Google" onPress={login} />;
+  return (
+    <>
+      <Icons icon="Google" onPress={login} />
+    </>
+  );
 };
 
 export default Google;

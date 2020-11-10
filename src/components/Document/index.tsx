@@ -16,13 +16,13 @@ const { width, height } = Dimensions.get("window");
 
 const Document = ({ state, onClosed, url }: IDocument) => {
   const ModalCocument = () => (
-    <Modal state={state} onClosed={() => onClosed()} notTouch>
+    <Modal state={state} onClosed={onClosed}>
       <View>
         <View style={styles.containertIcon}>
           <View style={styles.constentIcon}>
             <Icons
               icon="Cancel"
-              onPress={() => onClosed()}
+              onPress={onClosed}
               size={30}
               fill={theme.colors.grayDark}
             />
@@ -30,7 +30,7 @@ const Document = ({ state, onClosed, url }: IDocument) => {
         </View>
         {url && (
           <WebView
-            javaScriptEnabled={false}
+            // javaScriptEnabled={false}
             source={{ uri: url }}
             style={styles.pdf}
           />

@@ -27,6 +27,10 @@ import { FullScreenModal } from "../../screens/Feedback";
 type IScreens = Array<IScreen>;
 export const APP_STACK_SCREENS: IScreens = [
   {
+    name: APP_STACK_SCREENS_NAMES.Loading,
+    component: FullScreenModal,
+  },
+  {
     name: APP_STACK_SCREENS_NAMES.Main,
     component: Main,
   },

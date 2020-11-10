@@ -11,6 +11,7 @@ interface IonChangeFormattedText {
   phoneCountry?: CountryApocope;
 }
 interface IPhoneInput extends IComponentsDefaults {
+  screen?: string;
   phone?: string;
   phoneCountry?: CountryApocope;
   phoneCountryCode?: string;
