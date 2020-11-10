@@ -14,10 +14,11 @@ const API_KEY = app.expo.android.config.googleMaps.apiKey;
 interface IMarkerSelect {
   markeeSelect: LatLng;
   locationUser: LatLng;
+  onModal: (state: boolean) => void;
 }
 
 const MarkerSelect = (props: IMarkerSelect) => {
-  const { markeeSelect, locationUser } = props;
+  const { markeeSelect, locationUser, onModal } = props;
 
   const { navigate } = useNavigation();
 
@@ -40,30 +41,37 @@ const MarkerSelect = (props: IMarkerSelect) => {
       .then((responseJson) => {
         marker = responseJson.results[0].formatted_address;
       });
-
-    navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
-      origin: location,
-      destination: marker,
-    });
+    setTimeout(() => {
+      onModal(false);
+      navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
+        origin: location,
+        destination: marker,
+      });
+    }, 500);
   };
 
   return (
-    <Marker coordinate={markeeSelect}>
-      <Icons icon="Room" fill={theme.colors.secondaryDark} />
-      <Callout
-        tooltip
-        style={styles.containerCollout}
-        onPress={() => onGoToMap()}
-      >
-        <View style={styles.contantTitleCollout}>
-          <Text style={styles.titleCollout}>GO TO LOCATION</Text>
-        </View>
+    <>
+      <Marker coordinate={markeeSelect}>
+        <Icons icon="Room" fill={theme.colors.secondaryDark} />
+        <Callout
+          tooltip
+          style={styles.containerCollout}
+          onPress={() => {
+            onGoToMap();
+            onModal(true);
+          }}
+        >
+          <View style={styles.contantTitleCollout}>
+            <Text style={styles.titleCollout}>GO TO LOCATION</Text>
+          </View>
 
-        <View style={styles.contentIconCollout}>
-          <Icons icon="DirectionsCar" fill={theme.colors.white} size={25} />
-        </View>
-      </Callout>
-    </Marker>
+          <View style={styles.contentIconCollout}>
+            <Icons icon="DirectionsCar" fill={theme.colors.white} size={25} />
+          </View>
+        </Callout>
+      </Marker>
+    </>
   );
 };
 

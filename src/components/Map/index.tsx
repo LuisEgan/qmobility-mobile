@@ -1,5 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  Platform,
+} from "react-native";
 import MapView, {
   PROVIDER_GOOGLE,
   LatLng,
@@ -14,6 +21,9 @@ import theme from "../../config/Theme";
 import MarkerChanger from "./MarkerChanger";
 import MarkerSelect from "./MarkerSelect";
 import Route from "./Route";
+import Modal from "../Modal";
+
+const { height } = Dimensions.get("window");
 
 const getAltitude = (origin: LatLng, destination: LatLng) => {
   const k = Math.PI / 180;
@@ -39,6 +49,8 @@ interface IMap {
 
 const Map = (props: IMap) => {
   const { routeCoords, chargers, initialMain } = props;
+
+  const [stateModal, setStateModal] = useState<boolean>(false);
 
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
@@ -133,33 +145,48 @@ const Map = (props: IMap) => {
   };
 
   return (
-    <MapView
-      ref={mapAnimation}
-      showsUserLocation
-      showsMyLocationButton={initialMain}
-      provider={PROVIDER_GOOGLE}
-      loadingEnabled
-      showsBuildings={false}
-      showsTraffic={false}
-      showsIndoors={false}
-      showsIndoorLevelPicker
-      loadingIndicatorColor={theme.colors.primary}
-      loadingBackgroundColor={theme.colors.white}
-      style={styles.map}
-      mapType="standard"
-      onLongPress={(ev) => {
-        if (initialMain) newMarker(ev);
-      }}
-      initialRegion={region}
-    >
-      {routeCoords && <Route routeCoords={routeCoords} />}
-
-      {markeeSelect.latitude !== 0 && (
-        <MarkerSelect markeeSelect={markeeSelect} locationUser={userLocation} />
+    <>
+      {stateModal && (
+        <Modal state={stateModal} onClosed={() => setStateModal(false)}>
+          <View style={styles.containerModal}>
+            <TouchableOpacity activeOpacity={1} style={styles.contentModal}>
+              <ActivityIndicator size="large" color={theme.colors.primary} />
+            </TouchableOpacity>
+          </View>
+        </Modal>
       )}
+      <MapView
+        ref={mapAnimation}
+        showsUserLocation
+        showsMyLocationButton={initialMain}
+        provider={PROVIDER_GOOGLE}
+        loadingEnabled
+        showsBuildings={false}
+        showsTraffic={false}
+        showsIndoors={false}
+        showsIndoorLevelPicker
+        loadingIndicatorColor={theme.colors.primary}
+        loadingBackgroundColor={theme.colors.white}
+        style={styles.map}
+        mapType="standard"
+        onLongPress={(ev) => {
+          if (initialMain) newMarker(ev);
+        }}
+        initialRegion={region}
+      >
+        {routeCoords && <Route routeCoords={routeCoords} />}
 
-      <MarkerChanger chargers={chargers} />
-    </MapView>
+        {markeeSelect.latitude !== 0 && (
+          <MarkerSelect
+            markeeSelect={markeeSelect}
+            locationUser={userLocation}
+            onModal={(state) => setStateModal(state)}
+          />
+        )}
+
+        <MarkerChanger chargers={chargers} />
+      </MapView>
+    </>
   );
 };
 
@@ -168,6 +195,18 @@ Map.defaultProps = {};
 const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
+  },
+
+  containerModal: {
+    marginVertical: height * (Platform.OS === "ios" ? 0.5 : 0.4),
+  },
+  contentModal: {
+    height: 60,
+    width: 60,
+    borderRadius: 10,
+    backgroundColor: theme.colors.white,
+    justifyContent: "center",
+    alignContent: "center",
   },
 });
 

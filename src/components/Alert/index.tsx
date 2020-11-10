@@ -10,20 +10,12 @@ interface IAlert {
   show: boolean;
   onClose: () => void;
   text?: string;
-  onOk?: () => void;
   btnText?: string;
   btnEnabled?: boolean;
 }
 
 const Alert = (props: IAlert) => {
-  const {
-    show,
-    onClose,
-    text,
-    onOk: onOkProp,
-    btnText = "Ok",
-    btnEnabled = true,
-  } = props;
+  const { show, onClose, text, btnText = "Ok", btnEnabled = true } = props;
 
   return (
     <Modal state={show} onClosed={onClose} contentStyle={styles.modalContent}>
