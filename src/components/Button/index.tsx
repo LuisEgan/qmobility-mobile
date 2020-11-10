@@ -1,6 +1,5 @@
 import React from "react";
 import { View, StyleSheet, ViewStyle, TouchableOpacity } from "react-native";
-import { RectButton } from "react-native-gesture-handler";
 import theme, { Text } from "../../config/Theme";
 import { IComponentsDefaults } from "../../lib/Types";
 import Icons from "../svg";

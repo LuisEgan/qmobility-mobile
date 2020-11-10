@@ -79,24 +79,12 @@ const Map = (props: IMap) => {
           {
             latitude,
             longitude,
-            latitudeDelta: 70,
-            longitudeDelta: 70,
-          },
-          1000,
-        );
-      }, 500);
-
-      setTimeout(() => {
-        mapAnimation.current?.animateToRegion(
-          {
-            latitude,
-            longitude,
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
           },
-          1000,
+          100,
         );
-      }, 1500);
+      }, 100);
     }
   };
 
