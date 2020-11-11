@@ -4,12 +4,11 @@ import Animated from "react-native-reanimated";
 import { useTransition, mix } from "react-native-redash";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
-import theme, { Text } from "../../../config/Theme";
+import theme from "../../../config/Theme";
 import LeftMenu from "./LeftMenu";
 
 const { width, height } = Dimensions.get("screen");
 const ANIM_DURATION = 300;
-const OPEN_THRESHOLD = width * 0.08;
 
 interface IDrawerLeftMenu {
   isDrawerOpen: boolean;
@@ -18,12 +17,7 @@ interface IDrawerLeftMenu {
 }
 
 const DrawerLeftMenu: FC<IDrawerLeftMenu> = (props) => {
-  const {
-    children,
-    isDrawerOpen: isDrawerOpenProp,
-    onDrawerToggle,
-    swippable,
-  } = props;
+  const { children, isDrawerOpen: isDrawerOpenProp, onDrawerToggle } = props;
 
   const swipeRef = useRef<Swipeable>(null);
 

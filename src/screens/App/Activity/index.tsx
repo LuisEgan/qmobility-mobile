@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { Button, Header, Icons } from "../../../components";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import theme, { Text } from "../../../config/Theme";
@@ -10,6 +10,8 @@ import { IMyStats } from "../../../gql/User/queries";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { FullScreenModal } from "../../Feedback";
 import Stats from "./Stats";
+
+const { height } = Dimensions.get("screen");
 
 const Activty = () => {
   const { navigate } = useNavigation();
@@ -78,7 +80,7 @@ const Activty = () => {
 
           <Stats stats={getMyStatsData?.getMyStats} />
 
-          <View style={{ paddingVertical: 15 }}>
+          <View style={{ height: height * 0.18, justifyContent: "center" }}>
             <Button
               variant="primary"
               label="See matching vehicles"

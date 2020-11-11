@@ -24,7 +24,7 @@ const TextWithUnit = (props: ITextWithUnit) => {
     inverse,
     unit = "mi",
     textColor = theme.colors.white,
-    textVariant = "heading1",
+    textVariant = "heading2",
     unitTextVariant = "bodySmall",
     unitTextColor = theme.colors.white,
   } = props;
@@ -37,23 +37,25 @@ const TextWithUnit = (props: ITextWithUnit) => {
             variant={unitTextVariant}
             color={unitTextColor}
             style={[styles.unitText, unitTextStyle]}
+            numberOfLines={1}
           >
             {unit}
             {" "}
           </Text>
 
-          <Text variant={textVariant} color={textColor}>
+          <Text variant={textVariant} color={textColor} numberOfLines={1}>
             {text}
           </Text>
         </>
       ) : (
         <>
-          <Text variant={textVariant} color={textColor}>
+          <Text variant={textVariant} color={textColor} numberOfLines={1}>
             {text}
           </Text>
           <Text
             variant={unitTextVariant}
             color={unitTextColor}
+            numberOfLines={1}
             style={[styles.unitText, unitTextStyle]}
           >
             {" "}

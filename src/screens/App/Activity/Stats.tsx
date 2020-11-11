@@ -56,7 +56,6 @@ const Stats = (props: IStats) => {
           title: (
             <TextWithUnit
               text={`${stats?.minTripLength}`}
-              textVariant="heading1"
               textColor="secondaryDark"
               unitTextColor="secondaryDark"
             />
@@ -68,7 +67,6 @@ const Stats = (props: IStats) => {
           title: (
             <TextWithUnit
               text={`${stats?.minRangeRequirement}`}
-              textVariant="heading1"
               textColor="secondaryDark"
               unitTextColor="secondaryDark"
             />
@@ -80,7 +78,6 @@ const Stats = (props: IStats) => {
           title: (
             <TextWithUnit
               text={`${stats?.maxRangeRequirement}`}
-              textVariant="heading1"
               textColor="secondaryDark"
               unitTextColor="secondaryDark"
             />
@@ -134,7 +131,6 @@ const Stats = (props: IStats) => {
           title: (
             <TextWithUnit
               text={`${stats?.weeklyAverageMiles}`}
-              textVariant="heading1"
               textColor="secondaryDark"
               unitTextColor="secondaryDark"
             />
@@ -146,7 +142,6 @@ const Stats = (props: IStats) => {
           title: (
             <TextWithUnit
               text={`${stats?.dailyAverageMiles}`}
-              textVariant="heading1"
               textColor="secondaryDark"
               unitTextColor="secondaryDark"
             />

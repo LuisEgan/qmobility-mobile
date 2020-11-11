@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import theme, { Text } from "../../../config/Theme";
 import { IComponentsDefaults } from "../../../lib/Types";
 import Icons from "../../svg";
@@ -40,16 +40,22 @@ const TriCard = (props: ITriCard) => {
           )}
 
           <View style={styles.cardBody}>
-            <View style={styles.cardBodyContent}>
+            <ScrollView
+              contentContainerStyle={styles.cardBodyContent}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            >
               {typeof title === "string" ? (
-                <Text variant="heading1">{title}</Text>
+                <Text variant="heading2">{title}</Text>
               ) : (
                 title
               )}
-            </View>
+            </ScrollView>
 
             {typeof subTitle === "string" ? (
-              <Text variant="bodySmallBold">{subTitle}</Text>
+              <Text variant="bodySmallBold" numberOfLines={1}>
+                {subTitle}
+              </Text>
             ) : (
               subTitle
             )}
@@ -119,6 +125,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     alignItems: "center",
+    borderWidth: 10,
+    borderColor: "white",
   },
   cardBody: {
     width: "100%",
