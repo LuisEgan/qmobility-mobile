@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useQuery } from "@apollo/client";
@@ -13,7 +13,7 @@ import { AuthContext } from "../../../navigation/AuthContext";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("screen");
 
 type ListItems = Array<IIconsListItem>;
 
@@ -88,7 +88,10 @@ const LeftMenu = (props: ILeftMenu) => {
   ];
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.info}>
         <TouchableOpacity
           onPress={() => navigate(APP_STACK_SCREENS_NAMES.Profile)}
@@ -107,14 +110,18 @@ const LeftMenu = (props: ILeftMenu) => {
         </Text>
       </View>
 
+      <View style={{ height: 60 }} />
+
       <View style={styles.list}>
         <IconsList items={listItems} />
       </View>
 
+      <View style={{ height: 60 }} />
+
       <View style={styles.options}>
         <IconsList items={optionsListItems} />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -122,22 +129,17 @@ export default LeftMenu;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: height * 0.05,
+    paddingVertical: height * 0.08,
     paddingLeft: width * 0.05,
   },
 
-  info: {
-    flex: 1,
-  },
+  info: {},
 
   list: {
-    flex: 2,
-    marginTop: 60,
+    // marginTop: 60,
   },
 
   options: {
-    flex: 0.6,
     marginBottom: 20,
   },
 });

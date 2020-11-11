@@ -1,13 +1,13 @@
 import React, { FC, useState, useEffect, useRef } from "react";
-import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import Animated from "react-native-reanimated";
 import { useTransition, mix } from "react-native-redash";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
-import theme, { Text } from "../../../config/Theme";
+import theme from "../../../config/Theme";
 import LeftMenu from "./LeftMenu";
 
-const { width, height } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("window");
 const ANIM_DURATION = 300;
 const OPEN_THRESHOLD = width * 0.08;
 
@@ -42,12 +42,13 @@ const DrawerLeftMenu: FC<IDrawerLeftMenu> = (props) => {
   });
 
   // * Content container animations
-  const contentX = mix(transition, 0, width * 0.5);
+  const contentX = mix(transition, 0, width * 0.1);
+  const contentY = mix(transition, 0, height * 0.01);
   const contentOpacity = mix(transition, 1, 0.5);
-  const contentScale = mix(transition, 1, 0.85);
+  const contentScale = mix(transition, 1, 0.9);
 
   // * Menu container animations
-  const menuX = mix(transition, width * -1, 0);
+  const menuX = mix(transition, width * -0.1, 0);
   const menuOpacity = mix(transition, 0, 1);
 
   const toggleDrawer = (open: boolean) => {
@@ -56,7 +57,41 @@ const DrawerLeftMenu: FC<IDrawerLeftMenu> = (props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Swipeable
+      ref={swipeRef}
+      overshootLeft={false}
+      leftThreshold={OPEN_THRESHOLD}
+      containerStyle={styles.swipeableContainer}
+      renderLeftActions={() => (
+        <View style={styles.menu}>
+          <Animated.View
+            style={[
+              styles.menuContent,
+              {
+                opacity: menuOpacity,
+                transform: [
+                  {
+                    translateX: menuX,
+                  },
+                ],
+              },
+            ]}
+          >
+            <LeftMenu
+              onItemPress={() => {
+                toggleDrawer(false);
+                swipeRef?.current?.close();
+              }}
+            />
+          </Animated.View>
+        </View>
+      )}
+      friction={swippable ? 5 : 500}
+      onSwipeableLeftWillOpen={() => toggleDrawer(true)}
+      onSwipeableWillClose={() => {
+        toggleDrawer(false);
+      }}
+    >
       <Animated.View
         style={[
           styles.content,
@@ -68,68 +103,44 @@ const DrawerLeftMenu: FC<IDrawerLeftMenu> = (props) => {
                 translateX: contentX,
               },
               {
+                translateY: contentY,
+              },
+              {
                 scale: contentScale,
               },
             ],
           },
         ]}
       >
-        {isDrawerOpen && (
-          <TouchableOpacity
-            style={styles.drawerCloser}
-            onPress={() => toggleDrawer(false)}
-          />
-        )}
         {children}
       </Animated.View>
-      <Animated.View
-        style={[
-          styles.menuContent,
-          {
-            opacity: menuOpacity,
-            transform: [
-              {
-                translateX: menuX,
-              },
-            ],
-          },
-        ]}
-      >
-        <LeftMenu
-          onItemPress={() => {
-            toggleDrawer(false);
-          }}
-        />
-      </Animated.View>
-    </View>
+    </Swipeable>
   );
 };
 
 export default DrawerLeftMenu;
 
 const styles = StyleSheet.create({
-  container: {
+  container: {},
+
+  menu: {
+    height,
+    backgroundColor: theme.colors.drawerBackground,
+  },
+  menuContent: {
+    width: width * 0.5,
+    height,
+  },
+
+  swipeableContainer: {
+    ...StyleSheet.absoluteFillObject,
     height,
     backgroundColor: theme.colors.drawerBackground,
   },
 
-  drawerCloser: {
-    ...StyleSheet.absoluteFillObject,
-    position: "absolute",
-    zIndex: 1,
-    left: 0,
-    top: 0,
-  },
-
-  menuContent: {
-    width: width * 0.5,
-    height,
-    position: "absolute",
-    left: 0,
-  },
-
   content: {
     height,
+    backgroundColor: theme.colorswhite,
     overflow: "hidden",
   },
 });
