@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 
 import React, { useState, useEffect, useMemo } from "react";
+import * as Permissions from "expo-permissions";
 import { AsyncStorage, Keyboard } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useApolloClient } from "@apollo/client";
@@ -19,11 +20,25 @@ const RootNavigator = () => {
   const [isKeyboardHidden, setIsKeyboardHidden] = useState<boolean>(true);
   const client = useApolloClient();
 
+  const signOut = async () => {
+    await AsyncStorage.removeItem(ASYNC_STORAGE_ITEMS.USER_TOKEN);
+    await AsyncStorage.removeItem(ASYNC_STORAGE_ITEMS.HAS_ACCEPTED_TCS);
+    client.resetStore();
+    setUserToken(null);
+  };
+
   // * Set user token from cached data
   useEffect(() => {
     const setInitialUserToken = async () => {
       let newUserToken: TUserToken = null;
       try {
+        const { status } = await Permissions.getAsync(Permissions.LOCATION);
+
+        if (status !== "granted") {
+          await signOut();
+          return;
+        }
+
         newUserToken = await AsyncStorage.getItem(
           ASYNC_STORAGE_ITEMS.USER_TOKEN,
         );
@@ -73,16 +88,7 @@ const RootNavigator = () => {
 
           doSignIn();
         }),
-      signOut: () => {
-        const doSignOut = async () => {
-          await AsyncStorage.removeItem(ASYNC_STORAGE_ITEMS.USER_TOKEN);
-          await AsyncStorage.removeItem(ASYNC_STORAGE_ITEMS.HAS_ACCEPTED_TCS);
-          client.resetStore();
-          setUserToken(null);
-        };
-
-        doSignOut();
-      },
+      signOut,
     }),
     [],
   );

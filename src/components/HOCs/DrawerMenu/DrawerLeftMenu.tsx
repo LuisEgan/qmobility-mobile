@@ -89,11 +89,13 @@ const DrawerLeftMenu: FC<IDrawerLeftMenu> = (props) => {
           },
         ]}
       >
-        <LeftMenu
-          onItemPress={() => {
-            toggleDrawer(false);
-          }}
-        />
+        {isDrawerOpen && (
+          <LeftMenu
+            onItemPress={() => {
+              toggleDrawer(false);
+            }}
+          />
+        )}
       </Animated.View>
     </View>
   );
