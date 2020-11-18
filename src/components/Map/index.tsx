@@ -22,8 +22,9 @@ import MarkerChanger from "./MarkerChanger";
 import MarkerSelect from "./MarkerSelect";
 import Route from "./Route";
 import Modal from "../Modal";
+import Button from "../Button";
 
-const { height } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 
 const getAltitude = (origin: LatLng, destination: LatLng) => {
   const k = Math.PI / 180;
@@ -52,6 +53,8 @@ const Map = (props: IMap) => {
 
   const [stateModal, setStateModal] = useState<boolean>(false);
 
+  const [locationState, setLocationState] = useState<boolean>(false);
+
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
     longitude: 0,
@@ -72,17 +75,36 @@ const Map = (props: IMap) => {
   const mapAnimation = useRef(null);
 
   useEffect(() => {
-    if (initialMain) LocationAnimation();
+    getPermissions();
   }, []);
 
   useEffect(() => {
-    if (routeCoords) routeAnimation(routeCoords);
-  }, [routeCoords]);
+    if (initialMain || locationState) LocationAnimation();
+  }, [locationState]);
+
+  useEffect(() => {
+    if (routeCoords || locationState) routeAnimation(routeCoords);
+  }, [routeCoords, locationState]);
+
+  const getPermissions = async () => {
+    try {
+      const { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status === "granted") {
+        // console.log("OK LOCAITON");
+        setLocationState(true);
+        LocationAnimation();
+      }
+    } catch (error) {
+      // console.log("Map -> error getPermissions : ", error);
+    }
+  };
 
   const LocationAnimation = async () => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === "granted") {
-      const location = await Location.getCurrentPositionAsync({});
+    try {
+      const location = await Location.getCurrentPositionAsync({
+        enableHighAccuracy: false,
+      });
+
       const { latitude, longitude } = location.coords;
       setUserLocation(location.coords);
 
@@ -96,30 +118,34 @@ const Map = (props: IMap) => {
           },
           100,
         );
-      }, 100);
+      }, 1000);
+    } catch (error) {
+      // console.log("Map -> error LocationAnimation : ", error);
     }
   };
 
-  const routeAnimation = (coords: LatLng[]): void => {
-    const start = coords[coords.length - 1];
-    const end = coords[0];
+  const routeAnimation = (coords: LatLng[] | undefined): void => {
+    if (coords) {
+      const start = coords[coords.length - 1];
+      const end = coords[0];
 
-    const altitude = getAltitude(start, end);
+      const altitude = getAltitude(start, end);
 
-    const mediumLat = (start.latitude + end.latitude) / 2;
-    const mediumLng = (end.longitude + start.longitude) / 2;
+      const mediumLat = (start.latitude + end.latitude) / 2;
+      const mediumLng = (end.longitude + start.longitude) / 2;
 
-    setTimeout(() => {
-      mapAnimation.current?.animateToRegion(
-        {
-          latitude: mediumLat,
-          longitude: mediumLng,
-          latitudeDelta: altitude,
-          longitudeDelta: altitude,
-        },
-        500,
-      );
-    }, 100);
+      setTimeout(() => {
+        mapAnimation.current?.animateToRegion(
+          {
+            latitude: mediumLat,
+            longitude: mediumLng,
+            latitudeDelta: altitude,
+            longitudeDelta: altitude,
+          },
+          500,
+        );
+      }, 1000);
+    }
   };
 
   const newMarker = (event: MapEvent<Record<string, unknown>>) => {
@@ -146,7 +172,7 @@ const Map = (props: IMap) => {
 
   return (
     <>
-      {stateModal && (
+      {stateModal && locationState && (
         <Modal state={stateModal} onClosed={() => setStateModal(false)}>
           <View style={styles.containerModal}>
             <TouchableOpacity activeOpacity={1} style={styles.contentModal}>
@@ -155,37 +181,56 @@ const Map = (props: IMap) => {
           </View>
         </Modal>
       )}
-      <MapView
-        ref={mapAnimation}
-        showsUserLocation
-        showsMyLocationButton={initialMain}
-        provider={PROVIDER_GOOGLE}
-        loadingEnabled
-        showsBuildings={false}
-        showsTraffic={false}
-        showsIndoors={false}
-        showsIndoorLevelPicker
-        loadingIndicatorColor={theme.colors.primary}
-        loadingBackgroundColor={theme.colors.white}
-        style={styles.map}
-        mapType="standard"
-        onLongPress={(ev) => {
-          if (initialMain) newMarker(ev);
-        }}
-        initialRegion={region}
-      >
-        {routeCoords && <Route routeCoords={routeCoords} />}
+      {locationState ? (
+        <MapView
+          ref={mapAnimation}
+          showsUserLocation={locationState}
+          showsMyLocationButton={locationState && initialMain}
+          provider={PROVIDER_GOOGLE}
+          loadingEnabled={locationState}
+          showsBuildings={false}
+          showsTraffic={false}
+          showsIndoors={false}
+          showsIndoorLevelPicker={locationState}
+          loadingIndicatorColor={theme.colors.primary}
+          loadingBackgroundColor={theme.colors.white}
+          style={styles.map}
+          mapType="standard"
+          onLongPress={(ev) => {
+            if (initialMain) newMarker(ev);
+          }}
+          initialRegion={region}
+        >
+          {routeCoords && <Route routeCoords={routeCoords} />}
 
-        {markeeSelect.latitude !== 0 && (
-          <MarkerSelect
-            markeeSelect={markeeSelect}
-            locationUser={userLocation}
-            onModal={(state) => setStateModal(state)}
+          {markeeSelect.latitude !== 0 && (
+            <MarkerSelect
+              markeeSelect={markeeSelect}
+              locationUser={userLocation}
+              onModal={(state) => setStateModal(state)}
+            />
+          )}
+
+          <MarkerChanger chargers={chargers} />
+        </MapView>
+      ) : (
+        <View
+          style={{
+            width: width * 0.7,
+            marginTop: height * 0.25,
+          }}
+        >
+          <Button
+            label="Permissions Location"
+            onPress={() => getPermissions()}
+            containerStyle={{
+              backgroundColor: theme.colors.primary,
+              marginHorizontal: width * 0.15,
+              alignContent: "center",
+            }}
           />
-        )}
-
-        <MarkerChanger chargers={chargers} />
-      </MapView>
+        </View>
+      )}
     </>
   );
 };

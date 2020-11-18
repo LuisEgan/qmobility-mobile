@@ -126,6 +126,7 @@ export interface IMyStats {
   totalCo2Saved: number;
   treesSaved: number;
 }
+
 const getMyStats = gql`
   query MyStats {
     getMyStats {
