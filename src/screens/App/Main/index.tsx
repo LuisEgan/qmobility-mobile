@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useQuery } from "@apollo/client";
+import * as Permissions from "expo-permissions";
 import { Map, InputSearch } from "../../../components";
 import { DrawerLeftMenu, DrawerRightMenu } from "../../../components/HOCs";
 import { User } from "../../../gql";
@@ -32,12 +33,29 @@ const Main = () => {
   const [isDrawerLeftOpen, setIsDrawerLeftOpen] = useState<boolean>(false);
   const [isDrawerRightOpen, setIsDrawerRightOpen] = useState<boolean>(false);
 
+  const [stateMap, setStateMap] = useState<boolean>(false);
+
   const toggleDrawer = (drawer: EDrawer) => {
     if (drawer === EDrawer.LEFT) {
       setIsDrawerLeftOpen(!isDrawerLeftOpen);
       return;
     }
     setIsDrawerRightOpen(!isDrawerRightOpen);
+  };
+
+  useEffect(() => {
+    getPermissions();
+  }, []);
+
+  const getPermissions = async () => {
+    try {
+      const { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status === "granted") {
+        setStateMap(true);
+      }
+    } catch (error) {
+      // console.log("Map -> error getPermissions : ", error);
+    }
   };
 
   return (
@@ -77,7 +95,8 @@ const Main = () => {
               />
             </TouchableOpacity>
           </View>
-          <Map initialMain />
+
+          <Map initialMain state={stateMap} />
         </View>
       </DrawerLeftMenu>
     </>

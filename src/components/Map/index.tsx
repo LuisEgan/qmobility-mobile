@@ -46,10 +46,11 @@ interface IMap {
   routeCoords?: LatLng[];
   chargers?: IChargers[] | [];
   initialMain?: boolean;
+  state?: boolean;
 }
 
 const Map = (props: IMap) => {
-  const { routeCoords, chargers, initialMain } = props;
+  const { routeCoords, chargers, initialMain, state } = props;
 
   const [stateModal, setStateModal] = useState<boolean>(false);
 
@@ -75,22 +76,21 @@ const Map = (props: IMap) => {
   const mapAnimation = useRef(null);
 
   useEffect(() => {
-    getPermissions();
+    if (!initialMain) getPermissions();
   }, []);
 
   useEffect(() => {
-    if (initialMain || locationState) LocationAnimation();
-  }, [locationState]);
+    if (initialMain && state) LocationAnimation();
+  }, [state]);
 
   useEffect(() => {
-    if (routeCoords || locationState) routeAnimation(routeCoords);
-  }, [routeCoords, locationState]);
+    if (routeCoords && state) routeAnimation(routeCoords);
+  }, [routeCoords, state]);
 
   const getPermissions = async () => {
     try {
       const { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status === "granted") {
-        // console.log("OK LOCAITON");
         setLocationState(true);
         LocationAnimation();
       }
@@ -107,21 +107,24 @@ const Map = (props: IMap) => {
 
       const { latitude, longitude } = location.coords;
       setUserLocation(location.coords);
-
       setTimeout(() => {
-        mapAnimation.current?.animateToRegion(
-          {
-            latitude,
-            longitude,
-            latitudeDelta: 0.007,
-            longitudeDelta: 0.007,
-          },
-          100,
-        );
-      }, 1000);
+        locationNow(latitude, longitude);
+      }, 500);
     } catch (error) {
       // console.log("Map -> error LocationAnimation : ", error);
     }
+  };
+
+  const locationNow = (latitude: number, longitude: number) => {
+    mapAnimation.current?.animateToRegion(
+      {
+        latitude,
+        longitude,
+        latitudeDelta: 0.007,
+        longitudeDelta: 0.007,
+      },
+      200,
+    );
   };
 
   const routeAnimation = (coords: LatLng[] | undefined): void => {
@@ -181,17 +184,17 @@ const Map = (props: IMap) => {
           </View>
         </Modal>
       )}
-      {locationState ? (
+      {locationState || state ? (
         <MapView
           ref={mapAnimation}
-          showsUserLocation={locationState}
-          showsMyLocationButton={locationState && initialMain}
+          showsUserLocation={locationState || state}
+          showsMyLocationButton={locationState || (state && initialMain)}
           provider={PROVIDER_GOOGLE}
-          loadingEnabled={locationState}
+          loadingEnabled={locationState || state}
           showsBuildings={false}
           showsTraffic={false}
           showsIndoors={false}
-          showsIndoorLevelPicker={locationState}
+          showsIndoorLevelPicker={locationState || state}
           loadingIndicatorColor={theme.colors.primary}
           loadingBackgroundColor={theme.colors.white}
           style={styles.map}
@@ -207,7 +210,7 @@ const Map = (props: IMap) => {
             <MarkerSelect
               markeeSelect={markeeSelect}
               locationUser={userLocation}
-              onModal={(state) => setStateModal(state)}
+              onModal={(value) => setStateModal(value)}
             />
           )}
 
