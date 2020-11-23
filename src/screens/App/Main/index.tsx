@@ -33,7 +33,7 @@ const Main = () => {
   const [isDrawerLeftOpen, setIsDrawerLeftOpen] = useState<boolean>(false);
   const [isDrawerRightOpen, setIsDrawerRightOpen] = useState<boolean>(false);
 
-  const [stateMap, setStateMap] = useState<boolean>(false);
+  const [stateMap, setStateMap] = useState<boolean>(true);
 
   const toggleDrawer = (drawer: EDrawer) => {
     if (drawer === EDrawer.LEFT) {
@@ -52,6 +52,8 @@ const Main = () => {
       const { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status === "granted") {
         setStateMap(true);
+      } else {
+        setStateMap(false);
       }
     } catch (error) {
       // console.log("Map -> error getPermissions : ", error);

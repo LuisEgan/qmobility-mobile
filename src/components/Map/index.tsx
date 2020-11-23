@@ -14,7 +14,7 @@ import MapView, {
   Region,
 } from "react-native-maps";
 import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
+
 import { IChargers } from "../../gql/Route/queries";
 import theme from "../../config/Theme";
 
@@ -22,9 +22,8 @@ import MarkerChanger from "./MarkerChanger";
 import MarkerSelect from "./MarkerSelect";
 import Route from "./Route";
 import Modal from "../Modal";
-import Button from "../Button";
 
-const { height, width } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 
 const getAltitude = (origin: LatLng, destination: LatLng) => {
   const k = Math.PI / 180;
@@ -76,40 +75,27 @@ const Map = (props: IMap) => {
   const mapAnimation = useRef(null);
 
   useEffect(() => {
-    if (!initialMain) getPermissions();
+    if (initialMain) LocationAnimation();
   }, []);
 
   useEffect(() => {
-    if (initialMain && state) LocationAnimation();
-  }, [state]);
-
-  useEffect(() => {
-    if (routeCoords && state) routeAnimation(routeCoords);
+    if (routeCoords) routeAnimation(routeCoords);
   }, [routeCoords, state]);
-
-  const getPermissions = async () => {
-    try {
-      const { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status === "granted") {
-        setLocationState(true);
-        LocationAnimation();
-      }
-    } catch (error) {
-      // console.log("Map -> error getPermissions : ", error);
-    }
-  };
 
   const LocationAnimation = async () => {
     try {
-      const location = await Location.getCurrentPositionAsync({
-        enableHighAccuracy: false,
-      });
+      const { status } = await Location.requestPermissionsAsync();
+      if (status === "granted") {
+        const location = await Location.getCurrentPositionAsync({
+          enableHighAccuracy: false,
+        });
 
-      const { latitude, longitude } = location.coords;
-      setUserLocation(location.coords);
-      setTimeout(() => {
-        locationNow(latitude, longitude);
-      }, 500);
+        const { latitude, longitude } = location.coords;
+        setUserLocation(location.coords);
+        setTimeout(() => {
+          locationNow(latitude, longitude);
+        }, 500);
+      }
     } catch (error) {
       // console.log("Map -> error LocationAnimation : ", error);
     }
@@ -184,56 +170,38 @@ const Map = (props: IMap) => {
           </View>
         </Modal>
       )}
-      {locationState || state ? (
-        <MapView
-          ref={mapAnimation}
-          showsUserLocation={locationState || state}
-          showsMyLocationButton={locationState || (state && initialMain)}
-          provider={PROVIDER_GOOGLE}
-          loadingEnabled={locationState || state}
-          showsBuildings={false}
-          showsTraffic={false}
-          showsIndoors={false}
-          showsIndoorLevelPicker={locationState || state}
-          loadingIndicatorColor={theme.colors.primary}
-          loadingBackgroundColor={theme.colors.white}
-          style={styles.map}
-          mapType="standard"
-          onLongPress={(ev) => {
-            if (initialMain) newMarker(ev);
-          }}
-          initialRegion={region}
-        >
-          {routeCoords && <Route routeCoords={routeCoords} />}
 
-          {markeeSelect.latitude !== 0 && (
-            <MarkerSelect
-              markeeSelect={markeeSelect}
-              locationUser={userLocation}
-              onModal={(value) => setStateModal(value)}
-            />
-          )}
+      <MapView
+        ref={mapAnimation}
+        showsUserLocation
+        showsMyLocationButton={initialMain}
+        provider={PROVIDER_GOOGLE}
+        loadingEnabled
+        showsBuildings={false}
+        showsTraffic={false}
+        showsIndoors={false}
+        showsIndoorLevelPicker
+        loadingIndicatorColor={theme.colors.primary}
+        loadingBackgroundColor={theme.colors.white}
+        style={styles.map}
+        mapType="standard"
+        onLongPress={(ev) => {
+          if (initialMain) newMarker(ev);
+        }}
+        initialRegion={region}
+      >
+        {routeCoords && <Route routeCoords={routeCoords} />}
 
-          <MarkerChanger chargers={chargers} />
-        </MapView>
-      ) : (
-        <View
-          style={{
-            width: width * 0.7,
-            marginTop: height * 0.25,
-          }}
-        >
-          <Button
-            label="Permissions Location"
-            onPress={() => getPermissions()}
-            containerStyle={{
-              backgroundColor: theme.colors.primary,
-              marginHorizontal: width * 0.15,
-              alignContent: "center",
-            }}
+        {markeeSelect.latitude !== 0 && (
+          <MarkerSelect
+            markeeSelect={markeeSelect}
+            locationUser={userLocation}
+            onModal={(value) => setStateModal(value)}
           />
-        </View>
-      )}
+        )}
+
+        <MarkerChanger chargers={chargers} />
+      </MapView>
     </>
   );
 };
