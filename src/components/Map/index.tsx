@@ -161,7 +161,7 @@ const Map = (props: IMap) => {
 
   return (
     <>
-      {stateModal && locationState && (
+      {stateModal && (
         <Modal state={stateModal} onClosed={() => setStateModal(false)}>
           <View style={styles.containerModal}>
             <TouchableOpacity activeOpacity={1} style={styles.contentModal}>

@@ -8,15 +8,12 @@ import {
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useQuery } from "@apollo/client";
-import * as Permissions from "expo-permissions";
 import { Map, InputSearch } from "../../../components";
 import { DrawerLeftMenu, DrawerRightMenu } from "../../../components/HOCs";
 import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 
 import CAR from "../../../assets/png/Nissan_Leaf_2018-02.png";
-
-// const CAR = require("../../../assets/png/Nissan_Leaf_2018-02.png");
 
 const { height } = Dimensions.get("window");
 
@@ -33,31 +30,12 @@ const Main = () => {
   const [isDrawerLeftOpen, setIsDrawerLeftOpen] = useState<boolean>(false);
   const [isDrawerRightOpen, setIsDrawerRightOpen] = useState<boolean>(false);
 
-  const [stateMap, setStateMap] = useState<boolean>(true);
-
   const toggleDrawer = (drawer: EDrawer) => {
     if (drawer === EDrawer.LEFT) {
       setIsDrawerLeftOpen(!isDrawerLeftOpen);
       return;
     }
     setIsDrawerRightOpen(!isDrawerRightOpen);
-  };
-
-  useEffect(() => {
-    getPermissions();
-  }, []);
-
-  const getPermissions = async () => {
-    try {
-      const { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status === "granted") {
-        setStateMap(true);
-      } else {
-        setStateMap(false);
-      }
-    } catch (error) {
-      // console.log("Map -> error getPermissions : ", error);
-    }
   };
 
   return (
@@ -98,7 +76,7 @@ const Main = () => {
             </TouchableOpacity>
           </View>
 
-          <Map initialMain state={stateMap} />
+          <Map initialMain state />
         </View>
       </DrawerLeftMenu>
     </>
