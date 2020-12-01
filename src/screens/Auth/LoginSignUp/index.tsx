@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Dimensions } from "react-native";
 import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
 import { IAuthScreens } from "../../../navigation/Navigators/AuthNavigator";
 import Login from "./Login";
 import SignUp from "./SignUp";
@@ -50,18 +51,15 @@ const LoginSignUp = (props: ILoginSignUp) => {
   }, [navigation]);
 
   useEffect(() => {
-    getPermissionCameraAsync();
+    getPermissions();
   }, []);
 
-  const getPermissionCameraAsync = async () => {
+  const getPermissions = async () => {
     try {
-      await Permissions.askAsync(
-        Permissions.CAMERA_ROLL,
-        Permissions.CAMERA,
-        Permissions.LOCATION,
-      );
+      await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
+      await Location.requestPermissionsAsync();
     } catch (error) {
-      console.error("TCL: getPermissionCameraAsync -> error", error);
+      console.error("TCL: getPermissions -> error", error);
     }
   };
 

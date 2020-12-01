@@ -51,9 +51,9 @@ interface IMap {
 const Map = (props: IMap) => {
   const { routeCoords, chargers, initialMain, state } = props;
 
-  const [stateModal, setStateModal] = useState<boolean>(false);
+  const mapAnimation = useRef<MapView>(null);
 
-  const [locationState, setLocationState] = useState<boolean>(false);
+  const [stateModal, setStateModal] = useState<boolean>(false);
 
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
@@ -72,12 +72,12 @@ const Map = (props: IMap) => {
     longitudeDelta: 70,
   });
 
-  const mapAnimation = useRef(null);
-
+  // * Initial positioning
   useEffect(() => {
     if (initialMain) LocationAnimation();
   }, []);
 
+  // * Animate map when route changes
   useEffect(() => {
     if (routeCoords) routeAnimation(routeCoords);
   }, [routeCoords, state]);
@@ -87,7 +87,7 @@ const Map = (props: IMap) => {
       const { status } = await Location.requestPermissionsAsync();
       if (status === "granted") {
         const location = await Location.getCurrentPositionAsync({
-          enableHighAccuracy: false,
+          accuracy: Location.Accuracy.High,
         });
 
         const { latitude, longitude } = location.coords;
@@ -97,7 +97,7 @@ const Map = (props: IMap) => {
         }, 500);
       }
     } catch (error) {
-      // console.log("Map -> error LocationAnimation : ", error);
+      alert(error);
     }
   };
 

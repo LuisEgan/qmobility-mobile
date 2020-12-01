@@ -8,7 +8,6 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
-import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@apollo/client";
@@ -127,10 +126,12 @@ const SearchRouter = () => {
   const onGoogleReute = async (details: IDetails) => {
     setStateModal(true);
     try {
-      const { status } = await Permissions.askAsync(Permissions.LOCATION);
+      const { status } = await Location.requestPermissionsAsync();
 
       if (status === "granted") {
-        const location = await Location.getCurrentPositionAsync({});
+        const location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.High,
+        });
         const { latitude, longitude } = location.coords;
 
         const response = await (
