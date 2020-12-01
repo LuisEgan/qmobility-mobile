@@ -16,8 +16,8 @@ import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import { IIceVehicle } from "../../../gql/Vehicle/Types";
 
 const SignupSchema = yup.object().shape({
-  name: yup.string().required(),
-  lastname: yup.string().required(),
+  name: yup.string().required().min(6).trim(),
+  lastname: yup.string().required().min(6).trim(),
   dateOfBirth: yup.string().required(),
 });
 

@@ -14,7 +14,7 @@ import MapView, {
   Region,
 } from "react-native-maps";
 import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
+
 import { IChargers } from "../../gql/Route/queries";
 import theme from "../../config/Theme";
 
@@ -45,12 +45,15 @@ interface IMap {
   routeCoords?: LatLng[];
   chargers?: IChargers[] | [];
   initialMain?: boolean;
+  state?: boolean;
 }
 
 const Map = (props: IMap) => {
-  const { routeCoords, chargers, initialMain } = props;
+  const { routeCoords, chargers, initialMain, state } = props;
 
   const [stateModal, setStateModal] = useState<boolean>(false);
+
+  const [locationState, setLocationState] = useState<boolean>(false);
 
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
@@ -77,49 +80,61 @@ const Map = (props: IMap) => {
 
   useEffect(() => {
     if (routeCoords) routeAnimation(routeCoords);
-  }, [routeCoords]);
+  }, [routeCoords, state]);
 
   const LocationAnimation = async () => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === "granted") {
-      const location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
-      setUserLocation(location.coords);
+    try {
+      const { status } = await Location.requestPermissionsAsync();
+      if (status === "granted") {
+        const location = await Location.getCurrentPositionAsync({
+          enableHighAccuracy: false,
+        });
+
+        const { latitude, longitude } = location.coords;
+        setUserLocation(location.coords);
+        setTimeout(() => {
+          locationNow(latitude, longitude);
+        }, 500);
+      }
+    } catch (error) {
+      // console.log("Map -> error LocationAnimation : ", error);
+    }
+  };
+
+  const locationNow = (latitude: number, longitude: number) => {
+    mapAnimation.current?.animateToRegion(
+      {
+        latitude,
+        longitude,
+        latitudeDelta: 0.007,
+        longitudeDelta: 0.007,
+      },
+      200,
+    );
+  };
+
+  const routeAnimation = (coords: LatLng[] | undefined): void => {
+    if (coords) {
+      const start = coords[coords.length - 1];
+      const end = coords[0];
+
+      const altitude = getAltitude(start, end);
+
+      const mediumLat = (start.latitude + end.latitude) / 2;
+      const mediumLng = (end.longitude + start.longitude) / 2;
 
       setTimeout(() => {
         mapAnimation.current?.animateToRegion(
           {
-            latitude,
-            longitude,
-            latitudeDelta: 0.007,
-            longitudeDelta: 0.007,
+            latitude: mediumLat,
+            longitude: mediumLng,
+            latitudeDelta: altitude,
+            longitudeDelta: altitude,
           },
-          100,
+          500,
         );
-      }, 100);
+      }, 1000);
     }
-  };
-
-  const routeAnimation = (coords: LatLng[]): void => {
-    const start = coords[coords.length - 1];
-    const end = coords[0];
-
-    const altitude = getAltitude(start, end);
-
-    const mediumLat = (start.latitude + end.latitude) / 2;
-    const mediumLng = (end.longitude + start.longitude) / 2;
-
-    setTimeout(() => {
-      mapAnimation.current?.animateToRegion(
-        {
-          latitude: mediumLat,
-          longitude: mediumLng,
-          latitudeDelta: altitude,
-          longitudeDelta: altitude,
-        },
-        500,
-      );
-    }, 100);
   };
 
   const newMarker = (event: MapEvent<Record<string, unknown>>) => {
@@ -155,6 +170,7 @@ const Map = (props: IMap) => {
           </View>
         </Modal>
       )}
+
       <MapView
         ref={mapAnimation}
         showsUserLocation
@@ -180,7 +196,7 @@ const Map = (props: IMap) => {
           <MarkerSelect
             markeeSelect={markeeSelect}
             locationUser={userLocation}
-            onModal={(state) => setStateModal(state)}
+            onModal={(value) => setStateModal(value)}
           />
         )}
 

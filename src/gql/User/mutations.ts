@@ -217,6 +217,12 @@ const updateSelectedVehicle = gql`
   }
 `;
 
+const deleteAccount = gql`
+  mutation DeleteAccount {
+    deleteAccount
+  }
+`;
+
 export default {
   login,
   loginWithFacebook,
@@ -231,4 +237,5 @@ export default {
   validateToken,
   changePassword,
   updateSelectedVehicle,
+  deleteAccount,
 };

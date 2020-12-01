@@ -55,7 +55,11 @@ const LoginSignUp = (props: ILoginSignUp) => {
 
   const getPermissionCameraAsync = async () => {
     try {
-      await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
+      await Permissions.askAsync(
+        Permissions.CAMERA_ROLL,
+        Permissions.CAMERA,
+        Permissions.LOCATION,
+      );
     } catch (error) {
       console.error("TCL: getPermissionCameraAsync -> error", error);
     }

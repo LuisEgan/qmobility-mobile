@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+  Platform,
+  Dimensions,
+} from "react-native";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
@@ -8,7 +16,7 @@ import {
   GooglePlaceDetail,
   DescriptionRow,
 } from "react-native-google-places-autocomplete";
-import { Card, ListItem, GoogleSearch } from "../../../components";
+import { Card, ListItem, GoogleSearch, Modal } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
 
 import ListTest from "./ListTest";
@@ -21,12 +29,15 @@ import { RecentRoute } from "../../../gql";
 
 import app from "../../../../app.json";
 
+const { height } = Dimensions.get("window");
+
 const API_KEY = app.expo.android.config.googleMaps.apiKey;
 
 interface IDetails extends GooglePlaceDetail, DescriptionRow {}
 
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
+  const [stateModal, setStateModal] = useState<boolean>(false);
 
   const { navigate } = useNavigation();
 
@@ -114,6 +125,7 @@ const SearchRouter = () => {
   );
 
   const onGoogleReute = async (details: IDetails) => {
+    setStateModal(true);
     try {
       const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
@@ -136,6 +148,8 @@ const SearchRouter = () => {
       }
     } catch (error) {
       console.error("error: ", error);
+    } finally {
+      setStateModal(false);
     }
   };
 
@@ -144,6 +158,19 @@ const SearchRouter = () => {
 
   return (
     <View style={styles.container}>
+      {stateModal && (
+        <Modal
+          state={stateModal}
+          notTouch
+          onClosed={() => setStateModal(false)}
+        >
+          <View style={styles.containerModal}>
+            <TouchableOpacity activeOpacity={1} style={styles.contentModal}>
+              <ActivityIndicator size="large" color={theme.colors.primary} />
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      )}
       <GoogleSearch
         placeholder="Where are you going?"
         onChange={(str) => setSearch(str)}
@@ -189,5 +216,17 @@ const styles = StyleSheet.create({
   textLoading: {
     textAlign: "center",
     marginVertical: "5%",
+  },
+
+  containerModal: {
+    marginVertical: height * (Platform.OS === "ios" ? 0.5 : 0.4),
+  },
+  contentModal: {
+    height: 60,
+    width: 60,
+    borderRadius: 10,
+    backgroundColor: theme.colors.white,
+    justifyContent: "center",
+    alignContent: "center",
   },
 });

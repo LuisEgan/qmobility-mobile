@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -14,8 +14,6 @@ import { User } from "../../../gql";
 import { IUser } from "../../../gql/User/Types";
 
 import CAR from "../../../assets/png/Nissan_Leaf_2018-02.png";
-
-// const CAR = require("../../../assets/png/Nissan_Leaf_2018-02.png");
 
 const { height } = Dimensions.get("window");
 
@@ -77,7 +75,8 @@ const Main = () => {
               />
             </TouchableOpacity>
           </View>
-          <Map initialMain />
+
+          <Map initialMain state />
         </View>
       </DrawerLeftMenu>
     </>

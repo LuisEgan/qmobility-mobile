@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useLayoutEffect } from "react";
 import * as yup from "yup";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
@@ -48,6 +48,7 @@ const EmailPrompt = (props: IEmailConfirm) => {
       const { data } = await changePasswordRequest({
         variables: { email: values.email },
       });
+      // console.log("EmailPrompt -> errors", errors);
 
       if (data?.changePasswordRequest?.id) {
         navigate(AUTH_STACK_SCREENS_NAMES.EmailConfirm, {
@@ -56,7 +57,8 @@ const EmailPrompt = (props: IEmailConfirm) => {
         });
       }
     } catch (error) {
-      console.warn("error: ", error.message);
+      Alert.alert("Error", error.message);
+      // console.warn("error: ", error.message);
     }
   };
 
