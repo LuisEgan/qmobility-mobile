@@ -2,8 +2,8 @@ import "react-native-google-places-autocomplete";
 
 /* eslint no-empty: "off" */
 declare module "*.jpg";
-declare module "*.jpeg";
 declare module "*.png";
+declare module "*.jpeg";
 
 declare module "react-native-google-places-autocomplete" {
   interface GooglePlacesAutocompleteProps {
