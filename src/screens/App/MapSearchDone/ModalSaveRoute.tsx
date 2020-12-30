@@ -253,7 +253,7 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
               <Input
                 placeholder="frequency"
                 isNumber
-                value={setFrequencyInputValue(values.frequency)}
+                value={`${setFrequencyInputValue(values.frequency) || ""}`}
                 onChange={(str) => setFieldValue("frequency", str.toString())}
                 onBlur={() => handleBlur("frequency")}
                 error={errors.frequency && ERRORS.REQUIREDNUM}

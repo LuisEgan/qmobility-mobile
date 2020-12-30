@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import * as Permissions from "expo-permissions";
-import { AsyncStorage, Keyboard } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useApolloClient } from "@apollo/client";
 import { AuthContext } from "../AuthContext";
@@ -10,14 +10,13 @@ import AppNavigator from "./AppNavigator";
 import AuthNavigator from "./AuthNavigator";
 import { TUserToken } from "../Types/AuthTypes";
 import { ASYNC_STORAGE_ITEMS } from "../../lib/constants";
-import { KeyboardContext } from "../../lib/Contexts/KeyboardContext";
+import UserLocationProvider from "./UserLocationProvider";
 
 const RootStack = createStackNavigator();
 
 const RootNavigator = () => {
   const [userToken, setUserToken] = useState<TUserToken>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [isKeyboardHidden, setIsKeyboardHidden] = useState<boolean>(true);
   const client = useApolloClient();
 
   const signOut = async () => {
@@ -53,20 +52,6 @@ const RootNavigator = () => {
     setInitialUserToken();
   }, []);
 
-  // * Set keyboard listeners
-  useEffect(() => {
-    const keyboardShow = () => setIsKeyboardHidden(false);
-    const keyboardHide = () => setIsKeyboardHidden(true);
-
-    Keyboard.addListener("keyboardDidShow", keyboardShow);
-    Keyboard.addListener("keyboardDidHide", keyboardHide);
-
-    return () => {
-      Keyboard.removeListener("keyboardDidShow", keyboardShow);
-      Keyboard.removeListener("keyboardDidHide", keyboardHide);
-    };
-  }, []);
-
   // * Set contexts values
   const authContext = useMemo(
     () => ({
@@ -93,19 +78,12 @@ const RootNavigator = () => {
     [],
   );
 
-  const keyboardContext = useMemo(
-    () => ({
-      isHidden: () => isKeyboardHidden,
-    }),
-    [],
-  );
-
   // * Loading screen
   const LoadingScreen = () => null;
 
   return (
     <AuthContext.Provider value={authContext}>
-      <KeyboardContext.Provider value={keyboardContext}>
+      <UserLocationProvider>
         <RootStack.Navigator
           headerMode="none"
           screenOptions={{ animationEnabled: false }}
@@ -119,7 +97,7 @@ const RootNavigator = () => {
             <RootStack.Screen name="AuthNavigator" component={AuthNavigator} />
           )}
         </RootStack.Navigator>
-      </KeyboardContext.Provider>
+      </UserLocationProvider>
     </AuthContext.Provider>
   );
 };

@@ -10,10 +10,13 @@ import SearchEditRouter, {
 
 const { width } = Dimensions.get("window");
 
+export const SEARCH_FROM_PLACEHOLDER = "Where are you?";
+export const SEARCH_TO_PLACEHOLDER = "Where are you going?";
+
 interface IRouteDestination extends IComponentsDefaults {
   startDireccion: string;
   endDireccion: string;
-  onChangeRoute: () => void;
+  onReverseRoute: () => void;
   onEditNewRoute: (value: IEditChangeRoute) => void;
 }
 
@@ -22,14 +25,23 @@ const RouteDestination = (props: IRouteDestination) => {
     startDireccion = "Loading...",
     endDireccion = "Loading...",
     containerStyle,
-    onChangeRoute,
+    onReverseRoute,
     onEditNewRoute,
   } = props;
 
   const [stateModal, setStateModal] = useState<boolean>(false);
   const [typeEdit, setTypeEdit] = useState<IChangeRoute>("START");
+  const [searchPlaceholder, setSearchPlaceholder] = useState<string>(
+    SEARCH_FROM_PLACEHOLDER,
+  );
 
   const onEditRoute = (value: IChangeRoute) => {
+    if (value === "START") {
+      setSearchPlaceholder(SEARCH_FROM_PLACEHOLDER);
+    } else {
+      setSearchPlaceholder(SEARCH_TO_PLACEHOLDER);
+    }
+
     setTypeEdit(value);
     setStateModal(!stateModal);
   };
@@ -51,6 +63,7 @@ const RouteDestination = (props: IRouteDestination) => {
             onCancel={() => setStateModal(!stateModal)}
             typeEdit={typeEdit}
             onChange={(value) => onChangeNewRoute(value)}
+            placeholder={searchPlaceholder}
           />
         </View>
       </Modal>
@@ -107,7 +120,7 @@ const RouteDestination = (props: IRouteDestination) => {
         </View>
       </View>
       <TouchableOpacity
-        onPress={() => onChangeRoute && onChangeRoute()}
+        onPress={() => onReverseRoute && onReverseRoute()}
         style={styles.reverse}
       >
         <Icons icon="ArrowChange" size={20} fill={theme.colors.bodySmall} />

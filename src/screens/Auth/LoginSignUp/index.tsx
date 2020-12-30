@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect, useContext } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Dimensions } from "react-native";
 import * as Permissions from "expo-permissions";
@@ -12,6 +12,7 @@ import theme from "../../../config/Theme";
 import { AUTH_STACK_SCREENS_NAMES } from "../../../lib/constants";
 import FullScreenModal from "../../Feedback/FullScreenModal";
 import { LoginSignUpLoadingContext } from "./LoginSignUpLoadingContext";
+import { UserLocationContext } from "../../../navigation/Navigators/UserLocationProvider";
 
 const { height } = Dimensions.get("window");
 
@@ -32,6 +33,8 @@ const LOGIN_SIGNUP_STACK_SCREENS: IAuthScreens = [
 
 const LoginSignUp = (props: ILoginSignUp) => {
   const { navigation, route } = props;
+
+  const { storeUserLocation } = useContext(UserLocationContext);
 
   const [displayLoadingScreen, setDisplayFeedbackScreen] = useState<boolean>(
     false,
@@ -57,7 +60,11 @@ const LoginSignUp = (props: ILoginSignUp) => {
   const getPermissions = async () => {
     try {
       await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
-      await Location.requestPermissionsAsync();
+
+      const { status } = await Location.requestPermissionsAsync();
+      if (status === "granted") {
+        await storeUserLocation();
+      }
     } catch (error) {
       console.error("TCL: getPermissions -> error", error);
     }

@@ -16,13 +16,18 @@ import { RoutePointsList } from "../../../components/Lists";
 import { TMapSearchDoneNavProps } from "../../../navigation/Types/NavPropsTypes";
 
 import { Route, User } from "../../../gql";
-import { IGetRouter, IGetRouterVar } from "../../../gql/Route/queries";
+import {
+  IChargers,
+  IGetRouter,
+  IGetRouterVar,
+} from "../../../gql/Route/queries";
 
 import ModalSaveRoute from "./ModalSaveRoute";
 import ModalChangeLoading from "./ModalChangeLoading";
 import { IEditChangeRoute } from "../../../components/SearchEditRouter/index";
 import { kmToMiles } from "../../../lib/numbers";
 import { IUser } from "../../../gql/User/Types";
+import { IRouterPointsListItem } from "../../../components/Lists/RoutePointsList/RouterPointsListItem";
 
 const { height, width } = Dimensions.get("window");
 
@@ -43,7 +48,9 @@ const MapSearchDone = (props: IMapSearchDone) => {
     IGetRouterVar
   >(Route.queries.getRoutes);
 
-  const { data: eVe } = useQuery<{ user: IUser }, IUser>(User.queries.getEve);
+  const { data: allUserInfo } = useQuery<{ user: IUser }, IUser>(
+    User.queries.allUserInfo,
+  );
 
   const [startDirection, setStartDirection] = useState<string>(
     route.params.origin,
@@ -56,34 +63,28 @@ const MapSearchDone = (props: IMapSearchDone) => {
   const [showContent, setShowContent] = useState<boolean>(false);
 
   const [stateModal, setStateModal] = useState<boolean>(false);
-  const [stateModalLoading, setStateModalLoading] = useState<boolean>(false);
 
   const transition = useTransition(isDrawerOpen, { duration: 100 });
   const translateY = mix(transition, 0, -200);
 
   // * Get route with Car ID
   useEffect(() => {
-    if (eVe) {
+    if (allUserInfo) {
       getRoutes({
         variables: {
           origin: route.params.origin,
           destination: route.params.destination,
-          car_id: eVe.user?.selectedVehicle?.Vehicle_ID || 0,
+          car_id: allUserInfo.user.selectedVehicle?.Vehicle_ID || 0,
+          car_charge: 80,
         },
       });
     }
-  }, [eVe]);
+  }, [allUserInfo]);
 
-  // * Update Modal
-  useEffect(() => {
-    setStateModalLoading(false);
-  }, [dataRoute]);
-
-  const onChangeRoute = () => {
+  const onReverseRoute = () => {
     const origin = endDirection;
     const destination = startDirection;
 
-    setStateModalLoading(true);
     setEndDirection(destination || "");
     setStartDirection(origin || "");
 
@@ -91,13 +92,13 @@ const MapSearchDone = (props: IMapSearchDone) => {
       variables: {
         origin,
         destination,
-        car_id: eVe?.user?.selectedVehicle?.Vehicle_ID || 0,
+        car_id: allUserInfo?.user?.selectedVehicle?.Vehicle_ID || 0,
+        car_charge: 80,
       },
     });
   };
 
   const onEditRoute = ({ str, type }: IEditChangeRoute) => {
-    setStateModalLoading(true);
     const startTmp = startDirection || route.params.origin;
     const endTmp = endDirection || route.params.destination;
 
@@ -111,7 +112,8 @@ const MapSearchDone = (props: IMapSearchDone) => {
       variables: {
         origin: start,
         destination: end,
-        car_id: eVe?.user?.selectedVehicle?.Vehicle_ID || 0,
+        car_id: allUserInfo?.user?.selectedVehicle?.Vehicle_ID || 0,
+        car_charge: 80,
       },
     });
   };
@@ -200,7 +202,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
               containerStyle={[styles.icon, { marginLeft: 10 }]}
             />
             <Text variant="bodySmall">
-              {`${Math.ceil(dataRoute?.getRoutes?.Route?.Total_kWh || 0)}%`}
+              {`${Math.ceil(dataRoute?.getRoutes?.Route?.Total_kWh || 0)}kWh`}
             </Text>
           </View>
 
@@ -247,9 +249,11 @@ const MapSearchDone = (props: IMapSearchDone) => {
         kwh={dataRoute?.getRoutes?.Route?.Total_kWh || 0}
         totalDistance={dataRoute?.getRoutes?.Route?.Distance || 0}
         totalTime={dataRoute?.getRoutes?.Route?.Time || 0}
-        carId={eVe?.user?.selectedVehicle?.Vehicle_ID || 0}
+        carId={allUserInfo?.user?.selectedVehicle?.Vehicle_ID || 0}
       />
-      <ModalChangeLoading stateModal={stateModalLoading} />
+
+      <ModalChangeLoading stateModal={loadingRoute} />
+
       <View style={styles.container}>
         <Animated.View
           style={[
@@ -265,14 +269,18 @@ const MapSearchDone = (props: IMapSearchDone) => {
             }
             endDireccion={(endDirection && editNameCity(endDirection)) || ""}
             containerStyle={styles.routeDestination}
-            onChangeRoute={onChangeRoute}
+            onReverseRoute={onReverseRoute}
             onEditNewRoute={onEditRoute}
           />
         </Animated.View>
+
         <View style={styles.mapContainer}>
           <Map
             routeCoords={dataRoute?.getRoutes?.Route?.Route_Coords}
-            chargers={dataRoute?.getRoutes?.Chargers}
+            chargers={
+              dataRoute?.getRoutes?.Chargers
+              && (dataRoute?.getRoutes?.Chargers[0] as IChargers[])
+            }
           />
         </View>
 
@@ -299,14 +307,19 @@ const MapSearchDone = (props: IMapSearchDone) => {
               <RoutePointsList
                 startLocation={startDirection}
                 endLocation={endDirection}
-                points={dataRoute?.getRoutes?.Chargers[0]}
+                points={
+                  dataRoute?.getRoutes?.Chargers
+                    ? (dataRoute?.getRoutes
+                      ?.Chargers[0] as IRouterPointsListItem[])
+                    : []
+                }
               />
 
               <View style={styles.cardsContainer}>
                 <Card
                   title={`${Math.ceil(
                     dataRoute?.getRoutes?.Route?.Total_kWh || 0,
-                  )}%`}
+                  )}kWh`}
                   subTitle="Energy"
                   containerStyle={styles.card}
                 />

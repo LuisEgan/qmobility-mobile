@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-} from "react-native";
+import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { Alert, Button, Icons, Slider } from "../../../components";
@@ -181,9 +175,6 @@ const Details = (props: IDetails) => {
             {" "}
             {eVe?.Vehicle_Model}
           </Text>
-          <TouchableOpacity>
-            <Icons icon="MoreVert" fill={theme.colors.primary} size={28} />
-          </TouchableOpacity>
         </View>
 
         <View style={styles.content}>

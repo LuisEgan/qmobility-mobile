@@ -22,7 +22,9 @@ const MyRoutes = () => {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("All");
-  const { data: eVe } = useQuery<{ user: IUser }, IUser>(User.queries.getEve);
+  const { data: allUserInfo } = useQuery<{ user: IUser }, IUser>(
+    User.queries.allUserInfo,
+  );
 
   const [stateEdit, setStateEdit] = useState<boolean>(false);
 
@@ -67,7 +69,7 @@ const MyRoutes = () => {
           isEdit
           onClosed={() => setStateEdit(!stateEdit)}
           {...propsModal}
-          carId={eVe?.user?.selectedVehicle?.Vehicle_ID || 0}
+          carId={allUserInfo?.user?.selectedVehicle?.Vehicle_ID || 0}
           label="Edit your route"
         />
       )}

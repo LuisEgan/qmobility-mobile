@@ -51,7 +51,7 @@ const Stats = (props: IStats) => {
 
       <TriCard
         col1={{
-          icon: "Apple",
+          icon: "CarMinTripLength",
           subTitle: "Min. trip length",
           title: (
             <TextWithUnit
@@ -62,7 +62,7 @@ const Stats = (props: IStats) => {
           ),
         }}
         col2={{
-          icon: "Apple",
+          icon: "CarMinRange",
           subTitle: "Min Range req.",
           title: (
             <TextWithUnit
@@ -73,7 +73,7 @@ const Stats = (props: IStats) => {
           ),
         }}
         col3={{
-          icon: "Apple",
+          icon: "CarMaxRange",
           subTitle: "Max Range req.",
           title: (
             <TextWithUnit
@@ -87,7 +87,7 @@ const Stats = (props: IStats) => {
 
       <TriCard
         col1={{
-          icon: "Flash",
+          icon: "CarTimeIn",
           title: (
             <TextWithUnit
               text={`${stats?.totalTimeInCar}`}
@@ -99,7 +99,7 @@ const Stats = (props: IStats) => {
           subTitle: "Time in car",
         }}
         col2={{
-          icon: "Bubble",
+          icon: "CarIdleTimeIn",
           title: (
             <TextWithUnit
               text={`${stats?.idleTimeOfCar}`}
@@ -111,7 +111,7 @@ const Stats = (props: IStats) => {
           subTitle: "Idle time in car",
         }}
         col3={{
-          icon: "Speed",
+          icon: "CarIdle",
           title: (
             <TextWithUnit
               text={`${stats?.idlePercentageOfCar}`}
@@ -126,7 +126,7 @@ const Stats = (props: IStats) => {
 
       <TriCard
         col1={{
-          icon: "Apple",
+          icon: "CarWeeklyAvg",
           subTitle: "Weekly Avg.",
           title: (
             <TextWithUnit
@@ -137,7 +137,7 @@ const Stats = (props: IStats) => {
           ),
         }}
         col2={{
-          icon: "Apple",
+          icon: "CarDialyAvg",
           subTitle: "Daily Avg.",
           title: (
             <TextWithUnit

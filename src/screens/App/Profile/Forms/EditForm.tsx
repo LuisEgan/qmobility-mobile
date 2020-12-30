@@ -185,8 +185,8 @@ const EditForm = (props: IForm) => {
 
         <PhoneInput
           phone={initialValues.phone}
-          phoneCountryCode={initialValues.phoneCountryCode}
-          phoneCountry={initialValues.phoneCountry}
+          phoneCountryCode={initialValues.phoneCountryCode || "44"}
+          phoneCountry={initialValues.phoneCountry || "GB"}
           onChangeFormattedText={({
             phone,
             phoneCountryCode,

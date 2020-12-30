@@ -1,12 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, Platform } from "react-native";
-import {
-  GooglePlaceDetail,
-  DescriptionRow,
-} from "react-native-google-places-autocomplete";
-import GoogleSearch from "../GoogleSearch/index";
-
-interface IDetails extends GooglePlaceDetail, DescriptionRow {}
+import GoogleSearch, { IDetails } from "../GoogleSearch/index";
 
 export type IChangeRoute = "START" | "END";
 
@@ -19,12 +13,13 @@ interface ISearchEditRouter {
   typeEdit: IChangeRoute;
   onChange: (value: IEditChangeRoute) => void;
   onCancel: () => void;
+  placeholder?: string;
 }
 
 const { width } = Dimensions.get("window");
 
 const SearchEditRouter = (props: ISearchEditRouter) => {
-  const { typeEdit, onChange, onCancel } = props;
+  const { typeEdit, onChange, onCancel, placeholder } = props;
 
   const onGoogleReute = async (details: IDetails) => {
     onChange({
@@ -37,7 +32,7 @@ const SearchEditRouter = (props: ISearchEditRouter) => {
     <View style={styles.container}>
       <GoogleSearch
         onTypeCancel={() => onCancel()}
-        placeholder="Where are you going?"
+        placeholder={placeholder || "Where are you going?"}
         onPress={(details) => onGoogleReute(details)}
         containerStyle={{
           ...styles.googleSearch,

@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
 import theme, { Text } from "../../../config/Theme";
 import Icons from "../../svg";
-import { ISavedRoute } from "../../../gql/Route/queries";
+import { IGetMySaveRoute, ISavedRoute } from "../../../gql/Route/queries";
 import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
 
 import { Route } from "../../../gql";
@@ -31,11 +31,11 @@ const RouteListItem = (props: ISavedRoute) => {
     onEdit,
   } = props;
 
-  const [state, setState] = useState<boolean>(false);
+  const [actionLoading, setActionLoading] = useState<boolean>(false);
 
   const { navigate } = useNavigation();
 
-  const onNavigarionRoute = () => {
+  const onNavigationRoute = () => {
     navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
       origin,
       destination,
@@ -45,7 +45,27 @@ const RouteListItem = (props: ISavedRoute) => {
   const [deleteMyRoutes] = useMutation<
     { deleteMyRoutes: IDeleteMyRoute },
     IDeleteMyRouteVar
-  >(Route.mutations.deleteMyRoute);
+  >(Route.mutations.deleteMyRoute, {
+    update(cache) {
+      const query = cache.readQuery<{ getMyRoutes: IGetMySaveRoute }>({
+        query: Route.queries.getMySaveRoute,
+      });
+
+      const newRoutes: ISavedRoute[] = [];
+
+      query?.getMyRoutes.forEach((route) => {
+        if (route.id === id) return;
+        newRoutes.push(route);
+      });
+
+      cache.writeQuery({
+        query: Route.queries.getMySaveRoute,
+        data: {
+          getMyRoutes: newRoutes,
+        },
+      });
+    },
+  });
 
   const onDelete = async () => {
     try {
@@ -53,32 +73,29 @@ const RouteListItem = (props: ISavedRoute) => {
         myRouteId: id,
       };
 
-      const { data, errors } = await deleteMyRoutes({
+      const { errors } = await deleteMyRoutes({
         variables,
-        refetchQueries: [
-          {
-            query: Route.queries.getMySaveRoute,
-          },
-        ],
       });
+
       if (errors) {
-        Alert.alert(`${errors}`, "", [
-          {
-            text: "Cancel",
-            style: "cancel",
-          },
-        ]);
-      }
-      if (data?.deleteMyRoutes) {
-        setState(false);
+        throw new Error("Error on deleting route");
       }
     } catch (error) {
-      // console.log("onSaveMyRouter -> error", error)
+      console.error("onSaveMyRouter -> error", error);
+
+      Alert.alert(error, "", [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+      ]);
+    } finally {
+      setActionLoading(false);
     }
   };
 
   const onAlert = () => {
-    setState(true);
+    setActionLoading(true);
     Alert.alert(`${friendlyName}`, `${category}`, [
       {
         text: "Delete",
@@ -88,13 +105,13 @@ const RouteListItem = (props: ISavedRoute) => {
       {
         text: "Edit",
         onPress: () => {
-          setState(false);
+          setActionLoading(false);
           isEdit();
         },
       },
       {
         text: "Cancel",
-        onPress: () => setState(false),
+        onPress: () => setActionLoading(false),
         style: "cancel",
       },
     ]);
@@ -108,12 +125,13 @@ const RouteListItem = (props: ISavedRoute) => {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.containerButton}
-        onPress={() => !state && onNavigarionRoute()}
+        onPress={() => !actionLoading && onNavigationRoute()}
       >
         <View style={styles.content}>
           <View style={styles.detailContent}>
             <Icons icon="Home" fill={theme.colors.primary} size={22} />
           </View>
+
           <View style={styles.detailContainer}>
             <View>
               <Text variant="heading2" numberOfLines={1}>
@@ -131,7 +149,8 @@ const RouteListItem = (props: ISavedRoute) => {
               </Text>
             </View>
           </View>
-          {state ? (
+
+          {actionLoading ? (
             <View style={styles.iconRight}>
               <ActivityIndicator color={theme.colors.primary} />
             </View>

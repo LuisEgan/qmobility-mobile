@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ASYNC_STORAGE_ITEMS } from "../lib/constants";
 
 const httpLink = new HttpLink({
@@ -20,7 +20,13 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      MyRoute: {
+        keyFields: ["id"],
+      },
+    },
+  }),
   link: authLink.concat(httpLink),
 });
 

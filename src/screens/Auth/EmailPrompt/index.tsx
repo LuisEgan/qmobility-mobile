@@ -48,7 +48,6 @@ const EmailPrompt = (props: IEmailConfirm) => {
       const { data } = await changePasswordRequest({
         variables: { email: values.email },
       });
-      // console.log("EmailPrompt -> errors", errors);
 
       if (data?.changePasswordRequest?.id) {
         navigate(AUTH_STACK_SCREENS_NAMES.EmailConfirm, {
@@ -58,7 +57,7 @@ const EmailPrompt = (props: IEmailConfirm) => {
       }
     } catch (error) {
       Alert.alert("Error", error.message);
-      // console.warn("error: ", error.message);
+      console.error("error: ", error.message);
     }
   };
 

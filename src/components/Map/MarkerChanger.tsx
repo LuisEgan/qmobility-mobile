@@ -6,7 +6,7 @@ import Icons from "../svg";
 import theme from "../../config/Theme";
 
 interface IMarkerChanger {
-  chargers?: IChargers[] | [];
+  chargers?: IChargers[];
 }
 
 const MarkerChanger = (props: IMarkerChanger) => {
@@ -16,7 +16,7 @@ const MarkerChanger = (props: IMarkerChanger) => {
 
   return (
     <>
-      {chargers[0].map((charger: IChargers, index: number) => {
+      {chargers.map((charger: IChargers, index: number) => {
         if (!index) {
           return (
             <Marker

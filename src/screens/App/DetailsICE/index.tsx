@@ -75,33 +75,34 @@ const DetailsICE = () => {
         </View>
 
         <View style={[styles.content]}>
-          <IconText icon="Bubble" label={`${vehicle?.SeatingCapacity}`} />
+          <IconText icon="CarSits" label={`${vehicle?.SeatingCapacity}`} />
           <IconText
-            icon="Spa"
+            icon="CarCO2"
             label={`${gramKmToGramMiles(vehicle?.Co2Emissions)} C02g/mi`}
           />
           <IconText
             icon="Calendar"
             label={`${vehicle?.YearMonthFirstRegistered}`}
-            stroke="white"
+            stroke="#acacac"
+            fill="none"
           />
         </View>
 
         <View style={[styles.content]}>
-          <IconText icon="Bubble" label={`${vehicle?.FuelType}`} />
-          <IconText icon="Spa" label={`${vehicle?.Colour}`} />
+          <IconText icon="CarFuel" label={`${vehicle?.FuelType}`} />
+          <IconText icon="CarColor" label={`${vehicle?.Colour}`} />
           <IconText
-            icon="Calendar"
+            icon="CarType"
             label={`${vehicle?.VehicleClass}`}
             stroke="white"
           />
         </View>
 
         <View style={[styles.content]}>
-          <IconText icon="Bubble" label={`${vehicle?.VehiclePlate}`} />
-          <IconText icon="Spa" label={`${vehicle?.DoorPlanLiteral}`} />
+          <IconText icon="CarPlate" label={`${vehicle?.VehiclePlate}`} />
+          <IconText icon="CarDoors" label={`${vehicle?.DoorPlanLiteral}`} />
           <IconText
-            icon="Speed"
+            icon="CarMaxSpeed"
             label={`${
               vehicle?.MaxSpeedMph || kmToMiles(vehicle?.MaxSpeedKph)
             } mph`}
@@ -109,8 +110,8 @@ const DetailsICE = () => {
         </View>
 
         <View style={[styles.content]}>
-          <IconText icon="Bubble" label={`${vehicle?.EngineCapacity}`} />
-          <IconText icon="Spa" label={`${vehicle?.ModelVariant}`} />
+          <IconText icon="CarHorsepower" label={`${vehicle?.EngineCapacity}`} />
+          <IconText icon="CarModel" label={`${vehicle?.ModelVariant}`} />
         </View>
       </ScrollView>
     </View>

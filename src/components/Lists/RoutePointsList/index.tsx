@@ -22,7 +22,7 @@ const RoutePointsList = (props: IRoutePointsList) => {
     endLocation,
   } = props;
 
-  const data = [{ label: startLocation }, points[0], { label: endLocation }];
+  const data = [{ label: startLocation }, ...points, { label: endLocation }];
 
   return (
     <View style={[styles.container, containerStyle]}>

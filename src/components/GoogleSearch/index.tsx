@@ -16,12 +16,14 @@ import app from "../../../app.json";
 // TODO "Application Restrictions" set to IP Addresses or HTTP Referers
 const API_KEY = app.expo.android.config.googleMaps.apiKey;
 
-export type TDetails = GooglePlaceDetail | DescriptionRow;
+export interface IDetails
+  extends GooglePlaceDetail,
+    Omit<DescriptionRow, "types"> {}
 
 interface IGoogleSearch {
   placeholder?: string;
   onChange?: (str: string) => void;
-  onPress?: (details: TDetails) => void;
+  onPress?: (details: IDetails) => void;
   onTypeCancel?: () => void;
   // TODO add proper type definition
   containerStyle?: Record<string, unknown>;
@@ -46,7 +48,7 @@ const GoogleSearch = (props: IGoogleSearch) => {
         <View style={{ height: 80, flex: 1 }}>
           <ListItem
             onPress={() => {
-              if (onPress && details) onPress(details);
+              if (onPress && details) onPress((details as unknown) as IDetails);
             }}
             icon="Search"
             title={details?.structured_formatting?.main_text}
@@ -90,7 +92,7 @@ const GoogleSearch = (props: IGoogleSearch) => {
       placeholder={placeholder}
       fetchDetails
       onPress={(data, details = null) => {
-        if (onPress && details) onPress(details);
+        if (onPress && details) onPress((details as unknown) as IDetails);
       }}
       query={{
         key: API_KEY,

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -7,13 +7,7 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
-import MapView, {
-  PROVIDER_GOOGLE,
-  LatLng,
-  MapEvent,
-  Region,
-} from "react-native-maps";
-import * as Location from "expo-location";
+import MapView, { PROVIDER_GOOGLE, LatLng, MapEvent } from "react-native-maps";
 
 import { IChargers } from "../../gql/Route/queries";
 import theme from "../../config/Theme";
@@ -22,6 +16,7 @@ import MarkerChanger from "./MarkerChanger";
 import MarkerSelect from "./MarkerSelect";
 import Route from "./Route";
 import Modal from "../Modal";
+import { UserLocationContext } from "../../navigation/Navigators/UserLocationProvider";
 
 const { height } = Dimensions.get("window");
 
@@ -43,7 +38,7 @@ const getAltitude = (origin: LatLng, destination: LatLng) => {
 
 interface IMap {
   routeCoords?: LatLng[];
-  chargers?: IChargers[] | [];
+  chargers?: IChargers[];
   initialMain?: boolean;
   state?: boolean;
 }
@@ -51,67 +46,38 @@ interface IMap {
 const Map = (props: IMap) => {
   const { routeCoords, chargers, initialMain, state } = props;
 
+  const { userLocation, storeUserLocation } = useContext(UserLocationContext);
+
   const mapAnimation = useRef<MapView>(null);
 
   const [stateModal, setStateModal] = useState<boolean>(false);
-
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
     longitude: 0,
   });
 
-  const [userLocation, setUserLocation] = useState<LatLng>({
-    latitude: 0,
-    longitude: 0,
-  });
-
-  const [region] = useState<Region>({
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: 70,
-    longitudeDelta: 70,
-  });
-
-  // * Initial positioning
+  // * Set userLocation if not set yet
   useEffect(() => {
-    if (initialMain) LocationAnimation();
+    const setInitialLocation = async () => {
+      try {
+        setStateModal(true);
+        await storeUserLocation();
+      } catch (error) {
+        console.error("error: ", error);
+      } finally {
+        setStateModal(false);
+      }
+    };
+
+    if (!userLocation) {
+      setInitialLocation();
+    }
   }, []);
 
   // * Animate map when route changes
   useEffect(() => {
     if (routeCoords) routeAnimation(routeCoords);
   }, [routeCoords, state]);
-
-  const LocationAnimation = async () => {
-    try {
-      const { status } = await Location.requestPermissionsAsync();
-      if (status === "granted") {
-        const location = await Location.getCurrentPositionAsync({
-          accuracy: Location.Accuracy.High,
-        });
-
-        const { latitude, longitude } = location.coords;
-        setUserLocation(location.coords);
-        setTimeout(() => {
-          locationNow(latitude, longitude);
-        }, 500);
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
-
-  const locationNow = (latitude: number, longitude: number) => {
-    mapAnimation.current?.animateToRegion(
-      {
-        latitude,
-        longitude,
-        latitudeDelta: 0.007,
-        longitudeDelta: 0.007,
-      },
-      200,
-    );
-  };
 
   const routeAnimation = (coords: LatLng[] | undefined): void => {
     if (coords) {
@@ -171,37 +137,39 @@ const Map = (props: IMap) => {
         </Modal>
       )}
 
-      <MapView
-        ref={mapAnimation}
-        showsUserLocation
-        showsMyLocationButton={initialMain}
-        provider={PROVIDER_GOOGLE}
-        loadingEnabled
-        showsBuildings={false}
-        showsTraffic={false}
-        showsIndoors={false}
-        showsIndoorLevelPicker
-        loadingIndicatorColor={theme.colors.primary}
-        loadingBackgroundColor={theme.colors.white}
-        style={styles.map}
-        mapType="standard"
-        onLongPress={(ev) => {
-          if (initialMain) newMarker(ev);
-        }}
-        initialRegion={region}
-      >
-        {routeCoords && <Route routeCoords={routeCoords} />}
+      {userLocation && (
+        <MapView
+          ref={mapAnimation}
+          showsUserLocation
+          showsMyLocationButton={initialMain}
+          provider={PROVIDER_GOOGLE}
+          loadingEnabled
+          showsBuildings={false}
+          showsTraffic={false}
+          showsIndoors={false}
+          showsIndoorLevelPicker
+          loadingIndicatorColor={theme.colors.primary}
+          loadingBackgroundColor={theme.colors.white}
+          style={styles.map}
+          mapType="standard"
+          onLongPress={(ev) => {
+            if (initialMain) newMarker(ev);
+          }}
+          initialRegion={userLocation}
+        >
+          {routeCoords && <Route routeCoords={routeCoords} />}
 
-        {markeeSelect.latitude !== 0 && (
-          <MarkerSelect
-            markeeSelect={markeeSelect}
-            locationUser={userLocation}
-            onModal={(value) => setStateModal(value)}
-          />
-        )}
+          {markeeSelect.latitude !== 0 && (
+            <MarkerSelect
+              markeeSelect={markeeSelect}
+              locationUser={userLocation}
+              onModal={(value) => setStateModal(value)}
+            />
+          )}
 
-        <MarkerChanger chargers={chargers} />
-      </MapView>
+          <MarkerChanger chargers={chargers} />
+        </MapView>
+      )}
     </>
   );
 };

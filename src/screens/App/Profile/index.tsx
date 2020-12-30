@@ -37,6 +37,9 @@ const CreateProfile = () => {
   if (loading) return <FullScreenModal show />;
   if (!isFocused) return null;
 
+  const phoneCountryApocope = (userData?.user.phoneCountry
+    || "GB") as CountryApocope;
+
   return (
     <DrawerLeftMenu
       isDrawerOpen={isDrawerOpen}
@@ -82,7 +85,7 @@ const CreateProfile = () => {
               userData?.user.phoneCountryCode,
             )}`}
             disabled
-            phoneCountry={userData?.user.phoneCountry as CountryApocope}
+            phoneCountry={phoneCountryApocope}
           />
 
           <View style={styles.containerTtitleEdition}>
@@ -127,6 +130,7 @@ const styles = StyleSheet.create({
   container: {
     padding: "5%",
     height: "100%",
+    paddingBottom: 130,
   },
   containerTtitleEdition: {
     flexDirection: "row",

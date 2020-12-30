@@ -11,10 +11,6 @@ import {
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@apollo/client";
-import {
-  GooglePlaceDetail,
-  DescriptionRow,
-} from "react-native-google-places-autocomplete";
 import { Card, ListItem, GoogleSearch, Modal } from "../../../components";
 import theme, { Text } from "../../../config/Theme";
 
@@ -27,12 +23,11 @@ import {
 import { RecentRoute } from "../../../gql";
 
 import app from "../../../../app.json";
+import { IDetails } from "../../../components/GoogleSearch";
 
 const { height } = Dimensions.get("window");
 
 const API_KEY = app.expo.android.config.googleMaps.apiKey;
-
-interface IDetails extends GooglePlaceDetail, DescriptionRow {}
 
 const SearchRouter = () => {
   const [search, setSearch] = useState<string>("");
@@ -123,7 +118,7 @@ const SearchRouter = () => {
     </>
   );
 
-  const onGoogleReute = async (details: IDetails) => {
+  const onGoogleRoute = async (details: IDetails) => {
     setStateModal(true);
     try {
       const { status } = await Location.requestPermissionsAsync();
@@ -175,7 +170,7 @@ const SearchRouter = () => {
       <GoogleSearch
         placeholder="Where are you going?"
         onChange={(str) => setSearch(str)}
-        onPress={(details) => onGoogleReute(details)}
+        onPress={(details) => onGoogleRoute(details)}
         containerStyle={{
           ...styles.googleSearch,
           flex: altitude,

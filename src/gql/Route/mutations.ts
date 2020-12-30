@@ -43,6 +43,8 @@ const saveMyRoute = gql`
         carId: $carId
       }
     ) {
+      id
+      friendlyName
       userId
       createAt
     }
@@ -91,6 +93,7 @@ const updateMyRoute = gql`
       }
     ) {
       id
+      friendlyName
     }
   }
 `;
