@@ -10,7 +10,8 @@
     "lint:fix": "eslint src/**/*.{ts,tsx} --fix --no-error-on-unmatched-pattern",
     "lint:mac": "eslint src/**/*.{ts,tsx} --fix",
     "lint": "eslint src/**/*.{ts,tsx} --no-error-on-unmatched-pattern",
-    "prettier": "prettier --write src/**/*.{ts,tsx} __tests__/**/*.{ts,tsx}"
+    "prettier": "prettier --write src/**/*.{ts,tsx} __tests__/**/*.{ts,tsx}",
+    "build:android": "expo build:android"
   },
   "dependencies": {
     "@apollo/client": "^3.1.2",
