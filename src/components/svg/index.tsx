@@ -1,5 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, StyleProp, ViewStyle } from "react-native";
+import { IComponentsDefaults } from "../../lib/Types";
 
 import {
   ArrowDown,
@@ -81,9 +82,7 @@ import {
   CarTimeIn,
   CarWeeklyAvg,
 } from "./icons";
-
 import { TIcon } from "./icons/TypeIcons";
-import { IComponentsDefaults } from "../../lib/Types";
 
 interface Iicons extends IComponentsDefaults {
   icon: TIcon;

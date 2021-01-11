@@ -15,6 +15,7 @@ import {
 } from "../../../lib/constants";
 
 import bg from "../../../assets/png/accessBackgroundMedium.png";
+import isologo from "../../../assets/png/isologo.png";
 import { TAccessNavProps } from "../../../navigation/Types/NavPropsTypes";
 import Charger from "../../../gql/Charger";
 import { ICharger } from "../../../gql/Charger/queries";
@@ -52,12 +53,11 @@ const Access = (props: IAccess) => {
   return (
     <ImageBackground source={bg} style={styles.image}>
       <View style={styles.container}>
-        <Icons
-          icon="Eve"
-          size={100}
-          width={width}
-          containerStyle={styles.isologo}
-        />
+        <View style={styles.isologoContainer}>
+          <View style={styles.isologo}>
+            <ImageBackground source={isologo} style={styles.image} />
+          </View>
+        </View>
 
         <View style={styles.content}>
           <View style={styles.contentButton}>
@@ -95,12 +95,15 @@ const Access = (props: IAccess) => {
 export default Access;
 
 const styles = StyleSheet.create({
-  isologo: {
+  isologoContainer: {
     position: "absolute",
-    left: 0,
-    right: 0,
-    marginHorizontal: "auto",
     top: height * 0.15,
+    width,
+    alignItems: "center",
+  },
+  isologo: {
+    width: width * 0.4,
+    height: width * 0.4,
   },
   image: {
     flex: 1,
