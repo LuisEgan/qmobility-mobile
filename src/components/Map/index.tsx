@@ -96,7 +96,7 @@ const Map = (props: IMap) => {
 
     if (!userLocation) {
       setInitialLocation();
-    } else {
+    } else if (initialMain) {
       // * chargers are still needed to be fetched if there's already a user location
       // * but first, let the map's initial position load
       setTimeout(() => {
