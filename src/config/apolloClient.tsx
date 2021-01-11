@@ -4,8 +4,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ASYNC_STORAGE_ITEMS } from "../lib/constants";
 
 const httpLink = new HttpLink({
-  // uri: "https://backend-qmobility.azurewebsites.net/graphql/",
-  uri: "https://21afba890fac.ngrok.io/graphql",
+  uri: "https://backend-qmobility.azurewebsites.net/graphql/",
+  // uri: "https://21afba890fac.ngrok.io/graphql",
   // uri: "https://karluiz.ngrok.io/graphql",
 });
 
