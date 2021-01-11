@@ -6,10 +6,10 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/png/isologo.png",
-    "facebookScheme": "fb764850257614217",
-    "facebookAppId": "764850257614217",
+    "facebookScheme": "fb1026980881044780",
+    "facebookAppId": "1026980881044780",
     "facebookAutoInitEnabled": true,
-    "facebookDisplayName": "cleverit",
+    "facebookDisplayName": "Eve Mobile App #1",
     "splash": {
       "image": "./src/assets/png/eVeSplash.png",
       "resizeMode": "contain",

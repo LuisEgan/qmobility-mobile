@@ -108,7 +108,7 @@ const Stats = (props: IStats) => {
               unit="h"
             />
           ),
-          subTitle: "Idle time in car",
+          subTitle: "Car idle time",
         }}
         col3={{
           icon: "CarIdle",

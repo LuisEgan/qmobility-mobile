@@ -12,7 +12,7 @@ import { useMutation } from "@apollo/client";
 import theme, { Text } from "../../../config/Theme";
 import Icons from "../../svg";
 import { IGetMySaveRoute, ISavedRoute } from "../../../gql/Route/queries";
-import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { APP_STACK_SCREENS_NAMES, UK_REGION } from "../../../lib/constants";
 
 import { Route } from "../../../gql";
 import {
@@ -39,6 +39,7 @@ const RouteListItem = (props: ISavedRoute) => {
     navigate(APP_STACK_SCREENS_NAMES.MapSearchDone, {
       origin,
       destination,
+      initialLocation: UK_REGION,
     });
   };
 

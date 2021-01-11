@@ -69,7 +69,7 @@ const MyCars = () => {
             <Icons
               icon="Edit"
               fill={theme.colors.grayLight}
-              size={15}
+              size={25}
               onPress={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
             />
           </View>
@@ -89,7 +89,7 @@ const MyCars = () => {
             <Icons
               icon="Edit"
               fill={theme.colors.grayLight}
-              size={15}
+              size={25}
               onPress={() => navigate(APP_STACK_SCREENS_NAMES.EditProfile)}
             />
           </View>
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: "5%",
     height: height * 0.69,
+    paddingBottom: 100,
   },
   containerTtitleEdition: {
     flexDirection: "row",

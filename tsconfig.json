@@ -4,6 +4,9 @@
     "jsx": "react-native",
     "lib": ["dom", "esnext"],
     "typeRoots": ["node_modules/@types", "./"],
+    "includes" :[
+      "./**/*.d.ts"
+    ],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,

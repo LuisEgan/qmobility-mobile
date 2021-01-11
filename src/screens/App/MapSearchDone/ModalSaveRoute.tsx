@@ -22,7 +22,7 @@ import {
   IUpdateMyRoutesVar,
   IUpdataMyRoutes,
 } from "../../../gql/Route/mutations";
-import { Route } from "../../../gql";
+import { Route, User } from "../../../gql";
 
 const { height, width } = Dimensions.get("window");
 
@@ -144,6 +144,9 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
         refetchQueries: [
           {
             query: Route.queries.getMySaveRoute,
+          },
+          {
+            query: User.queries.getMyStats,
           },
         ],
       });

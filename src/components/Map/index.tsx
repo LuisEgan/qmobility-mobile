@@ -7,8 +7,16 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
-import MapView, { PROVIDER_GOOGLE, LatLng, MapEvent } from "react-native-maps";
+import RNM, {
+  PROVIDER_GOOGLE,
+  LatLng,
+  MapEvent,
+  Region,
+  Marker,
+} from "react-native-maps";
+import MapView from "react-native-map-clustering";
 
+import { useLazyQuery } from "@apollo/client";
 import { IChargers } from "../../gql/Route/queries";
 import theme from "../../config/Theme";
 
@@ -17,6 +25,9 @@ import MarkerSelect from "./MarkerSelect";
 import Route from "./Route";
 import Modal from "../Modal";
 import { UserLocationContext } from "../../navigation/Navigators/UserLocationProvider";
+import { ICharger } from "../../gql/Charger/queries";
+import Charger from "../../gql/Charger";
+import eveStation from "../../assets/png/eveStation.png";
 
 const { height } = Dimensions.get("window");
 
@@ -41,30 +52,45 @@ interface IMap {
   chargers?: IChargers[];
   initialMain?: boolean;
   state?: boolean;
+  initialLocation?: Region;
 }
 
 const Map = (props: IMap) => {
-  const { routeCoords, chargers, initialMain, state } = props;
+  const { routeCoords, chargers, initialMain, state, initialLocation } = props;
 
   const { userLocation, storeUserLocation } = useContext(UserLocationContext);
 
-  const mapAnimation = useRef<MapView>(null);
+  const mapAnimation = useRef<RNM>(null);
+
+  const [
+    getAllChargers,
+    { data: getAllChargersData, loading: getAllChargersLoading },
+  ] = useLazyQuery<{
+    getAllChargers: ICharger[];
+  }>(Charger.queries.getAllChargers);
 
   const [stateModal, setStateModal] = useState<boolean>(false);
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
     longitude: 0,
   });
+  const [allChargers, setAllChargers] = useState<IChargers[]>();
 
-  // * Set userLocation if not set yet
+  // * Set initialValues if not set yet
   useEffect(() => {
     const setInitialLocation = async () => {
       try {
         setStateModal(true);
         await storeUserLocation();
+
+        // * if main page, get all chargers for the clusterfuck
+        if (initialMain) {
+          getAllChargers();
+        } else {
+          setStateModal(false);
+        }
       } catch (error) {
         console.error("error: ", error);
-      } finally {
         setStateModal(false);
       }
     };
@@ -73,6 +99,20 @@ const Map = (props: IMap) => {
       setInitialLocation();
     }
   }, []);
+
+  // * Parse chargers
+  useEffect(() => {
+    if (getAllChargersData?.getAllChargers.length) {
+      const newAllChargers = getAllChargersData?.getAllChargers.map(
+        (charger) => ({
+          latitude: +charger.ChargeDeviceLocation.Latitude,
+          longitude: +charger.ChargeDeviceLocation.Longitude,
+        }),
+      );
+      setAllChargers(newAllChargers);
+      setStateModal(false);
+    }
+  }, [getAllChargersData]);
 
   // * Animate map when route changes
   useEffect(() => {
@@ -127,8 +167,11 @@ const Map = (props: IMap) => {
 
   return (
     <>
-      {stateModal && (
-        <Modal state={stateModal} onClosed={() => setStateModal(false)}>
+      {(stateModal || getAllChargersLoading) && (
+        <Modal
+          state={stateModal || getAllChargersLoading}
+          onClosed={() => setStateModal(false)}
+        >
           <View style={styles.containerModal}>
             <TouchableOpacity activeOpacity={1} style={styles.contentModal}>
               <ActivityIndicator size="large" color={theme.colors.primary} />
@@ -155,7 +198,10 @@ const Map = (props: IMap) => {
           onLongPress={(ev) => {
             if (initialMain) newMarker(ev);
           }}
-          initialRegion={userLocation}
+          initialRegion={initialLocation || userLocation}
+          minPoints={40}
+          radius={20}
+          minZoom={5}
         >
           {routeCoords && <Route routeCoords={routeCoords} />}
 
@@ -168,6 +214,19 @@ const Map = (props: IMap) => {
           )}
 
           <MarkerChanger chargers={chargers} />
+
+          {allChargers?.map(({ latitude, longitude }) => (
+            <Marker
+              key={Math.random()}
+              coordinate={{
+                latitude: latitude || 0,
+                longitude: longitude || 0,
+              }}
+              tracksViewChanges={false}
+              icon={eveStation}
+              opacity={0.7}
+            />
+          ))}
         </MapView>
       )}
     </>
@@ -191,6 +250,16 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     justifyContent: "center",
     alignContent: "center",
+  },
+
+  chargerMarker: {
+    backgroundColor: "white",
+    height: 30,
+    width: 30,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: 5,
   },
 });
 

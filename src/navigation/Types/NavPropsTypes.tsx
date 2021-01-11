@@ -1,7 +1,7 @@
 import { StackScreenProps, StackNavigationProp } from "@react-navigation/stack";
 import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 import { RouteProp } from "@react-navigation/native";
-import { LatLng } from "react-native-maps";
+import { LatLng, Region } from "react-native-maps";
 import { IVehicleRecommendation } from "../../gql/Vehicle/queries";
 
 type LoginSignUpFrom = 0 | 1;
@@ -30,6 +30,7 @@ type StackParamsList = {
     location?: LatLng;
     origin: string;
     destination: string;
+    initialLocation?: Region;
   };
   Details: {
     vehicleID?: number;

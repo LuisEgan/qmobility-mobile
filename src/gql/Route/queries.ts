@@ -21,7 +21,7 @@ export interface IChargers {
 
 export interface IGetRouter {
   getRoutes: {
-    Chargers?: IChargers[];
+    Chargers?: IChargers[][];
     SearchPoints?: LatLng[][];
     Route?: IRoute;
   };

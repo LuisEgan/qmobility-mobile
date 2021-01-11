@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import theme, { Text } from "../../config/Theme";
+import { Text } from "../../config/Theme";
 
 interface IFooter {
   title?: string;
@@ -10,7 +10,7 @@ interface IFooter {
   onPressSubtitle?: () => void;
 }
 
-const { width, height } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 
 const Footer = (props: IFooter) => {
   const { title, subTitle, color, onPressSubtitle } = props;
@@ -33,7 +33,7 @@ const Footer = (props: IFooter) => {
           )}
           {subTitle && (
             <TouchableOpacity onPress={onPressSubtitle}>
-              <Text variant="bodyHighlight" style={styles.textStyle}>
+              <Text variant="bodyHighlight" style={[styles.textStyle, {}]}>
                 {subTitle}
               </Text>
             </TouchableOpacity>
@@ -52,21 +52,12 @@ export default Footer;
 
 const styles = StyleSheet.create({
   container: {
-    height: height * 0.09,
-    backgroundColor: theme.colors.red,
-    justifyContent: "center",
-    position: "relative",
-    bottom: 0,
-    paddingBottom: 35,
+    height: height * 0.15,
   },
-  contentStyle: {
-    width,
-  },
-  viewStyle: {
-    justifyContent: "center",
-    alignSelf: "center",
-  },
+  contentStyle: {},
+  viewStyle: {},
   textStyle: {
     textAlign: "center",
+    paddingVertical: 2,
   },
 });

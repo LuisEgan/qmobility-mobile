@@ -1,5 +1,11 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  Linking,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useQuery } from "@apollo/client";
@@ -7,7 +13,7 @@ import theme, { Text } from "../../../config/Theme";
 import { ImageProfile } from "../..";
 import IconsList from "../../Lists/IconsList";
 import { IIconsListItem } from "../../Lists/IconsList/IconsListItem";
-import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import { APP_STACK_SCREENS_NAMES, CATALOG_URI } from "../../../lib/constants";
 import { IComponentsDefaults } from "../../../lib/Types";
 import { AuthContext } from "../../../navigation/AuthContext";
 import { User } from "../../../gql";
@@ -69,6 +75,14 @@ const LeftMenu = (props: ILeftMenu) => {
       icon: "Star",
       textColor: theme.colors.white,
       onPress: () => onItemPress(APP_STACK_SCREENS_NAMES.MyMatch),
+    },
+    {
+      text: "Catalog",
+      icon: "CarColor",
+      textColor: theme.colors.white,
+      onPress: () => {
+        Linking.openURL(CATALOG_URI);
+      },
     },
   ];
 

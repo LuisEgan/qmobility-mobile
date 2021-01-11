@@ -43,7 +43,14 @@ const Recomendation = (props: IRecommendation) => {
     <View style={styles.container}>
       <View style={styles.content}>
         <Text color={theme.colors.white}>eVe Recommendation</Text>
-        <Text color={theme.colors.white}>100 - 250 mi</Text>
+        <Text color={theme.colors.white}>
+          {initMin}
+          {" "}
+          -
+          {initMax}
+          {" "}
+          mi
+        </Text>
       </View>
 
       <Text style={{ padding: 10, color: "#707070", fontSize: 14 }}>

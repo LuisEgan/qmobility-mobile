@@ -236,7 +236,7 @@ const MapSearchDone = (props: IMapSearchDone) => {
   );
 
   const routeDistance = kmToMiles(
-    Math.ceil((dataRoute?.getRoutes?.Route?.Distance || 0) / 1000),
+    (dataRoute?.getRoutes?.Route?.Distance || 0) / 1000,
   );
 
   return (
@@ -276,10 +276,13 @@ const MapSearchDone = (props: IMapSearchDone) => {
 
         <View style={styles.mapContainer}>
           <Map
+            initialLocation={route.params.initialLocation}
             routeCoords={dataRoute?.getRoutes?.Route?.Route_Coords}
             chargers={
               dataRoute?.getRoutes?.Chargers
-              && (dataRoute?.getRoutes?.Chargers[0] as IChargers[])
+              && (dataRoute?.getRoutes?.Chargers.map(
+                (charger) => charger[0],
+              ) as IChargers[])
             }
           />
         </View>

@@ -8,8 +8,7 @@ type ISlides = Array<ISlide>;
 const slides: ISlides = [
   {
     title: "Hello, this is Eve",
-    text:
-      "-	Electric cars are coming. Eve is the smarter way to drive electric.",
+    text: "Electric cars are coming. Eve is the smarter way to drive electric.",
     svgIcon: <Icons icon="CompassWithCircles" size={250} />,
   },
   {

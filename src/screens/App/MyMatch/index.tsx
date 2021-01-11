@@ -1,11 +1,13 @@
-import { useLazyQuery } from "@apollo/client";
-import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { CarCard, Header } from "../../../components";
 import { DrawerLeftMenu } from "../../../components/HOCs";
 import theme, { Text } from "../../../config/Theme";
+import { User } from "../../../gql";
+import { IMyStats } from "../../../gql/User/queries";
 import Vehicle from "../../../gql/Vehicle";
 import { IGetVehiclesVars } from "../../../gql/Vehicle/queries";
 import { IVehicle } from "../../../gql/Vehicle/Types";
@@ -17,8 +19,6 @@ import Filter from "./Filter";
 
 const { height, width } = Dimensions.get("window");
 
-const RANGE_MIN = 100;
-const RANGE_MAX = 250;
 const LIMIT_MAX = 10;
 
 const MyMatch = () => {
@@ -29,22 +29,45 @@ const MyMatch = () => {
     IGetVehiclesVars
   >(Vehicle.queries.getVehicles);
 
+  const { data: getMyStatsData, loading: getMyStatsLoading } = useQuery<{
+    getMyStats: IMyStats;
+  }>(User.queries.getMyStats);
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showFilter, setShowFilter] = useState<boolean>(false);
 
-  const [rangeMin, setRangeMin] = useState<number>(RANGE_MIN);
-  const [rangeMax, setRangeMax] = useState<number>(RANGE_MAX);
+  const [rangeMin, setRangeMin] = useState<number>();
+  const [rangeMax, setRangeMax] = useState<number>();
   const [limitMax, setLimitMax] = useState<number>(LIMIT_MAX);
 
-  useEffect(() => {
-    getVehicles({
-      variables: {
-        rangeMin: RANGE_MIN,
-        rangeMax: RANGE_MAX,
-        limit: LIMIT_MAX,
+  useFocusEffect(
+    useCallback(
+      () => () => {
+        setRangeMin(getMyStatsData?.getMyStats.minRangeRequirement);
+        setRangeMax(getMyStatsData?.getMyStats.maxRangeRequirement);
       },
-    });
-  }, []);
+      [],
+    ),
+  );
+
+  useEffect(() => {
+    if (getMyStatsData && rangeMin && rangeMax) {
+      getVehicles({
+        variables: {
+          rangeMin,
+          rangeMax,
+          limit: LIMIT_MAX,
+        },
+      });
+    }
+  }, [getMyStatsData, rangeMin, rangeMax]);
+
+  useEffect(() => {
+    if (getMyStatsData) {
+      setRangeMin(getMyStatsData.getMyStats.minRangeRequirement);
+      setRangeMax(getMyStatsData.getMyStats.maxRangeRequirement);
+    }
+  }, [getMyStatsData]);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -55,22 +78,24 @@ const MyMatch = () => {
       isDrawerOpen={isDrawerOpen}
       onDrawerToggle={setIsDrawerOpen}
     >
-      <ModalChangeLoading stateModal={loading} />
+      <ModalChangeLoading stateModal={loading || getMyStatsLoading} />
 
-      <Filter
-        show={showFilter}
-        setShowFilter={(show) => setShowFilter(show)}
-        getVehicles={getVehicles}
-        onCancel={() => setShowFilter(false)}
-        onRangeMinChange={setRangeMin}
-        onRangeMaxChange={setRangeMax}
-        onLimitChange={setLimitMax}
-        initMin={RANGE_MIN}
-        initMax={RANGE_MAX}
-        limitMax={limitMax}
-      />
+      {rangeMin && rangeMax && (
+        <Filter
+          show={showFilter}
+          setShowFilter={(show) => setShowFilter(show)}
+          getVehicles={getVehicles}
+          onCancel={() => setShowFilter(false)}
+          onRangeMinChange={setRangeMin}
+          onRangeMaxChange={setRangeMax}
+          onLimitChange={setLimitMax}
+          initMin={rangeMin}
+          initMax={rangeMax}
+          limitMax={limitMax}
+        />
+      )}
 
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Header
           title="My Match"
           containerStyle={styles.header}
@@ -84,7 +109,9 @@ const MyMatch = () => {
               paddingHorizontal: "3%",
             }}
           >
-            <Card {...{ rangeMin, rangeMax, setShowFilter }} />
+            {rangeMin && rangeMax && (
+              <Card {...{ rangeMin, rangeMax, setShowFilter }} />
+            )}
           </View>
 
           <ScrollView
@@ -121,7 +148,7 @@ const MyMatch = () => {
             ))}
           </ScrollView>
         </View>
-      </View>
+      </ScrollView>
     </DrawerLeftMenu>
   );
 };
@@ -139,7 +166,8 @@ const styles = StyleSheet.create({
   },
   content: {
     // paddingHorizontal: width * 0.05,
-    paddingVertical: "2.5%",
+    paddingBottom: 80,
+    paddingTop: 20,
   },
   scrollViewContainer: {},
   scrollView: {

@@ -1,3 +1,5 @@
+import { Region } from "react-native-maps";
+
 export const REGEX = {
   PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&"[\];',./{}|":?><`~°¬¡¿´]{8,}$/,
 };
@@ -63,4 +65,11 @@ export const APP_STACK_SCREENS_NAMES = {
   DetailsICE: "DetailsICE",
   MapSearchDone: "MapSearchDone",
   MyMatch: "MyMatch",
+};
+
+export const UK_REGION: Region = {
+  latitude: 54.776366,
+  longitude: -5.344845,
+  latitudeDelta: 5.5,
+  longitudeDelta: 5.5,
 };
