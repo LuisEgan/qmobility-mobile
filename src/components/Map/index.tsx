@@ -69,7 +69,7 @@ const Map = (props: IMap) => {
     getAllChargers: ICharger[];
   }>(Charger.queries.getAllChargers);
 
-  const [stateModal, setStateModal] = useState<boolean>(true);
+  const [stateModal, setStateModal] = useState<boolean>(false);
   const [markeeSelect, setMarkeeSelect] = useState<LatLng>({
     latitude: 0,
     longitude: 0,
@@ -79,6 +79,7 @@ const Map = (props: IMap) => {
   // * Set initialValues if not set yet
   useEffect(() => {
     const setInitialLocation = async () => {
+      setStateModal(true);
       try {
         await storeUserLocation();
 
@@ -99,6 +100,7 @@ const Map = (props: IMap) => {
     } else if (initialMain) {
       // * chargers are still needed to be fetched if there's already a user location
       // * but first, let the map's initial position load
+      setStateModal(true);
       setTimeout(() => {
         getAllChargers();
       }, 1500);
