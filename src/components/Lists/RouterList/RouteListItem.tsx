@@ -14,7 +14,7 @@ import Icons from "../../svg";
 import { IGetMySaveRoute, ISavedRoute } from "../../../gql/Route/queries";
 import { APP_STACK_SCREENS_NAMES, UK_REGION } from "../../../lib/constants";
 
-import { Route } from "../../../gql";
+import { Route, User } from "../../../gql";
 import {
   IDeleteMyRoute,
   IDeleteMyRouteVar,
@@ -47,6 +47,12 @@ const RouteListItem = (props: ISavedRoute) => {
     { deleteMyRoutes: IDeleteMyRoute },
     IDeleteMyRouteVar
   >(Route.mutations.deleteMyRoute, {
+    awaitRefetchQueries: true,
+    refetchQueries: [
+      {
+        query: User.queries.getMyStats,
+      },
+    ],
     update(cache) {
       const query = cache.readQuery<{ getMyRoutes: IGetMySaveRoute }>({
         query: Route.queries.getMySaveRoute,

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@apollo/client";
-import { Button, Icons } from "../../../components";
+import { Button } from "../../../components";
 import {
   ASYNC_STORAGE_ITEMS,
   AUTH_STACK_SCREENS_NAMES,
@@ -30,9 +30,9 @@ const Access = (props: IAccess) => {
   const { navigate } = useNavigation();
 
   // TODO move this to somewhere more obvious
-  const { loading } = useQuery<{ getAllChargers: ICharger[] }>(
-    Charger.queries.getAllChargers,
-  );
+  // const { loading } = useQuery<{ getAllChargers: ICharger[] }>(
+  //   Charger.queries.getAllChargers,
+  // );
 
   useEffect(() => {
     const setHasAcceptedTCs = async () => {
@@ -48,7 +48,7 @@ const Access = (props: IAccess) => {
     });
   }, [navigation]);
 
-  if (loading) return <FullScreenModal show />;
+  // if (loading) return <FullScreenModal show />;
 
   return (
     <ImageBackground source={bg} style={styles.image}>

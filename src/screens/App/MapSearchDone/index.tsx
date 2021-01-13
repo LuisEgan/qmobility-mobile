@@ -312,9 +312,9 @@ const MapSearchDone = (props: IMapSearchDone) => {
                 endLocation={endDirection}
                 points={
                   dataRoute?.getRoutes?.Chargers
-                    ? (dataRoute?.getRoutes
-                      ?.Chargers[0] as IRouterPointsListItem[])
-                    : []
+                  && (dataRoute?.getRoutes?.Chargers.map(
+                    (charger) => charger[0],
+                  ) as IRouterPointsListItem[])
                 }
               />
 

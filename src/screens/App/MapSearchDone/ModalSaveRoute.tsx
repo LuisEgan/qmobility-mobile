@@ -101,12 +101,32 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
   const [upSaveMyRoutes, { loading: upSaveMyRoutesLoading }] = useMutation<
     { upSaveMyRoutes: ISaveMyRoutes },
     ISaveMyRoutesVar
-  >(Route.mutations.saveMyRoute);
+  >(Route.mutations.saveMyRoute, {
+    awaitRefetchQueries: true,
+    refetchQueries: [
+      {
+        query: Route.queries.getMySaveRoute,
+      },
+      {
+        query: User.queries.getMyStats,
+      },
+    ],
+  });
 
   const [updateMyRoutes, { loading: updateMyRoutesLoading }] = useMutation<
     { updateMyRoutes: IUpdataMyRoutes },
     IUpdateMyRoutesVar
-  >(Route.mutations.updateMyRoute);
+  >(Route.mutations.updateMyRoute, {
+    awaitRefetchQueries: true,
+    refetchQueries: [
+      {
+        query: Route.queries.getMySaveRoute,
+      },
+      {
+        query: User.queries.getMyStats,
+      },
+    ],
+  });
 
   const [statePhase, setStatePhase] = useState<boolean>(true);
   const [isSavedRoute, setIsSavedRoute] = useState<boolean>(false);
@@ -141,14 +161,6 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
     try {
       const updateMyRouteData = await updateMyRoutes({
         variables: { ...obj },
-        refetchQueries: [
-          {
-            query: Route.queries.getMySaveRoute,
-          },
-          {
-            query: User.queries.getMyStats,
-          },
-        ],
       });
 
       setIsSavedRoute(true);
@@ -180,11 +192,6 @@ const ModalSaveRoute = (props: IModalSaveRoute) => {
 
       const upSaveMyRouteData = await upSaveMyRoutes({
         variables: { ...obj },
-        refetchQueries: [
-          {
-            query: Route.queries.getMySaveRoute,
-          },
-        ],
       });
 
       setIsSavedRoute(true);

@@ -85,7 +85,8 @@ const Map = (props: IMap) => {
 
         // * if main page, get all chargers for the clusterfuck
         if (initialMain) {
-          getAllChargers();
+          // getAllChargers();
+          setStateModal(false);
         } else {
           setStateModal(false);
         }
@@ -100,9 +101,9 @@ const Map = (props: IMap) => {
     } else if (initialMain) {
       // * chargers are still needed to be fetched if there's already a user location
       // * but first, let the map's initial position load
-      setStateModal(true);
+      // setStateModal(true);
       setTimeout(() => {
-        getAllChargers();
+        // getAllChargers();
       }, 1500);
     }
   }, []);

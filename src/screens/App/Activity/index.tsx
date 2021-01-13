@@ -1,6 +1,6 @@
-import { useQuery } from "@apollo/client";
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { Button, Header, Icons } from "../../../components";
 import { DrawerLeftMenu } from "../../../components/HOCs";
@@ -15,12 +15,20 @@ const { height } = Dimensions.get("screen");
 
 const Activty = () => {
   const { navigate } = useNavigation();
+  const isFocused = useIsFocused();
 
-  const { data: getMyStatsData, loading: getMyStatsLoading } = useQuery<{
+  const [
+    getMyStats,
+    { data: getMyStatsData, loading: getMyStatsLoading },
+  ] = useLazyQuery<{
     getMyStats: IMyStats;
   }>(User.queries.getMyStats);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    getMyStats();
+  }, [isFocused]);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -60,7 +68,7 @@ const Activty = () => {
     </View>
   );
 
-  if (getMyStatsLoading) return <FullScreenModal show />;
+  if (getMyStatsLoading || !getMyStatsData?.getMyStats) return <FullScreenModal show />;
 
   return (
     <DrawerLeftMenu
