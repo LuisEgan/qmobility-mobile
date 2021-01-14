@@ -11,7 +11,12 @@ import { IMyStats } from "../../../gql/User/queries";
 import Vehicle from "../../../gql/Vehicle";
 import { IGetVehiclesVars } from "../../../gql/Vehicle/queries";
 import { IVehicle } from "../../../gql/Vehicle/Types";
-import { APP_STACK_SCREENS_NAMES } from "../../../lib/constants";
+import {
+  APP_STACK_SCREENS_NAMES,
+  LIMIT_MAX,
+  RANGE_MAX,
+  RANGE_MIN,
+} from "../../../lib/constants";
 import ModalChangeLoading from "../MapSearchDone/ModalChangeLoading";
 
 import Card from "./Card";
@@ -19,15 +24,15 @@ import Filter from "./Filter";
 
 const { height, width } = Dimensions.get("window");
 
-const LIMIT_MAX = 10;
-
 const MyMatch = () => {
   const { navigate } = useNavigation();
 
-  const [getVehicles, { data: eVes, loading }] = useLazyQuery<
-    { vehicles: IVehicle[] },
-    IGetVehiclesVars
-  >(Vehicle.queries.getVehicles);
+  const [
+    getVehicles,
+    { data: eVes, loading: getVehiclesLoading },
+  ] = useLazyQuery<{ vehicles: IVehicle[] }, IGetVehiclesVars>(
+    Vehicle.queries.getVehicles,
+  );
 
   const { data: getMyStatsData, loading: getMyStatsLoading } = useQuery<{
     getMyStats: IMyStats;
@@ -36,15 +41,17 @@ const MyMatch = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [showFilter, setShowFilter] = useState<boolean>(false);
 
-  const [rangeMin, setRangeMin] = useState<number>();
-  const [rangeMax, setRangeMax] = useState<number>();
+  const [rangeMin, setRangeMin] = useState<number>(RANGE_MIN);
+  const [rangeMax, setRangeMax] = useState<number>(RANGE_MAX);
   const [limitMax, setLimitMax] = useState<number>(LIMIT_MAX);
 
   useFocusEffect(
     useCallback(
       () => () => {
-        setRangeMin(getMyStatsData?.getMyStats.minRangeRequirement);
-        setRangeMax(getMyStatsData?.getMyStats.maxRangeRequirement);
+        if (getMyStatsData) {
+          setRangeMin(getMyStatsData.getMyStats.minRangeRequirement);
+          setRangeMax(getMyStatsData.getMyStats.maxRangeRequirement);
+        }
       },
       [],
     ),
@@ -64,8 +71,8 @@ const MyMatch = () => {
 
   useEffect(() => {
     if (getMyStatsData) {
-      setRangeMin(getMyStatsData.getMyStats.minRangeRequirement);
-      setRangeMax(getMyStatsData.getMyStats.maxRangeRequirement);
+      setRangeMin(getMyStatsData.getMyStats.minRangeRequirement || RANGE_MIN);
+      setRangeMax(getMyStatsData.getMyStats.maxRangeRequirement || RANGE_MAX);
     }
   }, [getMyStatsData]);
 
@@ -78,22 +85,22 @@ const MyMatch = () => {
       isDrawerOpen={isDrawerOpen}
       onDrawerToggle={setIsDrawerOpen}
     >
-      <ModalChangeLoading stateModal={loading || getMyStatsLoading} />
+      <ModalChangeLoading
+        stateModal={getVehiclesLoading || getMyStatsLoading}
+      />
 
-      {rangeMin && rangeMax && (
-        <Filter
-          show={showFilter}
-          setShowFilter={(show) => setShowFilter(show)}
-          getVehicles={getVehicles}
-          onCancel={() => setShowFilter(false)}
-          onRangeMinChange={setRangeMin}
-          onRangeMaxChange={setRangeMax}
-          onLimitChange={setLimitMax}
-          initMin={rangeMin}
-          initMax={rangeMax}
-          limitMax={limitMax}
-        />
-      )}
+      <Filter
+        show={showFilter}
+        setShowFilter={(show) => setShowFilter(show)}
+        getVehicles={getVehicles}
+        onCancel={() => setShowFilter(false)}
+        onRangeMinChange={setRangeMin}
+        onRangeMaxChange={setRangeMax}
+        onLimitChange={setLimitMax}
+        initMin={rangeMin}
+        initMax={rangeMax}
+        limitMax={limitMax}
+      />
 
       <ScrollView style={styles.container}>
         <Header
@@ -109,9 +116,7 @@ const MyMatch = () => {
               paddingHorizontal: "3%",
             }}
           >
-            {rangeMin && rangeMax && (
-              <Card {...{ rangeMin, rangeMax, setShowFilter }} />
-            )}
+            <Card {...{ rangeMin, rangeMax, setShowFilter }} />
           </View>
 
           <ScrollView
@@ -122,7 +127,10 @@ const MyMatch = () => {
             decelerationRate={0}
             showsHorizontalScrollIndicator={false}
           >
-            {eVes?.vehicles.length === 0 && (
+            {!!(
+              !eVes?.vehicles.length
+              && !(getVehiclesLoading || getMyStatsLoading)
+            ) && (
               <View style={styles.errorCard}>
                 <Text style={styles.errorText}>0 cars found</Text>
               </View>

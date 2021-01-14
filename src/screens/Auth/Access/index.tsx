@@ -7,7 +7,6 @@ import {
   AsyncStorage,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useQuery } from "@apollo/client";
 import { Button } from "../../../components";
 import {
   ASYNC_STORAGE_ITEMS,
@@ -17,9 +16,6 @@ import {
 import bg from "../../../assets/png/accessBackgroundMedium.png";
 import isologo from "../../../assets/png/isologo.png";
 import { TAccessNavProps } from "../../../navigation/Types/NavPropsTypes";
-import Charger from "../../../gql/Charger";
-import { ICharger } from "../../../gql/Charger/queries";
-import { FullScreenModal } from "../../Feedback";
 
 const { height, width } = Dimensions.get("window");
 
@@ -28,11 +24,6 @@ type IAccess = TAccessNavProps;
 const Access = (props: IAccess) => {
   const { navigation } = props;
   const { navigate } = useNavigation();
-
-  // TODO move this to somewhere more obvious
-  // const { loading } = useQuery<{ getAllChargers: ICharger[] }>(
-  //   Charger.queries.getAllChargers,
-  // );
 
   useEffect(() => {
     const setHasAcceptedTCs = async () => {
@@ -47,8 +38,6 @@ const Access = (props: IAccess) => {
       header: () => null,
     });
   }, [navigation]);
-
-  // if (loading) return <FullScreenModal show />;
 
   return (
     <ImageBackground source={bg} style={styles.image}>

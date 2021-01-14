@@ -3,12 +3,14 @@ import { View, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Icons, Card as CardItem, TextWithUnit } from "../../../../components";
 import theme, { Text } from "../../../../config/Theme";
-import { APP_STACK_SCREENS_NAMES } from "../../../../lib/constants";
+import {
+  APP_STACK_SCREENS_NAMES,
+  RANGE_MAX,
+  RANGE_MIN,
+} from "../../../../lib/constants";
 
 const { height, width } = Dimensions.get("window");
 
-const RANGE_MIN = 100;
-const RANGE_MAX = 250;
 const ICONSSIZE = width * 0.04;
 
 interface ICard {

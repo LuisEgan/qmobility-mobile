@@ -1,5 +1,9 @@
 import { Region } from "react-native-maps";
 
+export const RANGE_MIN = 100;
+export const RANGE_MAX = 250;
+export const LIMIT_MAX = 10;
+
 export const REGEX = {
   PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&"[\];',./{}|":?><`~°¬¡¿´]{8,}$/,
 };
