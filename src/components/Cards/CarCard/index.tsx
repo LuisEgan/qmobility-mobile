@@ -57,33 +57,28 @@ const CarCard = (props: ICarCard) => {
       </View>
 
       <View style={[styles.content, contentStyle]}>
-        <Text variant="heading2" color="primaryDark">
+        <Text variant="heading2">
           {eVe?.Vehicle_Make}
           {" "}
           {eVe?.Vehicle_Model}
         </Text>
 
-        <Text>Full make information</Text>
-        <Text>Full model information</Text>
-
         <View style={styles.textContainer}>
           <View style={styles.textIcon}>
-            <Icons icon="Person" size={15} />
-            <Text color="primaryDark" style={styles.iconText}>
-              {eVe?.Misc_Seats}
-            </Text>
+            <Icons icon="Person" size={25} fill={theme.colors.primary} />
+            <Text style={styles.iconText}>{eVe?.Misc_Seats}</Text>
           </View>
 
           <View style={styles.textIcon}>
-            <Icons icon="Polymer" size={15} />
-            <Text color="primaryDark" style={styles.iconText}>
+            <Icons icon="Done" size={25} fill={theme.colors.primary} />
+            <Text style={styles.iconText}>
               {numberWithDots(`${eVe?.Price_From_UK}`)}
             </Text>
           </View>
 
           <View style={styles.textIcon}>
-            <Icons icon="Market" size={15} />
-            <Text color="primaryDark" style={styles.iconText}>
+            <Icons icon="Market" size={25} fill={theme.colors.primary} />
+            <Text style={styles.iconText}>
               {kmToMiles(eVe?.Range_Real)}
               {" "}
               Mi
@@ -139,10 +134,15 @@ const styles = StyleSheet.create({
 
   textContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     alignItems: "center",
   },
-  textIcon: { flexDirection: "row", alignItems: "center", paddingVertical: 10 },
+  textIcon: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10,
+    marginRight: 15,
+  },
 
   iconText: {
     marginLeft: 15,

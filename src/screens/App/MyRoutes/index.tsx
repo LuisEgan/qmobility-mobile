@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.white,
+    paddingBottom: 100,
   },
   contentLoading: {
     marginTop: "50%",
